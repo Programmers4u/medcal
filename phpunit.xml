@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit backupGlobals="false"
+         backupStaticAttributes="false"
+         bootstrap="bootstrap/autoload.php"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="true"
+         syntaxCheck="false">
+<!--
+    <logging>
+        <log type="coverage-clover" target="build/logs/clover.xml"/>
+        <log type="coverage-html" target="build/logs/codeCoverage" charset="UTF-8" yui="true" highlight="true" lowUpperBound="50" highLowerBound="80"/>
+        <log type="testdox-html" target="build/logs/testdox.html" />
+    </logging>
+-->
+    <testsuites>
+        <testsuite name="Application Test Suite">
+            <directory suffix="Test.php">./tests/unit/</directory>
+            <directory suffix="Test.php">./tests/integration/</directory>
+            <directory suffix="Test.php">./tests/acceptance/compliance/</directory>
+            <directory suffix="Test.php">./tests/acceptance/scenarios/</directory>
+            <directory suffix="Test.php">./tests/acceptance/commands/</directory>
+            <directory suffix="Test.php">./tests/acceptance/emails/</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+        <env name="APP_ENV" value="testing"/>
+        <env name="APP_LOG" value="syslog"/>
+        <env name="DB_CONNECTION" value="testing"/>
+        <env name="DB_DATABASE" value="testing_timegrid"/>
+        <env name="DB_USERNAME" value="testing_timegrid"/>
+        <env name="DB_PASSWORD" value="testing_timegrid"/>
+        <env name="CACHE_DRIVER" value="array"/>
+        <env name="SESSION_DRIVER" value="array"/>
+        <env name="QUEUE_DRIVER" value="sync"/>
+    </php>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true" addUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">app/</directory>
+            <exclude>
+                <file>./app/Http/routes.php</file>
+                <directory suffix=".js">public/</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+</phpunit>

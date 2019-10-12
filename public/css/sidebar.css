@@ -1,0 +1,135 @@
+
+/*!
+ * Start Bootstrap - Simple Sidebar HTML Template (http://startbootstrap.com)
+ * Code licensed under the Apache License v2.0.
+ * For details, see http://www.apache.org/licenses/LICENSE-2.0.
+ */
+
+/* Toggle Styles */
+
+#wrapper {
+    padding-left: 0;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+#wrapper.toggled {
+    padding-left: 320px;
+}
+
+#sidebar-wrapper {
+    font-family: 'Lato','Helvetica Neue',Helvetica,Arial,sans-serif!important;
+    font-size: 1.3em;
+    font-weight: 400;
+    margin: 0 0 10px;
+    color: #60666d;
+    background: #ffffff;
+    z-index: 1000;
+    position: fixed;
+    left: 320px;
+    width: 0;
+    height: 100%;
+    margin-left: -320px;
+    overflow-y: auto;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+#userhelp h1, #userhelp h2, #userhelp h3, #userhelp h4, #userhelp h5, #userhelp h6 {
+    font-family: 'Lato','Helvetica Neue',Helvetica,Arial,sans-serif!important;
+    font-weight: bolder;
+    text-transform: uppercase;
+}
+
+#userhelp p {
+    font-family: 'Lato','Helvetica Neue',Helvetica,Arial,sans-serif!important;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+    width: 320px;
+}
+
+#page-content-wrapper {
+    width: 100%;
+    position: absolute;
+    padding: 15px;
+}
+
+#wrapper.toggled #page-content-wrapper {
+    position: absolute;
+    margin-right: -320px;
+}
+
+/* Sidebar Styles */
+
+.sidebar-nav {
+    position: absolute;
+    top: 0;
+    width: 320px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.sidebar-nav li {
+    text-indent: 20px;
+    line-height: 40px;
+}
+
+.sidebar-nav li a {
+    display: block;
+    text-decoration: none;
+    color: #999999;
+}
+
+.sidebar-nav li a:hover {
+    text-decoration: none;
+    color: #fff;
+    background: rgba(255,255,255,0.2);
+}
+
+.sidebar-nav li a:active,
+.sidebar-nav li a:focus {
+    text-decoration: none;
+}
+
+.sidebar-nav > .sidebar-brand {
+    height: 65px;
+    font-size: 18px;
+    line-height: 60px;
+}
+
+.sidebar-nav > .sidebar-brand a {
+    color: #999999;
+}
+
+.sidebar-nav > .sidebar-brand a:hover {
+    color: #fff;
+    background: none;
+}
+
+/* UserHelp Button */
+#menu-toggle {
+    display: float;
+    width: 60px;
+    height: 60px;
+    text-indent: -9999px;
+    position: fixed;
+    z-index: 999;
+    right: 20px;
+    bottom: 20px;
+    background: #27AE61 url("../img/userhelp.png") no-repeat center 43%;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    border-radius: 30px;
+    -webkit-animation-duration: 2s;
+    -webkit-animation-delay: 10s;
+    -webkit-animation-iteration-count: 1;
+    -moz-animation-duration: 2s;
+    -moz-animation-delay: 10s;
+    -moz-animation-iteration-count: 1;
+}

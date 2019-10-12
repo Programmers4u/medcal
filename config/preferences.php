@@ -1,0 +1,35 @@
+<?php
+
+return [
+    'Timegridio\Concierge\Models\Business' => [
+        //'vacancy_edit_days_quantity'      => ['type' => 'int', 'value' => 30],
+        'sms_id'                          => ['type' => 'string', 'value' => ''],
+        'sms_secret'                      => ['type' => 'password', 'value' => ''],
+        'sms_message'                     => ['type' => 'text', 'value' => ''],
+        'sms_message1'                     => ['type' => 'text', 'value' => ''],
+        'sms_message2'                     => ['type' => 'text', 'value' => ''],
+        'start_at'                        => ['type' => 'time', 'value' => '07:00:00'],
+        'finish_at'                       => ['type' => 'time', 'value' => '23:00:00'],
+        'show_map'                        => ['type' => 'bool', 'value' => false],
+        'show_postal_address'             => ['type' => 'bool', 'value' => false],
+        'show_phone'                      => ['type' => 'bool', 'value' => false],
+        'appointment_cancellation_pre_hs' => ['type' => 'int', 'value' => '48', 'step' => 1, 'icon' => 'hourglass'],
+        'appointment_take_today'          => ['type' => 'bool', 'value' => false],
+        'appointment_flexible_arrival'    => ['type' => 'bool', 'value' => false],
+        'appointment_code_length'         => ['type' => 'int', 'value' => 5, 'icon' => 'barcode'],
+        'availability_future_days'        => ['type' => 'int', 'value' => 30, 'step' => 1],
+        'service_default_duration'        => ['type' => 'int', 'value' => 60, 'step' => 5, 'icon' => 'hourglass'],
+        'cancellation_policy_advice'      => ['type' => 'string', 'value' => ''],
+        'vacancy_edit_advanced_mode'      => ['type' => 'bool', 'value' => true],
+        'vacancy_autopublish'             => ['type' => 'bool', 'value' => false],
+        'time_format'                     => ['type' => 'string', 'value' => 'h:i a'],
+        'date_format'                     => ['type' => 'string', 'value' => 'Y-m-d'],
+        'timeslot_step'                   => ['type' => 'int', 'value' => '0'],
+        'report_daily_schedule'           => ['type' => 'bool', 'value' => false],
+        'allow_guest_registration'        => ['type' => 'bool', 'value' => false],
+        'disable_outbound_mailing'        => ['type' => 'bool', 'value' => true],
+    ],
+    'App\Models\User' => [
+        'timezone'                        => ['type' => 'string', 'value' => 'Europe/Warsaw'],
+    ],
+];
