@@ -1,0 +1,53 @@
+{
+    "name": "spatie/laravel-cookie-consent",
+    "description": "Make your Laravel app comply with the crazy EU cookie law",
+    "keywords": [
+        "spatie",
+        "laravel-cookie-consent",
+        "cookie",
+        "comply",
+        "law",
+        "eu"
+    ],
+    "homepage": "https://github.com/spatie/laravel-cookie-consent",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Freek Van der Herten",
+            "email": "freek@spatie.be",
+            "homepage": "https://spatie.be",
+            "role": "Developer"
+        },
+        {
+            "name": "Willem Van Bockstal",
+            "email": "willem@spatie.be",
+            "homepage": "https://spatie.be",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php" : "^5.6|^7.0",
+        "illuminate/support": "~5.1.0|~5.2.0|~5.3.0|~5.4.0",
+        "illuminate/view": "~5.1.0|~5.2.0|~5.3.0|~5.4.0",
+        "illuminate/cookie": "~5.1.0|~5.2.0|~5.3.0|~5.4.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.*",
+        "orchestra/testbench": "~3.1.0|~3.2.0|~3.3.0|~3.4.0@dev",
+        "orchestra/database": "~3.1.0|~3.2.0|~3.3.0|~3.4.0@dev",
+        "fzaninotto/faker": "~1.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Spatie\\CookieConsent\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Spatie\\CookieConsent\\Test\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    }
+}

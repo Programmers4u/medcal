@@ -1,0 +1,48 @@
+{
+    "name": "mccool/laravel-auto-presenter",
+    "description": "A system for auto-decorating models with presenter objects.",
+    "keywords": ["lpm", "laravel", "eloquent", "presenter"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Shawn McCool",
+            "email": "shawn@heybigname.com"
+        },
+        {
+            "name": "Graham Campbell",
+            "email": "graham@alt-three.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+        "illuminate/container": "5.1.*|5.2.*|5.3.*",
+        "illuminate/contracts": "5.1.*|5.2.*|5.3.*",
+        "illuminate/events": "5.1.*|5.2.*|5.3.*",
+        "illuminate/pagination": "5.1.*|5.2.*|5.3.*",
+        "illuminate/support": "5.1.*|5.2.*|5.3.*",
+        "illuminate/view": "5.1.*|5.2.*|5.3.*"
+    },
+    "require-dev": {
+        "graham-campbell/testbench": "^3.1",
+        "mockery/mockery": "^0.9.4",
+        "phpunit/phpunit": "^4.8|^5.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "McCool\\LaravelAutoPresenter\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "McCool\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "preferred-install": "dist"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "4.3-dev"
+        }
+    }
+}

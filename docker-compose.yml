@@ -25,7 +25,7 @@ services:
   database:
     image: mysql:5.6
     volumes:
-      - dbdata:/var/lib/mysql
+      - ./dbdata:/var/lib/mysql
     environment:
       - "MYSQL_DATABASE=medical"
       - "MYSQL_USER=medical"
@@ -33,6 +33,5 @@ services:
       - "MYSQL_ROOT_PASSWORD=secret"
     ports:
         - "33061:3306"
-
 volumes:
   dbdata:
