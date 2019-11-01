@@ -1,14 +1,14 @@
 {
-    "name": "yourCalendar/yc",
+    "name": "medical",
     "description": "Free, self-hosted online platform for dental service based on timegrido and the Laravel PHP Framework.",
-    "homepage": "http://med.programmers4u.eu",
+    "homepage": "http://medical.programmers4u.com",
     "keywords": ["appointments", "reservations", "booking", "agenda", "marketplace", "time", "date", "calendar","dentist","med"],
     "license": "AGPL",
     "authors": [
         {
             "name": "Marcin Kania",
-            "email": "marcin@programmers4u.eu",
-            "homepage": "http://programmers4u.eu",
+            "email": "marcin@programmers4u.com",
+            "homepage": "http://programmers4u.com",
             "role": "Founder"
         }
     ],
