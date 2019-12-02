@@ -1,4 +1,3 @@
-/dir_home/
 /database/seeds/VivaDentSeed.php
 /database/seeds/seed_file/db_rayMage/
 /database/seeds/seed_file/931_pacjenci.csv
@@ -7,13 +6,8 @@
 /database/seeds/seed_file/BAZA.ods
 /database/seeds/seed_file/BAZA.xls
 /database/seeds/seed_file/Produkty_lecznicze2.ods
-/public/dir_home/
 /public/vendor/
-/storage/
 /dbdata/
-/node_modules/
-/bower_components/
-/nbproject/
 /vendor/
 .vscode
 .DS_Store
