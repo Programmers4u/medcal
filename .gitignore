@@ -12,12 +12,8 @@
 /storage/
 /dbdata/
 /node_modules/
-/bower_components
-nbproject/.DS_Store/
-nbproject/private/config.properties
-nbproject/private/private.properties
-nbproject/private/private.xml
+/bower_components/
+/nbproject/
 /vendor/
 .vscode
-/storage/
 .DS_Store
