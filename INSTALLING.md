@@ -149,6 +149,12 @@ chmod -R 777 ./storage
 ```
 
 * Run docker container with specified service in docker-compose.yml
+
+* run composer 
+docker run --rm --interactive --tty \
+ --volume $PWD:/app \
+ composer install --ignore-platform-reqs --no-scripts
+
 ```
 docker-compose up
 ```
