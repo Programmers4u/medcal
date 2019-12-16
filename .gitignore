@@ -10,4 +10,6 @@
 /dbdata/
 /vendor/
 .vscode
-.DS_Store
+/.DS_Store/
+medical.code-workspace
+*.env
