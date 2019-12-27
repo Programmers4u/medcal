@@ -1,4 +1,59 @@
+var gulp  = require('gulp');
+var cleanCSS = require('gulp-clean-css');
+var rename = require("gulp-rename");
+var uglify = require('gulp-uglify');
+var less = require('gulp-less');
+var path = require('path');
+var util = require("gulp-util");
 var elixir = require('laravel-elixir');
+
+// Compile LESS
+gulp.task('less', function () {
+  util.log('less -> start');
+  return gulp.src('./resources/assets/less/app.less')
+    .pipe(less({
+      paths: [ path.join(__dirname, 'less', 'includes') ]
+    }))
+    .pipe(gulp.dest('./resources/assets/css'));
+});
+
+// Minify CSS
+gulp.task('css:minify', function() {
+  util.log('css minify -> start');
+  return gulp.src([
+      './resources/assets/css/*.css',
+      '!./resources/assets/css/*.min.css'
+    ])
+    .pipe(cleanCSS())
+    .pipe(rename({
+      suffix: '.min'
+    }))
+    .pipe(gulp.dest('./public/css'));
+});
+
+// CSS
+//gulp.task('css', ['less:compile', 'css:minify']);
+
+// Minify JavaScript
+gulp.task('js:minify', function() {
+  util.log('js minify -> start');
+  return gulp.src([
+      './resources/assets/js/*.js',
+      '!./resources/assets/js/*.min.js'
+    ])
+    .pipe(uglify())
+    .pipe(rename({
+      suffix: '.min'
+    }))
+    .pipe(gulp.dest('./public/assets/js'));
+});
+ 
+// Dev task
+gulp.task('dev', function() {
+  util.log('Dev start');
+  gulp.watch('./resources/assets/js/*.js', gulp.parallel('js:minify'));
+  gulp.watch('./resources/assets/less/*.less', gulp.series( 'less','css:minify' ));
+});
 
 /*
  |--------------------------------------------------------------------------
@@ -80,7 +135,6 @@ elixir(function(mix) {
     mix.copy([
         './bower_components/mjolnic-bootstrap-colorpicker/dist/img/',
     ], 'public/img/');
-    
 
     mix.styles([
         './bower_components/select2/dist/css/select2.min.css',
