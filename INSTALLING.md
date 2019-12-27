@@ -13,11 +13,13 @@ welcome in order to enhance the documentation and codebase.
 * [Step 6: Configure Cron](#step6)
 * [Troubleshooting](#troubleshooting)
 * [Optional: Populate DB with a Demo Fixture](#demosandbox)
+* [Optional: Docker](#docker)
+
 
 <a name="requirements"></a>
 ## Requirements
 
-timegrid has some server requirements for web hosting:
+Medical has some server requirements for web hosting:
 
   * PHP ~5.6 || 7.1
   * OpenSSL PHP Extension
@@ -35,7 +37,7 @@ timegrid has some server requirements for web hosting:
 
     git clone ...
 
-    cd timegrid
+    cd medical
 
 -----
 <a name="step2"></a>
@@ -80,7 +82,12 @@ Back to your console, **migrate** database schema
 **Populate** the database:
 
     php artisan db:seed
-    
+
+**Permissions** for development
+
+chmod -R 777 ./bootstrap/cache
+chmod -R 777 ./storage
+
 **Update** [geoip](https://github.com/Torann/laravel-geoip) database:
 
     php artisan geoip:update
@@ -133,45 +140,13 @@ Now you have two demo credentials to log in and play around.
     USER: guest@example.org
     PASS: demoguest
 
-Docker:
+<a name="docker"></a>
 
-## Setup
+## Start
 
-* Compose install :
-```
-docker run --rm -v $(pwd):/app composer/composer install
-```
-
-* Set permissions for development
-```
-chmod -R 777 ./bootstrap/cache
-chmod -R 777 ./storage
-```
-
-* Run docker container with specified service in docker-compose.yml
-
-* run composer 
-docker run --rm -v $(PWD):/app koutsoumpos89/composer-php7.1 install
-
-```
 docker-compose up
-```
-
-* Environment file :
-`cp .env-example .env`
-
-* Generate key:
-```
-docker-compose exec app php artisan key:generate
-docker-compose exec app php artisan cache:clear
-```
-
-* Create database `medical` and give permissions to user `medical` with password `secret` in database container 
-
-* Migrate database
-`docker-compose exec app php artisan migrate --seed`
 
 * Run tests 
 `docker-compose run app /var/www/vendor/phpunit/phpunit/phpunit --configuration /var/www/phpunit.xml`
 
-4. Laravel should be available http://0.0.0.0:8080
+Medical should be available http://localhost
