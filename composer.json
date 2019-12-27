@@ -13,10 +13,10 @@
         }
     ],
     "support": {
-        "issues": "http://med.programmers4u.eu",
-        "email": "marcin@programmers4u.eu",
-        "wiki": "http://med.programmers4u.eu/wiki",
-        "source": "http://med.programmers4u.eu/source"
+        "issues": "http://med.programmers4u.com",
+        "email": "marcin@programmers4u.com",
+        "wiki": "http://med.programmers4u.com/wiki",
+        "source": "http://med.programmers4u.com/source"
     },
     "type": "project",
     "require": {
