@@ -7,7 +7,7 @@
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          processIsolation="false"
-         stopOnFailure="false"
+         stopOnFailure="true"
          syntaxCheck="false">
 <!--
     <logging>
@@ -29,10 +29,10 @@
     <php>
         <env name="APP_ENV" value="testing"/>
         <env name="APP_LOG" value="syslog"/>
-        <env name="DB_CONNECTION" value="test"/>
-        <env name="DB_DATABASE" value="testing_medical"/>
-        <env name="DB_USERNAME" value="testing_medical"/>
-        <env name="DB_PASSWORD" value="testing_medical"/>
+        <env name="DB_CONNECTION" value="d9aa1a94f427"/>
+        <env name="DB_DATABASE" value="medical"/>
+        <env name="DB_USERNAME" value="medical"/>
+        <env name="DB_PASSWORD" value="secret"/>
         <env name="CACHE_DRIVER" value="array"/>
         <env name="SESSION_DRIVER" value="array"/>
         <env name="QUEUE_DRIVER" value="sync"/>
