@@ -493,6 +493,10 @@ Route::group(['prefix' => '{business}'], function ($business) {
                 'as'   => 'manager.addressbook.create',
                 'uses' => 'AddressbookController@create',
             ]);
+            Route::get('contact2profil/{contact}', [
+                'as'   => 'manager.addressbook.contact2profil',
+                'uses' => 'AddressbookController@transformContactToUser',
+            ]);
             Route::post('store', [
                 'as'   => 'manager.addressbook.store',
                 'uses' => 'AddressbookController@store',
