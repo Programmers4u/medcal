@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Manager;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Timegridio\Concierge\Models\Business;
 use Timegridio\Concierge\Models\Humanresource;
 
@@ -55,7 +56,12 @@ class HumanresourceController extends Controller
 
         $humanresource->business()->associate($business->id);
 
+        $iCalPath = url("/business/{$business->id}/ical/calendar-{$humanresource->slug}.ics");
+        
+        $humanresource->calendar_link = $iCalPath;
+
         $humanresource->save();
+
 
         flash()->success(trans('manager.humanresources.msg.store.success'));
 
