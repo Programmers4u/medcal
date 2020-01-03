@@ -2,12 +2,12 @@
 <phpunit backupGlobals="false"
          backupStaticAttributes="false"
          bootstrap="bootstrap/autoload.php"
-         colors="true"
+         colors="false"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          processIsolation="false"
-         stopOnFailure="true"
+         stopOnFailure="false"
          syntaxCheck="false">
 <!--
     <logging>
@@ -29,10 +29,10 @@
     <php>
         <env name="APP_ENV" value="testing"/>
         <env name="APP_LOG" value="syslog"/>
-        <env name="DB_CONNECTION" value="testing"/>
-        <env name="DB_DATABASE" value="testing_timegrid"/>
-        <env name="DB_USERNAME" value="testing_timegrid"/>
-        <env name="DB_PASSWORD" value="testing_timegrid"/>
+        <env name="DB_CONNECTION" value="test"/>
+        <env name="DB_DATABASE" value="testing_medical"/>
+        <env name="DB_USERNAME" value="testing_medical"/>
+        <env name="DB_PASSWORD" value="testing_medical"/>
         <env name="CACHE_DRIVER" value="array"/>
         <env name="SESSION_DRIVER" value="array"/>
         <env name="QUEUE_DRIVER" value="sync"/>
