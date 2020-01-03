@@ -411,6 +411,13 @@ var addNote = function(historyId){
             ->primary('edytuj dane')
             ->small()
             ->asLinkTo(route('manager.addressbook.edit',[$business,$contacts->id])) !!}
+        
+        {!! Button::withIcon(Icon::refresh())
+            ->info('Wizyty')
+            ->small()
+            ->asLinkTo(route('manager.addressbook.show', [$business,$contacts->id])) 
+        !!}
+
       </div>
 
       <div role="tabpanel" class="tab-pane" id="interview">

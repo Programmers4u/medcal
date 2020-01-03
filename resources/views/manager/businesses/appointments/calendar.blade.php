@@ -30,7 +30,7 @@
 
 
 <div class="row">
-    <div class="col-lg-1 bg-info" style="border-right:1px solid #afafaf;height: 1000px;margin-top:-56px;margin-bottom:-36px;width:220px;">
+    <div class="col-lg-1" style="border-right:0px solid #afafaf;min-height:100px;position:relative;width:220px;">
         <div id='activecal' class="panel-body panel-title"><b>{{ trans('manager.humanresource.index.title') }}: {{$AktCalendarHr['name']}}</b></div>        
         <a class="btn btn-default btn-block" onclick="setCookie('');" href="javascript:document.location.reload();">Wszystkie kalendarze</a><br>
     @foreach ($humanresources as $hr)
