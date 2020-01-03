@@ -5,11 +5,15 @@ namespace App\Http\Controllers\Manager;
 use App\Events\NewContactWasRegistered;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ContactFormRequest;
+use App\Models\User;
+use CreateUser;
 use Timegridio\Concierge\Models\Business;
 use Timegridio\Concierge\Models\Contact;
 
 class AddressbookController extends Controller
 {
+    use CreateUser;
+
     /**
      * index of Contacts for Business.
      *
@@ -159,8 +163,10 @@ class AddressbookController extends Controller
         foreach($groups as $g){
             $groupsList[$g['id']]=$g['name'];
         }
-        
-        return view('manager.contacts.show', compact('tab','business', 'contact', 'groupsList','groups'));
+
+        $existingContact = User::where('email','=',$contact->email)->first();
+
+        return view('manager.contacts.show', compact('existingContact','tab','business', 'contact', 'groupsList','groups'));
     }
 
     /**
@@ -232,6 +238,55 @@ class AddressbookController extends Controller
 
         //return redirect()->route('manager.addressbook.show', [$business, $contact]);
         return redirect()->route('medical.document', [$business, $contact]);
+    }
+
+    /**
+     * create Contact Profile.
+     *
+     * @param Business           $business Business holding the Contact
+     * @param Contact            $contact  Contact to update
+     * @param ContactFormRequest $request  Contact form Request
+     *
+     * @return Response Redirect to updated Contact show
+     */
+    public function transformContactToUser(Business $business, Contact $contact)
+    {
+        logger()->info(__METHOD__);
+        logger()->info(sprintf('businessId:%s contactId:%s', $business->id, $contact->id));
+
+        //$this->authorize('manageContacts', $business);
+        $response = ['status'=>null];
+        // Search existing registered + email in same business
+        $existingUser = User::where('email','=',$contact->email)->first();
+        if($existingUser)
+            logger()->info(sprintf('existingUser:%s', $existingUser->id));
+        
+        // Search existing any authenticated profile for user
+        if (!$existingUser) {
+            $user = $this->createUser([
+                'email' => $contact->email, 
+                'password' => bcrypt('secret'), 
+                'username' => $contact->lastname,
+                ]);
+            $contact->user()->associate($user->id);
+            $contact->save();
+            $contact->fresh();
+            logger()->info("[ADVICE] Register new user userId:{$user->id}");
+            $response['status'] = 'new';
+        } else {
+            // Search existing subscribed email in same business
+            $existingContact = $business->addressbook()->getSubscribed($existingUser->email);
+            if (!$existingContact) {
+                
+            }    
+            $contact->user()->associate($existingUser->id);
+            $contact->save();
+            $contact->fresh();
+            logger()->info("[ADVICE] Found existing user userId:{$existingUser->id}");
+            $response['status'] = 'exists';
+        }
+        
+        return response()->json($response);
     }
 
     /**
