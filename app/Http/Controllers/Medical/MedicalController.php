@@ -33,12 +33,19 @@ class MedicalController extends Controller
         
         // BEGIN //
         $contacts = $business->addressbook()->find($contact);
-        //dd($contact);
-        $appointments = $contacts->appointments()
+        //dd($contacts);
+        if( null == $contacts ) {
+            flash()->warning('Brak kontaktów');
+             return redirect()->back();
+        }
+
+        $appointments = $contacts->appointments();
+        $appointments = $appointments
                 ->whereNOTIn('id',function($query){
                   $query->select('appointment_id')->from('medical_history');  
                 })
                 ->orderBy('start_at','asc')->ofBusiness($business->id)->Active()->get();
+
 
         $interviewData = $this->getInterview($contact); 
 
