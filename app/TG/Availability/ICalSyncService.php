@@ -3,6 +3,7 @@
 namespace App\TG\Availability;
 
 use App\TG\ICalChecker;
+use Exception;
 use Illuminate\Support\Facades\Storage;
 use Timegridio\Concierge\Models\Humanresource;
 
@@ -24,6 +25,7 @@ class ICalSyncService
         }
 
         $icalFileContents = $this->getRemoteContents();
+        if(!$icalFileContents) return false;
 
         Storage::put(
             $this->getFilePath("calendar-{$this->humanresource->slug}.ics"),
@@ -64,7 +66,13 @@ class ICalSyncService
 
     public function getRemoteContents()
     {
-        return file_get_contents($this->humanresource->calendar_link);
+        try {
+            $data = file_get_contents($this->humanresource->calendar_link);
+        } catch(Exception $e) {
+            $data = false;
+        }
+
+        return $data ? $data : false;
     }
 
     protected function getFilePath($filename)
