@@ -39,9 +39,11 @@ class ICalSyncServiceUnitTest extends TestCase
     protected function arrangeScenario()
     {
         $business = $this->createBusiness();
+        $filepath = "storage/app/business/{$business->id}/ical/calendar-{$business->slug}.ics";
+
         $this->humanresource = $this->createHumanresource([
             'business_id'   => $business->id,
-            'calendar_link' => 'https://example.org/calendar/ical/example/public/basic.ics',
+            'calendar_link' =>  url($filepath),
             ]);
     }
 

@@ -5,12 +5,23 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Timegridio\Concierge\Models\Appointment;
 use Timegridio\Concierge\Models\Business;
 use Timegridio\Concierge\Models\Contact;
+use App\Http\Controllers\Manager\AddressbookController;
 
 class UserContactControllerTest extends TestCase
 {
     use DatabaseTransactions;
     use ArrangeFixture, CreateBusiness, CreateUser, CreateContact, CreateAppointment, CreateService, CreateVacancy;
 
+    /**
+     * @test
+     */
+    
+    public function it_transform_contact_to_user() {
+        $this->arrangeFixture();
+        $addressbook = new AddressbookController();
+        $this->assertTrue($addressbook->transformContactToUser($this->business,$this->freeContact));
+     }
+ 
     /**
      * @test
      */

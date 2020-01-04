@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Manager\AddressbookController;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Timegridio\Concierge\Models\Business;
