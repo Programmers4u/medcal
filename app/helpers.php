@@ -90,3 +90,25 @@ if (!function_exists('docs_url')) {
         return config("root.docs_url.{$locale}");
     }
 }
+
+if (!function_exists('checkDir')) {
+    /**
+     * Generate and check nesessery dir in base path.
+     *
+     * @param string $path
+     * @param int $chmod eg. 0755
+     *
+     * @return bool
+     */
+
+    function checkDir($path, $chmod=0755) {
+        $paths = explode("/",$path);
+        $oryg_path = '';
+        foreach($paths as $path) {
+            $oryg_path.='/'.$path;
+            $isd = is_dir(base_path().'/'.$oryg_path);
+            if(!$isd) mkdir(base_path().'/'.$oryg_path, $chmod);
+        }
+        return true;
+    }
+}
