@@ -10,7 +10,7 @@ MediCal
 [![Current Beta](https://img.shields.io/badge/dev--beta-5.0-yellow.svg?style=flat-square)](https://medcal.pl/)
 [![License](https://img.shields.io/:license-AGPL--3.0-blue.svg?style=flat-square)](http://www.gnu.org/licenses/agpl-3.0.txt)
 
-> **yourCalendar** helps contractors and customers to find the perfect meeting time through *online medical appointments*.
+> **MediCal** helps contractors and customers to find the perfect meeting time through *online medical appointments*.
 
 ## Features
 
@@ -39,7 +39,7 @@ MediCal
 
 ## Live Demo
 
-[Test drive the *beta live demo*](http://med.programmers4u.com)
+[Test drive the *beta live demo*](http://medical.programmers4u.com)
 
 > **HINT:** You may use a [maildrop.cc](http://maildrop.cc/) fake account for testing
 
@@ -69,7 +69,7 @@ Timegrid uses [Concierge package](https://github.com/timegridio/concierge) for d
 
 ## Author
 
-yourCalendar is developed and maintained by [Marcin Kania](http://programmers4u.com).
+MediCal is developed and maintained by [Marcin Kania](http://programmers4u.com).
 
 ## Contributing
 

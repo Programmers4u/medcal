@@ -32,14 +32,18 @@ class Backup extends Command
     public function __construct()
     {
         parent::__construct();
+        
+        checkDir(env('STORAGE_PATH','').'/backups');
+
         $this->process[0] = new Process(sprintf(
-            'mysqldump -u%s -p%s %s > %s',
+            'mysqldump -u%s -p%s -h%s %s > %s',
             config('database.connections.mysql.username'),
             config('database.connections.mysql.password'),
+            config('database.connections.mysql.host'),
             config('database.connections.mysql.database'),
             storage_path('backups/backup_'. time().'.sql')
         ));
-        $this->process[1] = new Process('echo "OK" ');
+
     }
 
     /**

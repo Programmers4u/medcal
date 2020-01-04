@@ -107,6 +107,7 @@ return  [
     'btn' => [
       'store'  => 'Save',
       'update' => 'Update',
+      'createprofil' => 'Utwórz profil publiczny',
     ],
     'create' => [
       'help'  => 'Well done! You are about to go. Fill your contact profile for the first time so your reservation is handled accordingly. You will be able to change this info per business if you want to.',

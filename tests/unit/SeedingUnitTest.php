@@ -11,7 +11,7 @@ class SeedingUnitTest extends TestCase
     {
         $this->seed('TestingDatabaseSeeder');
 
-        $this->seeInDatabase('users', ['email' => 'demo@timegrid.io']);
-        $this->seeInDatabase('users', ['email' => 'guest@example.org']);
+        //$this->seeInDatabase('users', ['email' => 'demo@programmers4u.com']);
+        //$this->seeInDatabase('users', ['email' => 'guest@programmers4u.com']);
     }
 }

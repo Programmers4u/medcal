@@ -143,6 +143,11 @@
             @endif
 
             <span class="pull-right">
+            @if (!isset($existingContact))
+            {!! Button::withIcon(Icon::ok_circle())->primary(trans('user.contacts.btn.createprofil'), [$business,$contact])
+                ->asLinkTo('javascript:addContactToUser()')
+            !!}
+            @endif
                 
             {!! Button::withIcon(Icon::book())->primary(trans('medical.btn.history'), [$business,$contact])
                 ->asLinkTo( route('medical.document', [$business, $contact]) )
@@ -206,6 +211,29 @@
 
 @push('footer_scripts')
 <script src="{{ asset('js/forms.js') }}"></script>
+<script type="text/javascript">
+var addContactToUser = function() {
+
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': '{{csrf_token()}}'
+        },                    
+        type      : 'GET',
+        url       : '{{ route("manager.addressbook.contact2profil",[$business,$contact])}}',
+        //data      : formData,
+        //dataType  : 'json',
+        encode    : false
+        }).done(function(data) {
+            console.log(JSON.stringify(data));
+            console.log('updated OK'); 
+        }).error(function(data) {
+            console.log(JSON.stringify(data));
+            console.log('could not be updated'); 
+            alert('could not be updated');
+        });
+    
+}
+</script>
 <script type="text/javascript">
 $('#groups').on('select2:select', function (e) { 
 

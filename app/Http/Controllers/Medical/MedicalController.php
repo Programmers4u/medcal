@@ -12,7 +12,6 @@ use App\Models\MedicalFile;
 use App\Http\Controllers\Controller;
 use niklasravnsborg\LaravelPdf\Facades\Pdf;
 
-
 class MedicalController extends Controller
 {
     //
@@ -33,12 +32,19 @@ class MedicalController extends Controller
         
         // BEGIN //
         $contacts = $business->addressbook()->find($contact);
-        //dd($contact);
-        $appointments = $contacts->appointments()
+        //dd($contacts);
+        if( null == $contacts ) {
+            flash()->warning('Brak kontaktów');
+             return redirect()->back();
+        }
+
+        $appointments = $contacts->appointments();
+        $appointments = $appointments
                 ->whereNOTIn('id',function($query){
                   $query->select('appointment_id')->from('medical_history');  
                 })
                 ->orderBy('start_at','asc')->ofBusiness($business->id)->Active()->get();
+
 
         $interviewData = $this->getInterview($contact); 
 
@@ -46,7 +52,7 @@ class MedicalController extends Controller
 
         $historyPagin = $this->getHistory($contact);
 
-        $files = $this->getFiles($contact);
+        $files = $this->getFiles($business, $contact);
         
         $group = \App\Models\MedicalGroup::all();
         
@@ -232,40 +238,59 @@ class MedicalController extends Controller
         return $result;
     }
 
+    private function generatePathToFile(Business $business, Contact $contact) {
+        return '/app/business/'.$business->id.'/medical/'.$contact->id;
+    }
+
     public function putFile(Business $business, Request $request){
         $response = ['status'=>'ok','data'=>''];
         //dd($request->file());
+        $contact = Contact::find($request->input('contact_id', 0));
+        $path = env('STORAGE_PATH','').'/'.$this->generatePathToFile($business, $contact);
+        checkDir($path);
+
         $file = $request->file()[0];
-        //foreach($request->file()[0] as $file){
-            $path = Storage::disk('local')->putFile('medical/'.$business->id.'/'.$request->input('contact_id'), $file);
-            $originalName = $file->getClientOriginalName();
-            $description = (empty($request->input('description'))) ? $originalName : $request->input('description');
-            $result = MedicalFile::putFile($originalName, $path, $request->input('contact_id'), $description, $request->input('history_id'), $request->input('type'));
-            //array_push($response['data'], $result);
+        //foreach($request->file() as $file){
+
+        $originalName = $file->getClientOriginalName();
+        $tmpFile = $file->getPathName();
+        //dd($tmpFile);
+        //file_put_contents(storage_path().'/'.$path.'/'.$originalName, $file); //Storage::putFile($this->generatePathToFile($business, $contact), $file, 'private');
+        //$request->file()[0]->storeAs($path,$originalName);
+        //move_uploaded_file($originalName, base_path().'/'.$path);
+        $command = "cp ".$tmpFile.' '.base_path().'/'.$path.'/'.$originalName;
+        system($command);
+
+        $description = (empty($request->input('description'))) ? $originalName : $request->input('description');
+        $result = MedicalFile::putFile($originalName, $path, $request->input('contact_id'), $description, $request->input('history_id'), $request->input('type'));
+        //array_push($response['data'], $result);
         //}
         //$path = Storage::disk('local')->putFile('medical', $request->file()[0]);
         //$result = MedicalFile::putFile($path, $request->input('contact_id'), $request->input('description'), $request->input('history_id'), $request->input('type'));
         return $response;
     }
 
-    public function getFiles(Contact $contact){
+    public function getFiles(Business $business, Contact $contact){
         $_files = MedicalFile::getFile($contact->id);
         $files = [];
-        //$contents = Storage::disk('local')->allFiles('medical');
-        foreach($_files as $file)
+        $storage = $this->generatePathToFile($business, $contact);
+        $public = 'public/'.env('STORAGE_PATH','').$storage;
+        foreach($_files as $file) {
+            checkDir($public, 0755);
+            //dd($file);
+            $command = "cp ".storage_path('').$storage.'/'.$file['original_name'].' '.base_path('').'/'.$public.'/'.$file['original_name'];
+            //dd($command);
+            system($command);
+            //copy( storage_path('').$storage.'/'.$file['original_name'], base_path('').'/'.$public.'/'.$file['original_name'] );
             array_push ($files, [
                 'id'=>$file['id'],
-                'url'=>Storage::url($file['file']),
+                'url'=> url('/').'/'.env('STORAGE_PATH','').$storage.'/'.$file['original_name'],
                 'description'=>$file['description'],
                 'type'=>$file['type'],
                 'medical_history_id'=>$file['medical_history_id'],
-                'original_name' =>$file['$original_name'],
-                    ]);
-        //dd($contents);
-        //$visibility = Storage::getVisibility($contents[0]);
-        //dd($visibility);
-//        $file = env('APP_URL').'/'.str_replace("storage/","",env('STORAGE_PATH')).Storage::disk('local')->url($contents[0]);
-        
+                'original_name' =>$file['original_name'],
+                ]);
+        };
         return $files;
     }
 

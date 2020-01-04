@@ -26,8 +26,8 @@ class DatabaseSeeder extends Seeder
         $this->call('RolesTableSeeder');
         $this->command->info('Seeded the Param Roles!');
 
-        $this->call('ContactTableSeeder');
-        $this->command->info('Seeded the Param Contact from csv file!');
+        //$this->call('ContactTableSeeder');
+        //$this->command->info('Seeded the Param Contact from csv file!');
 
         $this->call('MedicinesTableSeeder');
         $this->command->info('Seeded the Medicines from csv file!');

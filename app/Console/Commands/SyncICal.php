@@ -49,6 +49,9 @@ class SyncICal extends Command
     public function handle()
     {
         $businessId = $this->argument('business');
+        
+        $icalFolder = asset('storage/app/business/'.$businessId.'/ical/');
+        $this->info("Syncing ICal folder {$icalFolder}");
 
         if ($businessId === null) {
             $this->info('Syncing ICal for all businesses');

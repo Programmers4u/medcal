@@ -91,15 +91,17 @@ class BusinessAgendaController extends Controller
 
             $sun = \App\Models\MedicalHistory::query()->where('appointment_id', '=',$appointment->id)->get()->count();
             $sun = ($sun==0) ? 'frown-o' : 'smile-o';
+
+            //if(!isset($staff->color)) return redirect()->route('manager.business.humanresource.index',[$business]);
             
             $jsAppointments[] = [
                 'id'    => $appointment->id,
                 'title' => $appointment->contact->lastname.' '.$appointment->contact->firstname.' '.$appointment->contact->mobile.' ',
-                'color' => $staff->color,
+                'color' => (isset($staff->color)) ? $staff->color : '',
                 'start' => $appointment->start_at->timezone($business->timezone)->toIso8601String(),
                 'end'   => $appointment->finish_at->timezone($business->timezone)->toIso8601String(),
                 'service' => $appointment->service->name,
-                'staff' => $staff->name,
+                'staff' => (isset($staff->name)) ? $staff->name : '',
                 'phone' => $appointment->contact->mobile,
                 'icon'  => $leaf,
                 'icon2'  => $sun,

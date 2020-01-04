@@ -24,6 +24,13 @@ trait ArrangeFixture
     protected $contact = null;
 
     /**
+     * Client free contact.
+     *
+     * @var Timegridio\Concierge\Models\Contact
+     */
+    protected $freeContact = null;
+
+    /**
      * Business.
      *
      * @var Timegridio\Concierge\Models\Business
@@ -74,5 +81,11 @@ trait ArrangeFixture
         $this->contact = $this->createContact();
         $this->contact->user()->associate($this->issuer->id);
         $this->business->contacts()->save($this->contact);
+
+        // And a Free Contact 
+        $this->freeContact = $this->createContact();
+        //$this->contact->user()->associate($this->issuer->id);
+        $this->business->contacts()->save($this->freeContact);
+
     }
 }

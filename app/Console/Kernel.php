@@ -41,6 +41,7 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\SyncICal::class,
         \App\Console\Commands\dbCheckPhonNum::class,
         \App\Console\Commands\Backup::class,
+        \App\Console\Commands\storagePublicClear::class,
     ];
 
     /**
@@ -61,6 +62,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('backup')->dailyAt('23:00');
         
         $schedule->command('ical:sync')->twiceDaily(0, 12);
+
+        $schedule->command('storage:public_clear')->hourly();
         
         $schedule->call(function () {
             //$job = SmsContrller::getNow();
