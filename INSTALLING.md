@@ -69,7 +69,7 @@ Set the application key
 
 **Change** the storage path in **.env** file to a writeable location
 
-    STORAGE_PATH=/home/username/timegrid/storage
+    STORAGE_PATH=storage
 
 For **local** environment you will need to **comment out** APP_DOMAIN, to keep it *null*
 
@@ -116,7 +116,7 @@ This is optional but totally recommended if you want automation capabilities.
 Replace the artisan path with your valid installataion path, and make sure that it
 runs with the permissions of your web server. In this case it's called `nginx`.
 
-`* * * * * nginx php /var/www/timegrid/htdocs/artisan schedule:run >> /dev/null 2>&1`
+`* * * * * nginx php /var/www/artisan schedule:run >> /dev/null 2>&1`
 
 <a name="troubleshooting"></a>
 ## Troubleshooting
