@@ -18,17 +18,17 @@ return  [
       'label'  => 'Hasło sms',
     ],
     'sms_message' => [
-      'format' => 'Przyk.: Informujemy o wizycie w gabinecie %name% o %hour% dnia %day%. Jesli to mozliwe, prosimy o potwierdzenie pod nr .....',
+      'format' => 'Przyk.: Informujemy o wizycie pacjenta %client% w gabinecie %name% o %hour% dnia %day%. Jesli to mozliwe, prosimy o potwierdzenie pod nr .....',
       'help'   => 'Dodaj wiadomość od %name% .... z parametrami %day%, %hour%',
       'label'  => 'Wiadomość sms',
     ],
     'sms_message1' => [
-      'format' => 'Przyk.: Informujemy o jutrzejszej wizycie w gabinecie %name% o %hour% dnia %day%. Jesli to mozliwe, prosimy o potwierdzenie pod nr .....',
+      'format' => 'Przyk.: Informujemy o jutrzejszej wizycie pacjenta %client% w gabinecie %name% o %hour% dnia %day%. Jesli to mozliwe, prosimy o potwierdzenie pod nr .....',
       'help'   => 'Dodaj wiadomość od %name% .... z parametrami %day%, %hour%',
       'label'  => 'Wiadomość sms, przypomnienie',
     ],
     'sms_message2' => [
-      'format' => 'Przyk.: Informujemy o wizycie kontrolnej w gabinecie %name%. Jesli to mozliwe, prosimy o potwierdzenie pod nr .....',
+      'format' => 'Przyk.: Informujemy o wizycie kontrolnej pacjenta %client% w gabinecie %name%. Jesli to mozliwe, prosimy o potwierdzenie pod nr .....',
       'help'   => 'Dodaj wiadomość od %name% .... z parametrami %day%, %hour%',
       'label'  => 'Wiadomość sms, wysyłane po 6 miesiącach',
     ],
