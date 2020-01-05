@@ -189,6 +189,7 @@ class smsSender {
             if(!empty($this->from)){
                 $fields.="&from=".$this->from;
             };
+            $fields.="&self_number=".$this->selfNumber; 
             /*
             $fields.="&sms_type=".$this->smsTyp;
             $fields.="&pl=".$this->pl; 
@@ -196,7 +197,6 @@ class smsSender {
             $fields.="&transaction=".$this->transaction; 
             $fields.="&msg_info=".$this->msg_info; 
             $fields.="&contact=".$this->contact; 
-            $fields.="&self_number=".$this->selfNumber; 
             $fields.="&time=".$this->time;             
             $fields.="&name=".$this->name;
             $fields.="&import=".$this->import;             

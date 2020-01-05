@@ -36,7 +36,8 @@ class SmsContrller extends Controller
         $sms->setLogin($login);
         $sms->setPass($pass);
         $sms->setTest(env('SMS_TEST',1));
-        $sms->from = env('SMS_FROM','');
+        $sms->setFrom(env('SMS_FROM',''));
+        $sms->setSelfNumber(env('SMS_SELF_NUMBER',''));
         $results = [];
         foreach($contactsWithMessage as $cwm){
             $sms->setMsg($cwm['message']);
