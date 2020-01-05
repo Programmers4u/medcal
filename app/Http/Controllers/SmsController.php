@@ -107,7 +107,8 @@ class SmsContrller extends Controller
             $hour = $date[1];
             $message = str_replace("%day%", $day, $message);        
             $message = str_replace("%hour%", $hour, $message);        
-            $message = str_replace("%name%", $business->name, $message);        
+            $message = str_replace("%name%", $business->name, $message);    
+            $message = str_replace("%client%", $contact->firstname.' '.$contact->lastname, $message);    
             $record['message'] = $message;
             
             $can = \App\Models\MedPermission::where('contact_id','=',$row->contact_id)->first();
@@ -199,6 +200,7 @@ class SmsContrller extends Controller
     }
     
     protected static function pushReport($params) {
-        Storage::disk('local')->append('sms_report.txt', $params);
+        checkDir('storage/logs');
+        Storage::disk('local')->append('logs/sms_report.txt', $params);
     }
 }
