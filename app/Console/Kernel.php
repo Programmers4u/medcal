@@ -42,6 +42,7 @@ class Kernel extends ConsoleKernel
         \App\Console\Commands\dbCheckPhonNum::class,
         \App\Console\Commands\Backup::class,
         \App\Console\Commands\storagePublicClear::class,
+        \App\Console\Commands\SendSms::class,
     ];
 
     /**

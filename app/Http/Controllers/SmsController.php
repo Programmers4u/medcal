@@ -33,11 +33,12 @@ class SmsContrller extends Controller
         $sms = new smsSender();
         $login = $business->pref('sms_id');//$preferences[0]->value;
         $pass = $business->pref('sms_secret');//$preferences[1]->value;
+        $self_number = $business->pref('sms_self_number');//$preferences[1]->value;
         $sms->setLogin($login);
         $sms->setPass($pass);
         $sms->setTest(env('SMS_TEST',1));
         $sms->setFrom(env('SMS_FROM',''));
-        $sms->setSelfNumber(env('SMS_SELF_NUMBER',''));
+        $sms->setSelfNumber($self_number ? $self_number : env('SMS_SELF_NUMBER',''));
         $results = [];
         foreach($contactsWithMessage as $cwm){
             $sms->setMsg($cwm['message']);
@@ -101,10 +102,9 @@ class SmsContrller extends Controller
             if (empty($message)) {
                 continue;
             }
-            $date = $row->start_at->setTimezone($business->timezone)->toDateTimeString();
-            $date = explode(" ", $date);
-            $day = $date[0];
-            $hour = $date[1];
+            $date = $row->start_at->setTimezone($business->timezone);
+            $day = $date->format('Y-m-d');
+            $hour = $date->format('H:i');
             $message = str_replace("%day%", $day, $message);        
             $message = str_replace("%hour%", $hour, $message);        
             $message = str_replace("%name%", $business->name, $message);    
