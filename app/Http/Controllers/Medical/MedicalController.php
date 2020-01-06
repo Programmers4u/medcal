@@ -241,35 +241,45 @@ class MedicalController extends Controller
     private function generatePathToFile(Business $business, Contact $contact) {
         return '/app/business/'.$business->id.'/medical/'.$contact->id;
     }
-
+    /**
+     * putFile function
+     *
+     * @param Business $business
+     * @param Request $request
+     * @return array
+     */
     public function putFile(Business $business, Request $request){
         $response = ['status'=>'ok','data'=>''];
-        //dd($request->file());
+
         $contact = Contact::find($request->input('contact_id', 0));
-        $path = env('STORAGE_PATH','').'/'.$this->generatePathToFile($business, $contact);
+        $path = env('STORAGE_PATH','').DIRECTORY_SEPARATOR.$this->generatePathToFile($business, $contact);
         checkDir($path);
 
         $file = $request->file()[0];
         //foreach($request->file() as $file){
 
         $originalName = $file->getClientOriginalName();
+        $ext = $file->clientExtension();
+        $fileName = md5($originalName).'.'.$ext;
         $tmpFile = $file->getPathName();
-        //dd($tmpFile);
-        //file_put_contents(storage_path().'/'.$path.'/'.$originalName, $file); //Storage::putFile($this->generatePathToFile($business, $contact), $file, 'private');
-        //$request->file()[0]->storeAs($path,$originalName);
-        //move_uploaded_file($originalName, base_path().'/'.$path);
-        $command = "cp ".$tmpFile.' '.base_path().'/'.$path.'/'.$originalName;
+
+        $command = "cp ".$tmpFile.' '.base_path().DIRECTORY_SEPARATOR.$path.DIRECTORY_SEPARATOR.$fileName;
         system($command);
 
         $description = (empty($request->input('description'))) ? $originalName : $request->input('description');
-        $result = MedicalFile::putFile($originalName, $path, $request->input('contact_id'), $description, $request->input('history_id'), $request->input('type'));
-        //array_push($response['data'], $result);
+        $result = MedicalFile::putFile($originalName, $fileName, $request->input('contact_id'), $description, $request->input('history_id'), $request->input('type'));
+        $response['data'] = $result;
         //}
-        //$path = Storage::disk('local')->putFile('medical', $request->file()[0]);
-        //$result = MedicalFile::putFile($path, $request->input('contact_id'), $request->input('description'), $request->input('history_id'), $request->input('type'));
         return $response;
     }
 
+    /**
+     * getFile function
+     *
+     * @param Business $business
+     * @param Contact $contact
+     * @return array 
+     */
     public function getFiles(Business $business, Contact $contact){
         $_files = MedicalFile::getFile($contact->id);
         $files = [];
@@ -277,11 +287,10 @@ class MedicalController extends Controller
         $public = 'public/'.env('STORAGE_PATH','').$storage;
         foreach($_files as $file) {
             checkDir($public, 0755);
-            //dd($file);
-            $command = "cp ".storage_path('').$storage.'/'.$file['original_name'].' '.base_path('').'/'.$public.'/'.$file['original_name'];
-            //dd($command);
+
+            $command = "cp ".storage_path('').$storage.DIRECTORY_SEPARATOR.$file['file'].' '.base_path('').DIRECTORY_SEPARATOR.$public.DIRECTORY_SEPARATOR.$file['original_name'];
             system($command);
-            //copy( storage_path('').$storage.'/'.$file['original_name'], base_path('').'/'.$public.'/'.$file['original_name'] );
+
             array_push ($files, [
                 'id'=>$file['id'],
                 'url'=> url('/').'/'.env('STORAGE_PATH','').$storage.'/'.$file['original_name'],
@@ -289,7 +298,8 @@ class MedicalController extends Controller
                 'type'=>$file['type'],
                 'medical_history_id'=>$file['medical_history_id'],
                 'original_name' =>$file['original_name'],
-                ]);
+                ]
+            );
         };
         return $files;
     }

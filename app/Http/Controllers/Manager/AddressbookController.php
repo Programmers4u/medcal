@@ -254,8 +254,16 @@ class AddressbookController extends Controller
         logger()->info(__METHOD__);
         logger()->info(sprintf('businessId:%s contactId:%s', $business->id, $contact->id));
 
-        //$this->authorize('manageContacts', $business);
-        $response = ['status'=>null];
+        $this->authorize('manageContacts', $business);
+
+        $response = ['status'=>null, 'data'=>'ok'];
+
+        if(empty($contact->email)) {
+            $response['status'] = 'error';
+            $response['data'] = 'email is empty';
+            return $response;
+        }
+
         // Search existing registered + email in same business
         $existingUser = User::where('email','=',$contact->email)->first();
         if($existingUser)

@@ -17,6 +17,11 @@ return  [
       'help'   => 'Twoje hasło do systemu sms',
       'label'  => 'Hasło sms',
     ],
+    'sms_self_number' => [
+      'format' => 'Cyfry',
+      'help'   => 'Twoj identyfikator urządzenia w systemie gatesms',
+      'label'  => 'Id urządzenia sms',
+    ],
     'sms_message' => [
       'format' => 'Przyk.: Informujemy o wizycie pacjenta %client% w gabinecie %name% o %hour% dnia %day%. Jesli to mozliwe, prosimy o potwierdzenie pod nr .....',
       'help'   => 'Dodaj wiadomość od %name% .... z parametrami %day%, %hour%',

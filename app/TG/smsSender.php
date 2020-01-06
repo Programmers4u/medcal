@@ -208,7 +208,7 @@ class smsSender {
             return $out;
         }
 
-        public function ConectClose() {
+        public function ConnectClose() {
             if($this->smsConnect) curl_close($this->smsConnect);
         }
         

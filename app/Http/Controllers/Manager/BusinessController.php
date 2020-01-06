@@ -9,7 +9,10 @@ use App\TG\Business\Dashboard;
 use App\TG\BusinessService;
 use Carbon\Carbon;
 use Fenos\Notifynder\Facades\Notifynder;
+use Illuminate\Support\Facades\File as FacadesFile;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Storage;
+use League\Flysystem\File;
 use Timegridio\Concierge\Models\Business;
 use Timegridio\Concierge\Models\Category;
 
@@ -205,9 +208,20 @@ class BusinessController extends Controller
 
         $category = $business->category_id;
 
+        $command = "du -h --max-depth=0 ./".env('STORAGE_PATH','');
+        $storageSize = exec($command,$res);
+        //$command="df -H --output=size,used";
+        $command="df -H . | sed 's/ \+/ /g' | cut -d\" \" -f2";
+        $res = exec($command,$diskSize);
+        $storageSize.= ' All: '.$diskSize[1]; 
+
+        $command="df -H . | sed 's/ \+/ /g' | cut -d\" \" -f4";
+        $res = exec($command,$diskAvail);
+        $storageSize.= ' Avail: '.$diskAvail[1]; 
+        
         logger()->info(sprintf('businessId:%s timezone:%s category:%s', $business->id, $timezone, $category));
 
-        return view('manager.businesses.edit', compact('business', 'category', 'categories', 'timezone'));
+        return view('manager.businesses.edit', compact('business', 'category', 'categories', 'timezone', 'storageSize'));
     }
 
     /**

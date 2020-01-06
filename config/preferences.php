@@ -5,6 +5,7 @@ return [
         //'vacancy_edit_days_quantity'      => ['type' => 'int', 'value' => 30],
         'sms_id'                          => ['type' => 'string', 'value' => ''],
         'sms_secret'                      => ['type' => 'password', 'value' => ''],
+        'sms_self_number'                 => ['type' => 'string', 'value' => ''],
         'sms_message'                     => ['type' => 'text', 'value' => ''],
         'sms_message1'                     => ['type' => 'text', 'value' => ''],
         'sms_message2'                     => ['type' => 'text', 'value' => ''],
