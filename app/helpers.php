@@ -93,7 +93,7 @@ if (!function_exists('docs_url')) {
 
 if (!function_exists('checkDir')) {
     /**
-     * Generate and check nesessery dir in base path.
+     * Generate and check necessary dir in base path.
      *
      * @param string $path
      * @param int $chmod eg. 0755
@@ -102,12 +102,12 @@ if (!function_exists('checkDir')) {
      */
 
     function checkDir($path, $chmod=0755) {
-        $paths = explode("/",$path);
+        $paths = explode(DIRECTORY_SEPARATOR,$path);
         $oryg_path = '';
         foreach($paths as $path) {
-            $oryg_path.='/'.$path;
-            $isd = is_dir(base_path().'/'.$oryg_path);
-            if(!$isd) mkdir(base_path().'/'.$oryg_path, $chmod);
+            $oryg_path.=DIRECTORY_SEPARATOR.$path;
+            $isd = is_dir(base_path().DIRECTORY_SEPARATOR.$oryg_path);
+            if(!$isd) mkdir(base_path().DIRECTORY_SEPARATOR.$oryg_path, $chmod);
         }
         return true;
     }
