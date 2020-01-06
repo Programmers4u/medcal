@@ -17,7 +17,7 @@ class CreateMedicalFileTable extends Migration
         Schema::create('medical_file', function(Blueprint $table){
             $table->bigIncrements('id');
             $table->integer('contact_id')->unsigned()->index();
-            //$table->foreign('contact_id')->references('id')->on('contacts')->onDelete('cascade');
+            $table->foreign('contact_id')->references('id')->on('contacts')->onDelete('cascade');
             $table->integer('medical_history_id');
             $table->string('type');
             $table->string('file');
