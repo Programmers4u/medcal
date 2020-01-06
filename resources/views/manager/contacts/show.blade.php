@@ -225,11 +225,12 @@ var addContactToUser = function() {
         encode    : false
         }).done(function(data) {
             console.log(JSON.stringify(data));
-            console.log('updated OK'); 
+            console.log(data.status); 
+            alert(data.data);
         }).error(function(data) {
             console.log(JSON.stringify(data));
-            console.log('could not be updated'); 
-            alert('could not be updated');
+            console.log('could not be updated '+data.status); 
+            alert('could not be updated '+data.data);
         });
     
 }
