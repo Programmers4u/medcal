@@ -19,7 +19,8 @@ class UserContactControllerTest extends TestCase
     public function it_transform_contact_to_user() {
         $this->arrangeFixture();
         $addressbook = new AddressbookController();
-        $this->assertTrue($addressbook->transformContactToUser($this->business,$this->freeContact));
+        $test = $addressbook->transformContactToUser($this->business,$this->freeContact);
+        $this->assertJson($test->getContent());
      }
  
     /**
