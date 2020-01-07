@@ -587,7 +587,7 @@ class BookingController extends Controller
         $start_at = $request->input('start_at',null);
         //$appointments = $this->concierge->business($business)->getActiveAppointments();
         //$appointments = $this->concierge->business($business)->getUnarchivedAppointments();
-        $where_at = ($start_at!==null) ? \Carbon\Carbon::parse($start_at,$business->timezone) : \Carbon\Carbon::parse('last week',$business->timezone);
+        $where_at = ($start_at!==null) ? \Carbon\Carbon::parse($start_at,$business->timezone)->addDays(-7) : \Carbon\Carbon::parse('last week',$business->timezone);
         $where_to = ($start_at!==null) ?  \Carbon\Carbon::parse($start_at,$business->timezone)->addDays(7) : \Carbon\Carbon::parse('next week',$business->timezone);
         $appointments = \Timegridio\Concierge\Models\Appointment::query()->where('start_at','>=', $where_at)->where('start_at','<=',$where_to)->get();        
         logger()->debug($appointments);
