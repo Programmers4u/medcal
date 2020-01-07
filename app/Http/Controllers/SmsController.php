@@ -58,7 +58,7 @@ class SmsContrller extends Controller
             */
         };
         
-        $store = 'sendMessage:'.date('d/m/Y H:i:s')."\r\n";
+        $store = 'sendMessage: '.date('d/m/Y H:i:s')."\r\n";
         logger()->debug($store);
         SmsContrller::pushReport($store);
 
@@ -87,8 +87,8 @@ class SmsContrller extends Controller
                     ->leftJoin("med_permission", "contact_id","=","contacts.id")
                     ->where('contacts.id','=', $row->contact_id)
                     ->where('appo_sms','=','1')
-                    ->get()
                     ->first()
+                    //->get()
                     ;
             if ($contact === null) {
                 continue;
@@ -201,6 +201,8 @@ class SmsContrller extends Controller
     
     protected static function pushReport($params) {
         checkDir('storage/logs');
-        Storage::disk('local')->append('logs/sms_report.txt', $params);
+        $path = storage_path('').'/logs/sms_report.txt';
+        file_put_contents($path,$params,FILE_APPEND);
+        //Storage::disk('local')->append('logs/sms_report.txt', $params);
     }
 }

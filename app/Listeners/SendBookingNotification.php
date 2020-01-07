@@ -64,18 +64,21 @@ class SendBookingNotification
         /////////////////
         $contact = Contact::query(['firstname','lastname','mobile'])
                 ->where('id','=', $event->appointment->contact_id)
-                ->get()
-                ->toArray();    
+                ->first()
+                //->toArray()
+                ;    
         
-        $phone = $contact[0]['mobile'];
+        //$phone = $contact[0]['mobile'];
+        $phone = $contact->mobile;
         $message = $event->appointment->business->pref('sms_message');
-        $date = $event->appointment->start_at->setTimezone($event->appointment->business->timezone)->toDateTimeString();
-        $date = explode(" ", $date);
-        $day = $date[0];
-        $hour = substr($date[1],0, strrpos($date[1], ":"));
+        $date = $event->appointment->start_at->setTimezone($event->appointment->business->timezone);//->toDateTimeString();
+        $day = $date->format('Y-m-d');
+        $hour = $date->format('H:i');
         $message = str_replace("%day%", $day, $message);        
         $message = str_replace("%hour%", $hour, $message);        
-        $message = str_replace("%name%", $businessName, $message);        
+        $message = str_replace("%name%", $businessName, $message);    
+        $message = str_replace("%client%", $contact->firstname.' '.$contact->lastname, $message);    
+
         $this->sendSMSToContactUser($phone,$message,$event->appointment->business);
                 
         /////////////////
