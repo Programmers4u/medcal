@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Manager;
 use App\Exceptions\BusinessAlreadyRegistered;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BusinessFormRequest;
+use App\Models\MedicalHistory;
 use App\TG\Business\Dashboard;
 use App\TG\BusinessService;
 use Carbon\Carbon;
@@ -219,9 +220,26 @@ class BusinessController extends Controller
         $res = exec($command,$diskAvail);
         $storageSize.= ' Avail: '.$diskAvail[1]; 
         
+        /**
+         * Finansowe info 
+         */
+
+        $medicalHistory = MedicalHistory::all();
+        $finance = [
+            'sum' => 0,
+            'avg' => 0,
+        ];
+        $proces = [];
+        foreach($medicalHistory as $mh){
+            $mh = json_decode($mh->json_data);
+            array_push($proces,$mh->price);
+        }
+        $finance['sum'] = array_sum($proces);
+        $finance['avg'] = array_sum($proces)/count($proces);
+
         logger()->info(sprintf('businessId:%s timezone:%s category:%s', $business->id, $timezone, $category));
 
-        return view('manager.businesses.edit', compact('business', 'category', 'categories', 'timezone', 'storageSize'));
+        return view('manager.businesses.edit', compact('finance' ,'business', 'category', 'categories', 'timezone', 'storageSize'));
     }
 
     /**
