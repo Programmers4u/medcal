@@ -208,7 +208,7 @@ class BusinessController extends Controller
 
         $category = $business->category_id;
 
-        $command = "du -h --max-depth=0 ./".env('STORAGE_PATH','');
+        $command = "du -h --max-depth=0 ".base_path().'/'.env('STORAGE_PATH','');
         $storageSize = exec($command,$res);
         //$command="df -H --output=size,used";
         $command="df -H . | sed 's/ \+/ /g' | cut -d\" \" -f2";
