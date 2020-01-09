@@ -14,3 +14,4 @@
 medical.code-workspace
 .env
 node_modules
+composer.lock
