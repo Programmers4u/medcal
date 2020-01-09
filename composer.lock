@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ae990231111b4329787da964ba07bd72",
+    "content-hash": "64afe9295d591ceaf084c014677bb902",
     "packages": [
         {
             "name": "alariva/tidiochat",
@@ -3305,16 +3305,16 @@
         },
         {
             "name": "programmers4u/gatesms_sender",
-            "version": "v0.1",
+            "version": "v0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Programmers4u/gatesms-sender.git",
-                "reference": "0965ddba22a25be657055c04595cdf8ed6a96469"
+                "reference": "da6a153f0e6ab2d2886b371bef1bfe288ab8fdac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Programmers4u/gatesms-sender/zipball/0965ddba22a25be657055c04595cdf8ed6a96469",
-                "reference": "0965ddba22a25be657055c04595cdf8ed6a96469",
+                "url": "https://api.github.com/repos/Programmers4u/gatesms-sender/zipball/da6a153f0e6ab2d2886b371bef1bfe288ab8fdac",
+                "reference": "da6a153f0e6ab2d2886b371bef1bfe288ab8fdac",
                 "shasum": ""
             },
             "require": {
@@ -3343,7 +3343,7 @@
                 }
             ],
             "description": "The package allows you to send free SMS messages by your mobile phone.",
-            "time": "2020-01-09T11:02:50+00:00"
+            "time": "2020-01-09T23:07:50+00:00"
         },
         {
             "name": "propaganistas/laravel-phone",
@@ -6637,6 +6637,7 @@
                 "mock",
                 "xunit"
             ],
+            "abandoned": true,
             "time": "2017-06-30T09:13:00+00:00"
         },
         {
@@ -6861,6 +6862,7 @@
                 "github",
                 "test"
             ],
+            "abandoned": "php-coveralls/php-coveralls",
             "time": "2017-12-06T23:17:56+00:00"
         },
         {
