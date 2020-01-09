@@ -232,7 +232,7 @@ class BusinessController extends Controller
         $proces = [];
         foreach($medicalHistory as $mh){
             $mh = json_decode($mh->json_data);
-            array_push($proces,$mh->price);
+            if($mh) array_push($proces,$mh->price);
         }
         $finance['sum'] = array_sum($proces);
         $finance['avg'] = array_sum($proces)/count($proces);
