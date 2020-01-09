@@ -13,14 +13,15 @@
         }
     ],
     "support": {
-        "issues": "http://med.programmers4u.com",
-        "email": "marcin@programmers4u.com",
+        "issues": "http://medical.programmers4u.com",
+        "email": "job@gatesms.eu",
         "wiki": "http://med.programmers4u.com/wiki",
         "source": "http://med.programmers4u.com/source"
     },
     "type": "project",
     "require": {
         "php": ">=5.6",
+        "programmers4u/gatesms_sender": "^0.1.0",
         "anhskohbo/no-captcha": "2.*",
         "barryvdh/laravel-snappy": "~0.2",
         "bassjobsen/bootstrap-3-typeahead": "~4.0",
