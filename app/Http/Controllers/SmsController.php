@@ -6,10 +6,11 @@ use Illuminate\Http\Request;
 use Timegridio\Concierge\Models\Contact;
 use Carbon\Carbon;
 use Timegridio\Concierge\Models\Business;
-use App\TG\smsSender;
+
 use Fenos\Notifynder\Facades\Notifynder;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
+use Programmers4u\gatesms\sms\sender\SmsSender;
 
 class SmsContrller extends Controller
 {

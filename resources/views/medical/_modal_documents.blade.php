@@ -558,7 +558,7 @@ var addNote = function(historyId){
                               <tr>
                                   <td style="font-weight:bold;">przyjęta kwota</td>
                                   <td>
-                                    <input type="number" id="price_id" onchange="price=this.value"/>
+                                    <input type="text" id="price_id" onchange="price=this.value"/>
                                   </td>
                               </tr>
                       </table>
@@ -571,7 +571,8 @@ var addNote = function(historyId){
                       ->warning('drukuj historię')
                       ->asLinkTo("javascript:printHistory()") !!}
                                             
-                      <br><hr>
+                      <br>
+                      <hr>
           <table id="history_table" class="table-bordered table table-condensed table-hover table-striped table-responsive table-scrollable">
               @if(count($historyPagin)>0)
               <thead class="text-bold">
