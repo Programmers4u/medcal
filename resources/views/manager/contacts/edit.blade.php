@@ -7,7 +7,10 @@
 
         <div class="panel panel-default">
 
-            <div class="panel-heading">{{ trans('manager.contacts.create.title') }}</div>
+            <div class="panel-heading">
+                <a title="wróć do karty pacjenta" class="btn btn-primary btn-info fa fa-arrow-circle-left" href="javascript:window.history.back();"></a>
+                {{ trans('manager.contacts.create.title') }}
+            </div>
 
             <div class="panel-body">
 
@@ -19,6 +22,7 @@
         </div>
 
 </div>
+<!-- delete
 <div class="container">
         <div class="panel panel-default">
 
@@ -32,6 +36,7 @@
             
         </div>
 </div>
+-->
 @endsection
 
 @push('footer_scripts')

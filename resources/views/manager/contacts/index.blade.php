@@ -186,8 +186,8 @@ var changeContact = function(id,name){
             <tbody>
             @foreach ($contacts as $contact)
                 <tr>
-                    <td>{!! str_link( route('medical.document', [$business, $contact]), $contact->lastname) !!}</td>
-                    <td>{!! str_link( route('medical.document', [$business, $contact]), $contact->firstname) !!}</td>
+                    <td>{!! str_link( route('manager.addressbook.show', [$business, $contact]), $contact->lastname) !!}</td>
+                    <td>{!! str_link( route('manager.addressbook.show', [$business, $contact]), $contact->firstname) !!}</td>
                     <td>{{ $contact->email }}</td>
                     <td>{{ $contact->mobile }}</td>
                     <td>
