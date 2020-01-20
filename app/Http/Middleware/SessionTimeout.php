@@ -8,7 +8,7 @@ use Illuminate\Session\Store;
 class SessionTimeout {
 
     protected $session;
-    protected $timeout = 120;
+    protected $timeout = 3600;
 
     public function __construct(Store $session){
         $this->session = $session;
@@ -30,7 +30,7 @@ class SessionTimeout {
             //$cookie = cookie('intend', $isLoggedIn ? url()->current() : 'dashboard');
             //$email = $request->user()->email;
             auth()->logout();
-            return redirect()->to('logout');
+            return redirect('logout',403);
             //return flash('You had not activity in '.$this->timeout/60 .' minutes ago.', 'warning');
         }
         $isLoggedIn ? $this->session->put('lastActivityTime', time()) : $this->session->forget('lastActivityTime');
