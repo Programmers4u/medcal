@@ -35,8 +35,7 @@ class WelcomeController extends Controller
     {
         logger()->info(__METHOD__);
 
-        //return view('welcome');
-        return view('Medilab.index');
+        return view(env('APP_FIP_THEME','welcome'));
     }
     
     public function contactForm(){
