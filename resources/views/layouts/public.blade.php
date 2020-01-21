@@ -40,7 +40,7 @@
             <nav class="navbar navbar-static-top">
                 <div class="container">
                     <div class="navbar-header">
-                        <a href="{{ route('home') }}" class="navbar-brand">Medi<b>Cal</b></a>
+                        <a href="{{ route('home') }}" class="navbar-brand">Med<b>Cal</b></a>
                         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
                             <i class="fa fa-bars"></i>
                         </button>

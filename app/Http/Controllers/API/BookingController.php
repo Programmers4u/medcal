@@ -530,6 +530,10 @@ class BookingController extends Controller
      * @return type Description
      */
     public function ajaxGetContact(Request $request){
+
+        /**
+         * refactor!
+         */
         //$contact_business = \Illuminate\Support\Facades\DB::select('select contact_id from business_contact where business_id='.$request->input('business_id'));
         $contact_business = \Illuminate\Support\Facades\DB::table('business_contact')
             ->select(['contact_id'])

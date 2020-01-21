@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App;
 class WelcomeController extends Controller
 {
     /*
@@ -34,8 +34,8 @@ class WelcomeController extends Controller
     public function index()
     {
         logger()->info(__METHOD__);
-
-        return view(env('APP_FIP_THEME','welcome'));
+        $locale = preg_replace('/_[A-Z]*/is','', App::getLocale());
+        return view(env('APP_FIP_THEME','welcome'), compact('locale'));
     }
     
     public function contactForm(){

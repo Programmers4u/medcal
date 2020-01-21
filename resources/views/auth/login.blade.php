@@ -8,7 +8,7 @@
 @section('content')
 <div class="login-box">
     <div class="login-logo">
-        <a href="{{ url('/') }}">Medi<b>Cal</b></a>
+        <a href="{{ url('/') }}">Med<b>Cal</b></a>
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">
