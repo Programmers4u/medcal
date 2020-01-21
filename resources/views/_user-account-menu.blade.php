@@ -16,7 +16,7 @@
             <p><small>{{ $user->email }}</small></p>
         </li>
         <!-- Menu Body -->
-        <li class="user-body">
+        <!--li class="user-body">
             <div class="row">
                 <div class="col-xs-4 text-center">
                     <a href="{{ route('manager.business.index') }}">{{ trans('app.nav.manager.business.menu') }}</a>
@@ -28,13 +28,13 @@
                     <a href="{{ docs_url(Session::get('language')) }}" target="_blank">{{ trans('app.nav.manual') }}</a>
                 </div>
             </div>
-            <!-- /.row -->
-        </li>
+            < /.row >
+        </li-->
         <!-- Menu Footer-->
         <li class="user-footer">
-            <div class="pull-left">
+            <!--div class="pull-left">
                 <a href="{{ route('user.preferences') }}" class="btn btn-default btn-flat">{{ trans('app.nav.preferences') }}</a>
-            </div>
+            </div-->
             <div class="pull-right">
                 <a href="{{ url('/logout') }}" class="btn btn-default btn-flat">{{ trans('app.nav.logout') }}</a>
             </div>

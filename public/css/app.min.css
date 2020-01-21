@@ -71,12 +71,17 @@ body {
   margin-left: 0;
 }
 
+.well {
+  margin-top: 2%;
+}
+
 .fullcalendar{
-    width: 82%;
+    width: 100%;
+    padding-left: 2%;
 }
 @media (min-width:1900px){
     .fullcalendar{
-        width: 85%;
+        width: 100%;
     }
 }
 @media (max-width: 767px) {

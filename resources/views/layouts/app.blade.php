@@ -29,7 +29,7 @@
 
 </head>
 
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-blue sidebar-mini sidebar-collapse">
 
     <div class="wrapper">
 
@@ -83,7 +83,7 @@
 
                         <!-- Control Sidebar Toggle Button -->
                         <li>
-                            <a href="#" data-toggle="control-sidebar"><i class="fa fa-question"></i></a>
+                            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
                         </li>
                     </ul>
                 </div>
@@ -208,7 +208,7 @@ $(document).ready(function() {
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
     });
-    $(".sidebar-toggle").click();
+    //$(".sidebar-toggle").click();
 });
 </script>
 

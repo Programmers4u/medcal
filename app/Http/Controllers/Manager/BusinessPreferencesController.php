@@ -64,7 +64,7 @@ class BusinessPreferencesController extends Controller
 
         flash()->success(trans('manager.businesses.msg.preferences.success'));
 
-        return redirect()->route('manager.business.show', $business);
+        return redirect()->route('manager.business.agenda.calendar', $business);
     }
 
     /////////////

@@ -5,6 +5,9 @@
 <link rel="stylesheet" href="{{ asset('css/datetime.css') }}">
 @endsection
 
+@section('title', 'Kalendarz' )
+@section('subtitle', '')
+
 @section('content')
 
 <div>@include('manager.contacts._modalcalendar')</div>
@@ -30,25 +33,21 @@
 
 
 <div class="row">
-    <div class="col-lg-1" style="border-right:0px solid #afafaf;min-height:100px;position:relative;width:220px;">
-        <div id='activecal' class="panel-body panel-title"><b>{{ trans('manager.humanresource.index.title') }}: {{$AktCalendarHr['name']}}</b></div>        
-        <a class="btn btn-default btn-block" onclick="setCookie('');" href="javascript:document.location.reload();">Wszystkie kalendarze</a><br>
-    @foreach ($humanresources as $hr)
-        <a class="btn btn-block" style="background-color:{{$hr->color}};color:#FFFFFF;" href="javascript:changeHr({{$hr->id}}, '{{$hr->name}}')">{{$hr->name}}</a>    
-        <br>
-    @endforeach
-        <br>
+    <div class="col-lg-12" style="border-right:0px solid #afafaf;min-height:100px;position:relative;width:100%;">
+        <div class="hr-box" style="display:block;">
+            <a class="btn btn-default btn-block" style="display:inline-block;max-width:200px;" onclick="setCookie('');" href="javascript:document.location.reload();">Wszystkie kalendarze</a> 
+            @foreach ($humanresources as $hr)
+                <a class="btn btn-block" style="display:inline-block;max-width:200px; background-color:{{$hr->color}};color:#FFFFFF;" href="javascript:changeHr({{$hr->id}}, '{{$hr->name}}')">{{$hr->name}}</a>    
+            @endforeach
+        </div>
         <div id='mini_cal'></div>
-        <br>
-    </div>
-    <div class="col-lg-9 fullcalendar">
-        <div id="calendar"></div><br>
-        <div class="well">{{ $icalURL }}</div>
     </div>
 </div>
 
-
-<br>
+<div class="row fullcalendar">
+    <div id="calendar"></div>
+    <div class="well">{{ $icalURL }}</div>
+</div>
 
 @endsection
 
@@ -116,7 +115,7 @@ var changeHr = function (id,name) {
     is = url.lastIndexOf('calendar')
     url = (is == -1) ? url+'/calendar/'+humanresources : url+'/'+humanresources;
     getAppointment();
-    $('#activecal').html('<b>Kalendarz dla: '+name+'</b>');
+    $('h1').html('<b>Kalendarz dla: '+name+'</b>');
 }    
     
 $(document).ready(function(){

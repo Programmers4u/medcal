@@ -8,8 +8,8 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{trans('app.name')}}</title>
-  <meta name="description" content="">
-  <meta name="keywords" content="">
+  <meta name="description" content="System do zarządzania placówką medyczną. Zawiera dokumentację medyczną, kalendarz.">
+  <meta name="keywords" content="program,medyczna,dokumentacja,kalendarz">
 
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans|Raleway|Candal">
   <link rel="stylesheet" type="text/css" href="{{ asset('medical/css/font-awesome.min.css') }}">
@@ -38,7 +38,7 @@
               <ul class="nav navbar-nav">
                 <li class="active"><a href="#banner">Home</a></li>
                 <li class=""><a href="#service">Funkcje</a></li>
-                <li class=""><a href="#testimonial">Dlaczego MediCal?</a></li>
+                <li class=""><a href="#testimonial">Dlaczego MedCal?</a></li>
                 <li class=""><a href="#pricing">Cennik</a></li>
                 <li class=""><a href="#contact">Kontakt</a></li>
                 <li class=""><a href="login">Logowanie</a></li>
@@ -76,6 +76,7 @@
           <h2 class="ser-title">Funkcje programu</h2>
           <hr class="botm-line">
           <p>Kalendarz i dokumentacja medyczna</p>
+          <p><img src="medical/img/doctor3.jpg"> </p>
         </div>
         <div class="col-md-4 col-sm-4">
           <div class="service-info">
@@ -84,7 +85,7 @@
             </div>
             <div class="icon-info">
               <h4>Baza pacjentów</h4>
-              <p>Katalog pacjentów, dane kontaktowe, wyszukiwarka</p>
+              <p>Dane kontaktowe, wyszukiwarka</p>
             </div>
           </div>
           <div class="service-info">
@@ -158,7 +159,7 @@
 <hr class="botm-line">
 rezerwacji nie dochodzi do skutku z powodu przegapienia terminu
 <hr class="botm-line">
-forma przypominającego sms-a to najprostszy sposob na wyeliminowanie takich zdarzeń
+forma przypominającego sms-a to najprostszy sposób na wyeliminowanie takich zdarzeń
 
 <script>
 data = {
@@ -248,7 +249,7 @@ var myDoughnutChart = new Chart(ctx, {
               <h4><sup>$</sup>0<span> miesiąc</span></h4>
               <ul>
                 <li><i class="fa fa-check"></i> Baza pacjentów</li>
-                <li><i class="fa fa-check"></i> Baza lekarzy</li>
+                <li><i class="fa fa-check"></i> Baza pracowników</li>
                 <li><i class="fa fa-check"></i> Usługi</li>
                 <li><i class="fa fa-check"></i> Kalendarz</li>
                 <li><i class="fa fa-check"></i> Historia wizyt</li>

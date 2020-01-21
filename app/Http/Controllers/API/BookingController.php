@@ -547,11 +547,14 @@ class BookingController extends Controller
         foreach($contact_business as $cb) array_push ($business_client, $cb->contact_id);
         $query = Contact::query(['firstname','lastname','mobile','id'])
                 ->whereIn('id',$business_client)
-                ->where($_where[0],$_where[1],$_where[2])->limit(15)->get()->toArray();
+                ->where($_where[0],$_where[1],$_where[2])
+                ->limit(15)
+                ->get()
+                ->toArray();
         $response = [];
         foreach ($query as $row){
             $group = \App\Models\MedicalGroup::query(['name'])
-                    ->where('contacts','LIKE','%'.$row['mobile'].'%')
+                    ->where('contacts','LIKE','%'.$row['id'].'%')
                     ->get()
                     ->toArray();
             $group = (!empty($group)) ? $group[0]['name'] : '';

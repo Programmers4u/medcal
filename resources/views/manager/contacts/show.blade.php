@@ -193,7 +193,7 @@
         </div>
 
     @if($contact->hasAppointment())
-    @include('manager.contacts._appointment', ['appointments' => $contact->appointments()->orderBy('start_at')->ofBusiness($business->id)->Active()->get()] )
+    @include('manager.contacts._appointment', ['appointments' => $contact->appointments()->orderBy('start_at')->ofBusiness($business->id)->Active()->limit(5)->get()] )
     @endif
 
     @if(auth()->user()->isOwnerOf($business->id))

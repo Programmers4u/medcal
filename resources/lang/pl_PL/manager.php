@@ -11,7 +11,7 @@ return  [
       'tooltip' => [
         'agenda'         => 'Rezerwacje',
         'contacts'       => 'Lista kontaktowa',
-        'humanresources' => 'Pracownicy',
+        'humanresources' => 'Lekarze',
         'services'       => 'Zarządzaj usługami',
         'vacancies'      => 'Opublikuj',
       ],
