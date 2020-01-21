@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="{{ $locale }}">
 
 <head>
   <meta charset="utf-8">
@@ -15,7 +15,7 @@
   <link rel="stylesheet" type="text/css" href="{{ asset('medical/css/font-awesome.min.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ asset('medical/css/bootstrap.min.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ asset('medical/css/style.css') }}">
-{!! Analytics::render() !!}    
+  {!! Analytics::render() !!}    
 </head>
 
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
@@ -38,8 +38,10 @@
               <ul class="nav navbar-nav">
                 <li class="active"><a href="#banner">Home</a></li>
                 <li class=""><a href="#service">Funkcje</a></li>
+                <!--
                 <li class=""><a href="#testimonial">Dlaczego MedCal?</a></li>
                 <li class=""><a href="#pricing">Cennik</a></li>
+                -->
                 <li class=""><a href="#contact">Kontakt</a></li>
                 <li class=""><a href="login">Logowanie</a></li>
                 <li class=""><a href="#" onclick="$('#myModal').modal('show');">Język</a></li>
@@ -68,275 +70,11 @@
     </div>
   </section>
   <!--/ banner-->
-  <!--service-->
-  <section id="service" class="section-padding">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-4 col-sm-4">
-          <h2 class="ser-title">Funkcje programu</h2>
-          <hr class="botm-line">
-          <p>Kalendarz i dokumentacja medyczna</p>
-          <p><img src="medical/img/doctor3.jpg"> </p>
-        </div>
-        <div class="col-md-4 col-sm-4">
-          <div class="service-info">
-            <div class="icon">
-              <i class="fa fa-users"></i>
-            </div>
-            <div class="icon-info">
-              <h4>Baza pacjentów</h4>
-              <p>Dane kontaktowe, wyszukiwarka</p>
-            </div>
-          </div>
-          <div class="service-info">
-            <div class="icon">
-              <i class="fa fa-file"></i>
-            </div>
-            <div class="icon-info">
-              <h4>Pliki</h4>
-              <p>Załączanie i przechowywanie dowolnych plików.</p>
-            </div>
-          </div>
-          <div class="service-info">
-            <div class="icon">
-              <i class="fa fa-calendar"></i>
-            </div>
-            <div class="icon-info">
-              <h4>Kalendarz spotkań</h4>
-              <p>Kalendarz wizyt, </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 col-sm-4">
-          <div class="service-info">
-            <div class="icon">
-              <i class="fa fa-book"></i>
-            </div>
-            <div class="icon-info">
-              <h4>Dokumentacja medyczna</h4>
-              <p>Dokumentacja medyczna, zgody, zdjęcia</p>
-            </div>
-          </div>
-          <div class="service-info">
-            <div class="icon">
-              <i class="fa fa-table"></i>
-            </div>
-            <div class="icon-info">
-              <h4>własne szablony opisów</h4>
-              <p>własne szablony opisów</p>
-            </div>
-          </div>
-          <div class="service-info">
-            <div class="icon">
-              <i class="fa fa-phone"></i>
-            </div>
-            <div class="icon-info">
-              <h4>Powiadomienia sms oraz e-mail</h4>
-              <p>Powiadomienia o rezerwacjach, przypomnienia umówionych spotkań.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!--/ service-->
   
-  <!--testimonial-->
-  <section id="testimonial" class="section-padding">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <h2 class="ser-title">Jakie problemy rozwiąże za Ciebie nasz program?</h2>
-          <hr class="botm-line">
-        </div>
-        <div class="col-md-4">
-          <div class="testi-details">
-            <!-- Paragraph -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js" integrity="sha256-CfcERD4Ov4+lKbWbYqXD6aFM9M51gN4GUEtDhkWABMo=" crossorigin="anonymous"></script>            
-<b style="font-size: 20px;">Powiadomienia</b><hr>
-<canvas id="myChart" width="300" height="300"></canvas>
-<b style="font-size: 40px;">40%</b>
-<hr class="botm-line">
-rezerwacji nie dochodzi do skutku z powodu przegapienia terminu
-<hr class="botm-line">
-forma przypominającego sms-a to najprostszy sposób na wyeliminowanie takich zdarzeń
-
-<script>
-data = {
-    datasets: [{
-        data: [40, 60],
-        backgroundColor: [
-            '#ff6384',
-            '#36a2eb',
-            '#cc65fe',
-            '#ffce56',
-        ],        
-    }],
-
-    // These labels appear in the legend and in the tooltips when hovering different arcs
-    labels: [
-        'strata',
-        'klienci',
-    ],
-    
-};
-var options = {
-        title: {
-            display: true,
-            text: 'Straty z powodu braku powiadomień'
-        }
-    };
-var ctx = document.getElementById("myChart").getContext('2d');
-// For a pie chart
-var myPieChart = new Chart(ctx,{
-    type: 'pie',
-    data: data,
-    options: options
-});
-/*
-// And for a doughnut chart
-var myDoughnutChart = new Chart(ctx, {
-    type: 'doughnut',
-    data: data,
-    options: options
-});
-*/
-</script>            
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!--/ testimonial-->
+  @include('Medilab.section.function')
   
-  <!--cta 2-->
-  <section id="cta-2" class="section-padding">
-    <div class="container">
-      <div class=" row">
-        <div class="col-md-2"></div>
-        <div class="text-right-md col-md-4 col-sm-4">
-          <h2 class="section-title white lg-line">« kilka słów<br> o nas »</h2>
-        </div>
-        <div class="col-md-4 col-sm-5">
-           Program przygotowaliśmy wspólnie z lekarzami którzy  
-          <p class="text-right text-primary"><i>— MediCal Healthcare</i></p>
-        </div>
-        <div class="col-md-2"></div>
-      </div>
-    </div>
-  </section>
-  <!--cta-->
+  @include('Medilab.section.contact')
   
-  
-  
-  <!--==========================
-      Pricing Section
-    ============================-->
-    <section id="pricing" class="section-padding">
-      <div class="container">
-
-        <div class="section-header">
-          <h3 class="ser-title">Cennik</h3>
-          <span class="section-divider"></span>
-          <p class="section-description">Nasza propozycja dla Ciebie</p>
-        </div>
-
-        <div class="row">
-
-          <div class="col-lg-6 col-md-6">
-            <div class="box wow fadeInLeft">
-              <h3>Free</h3>
-              <h4><sup>$</sup>0<span> miesiąc</span></h4>
-              <ul>
-                <li><i class="fa fa-check"></i> Baza pacjentów</li>
-                <li><i class="fa fa-check"></i> Baza pracowników</li>
-                <li><i class="fa fa-check"></i> Usługi</li>
-                <li><i class="fa fa-check"></i> Kalendarz</li>
-                <li><i class="fa fa-check"></i> Historia wizyt</li>
-                <li><i class="fa fa-check"></i> Dokumentacja medyczna</li>
-                <li><i class="fa fa-check"></i> Pliki</li>
-                <li><i class="fa fa-check"></i> Reklamy</li>
-              </ul>
-              <a href="register" class="get-started-btn">Na start</a>
-            </div>
-          </div>
-
-          <div class="col-lg-6 col-md-6">
-            <div class="box featured wow fadeInUp">
-              <h3>Business</h3>
-              <h4><sup>$</sup>15<span> miesiąc</span></h4>
-              <ul>
-                <li><i class="fa fa-check"></i> Baza pacjentów</li>
-                <li><i class="fa fa-check"></i> Baza lekarzy</li>
-                <li><i class="fa fa-check"></i> Usługi</li>
-                <li><i class="fa fa-check"></i> Kalendarz</li>
-                <li><i class="fa fa-check"></i> Historia wizyt</li>
-                <li><i class="fa fa-check"></i> Dokumentacja medyczna</li>
-                <li><i class="fa fa-check"></i> Pliki</li>
-                <li><i class="fa fa-check"></i> Brak reklam</li>
-                
-              </ul>
-              <a href="register" class="get-started-btn">Rejestracja</a>
-            </div>
-          </div>
-
-
-        </div>
-      </div>
-    </section><!-- #pricing -->
-  
-  
-  <!--contact-->
-  <section id="contact" class="section-padding">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <h2 class="ser-title">Kontakt z nami</h2>
-          <hr class="botm-line">
-        </div>
-        <div class="col-md-4 col-sm-4">
-          <h3>Kontat</h3>
-          <div class="space"></div>
-          <p><i class="fa fa-map-marker fa-fw pull-left fa-2x"></i>Al. Zjednoczenia 3/9<br> Warszawa</p>
-          <div class="space"></div>
-          <p><i class="fa fa-envelope-o fa-fw pull-left fa-2x"></i>info@medical.net</p>
-          <div class="space"></div>
-          <p><i class="fa fa-phone fa-fw pull-left fa-2x"></i>+48 532 882 592</p>
-        </div>
-        <div class="col-md-8 col-sm-8 marb20">
-          <div class="contact-info">
-            <h3 class="cnt-ttl">Napisz do nas jeśli masz jakieś pytania</h3>
-            <div class="space"></div>
-            <div id="sendmessage">Twoja wiadomość została wysłana. Dziękujęmy!</div>
-            <div id="errormessage"></div>
-            <form action="" method="post" role="form" class="contactForm">
-              <div class="form-group">
-                <input type="text" name="name" class="form-control br-radius-zero" id="name" placeholder="Twoje imię" data-rule="minlen:4" data-msg="Minimum 4 znaki" />
-                <div class="validation"></div>
-              </div>
-              <div class="form-group">
-                <input type="email" class="form-control br-radius-zero" name="email" id="email" placeholder="Twój e-mail" data-rule="email" data-msg="Wpisz poprawny adres e-mail" />
-                <div class="validation"></div>
-              </div>
-              <div class="form-group">
-                <input type="text" class="form-control br-radius-zero" name="subject" id="subject" placeholder="Temat" data-rule="minlen:4" data-msg="Minimum 4 znaki" />
-                <div class="validation"></div>
-              </div>
-              <div class="form-group">
-                <textarea class="form-control br-radius-zero" name="message" rows="5" data-rule="required" data-msg="Prosze napisać coś do nas ;-)" placeholder="Wiadomość"></textarea>
-                <div class="validation"></div>
-              </div>
-
-              <div class="form-action">
-                <button type="submit" class="btn btn-form">Wyślij wiadomość</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!--/ contact-->
   <!--footer-->
   <footer id="footer">
     <div class="top-footer">
@@ -344,7 +82,7 @@ var myDoughnutChart = new Chart(ctx, {
         <div class="row">
           <div class="col-md-4 col-sm-4 marb20">
             <div class="ftr-tle">
-              <h4 class="white no-padding">MediCal</h4>
+              <h4 class="white no-padding">MedCal</h4>
             </div>
             <div class="info-sec">
               <p>Tworzymy unikalne i dedykowane oprogramowanie dla branży medycznej.</p>
@@ -382,7 +120,7 @@ var myDoughnutChart = new Chart(ctx, {
       <div class="container">
         <div class="row">
           <div class="col-md-12 text-center">
-            © Copyright MediCal. All Rights Reserved
+            © 2020 Copyright MedCal. All Rights Reserved
             <div class="credits">
             </div>
           </div>
@@ -542,6 +280,20 @@ var myDoughnutChart = new Chart(ctx, {
     });
 
 </script>
+
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+  var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+  (function(){
+  var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+  s1.async=true;
+  s1.src='https://embed.tawk.to/5e270f05daaca76c6fcf2270/default';
+  s1.charset='UTF-8';
+  s1.setAttribute('crossorigin','*');
+  s0.parentNode.insertBefore(s1,s0);
+  })();
+  </script>
+  <!--End of Tawk.to Script-->
 
 <!-- Modal -->
 <div id="myModal" class="modal fade" role="dialog">
