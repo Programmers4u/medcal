@@ -15,7 +15,7 @@
   <link rel="stylesheet" type="text/css" href="{{ asset('medical/css/font-awesome.min.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ asset('medical/css/bootstrap.min.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ asset('medical/css/style.css') }}">
-{!! Analytics::render() !!}    
+  {!! Analytics::render() !!}    
 </head>
 
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
@@ -73,77 +73,8 @@
   
   @include('Medilab.section.function')
   
-  <!--cta 2-->
-  <section id="cta-2" class="section-padding">
-    <div class="container">
-      <div class=" row">
-        <div class="col-md-2"></div>
-        <div class="text-right-md col-md-4 col-sm-4">
-          <h2 class="section-title white lg-line">« kilka słów<br> o nas »</h2>
-        </div>
-        <div class="col-md-4 col-sm-5">
-           Program przygotowaliśmy wspólnie z lekarzami którzy  
-          <p class="text-right text-primary"><i>— MediCal Healthcare</i></p>
-        </div>
-        <div class="col-md-2"></div>
-      </div>
-    </div>
-  </section>
-  <!--cta-->
+  @include('Medilab.section.contact')
   
-  
-  
-  <!--contact-->
-  <section id="contact" class="section-padding">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <h2 class="ser-title">Kontakt z nami</h2>
-          <hr class="botm-line">
-        </div>
-        <div class="col-md-4 col-sm-4">
-          <h3>Kontat</h3>
-          <div class="space"></div>
-          <p><i class="fa fa-map-marker fa-fw pull-left fa-2x"></i>Al. Zjednoczenia 3/9<br> Warszawa</p>
-          <div class="space"></div>
-          <p><i class="fa fa-envelope-o fa-fw pull-left fa-2x"></i>info@medical.net</p>
-          <div class="space"></div>
-          <p><i class="fa fa-phone fa-fw pull-left fa-2x"></i>+48 532 882 592</p>
-        </div>
-        <div class="col-md-8 col-sm-8 marb20">
-          <div class="contact-info">
-            <h3 class="cnt-ttl">Napisz do nas jeśli masz jakieś pytania</h3>
-            <div class="space"></div>
-            <div id="sendmessage">Twoja wiadomość została wysłana. Dziękujęmy!</div>
-            <div id="errormessage"></div>
-            <form action="" method="post" role="form" class="contactForm">
-              <div class="form-group">
-                <input type="text" name="name" class="form-control br-radius-zero" id="name" placeholder="Twoje imię" data-rule="minlen:4" data-msg="Minimum 4 znaki" />
-                <div class="validation"></div>
-              </div>
-              <div class="form-group">
-                <input type="email" class="form-control br-radius-zero" name="email" id="email" placeholder="Twój e-mail" data-rule="email" data-msg="Wpisz poprawny adres e-mail" />
-                <div class="validation"></div>
-              </div>
-              <div class="form-group">
-                <input type="text" class="form-control br-radius-zero" name="subject" id="subject" placeholder="Temat" data-rule="minlen:4" data-msg="Minimum 4 znaki" />
-                <div class="validation"></div>
-              </div>
-              <div class="form-group">
-                <textarea class="form-control br-radius-zero" name="message" rows="5" data-rule="required" data-msg="Prosze napisać coś do nas ;-)" placeholder="Wiadomość"></textarea>
-                <div class="validation"></div>
-              </div>
-
-              <div class="form-action">
-                <button type="submit" class="btn btn-form">Wyślij wiadomość</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!--/ contact-->
   <!--footer-->
   <footer id="footer">
     <div class="top-footer">
@@ -151,7 +82,7 @@
         <div class="row">
           <div class="col-md-4 col-sm-4 marb20">
             <div class="ftr-tle">
-              <h4 class="white no-padding">MediCal</h4>
+              <h4 class="white no-padding">MedCal</h4>
             </div>
             <div class="info-sec">
               <p>Tworzymy unikalne i dedykowane oprogramowanie dla branży medycznej.</p>
@@ -189,7 +120,7 @@
       <div class="container">
         <div class="row">
           <div class="col-md-12 text-center">
-            © Copyright MediCal. All Rights Reserved
+            © 2020 Copyright MedCal. All Rights Reserved
             <div class="credits">
             </div>
           </div>
@@ -349,6 +280,20 @@
     });
 
 </script>
+
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+  var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+  (function(){
+  var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+  s1.async=true;
+  s1.src='https://embed.tawk.to/5e270f05daaca76c6fcf2270/default';
+  s1.charset='UTF-8';
+  s1.setAttribute('crossorigin','*');
+  s0.parentNode.insertBefore(s1,s0);
+  })();
+  </script>
+  <!--End of Tawk.to Script-->
 
 <!-- Modal -->
 <div id="myModal" class="modal fade" role="dialog">
