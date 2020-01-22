@@ -7,10 +7,9 @@
     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}" />
   
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{trans('app.name')}}</title>
-  <meta name="description" content="System do zarządzania placówką medyczną. Zawiera dokumentację medyczną, kalendarz.">
-  <meta name="keywords" content="program,medyczna,dokumentacja,kalendarz">
-
+  <title>{{trans('app.name')}} | {{ trans('app.seo.title') }}</title>
+  <meta name="description" content="{{trans('app.seo.description')}}">
+  <meta name="keywords" content="{{trans('app.seo.keywords')}}">
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans|Raleway|Candal">
   <link rel="stylesheet" type="text/css" href="{{ asset('medical/css/font-awesome.min.css') }}">
   <link rel="stylesheet" type="text/css" href="{{ asset('medical/css/bootstrap.min.css') }}">
@@ -37,13 +36,13 @@
             <div class="collapse navbar-collapse navbar-right" id="myNavbar">
               <ul class="nav navbar-nav">
                 <li class="active"><a href="#banner">Home</a></li>
-                <li class=""><a href="#service">Funkcje</a></li>
+              <li class=""><a href="#service">{{ trans('Functions') }}</a></li>
                 <!--
                 <li class=""><a href="#testimonial">Dlaczego MedCal?</a></li>
                 <li class=""><a href="#pricing">Cennik</a></li>
                 -->
-                <li class=""><a href="#contact">Kontakt</a></li>
-                <li class=""><a href="login">Logowanie</a></li>
+                <li class=""><a href="#contact">{{ trans('Contact') }}</a></li>
+                <li class=""><a href="login">{{ trans('Login') }}</a></li>
                 <li class=""><a href="#" onclick="$('#myModal').modal('show');">Język</a></li>
               </ul>
             </div>
@@ -57,9 +56,9 @@
               <img src="medical/img/logo.png" class="img-responsive">
             </div>
             <div class="banner-text text-center">
-              <h1 class="white">Kalendarz i dokumentacja medyczna</h1>
-              <p>Wszystko czego potrzebujesz w jednym prostym programie dla każdego lekarza</p>
-              <a href="register" class="btn btn-appoint">Przetestuj za darmo</a>
+              <h1 class="white">{{ trans('welcome.header') }}</h1>
+            <p>{{ trans('welcome.subheader') }}</p>
+            <a href="register" class="btn btn-appoint">{{ trans('welcome.btn.register') }}</a>
             </div>
             <div class="overlay-detail text-center">
               <a href="#service"><i class="fa fa-angle-down"></i></a>

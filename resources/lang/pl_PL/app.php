@@ -44,6 +44,11 @@ return  [
     'slug_is_available' => 'The :baseurl name is available. Register it now.',
   ],
   'name' => 'MediCal',
+  'seo' => [
+    'title' => 'Kalendarz i dokumentacja medyczna',
+    'keywords' => 'kalendarz, dokumentacja, medyczna, powiadomienia, sms, recepta',
+    'description' => 'System do zarządzania placówką medyczną. Zawiera dokumentację medyczną, kalendarz.',
+  ],
   'nav'  => [
     'help'    => 'Pomoc',
     'login'   => 'Login',

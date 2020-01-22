@@ -4,6 +4,16 @@
 *************************************************************************/
 
 return [
+  'menu' => [
+    'Functions' => 'Funkcje',
+    'Contact' => 'Kontakt',
+    'Login' => 'Logowanie',
+  ],
+  'header' => 'Kalendarz i dokumentacja medyczna',
+  'subheader' => 'Wszystko czego potrzebujesz w jednym prostym programie dla każdego lekarza',
+  'btn' => [
+    'register' => 'Przetestuj za darmo',
+  ],
   'feature' => [
     1 => [
       'content' => 'Profesjonalny kalendarza spotkań z podziłem na lekarzy.',
