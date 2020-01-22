@@ -78,7 +78,7 @@ class BusinessAgendaController extends Controller
         $start_at = \Carbon\Carbon::createFromTimestamp(time());
         $where_at = \Carbon\Carbon::parse($start_at,$business->timezone)->addDays(-7);
         $where_to = \Carbon\Carbon::parse($start_at,$business->timezone)->addDays(7);
-        $appointments = \Timegridio\Concierge\Models\Appointment::query()->where('start_at','>=', $where_at)->where('start_at','<=',$where_to)->limit(150)->get();        
+        $appointments = \Timegridio\Concierge\Models\Appointment::query()->where('business_id','=',$business->id)->where('start_at','>=', $where_at)->where('start_at','<=',$where_to)->limit(150)->get();        
         
         logger()->debug($appointments);
 
