@@ -295,6 +295,11 @@ $('#staff_id').on('change',function(){
 </script>
 
 <script type="text/javascript">
+
+var ePuap = function(){
+    window.open('https://pz.gov.pl/dt/login/login','__blank');
+}
+
 var addNote = function(historyId){
     const info = prompt('Napisz notatkę');
     if(info==null) return;
@@ -362,6 +367,12 @@ var addNote = function(historyId){
                                   ->asLinkTo("javascript:document.location.reload()") !!}
         </div>        
 
+        <div style="display: inline-block;margin-left:5%; ">
+                      {!! Button::withIcon(Icon::folderOpen())
+                                  ->info('Połącz z ePuap')
+                                  ->small()
+                                  ->asLinkTo("javascript:ePuap()") !!}
+        </div>        
         </h3>
     </div>
 </div>
