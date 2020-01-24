@@ -61,7 +61,7 @@ class TestingDatabaseSeeder extends Seeder
     private function createDemoManagerUser()
     {
         // Create demo user (Business Manager)
-        $user = factory(User::class)->create(['username' => 'manager', 'email' => 'demo@medcal.pl', 'password' => bcrypt('demomanager')]);
+        $user = factory(User::class)->create(['username' => 'manager', 'email' => 'manager@example.org', 'password' => bcrypt('demomanager')]);
 
         return $user;
     }

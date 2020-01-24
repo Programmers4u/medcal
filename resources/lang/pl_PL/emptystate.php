@@ -3,8 +3,8 @@
 return  [
   'manager' => [
     'appointments' => [
-      'title' => 'Your schedule is empty',
-      'hint'  => 'Share your timegrid page to your clients to start taking reservations.',
+      'title' => 'Twój kalendarz jest pusty',
+      'hint'  => 'Udostępnij kalendarz swoim klientom, aby rozpocząć przyjmowanie rezerwacji.',
     ],
   ],
 ];
