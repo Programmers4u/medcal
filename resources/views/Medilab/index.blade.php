@@ -36,14 +36,14 @@
             <div class="collapse navbar-collapse navbar-right" id="myNavbar">
               <ul class="nav navbar-nav">
                 <li class="active"><a href="#banner">Home</a></li>
-              <li class=""><a href="#service">{{ trans('Functions') }}</a></li>
+              <li class=""><a href="#service">{{ trans('welcome.menu.Functions') }}</a></li>
                 <!--
                 <li class=""><a href="#testimonial">Dlaczego MedCal?</a></li>
                 <li class=""><a href="#pricing">Cennik</a></li>
                 -->
-                <li class=""><a href="#contact">{{ trans('Contact') }}</a></li>
-                <li class=""><a href="login">{{ trans('Login') }}</a></li>
-                <li class=""><a href="#" onclick="$('#myModal').modal('show');">Język</a></li>
+                <li class=""><a href="#contact">{{ trans('welcome.menu.Contact') }}</a></li>
+                <li class=""><a href="login">{{ trans('welcome.menu.Login') }}</a></li>
+                <li class=""><a href="#" onclick="$('#myModal').modal('show');">Language</a></li>
               </ul>
             </div>
           </div>

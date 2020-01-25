@@ -395,30 +395,46 @@ Route::group(['prefix' => '{business}'], function ($business) {
 
     Route::group(['prefix' => 'user', 'as' => 'user.', 'namespace' => 'User'], function () {
 
+        Route::get('profile', [
+            'as'   => 'business.profile.edit',
+            'uses' => 'ProfileController@edit',
+        ]);
+
+        Route::put('profile/{contact}', [
+            'as'   => 'business.profile.update',
+            'uses' => 'ProfileController@update',
+        ]);
+        
         Route::get('contact', [
             'as'   => 'business.contact.index',
             'uses' => 'ContactController@index',
         ]);
+        
         Route::get('contact/create', [
             'as'   => 'business.contact.create',
             'uses' => 'ContactController@create',
         ]);
+        
         Route::post('contact', [
             'as'   => 'business.contact.store',
             'uses' => 'ContactController@store',
         ]);
+        
         Route::get('contact/{contact}', [
             'as'   => 'business.contact.show',
             'uses' => 'ContactController@show',
         ]);
+        
         Route::get('contact/{contact}/edit', [
             'as'   => 'business.contact.edit',
             'uses' => 'ContactController@edit',
         ]);
+        
         Route::put('contact/{contact}', [
             'as'   => 'business.contact.update',
             'uses' => 'ContactController@update',
         ]);
+        
         Route::delete('contact/{contact}', [
             'as'   => 'business.contact.destroy',
             'uses' => 'ContactController@destroy',

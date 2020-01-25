@@ -4,6 +4,16 @@
 *************************************************************************/
 
 return [
+  'menu' => [
+    'Functions' => 'Functions',
+    'Contact' => 'Contact',
+    'Login' => 'Login',
+  ],
+  'header' => 'Calendar and medical records',
+  'subheader' => 'Everything you need in one simple program for every specialist',
+  'btn' => [
+    'register' => 'Przetestuj za darmo',
+  ],
   'feature' => [
     1 => [
       'content' => 'Allows your clients to choose when to book.',

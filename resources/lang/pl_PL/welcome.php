@@ -10,7 +10,7 @@ return [
     'Login' => 'Logowanie',
   ],
   'header' => 'Kalendarz i dokumentacja medyczna',
-  'subheader' => 'Wszystko czego potrzebujesz w jednym prostym programie dla każdego lekarza',
+  'subheader' => 'Wszystko czego potrzebujesz w jednym prostym programie dla każdego specjalisty',
   'btn' => [
     'register' => 'Przetestuj za darmo',
   ],

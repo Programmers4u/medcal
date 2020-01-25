@@ -25,6 +25,8 @@
 
 @yield('headscripts')
 
+@stack('header_scripts')
+
 {!! Analytics::render() !!}
 
 </head>
