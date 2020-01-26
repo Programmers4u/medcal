@@ -11,6 +11,7 @@ use Request;
 use Timegridio\Concierge\Models\Business;
 use Timegridio\Concierge\Models\Contact;
 use App\Http\Requests\AlterProfileRequest;
+use Bootstrapper\Alert;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -36,6 +37,11 @@ class ProfileController extends Controller
 
         // BEGIN
         $user = auth()->user();
+        if(!$user) {
+            $alert = new Alert;
+            $alert->warning('Nie mona rozpoznać uzytkownika!');
+            return redirect()->back();    
+        }
 
         $contact = Contact::query()->where('user_id','=',$user->id)->first();
         if(!$contact) {
@@ -46,7 +52,7 @@ class ProfileController extends Controller
                     ->update(['user_id'=>$user->id]);
             }
         }
-        //dd($contact);
+
         return view('user.profile.edit', compact('business', 'contact'));
     }
 
