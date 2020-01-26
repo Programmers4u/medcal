@@ -30,7 +30,6 @@ class AlterProfileRequest extends Request
                 $rules = [
                     'firstname' => 'required|min:3',
                     'lastname'  => 'required|min:2',
-                    'gender'    => 'required|max:1',
                     'email'     => 'email',
                 ];
             break;

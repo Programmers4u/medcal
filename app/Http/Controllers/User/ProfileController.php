@@ -12,6 +12,7 @@ use Timegridio\Concierge\Models\Business;
 use Timegridio\Concierge\Models\Contact;
 use App\Http\Requests\AlterProfileRequest;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -51,7 +52,7 @@ class ProfileController extends Controller
 
 
     /**
-     * update Contact.
+     * update Profile User.
      *
      * @param Business            $business Business holding the Contact
      * @param Contact             $contact  Contact to update
@@ -59,7 +60,7 @@ class ProfileController extends Controller
      *
      * @return Response Redirect back to edited Contact
      */
-    public function update(Business $business, Contact $contact, AlterContactRequest $request)
+    public function update(Business $business, Contact $contact, AlterProfileRequest $request)
     {
         logger()->info(__METHOD__);
         logger()->info(sprintf('businessId:%s contactId:%s', $business->id, $contact->id));
@@ -72,18 +73,28 @@ class ProfileController extends Controller
             'firstname',
             'lastname',
             'email',
-            'nin',
-            'gender',
-            'birthdate',
+            //'nin',
+            //'gender',
+            //'birthdate',
             'mobile',
             'mobile_country',
         ]);
+        $contact->update($data);
 
-        $contact = $business->addressbook()->update($contact, $data, $request->get('notes'));
+        $uploadedFile = $request->file('avatar');
+        if($uploadedFile) {
+            $filename = 'avatar_'.auth()->user()->id.'.'.$uploadedFile->extension();
+        
+            $dir_avatar = env('STORAGE_PATH').DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'avatar';
+            checkDir($dir_avatar);
+                    
+            $command = 'cp '.$uploadedFile.' '.base_path().DIRECTORY_SEPARATOR.$dir_avatar.DIRECTORY_SEPARATOR.$filename;
+            system($command);    
+        }
 
         flash()->success(trans('user.contacts.msg.update.success'));
 
-        return redirect()->route('user.business.contact.show', [$business, $contact]);
+        return redirect()->route('user.business.profile.edit', [$business]);
     }
 
 }
