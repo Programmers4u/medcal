@@ -52,7 +52,7 @@
             ]) !!}
     </div>
     <div class="form-group col-xs-3">
-        {!! Form::text('mobile-input', isset($contact) ? old('mobile', $contact->mobile) : null, [
+        {!! Form::text('mobile-input', $contact->mobile, [
             'id' => 'mobile-input',
             'class'=>'form-control',
             'placeholder'=> trans('manager.contacts.form.mobile.label')
@@ -78,8 +78,14 @@
     </div>
 
 <div class="row">
-    <div class="form-group col-xs-12">
+    <div class="form-group col-xs-6">
         {!! Button::primary($submitLabel)->block()->submit() !!}
+    </div>
+    <div class="form-group col-xs-6">
+        {!! Button::withIcon(Icon::logout())
+                    ->warning('reset hasła')
+                    ->block()
+                    ->asLinkTo(route('user.business.profile.reset',[$business])) !!}
     </div>
 </div>
 
@@ -117,10 +123,10 @@ $(document).ready(function(){
         format: '{!! trans('app.dateformat.datetimepicker') !!}' }
         );
 
+*/
     $("form").submit(function() {
         $("input[name=mobile]").val($("#mobile-input").intlTelInput("getNumber"));
     });
-*/
 });
 </script>
 @endpush

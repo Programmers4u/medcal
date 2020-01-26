@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', trans('medical.document.title') )
+
 @push('footer_scripts')
 
 <script type="text/javascript">
@@ -340,6 +342,9 @@ var addNote = function(historyId){
 @endpush
 
 @section('content')
+<div class="row">
+<div class="col-xs-7"></div>
+<div class="col-xs-5">
 
 <div class="box box-default collapsed-box">
     <div class="box-header with-border">
@@ -349,46 +354,45 @@ var addNote = function(historyId){
       </div><!-- /.box-tools -->
     </div><!-- /.box-header -->
     <div class="box-body">
-      
-        <div class="col-sm-3">
-
-        <div style="display: inline-block;">
-            <select class="form-control mdb-select colorful-select dropdown-primary" id='staffapp'>
-              <option value="-1" disabled selected>Agenda</option>
-              @foreach($agenda as $ag)
-              <option value="{{$ag['id']}}" staff="{{$ag['staff_id']}}">Wizyta: {{$ag['start_at']}} - {{$ag['staff']}} - {{$ag['contact_name']}}</option>
-              @endforeach
-            </select>            
+        <div class="row">
+            <div class="col-xs-12">
+                <div style="display: inline-block;">
+                    <select class="form-control mdb-select colorful-select dropdown-primary" id='staffapp'>
+                    <option value="-1" disabled selected>Agenda</option>
+                    @foreach($agenda as $ag)
+                    <option value="{{$ag['id']}}" staff="{{$ag['staff_id']}}">Wizyta: {{$ag['start_at']}} - {{$ag['staff']}} - {{$ag['contact_name']}}</option>
+                    @endforeach
+                    </select>            
+                </div>
+            </div>
         </div>
-        </div>
-        <div class="col-sm-3">
-
-        <div style="display: inline-block;margin-left:5%; ">
-                      @php $http = route('manager.business.agenda.calendar',[$business]); @endphp
-                      {!! Button::withIcon(Icon::calendar())
+        <div class="row" style="margin-top:1%;">
+            <div class="col-xs-4">
+                @php $http = route('manager.business.agenda.calendar',[$business]); @endphp
+                {!! Button::withIcon(Icon::calendar())
                                   ->primary('otwórz kalendarz')
+                                  ->small()
                                   ->asLinkTo("$http") !!}
-        </div>        
-        </div>
-        <div class="col-sm-3">
-
-        <div style="display: inline-block;margin-left:5%; ">
-                      {!! Button::withIcon(Icon::refresh())
+            </div>        
+            <div class="col-xs-4">
+                {!! Button::withIcon(Icon::refresh())
                                   ->primary('Odśwież profil')
+                                  ->small()
                                   ->asLinkTo("javascript:document.location.reload()") !!}
-        </div>        
-        </div>
-        <div class="col-sm-3">
-
-        <div style="display: inline-block;margin-left:5%; ">
-                      {!! Button::withIcon(Icon::folderOpen())
+            </div>        
+            <div class="col-xs-4">
+                {!! Button::withIcon(Icon::folderOpen())
                                   ->primary('Połącz z ePuap')
+                                  ->small()
                                   ->asLinkTo("javascript:ePuap()") !!}
-        </div>        
+            </div>        
         </div>
 
     </div><!-- /.box-body -->
   </div><!-- /.box -->
+
+</div>
+</div>
 
 <div class="panel panel-default">
     <div class="panel-heading">
