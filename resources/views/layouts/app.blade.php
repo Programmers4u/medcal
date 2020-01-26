@@ -31,7 +31,7 @@
 
 </head>
 
-<body class="hold-transition skin-blue sidebar-mini sidebar-collapse">
+<body class="hold-transition skin-purple-light sidebar-mini sidebar-collapse">
 
     <div class="wrapper">
 

@@ -52,7 +52,6 @@
 @endsection
 
 @push('footer_scripts')
-<script src="{{ asset('js/datetime.js') }}"></script>
 <script type="text/javascript">
 var alert = function(message,type){
     switch(type){

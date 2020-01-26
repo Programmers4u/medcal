@@ -340,9 +340,18 @@ var addNote = function(historyId){
 @endpush
 
 @section('content')
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title">
+
+<div class="box box-default collapsed-box">
+    <div class="box-header with-border">
+      <h3 class="box-title">Funkcje</h3>
+      <div class="box-tools pull-right">
+        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+      </div><!-- /.box-tools -->
+    </div><!-- /.box-header -->
+    <div class="box-body">
+      
+        <div class="col-sm-3">
+
         <div style="display: inline-block;">
             <select class="form-control mdb-select colorful-select dropdown-primary" id='staffapp'>
               <option value="-1" disabled selected>Agenda</option>
@@ -351,31 +360,35 @@ var addNote = function(historyId){
               @endforeach
             </select>            
         </div>
-        
+        </div>
+        <div class="col-sm-3">
+
         <div style="display: inline-block;margin-left:5%; ">
                       @php $http = route('manager.business.agenda.calendar',[$business]); @endphp
                       {!! Button::withIcon(Icon::calendar())
-                                  ->info('otwórz kalendarz')
-                                  ->small()
+                                  ->primary('otwórz kalendarz')
                                   ->asLinkTo("$http") !!}
         </div>        
+        </div>
+        <div class="col-sm-3">
 
         <div style="display: inline-block;margin-left:5%; ">
                       {!! Button::withIcon(Icon::refresh())
-                                  ->info('Odśwież profil')
-                                  ->small()
+                                  ->primary('Odśwież profil')
                                   ->asLinkTo("javascript:document.location.reload()") !!}
         </div>        
+        </div>
+        <div class="col-sm-3">
 
         <div style="display: inline-block;margin-left:5%; ">
                       {!! Button::withIcon(Icon::folderOpen())
-                                  ->info('Połącz z ePuap')
-                                  ->small()
+                                  ->primary('Połącz z ePuap')
                                   ->asLinkTo("javascript:ePuap()") !!}
         </div>        
-        </h3>
-    </div>
-</div>
+        </div>
+
+    </div><!-- /.box-body -->
+  </div><!-- /.box -->
 
 <div class="panel panel-default">
     <div class="panel-heading">
