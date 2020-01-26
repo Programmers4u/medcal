@@ -404,6 +404,11 @@ Route::group(['prefix' => '{business}'], function ($business) {
             'as'   => 'business.profile.update',
             'uses' => 'ProfileController@update',
         ]);
+
+        Route::get('profile/reset', [
+            'as'   => 'business.profile.reset',
+            'uses' => 'ProfileController@passwordReset',
+        ]);
         
         Route::get('contact', [
             'as'   => 'business.contact.index',
