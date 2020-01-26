@@ -97,4 +97,9 @@ class ProfileController extends Controller
         return redirect()->route('user.business.profile.edit', [$business]);
     }
 
+    public function passwordReset(){
+        auth()->logout();
+        return redirect(url('password/reset'));
+    }
+
 }
