@@ -103,6 +103,9 @@ return  [
       'title'      => 'Subscriptions',
     ],
   ],
+  'profile' => [
+    'button' => 'Profil',
+  ],
   'contacts' => [
     'btn' => [
       'store'  => 'Save',

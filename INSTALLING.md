@@ -1,9 +1,5 @@
 # Installing
 
-> Advice: the current version is still considered to be not production ready. If you want to install for production you must first
-perform all sort of tests (including unit and acceptance) and make sure the implementation fits your needs. Your feedback is as well
-welcome in order to enhance the documentation and codebase.
-
 * [Requirements](#requirements)
 * [Step 1: Get the code](#step1)
 * [Step 2: Use Composer to install dependencies](#step2)
@@ -11,8 +7,7 @@ welcome in order to enhance the documentation and codebase.
 * [Step 4: Install](#step4)
 * [Step 5: Start Page](#step5)
 * [Step 6: Configure Cron](#step6)
-* [Troubleshooting](#troubleshooting)
-* [Optional: Populate DB with a Demo Fixture](#demosandbox)
+* [Optional: demosandbox](#demosandbox)
 * [Optional: Docker](#docker)
 
 
@@ -29,8 +24,6 @@ Medical has some server requirements for web hosting:
   * Nginx or Apache web server
   * MySQL server
   * [PHP Intl](http://php.net/manual/en/intl.setup.php)
-
-> **Advice:** PHP 7 is recently supported and not yet fully tested.
 
 <a name="step1"></a>
 ## Step 1: Get the code
@@ -107,8 +100,6 @@ And we are ready to go. **Run** the server:
 
 Congrats! You can now register as new user and log-in.
 
-![timegrid Login Screen](http://i.imgur.com/jM8pbGq.png)
-
 -----
 <a name="step6"></a>
 ## Step 6: Configure Cron for Scheduled Jobs
@@ -119,12 +110,6 @@ runs with the permissions of your web server. In this case it's called `nginx`.
 
 `* * * * * nginx php /var/www/artisan schedule:run >> /dev/null 2>&1`
 
-<a name="troubleshooting"></a>
-## Troubleshooting
-
-If after the installation you are experiencing problems, see the
-[troubleshooting](TROUBLESHOOTING.md) section or ask on 
-[Gitter](https://gitter.im/alariva/timegridDevelopment) for quick help.
 
 <a name="demosandbox"></a>
 ## Demo Sandbox Fixture
@@ -135,7 +120,7 @@ If you want to try the application with a *Lorem Ipsum* database fixture.
 
 Now you have two demo credentials to log in and play around.
 
-    USER: demo@timegrid.io
+    USER: manager@example.org
     PASS: demomanager
 
     USER: guest@example.org

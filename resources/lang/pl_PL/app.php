@@ -43,7 +43,12 @@ return  [
     'invalid_url'       => 'The link you try to access does not exist, try browsing the directory.',
     'slug_is_available' => 'The :baseurl name is available. Register it now.',
   ],
-  'name' => 'MediCal',
+  'name' => 'MedCal',
+  'seo' => [
+    'title' => 'Kalendarz i dokumentacja medyczna',
+    'keywords' => 'kalendarz, dokumentacja, medyczna, powiadomienia, sms, recepta',
+    'description' => 'System do zarządzania placówką medyczną. Zawiera dokumentację medyczną, kalendarz.',
+  ],
   'nav'  => [
     'help'    => 'Pomoc',
     'login'   => 'Login',

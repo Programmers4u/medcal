@@ -6,7 +6,7 @@
           <h2 class="ser-title">Funkcje programu</h2>
           <hr class="botm-line">
           <p>Kalendarz i dokumentacja medyczna</p>
-          <p><img src="medical/img/doctor3.jpg"> </p>
+          <p><img src="medical/img/doctor2.jpg"> </p>
         </div>
         <div class="col-md-4 col-sm-4">
           <div class="service-info">

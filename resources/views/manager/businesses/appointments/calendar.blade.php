@@ -33,7 +33,7 @@
 
 
 <div class="row">
-    <div class="col-lg-12" style="border-right:0px solid #afafaf;min-height:100px;position:relative;width:100%;">
+    <div class="col-lg-12" style="border-right:0px solid #afafaf;min-height:50px;position:relative;width:100%;">
         <div class="hr-box" style="display:block;">
             <a class="btn btn-default btn-block" style="display:inline-block;max-width:200px;" onclick="setCookie('');" href="javascript:document.location.reload();">Wszystkie kalendarze</a> 
             @foreach ($humanresources as $hr)
@@ -46,13 +46,13 @@
 
 <div class="row fullcalendar">
     <div id="calendar"></div>
-    <div class="well">{{ $icalURL }}</div>
+
+    <div class="well" style="margin:1%;">{{ $icalURL }}</div>
 </div>
 
 @endsection
 
 @push('footer_scripts')
-<script src="{{ asset('js/datetime.js') }}"></script>
 <script type="text/javascript">
 var alert = function(message,type){
     switch(type){

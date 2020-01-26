@@ -8,6 +8,6 @@ return [
     'description' => '403 Brak Autoryzacji',
   ],
   404 => [
-    'description' => '404 Nie Znalezione',
+    'description' => '404 Brak zasobu',
   ],
 ];

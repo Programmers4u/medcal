@@ -20,12 +20,27 @@ class AuthComposer
         view()->share('timezone', session()->get('timezone'));
 
         if (auth()->user()) {
-            view()->share('gravatarURL', Gravatar::get(auth()->user()->email, ['size' => 24, 'secure' => true]));
+
+            $dir_avatar = base_path().DIRECTORY_SEPARATOR.env('STORAGE_PATH').DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'avatar';
+            $avatar = 'avatar_'.auth()->user()->id;
+            $avatar = findFile($avatar,$dir_avatar);
+    
+            if($avatar) {
+                $toPublic = env('STORAGE_PATH').DIRECTORY_SEPARATOR.'app'.DIRECTORY_SEPARATOR.'avatar';
+                checkDir('public'.DIRECTORY_SEPARATOR.$toPublic);
+                $command = 'cp '.$dir_avatar.DIRECTORY_SEPARATOR.$avatar.' '.base_path().DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.$toPublic.DIRECTORY_SEPARATOR.$avatar;
+                system($command);
+                view()->share('gravatarURL', DIRECTORY_SEPARATOR.$toPublic.DIRECTORY_SEPARATOR.$avatar);
+            } else {
+                view()->share('gravatarURL', Gravatar::get(auth()->user()->email, ['size' => 24, 'secure' => true]));
+            }
+
             view()->share('appointments', $this->getActiveAppointments());
         } else {
             view()->share('gravatarURL', 'http://placehold.it/150x150');
             view()->share('appointments', collect([]));
         }
+
     }
 
     protected function getActiveAppointments()

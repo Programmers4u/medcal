@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Events\NewContactWasRegistered;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AlterContactRequest;
+use App\Models\User;
 use Notifynder;
 use Request;
 use Timegridio\Concierge\Models\Business;
@@ -141,6 +142,27 @@ class ContactController extends Controller
         // BEGIN
 
         return view('user.contacts.edit', compact('business', 'contact'));
+    }
+
+    /**
+     * edit Profile.
+     *
+     * @param Business            $business Business holding the Contact
+     * @param User                $user  User for edit
+     * @param AlterContactRequest $request  Alter Contact Request
+     *
+     * @return Response Rendered view of Profile edit form
+     */
+    public function getProfile(Business $business, User $user)
+    {
+        logger()->info(__METHOD__);
+        logger()->info(sprintf('businessId:%s contactId:%s', $business->id, $user->id));
+
+        $this->authorize('manage', $user);
+
+        // BEGIN
+
+        return view('user.profile.edit', compact('business', 'user'));
     }
 
     /**

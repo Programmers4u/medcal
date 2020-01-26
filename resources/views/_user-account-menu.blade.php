@@ -32,9 +32,9 @@
         </li-->
         <!-- Menu Footer-->
         <li class="user-footer">
-            <!--div class="pull-left">
-                <a href="{{ route('user.preferences') }}" class="btn btn-default btn-flat">{{ trans('app.nav.preferences') }}</a>
-            </div-->
+            <div class="pull-left">
+                <a href="{{ route('user.business.profile.edit', [$business] ) }}" class="btn btn-default btn-flat">{{ trans('user.profile.button') }}</a>
+            </div>
             <div class="pull-right">
                 <a href="{{ url('/logout') }}" class="btn btn-default btn-flat">{{ trans('app.nav.logout') }}</a>
             </div>
