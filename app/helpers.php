@@ -112,3 +112,29 @@ if (!function_exists('checkDir')) {
         return true;
     }
 }
+
+if (!function_exists('findFile')) {
+    /**
+     * check is file in base path.
+     *
+     * @param string $file
+     * @param string $path
+     *
+     * @return bool or filename
+     */
+
+    function findFile($file, $path) {
+        
+        if ($handle = @opendir($path)) {
+            while (false !== ($entry = readdir($handle))) {
+                if ($entry != "." && $entry != "..") {
+                    $isf = preg_match('/'.$file.'.*/is',$entry,$match);
+                    if($isf)
+                        return $match[0];
+                }
+            }
+            closedir($handle);
+        }
+        return false;
+    }
+}
