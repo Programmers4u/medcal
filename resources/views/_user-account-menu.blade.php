@@ -33,7 +33,9 @@
         <!-- Menu Footer-->
         <li class="user-footer">
             <div class="pull-left">
+                @if (isset($business))  
                 <a href="{{ route('user.business.profile.edit', [$business] ) }}" class="btn btn-default btn-flat">{{ trans('user.profile.button') }}</a>
+                @endif
             </div>
             <div class="pull-right">
                 <a href="{{ url('/logout') }}" class="btn btn-default btn-flat">{{ trans('app.nav.logout') }}</a>
