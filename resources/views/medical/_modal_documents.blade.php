@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
-@section('title', trans('medical.document.title') )
+@php $title = 'Pacjent: '.$contacts->firstname.' '.$contacts->lastname; @endphp
+
+@section('title',$title)
 
 @push('footer_scripts')
 
@@ -342,57 +344,6 @@ var addNote = function(historyId){
 @endpush
 
 @section('content')
-<div class="row">
-<div class="col-xs-7"></div>
-<div class="col-xs-5">
-
-<div class="box box-default collapsed-box">
-    <div class="box-header with-border">
-      <h3 class="box-title">Funkcje</h3>
-      <div class="box-tools pull-right">
-        <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-      </div><!-- /.box-tools -->
-    </div><!-- /.box-header -->
-    <div class="box-body">
-        <div class="row">
-            <div class="col-xs-12">
-                <div style="display: inline-block;">
-                    <select class="form-control mdb-select colorful-select dropdown-primary" id='staffapp'>
-                    <option value="-1" disabled selected>Agenda</option>
-                    @foreach($agenda as $ag)
-                    <option value="{{$ag['id']}}" staff="{{$ag['staff_id']}}">Wizyta: {{$ag['start_at']}} - {{$ag['staff']}} - {{$ag['contact_name']}}</option>
-                    @endforeach
-                    </select>            
-                </div>
-            </div>
-        </div>
-        <div class="row" style="margin-top:1%;">
-            <div class="col-xs-4">
-                @php $http = route('manager.business.agenda.calendar',[$business]); @endphp
-                {!! Button::withIcon(Icon::calendar())
-                                  ->primary('otwórz kalendarz')
-                                  ->small()
-                                  ->asLinkTo("$http") !!}
-            </div>        
-            <div class="col-xs-4">
-                {!! Button::withIcon(Icon::refresh())
-                                  ->primary('Odśwież profil')
-                                  ->small()
-                                  ->asLinkTo("javascript:document.location.reload()") !!}
-            </div>        
-            <div class="col-xs-4">
-                {!! Button::withIcon(Icon::folderOpen())
-                                  ->primary('Połącz z ePuap')
-                                  ->small()
-                                  ->asLinkTo("javascript:ePuap()") !!}
-            </div>        
-        </div>
-
-    </div><!-- /.box-body -->
-  </div><!-- /.box -->
-
-</div>
-</div>
 
 <div class="panel panel-default">
     <div class="panel-heading">
@@ -400,7 +351,6 @@ var addNote = function(historyId){
     </div>
 
     <div class="panel-body">
-        {{ trans('medical.document.client') }}: <b><a href="{{route('manager.addressbook.show', [$business, $contacts]) }}"><h1>{{ $contacts->firstname }} {{ $contacts->lastname }}</h1></a></b><br><br>
         <div>
 
       <!-- Nav tabs -->
@@ -514,7 +464,9 @@ var addNote = function(historyId){
           <br>
           <div class="panel panel-default" id="">
               <div class="panel-heading">
-                  <h3 class="panel-title">{{ trans('medical.document.history') }} <div style=' cursor: pointer;display:none;text-align: center; width: 93%;' onclick="document.location.reload();" id='edit' class="btn btn-danger">WYJDŹ Z EDYCJI <span class="glyphicon glyphicon-arrow-left"></span></div></h3>
+                  <h3 class="panel-title">
+                      {{ trans('medical.document.history') }} <div style=' cursor: pointer;display:none;text-align: center; width: 93%;' onclick="document.location.reload();" id='edit' class="btn btn-danger">WYJDŹ Z EDYCJI <span class="glyphicon glyphicon-arrow-left"></span></div>
+                </h3>
               </div>
 
               <div class="panel-body">
@@ -598,6 +550,10 @@ var addNote = function(historyId){
                       {!! Button::withIcon(Icon::print())
                       ->warning('drukuj historię')
                       ->asLinkTo("javascript:printHistory()") !!}
+
+                    {!! Button::withIcon(Icon::folderOpen())
+                        ->primary('Połącz z ePuap')
+                        ->asLinkTo("javascript:ePuap()") !!}
                                             
                       <br>
                       <hr>

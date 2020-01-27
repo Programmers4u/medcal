@@ -109,7 +109,11 @@ Route::group(['namespace' => 'API'], function () {
     Route::post('sms/{clientId}/getstatus',[
         'uses' => 'SmsServerController@getStatus',
     ]);
-    
+
+    Route::get('getappointments/{business}',[
+        'as' => 'api.get.appointments',
+        'uses' => 'AroundBusinessController@getAppointments',
+    ]);
 });
 
 
