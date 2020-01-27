@@ -43,7 +43,7 @@
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini"><b>m</b>c</span>
                 <!-- logo for regular state and mobile devices -->
-                <span class="logo-lg">Medi<b>Cal</b></span>
+                <span class="logo-lg">Med<b>Cal</b></span>
             </a>
 
             <!-- Header Navbar -->
@@ -79,6 +79,7 @@
                         <!-- Notifications Menu Here -->
 
                         <!-- Tasks Menu Here -->
+                        @include('_user-task-menu')
 
                         <!-- User Account Menu -->
                         @include('_user-account-menu')
