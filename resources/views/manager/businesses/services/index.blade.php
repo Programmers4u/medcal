@@ -44,14 +44,15 @@
                     ->withIcon(Icon::plus())
                     ->asLinkTo( route('manager.business.service.create', [$business]) )
                     ->block() !!}
-
+                <!--
                 {!! Button::primary(trans('servicetype.btn.edit'))
                     ->asLinkTo( route('manager.business.servicetype.edit', [$business]) )
                     ->block() !!}
+                -->
             </div>
 
         </div>
-        @if ($business->services()->count())
+        @if (0==1 && $business->services()->count())
         {!! Alert::success(trans('manager.services.create.alert.go_to_vacancies')) !!}
         {!! Button::success(trans('manager.services.create.btn.go_to_vacancies'))
             ->withIcon(Icon::time())

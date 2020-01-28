@@ -234,8 +234,10 @@ class BusinessController extends Controller
             $mh = json_decode($mh->json_data);
             if(isset($mh->price)) array_push($proces,$mh->price);
         }
-        $finance['sum'] = array_sum($proces);
-        $finance['avg'] = array_sum($proces)/count($proces);
+        if(count($proces)>0) {
+            $finance['sum'] = array_sum($proces);
+            $finance['avg'] = $finance['sum']/count($proces);
+        }
 
         logger()->info(sprintf('businessId:%s timezone:%s category:%s', $business->id, $timezone, $category));
 

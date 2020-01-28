@@ -32,14 +32,14 @@ class SmsContrller extends Controller
         }
         
         $sms = new smsSender();
-        $login = $business->pref('sms_id');//$preferences[0]->value;
-        $pass = $business->pref('sms_secret');//$preferences[1]->value;
-        $self_number = $business->pref('sms_self_number');//$preferences[1]->value;
+        $login = ($business->pref('sms_id')) ? $business->pref('sms_id') : env('SMS_ID','');
+        $pass = ($business->pref('sms_secret')) ? $business->pref('sms_secret') : env('SMS_SECRET','');
+        $self_number = ($business->pref('sms_self_number')) ? $business->pref('sms_self_number') : env('SMS_SELF_NUMBER','');
         $sms->setLogin($login);
         $sms->setPass($pass);
         $sms->setTest(env('SMS_TEST',1));
         $sms->setFrom(env('SMS_FROM',''));
-        $sms->setSelfNumber($self_number ? $self_number : env('SMS_SELF_NUMBER',''));
+        $sms->setSelfNumber($self_number);
         $results = [];
         foreach($contactsWithMessage as $cwm){
             $sms->setMsg($cwm['message']);

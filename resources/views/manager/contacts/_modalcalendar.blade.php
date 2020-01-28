@@ -101,7 +101,7 @@ $(document).ready(function(){
             dataType: "json",
             type: "POST",
             success: function (data) {
-                getAppointment();     
+                getAppointment();
                 alert(JSON.stringify(data));
                 contactId = null;
                 document.getElementById("searchfield").value='';
