@@ -458,7 +458,7 @@ var changeAppointment = function(id, times, revertFunc, type='a'){
 }
 </script>
 
-<script src="{{ asset('js/tour.js') }}"></script>
+<script src="{{ asset('js/tour.min.js') }}"></script>
 <script type="text/javascript">
 // Instance the tour
 var tour = new Tour({
