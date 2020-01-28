@@ -60,6 +60,9 @@ class SmsContrller extends Controller
         };
         
         $store = 'sendMessage: '.date('d/m/Y H:i:s')."\r\n";
+        foreach($results as $result) {
+            $store.= 'Report: '.$result."\r\n";
+        }
         logger()->debug($store);
         SmsContrller::pushReport($store);
 

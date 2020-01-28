@@ -6,7 +6,7 @@ return  [
     'left' =>  [
       'dashboard'     => 'Pulpit',
       'notifications' => 'Powiadomienia',
-      'preferences'   => 'Preferencje',
+      'preferences'   => 'Ustawienia',
       'edit'          => 'Edycja',
       'addressbook'   => 'Klienci',
       'agenda'        => 'Agenda',

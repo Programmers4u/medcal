@@ -39,6 +39,6 @@
 
 <div class="col-xs-12">
     <div class="form-group">
-        {!! Button::primary($submitLabel)->large()->block()->asLinkTo('javascript:submit()') !!}
+        {!! Button::primary($submitLabel)->block()->asLinkTo('javascript:submit()') !!}
     </div>
 </div>
