@@ -59,12 +59,12 @@ var alert = function(message,type){
         case 'error' : 
             $('#mc_info_error').text(message);
             $('#mc_info_error').toggle();
-            setTimeout(function(){$('#mc_info_error').toggle(400);$('#alertModal button').click();},2000);
+            setTimeout(function(){$('#mc_info_error').toggle(400);$('#alertModal button').click();},1500);
         break;
         default: 
             $('#mc_info_success').text(message);
             $('#mc_info_success').toggle();
-            setTimeout(function(){$('#mc_info_success').toggle(400);$('#alertModal button').click();},2000);
+            setTimeout(function(){$('#mc_info_success').toggle(400);$('#alertModal button').click();},1500);
         break;
     }
     $('#alertModal').modal({
@@ -234,6 +234,7 @@ var calendar = function(){
         },
 
         dayClick: function(date, jsEvent, view) {
+            /*
             if(!date._i) {
                 //console.log('dayClick');
                 dc = 1;
@@ -243,6 +244,7 @@ var calendar = function(){
                 }
                 setTimeout(function(){dc = 0;},500);
             }
+            */
         },
         
         events: timegrid.events,
@@ -373,18 +375,21 @@ var clickLink = function(obj){
 var start_at = null;
 var getAppointment = function(){
     
+    refreshMenuApp();
+
     try{
         start_at = $('#calendar').fullCalendar('getDate').format();
     }catch(e){
         //alert(e);
     }
 
+/*
     if(humanresources==0){
         var txt = 'Wybierz kalendarz pracownika';
         alert(txt,'error');
         return -1;
     }
-    
+*/    
     var post = {
         'businessId':bussinesId,
         'hr':humanresources,
@@ -429,16 +434,9 @@ var getAppointment = function(){
 var ca_revertFunc = null;
 var changeAppointment = function(id, times, revertFunc, type='a'){
     ca_revertFunc = revertFunc;
-    if(humanresources==0){
-        var txt = 'Wybierz kalendarz pracownika';
-        alert(txt,'error');
-        revertFunc();
-        return -1;
-    }
     
     var post = {
         'businessId':bussinesId,
-        'hr':humanresources,
         'id':id,
         'time':times,
         'app':type,

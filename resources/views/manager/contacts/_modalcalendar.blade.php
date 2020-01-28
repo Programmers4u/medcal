@@ -102,7 +102,6 @@ $(document).ready(function(){
             type: "POST",
             success: function (data) {
                 getAppointment();
-                refreshMenuApp();     
                 alert(JSON.stringify(data));
                 contactId = null;
                 document.getElementById("searchfield").value='';

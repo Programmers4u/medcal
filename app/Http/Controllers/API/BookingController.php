@@ -13,6 +13,9 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Timegridio\Concierge\Models\Contact;
 
+use \Timegridio\Concierge\Models\Humanresource;
+use \App\Models\MedicalHistory;
+use \App\Models\MedicalFile;
 
 use App\Events\NewAppointmentWasBooked;
 use App\Events\NewSoftAppointmentWasBooked;
@@ -25,6 +28,8 @@ use Timegridio\Concierge\Calendar\Calendar;
 use Timegridio\Concierge\Models\Service;
 use Timegridio\Concierge\Timetable\Strategies\TimetableStrategy;
 use Timegridio\Concierge\Vacancy\VacancyManager;
+
+use Illuminate\Support\Facades\DB;
 
 class BookingController extends Controller
 {
@@ -258,10 +263,13 @@ class BookingController extends Controller
     public function bookingChange(Request $request) {
 
         $this->business = Business::findOrFail($request->input('businessId'));
-        
         $time = $request->input('time');
         $id = $request->input('id');
         $type = $request->input('app');
+
+        if(!$id)
+            return response()->json('Brak parametru id');
+
         //P1DT30M
         preg_match("/(\d{1,2})M/is", $time, $min);
         logger()->debug(\GuzzleHttp\json_encode($min));
@@ -308,7 +316,9 @@ class BookingController extends Controller
         logger()->debug(\GuzzleHttp\json_encode($startAt));
         logger()->debug(\GuzzleHttp\json_encode($finishAt));
         
-        $a = $this->isCollision($startAt,$finishAt,$request->input('hr'),$id);
+        $app = Appointment::find($id);
+        $hr = $app->humanresource_id;
+        $a = $this->isCollision($startAt,$finishAt,$hr,$id);
 
         /*$startAt = Carbon::parse($startAt);//->timezone($this->business->timezone);
         logger()->debug(\GuzzleHttp\json_encode($startAt));
@@ -319,9 +329,9 @@ class BookingController extends Controller
         */
         $response = "Konflikt z innym terminem";
         if($a == 0){
-            $query = ['id'=>$id];
-            $update=["start_at"=>$startAt,'finish_at'=>$finishAt];
-            $app = Appointment::find($id);
+            //$query = ['id'=>$id];
+            //$update=["start_at"=>$startAt,'finish_at'=>$finishAt];
+            //$app = Appointment::find($id);
             $app->start_at = $startAt;
             $app->finish_at = $finishAt;
             $response = "Termin zmieniony";
@@ -579,7 +589,7 @@ class BookingController extends Controller
     
     public function ajaxgetCallendar(Request $request) {
 
-        $business = Business::findOrFail($request->input('businessId'));
+        $business = Business::findOrFail($request->input('businessId',null));
         $this->business = $business;
         
         logger()->info(__METHOD__);
@@ -587,7 +597,7 @@ class BookingController extends Controller
 
         $issuer = auth()->user();
         
-        $hr = $request->input('hr')==0 ? null : $request->input('hr');
+        $hr = $request->input('hr',0)==0 ? null : $request->input('hr');
         
         //$this->authorize('manage', $business);
 
@@ -596,23 +606,30 @@ class BookingController extends Controller
         //$appointments = $this->concierge->business($business)->getUnarchivedAppointments();
         $where_at = ($start_at!==null) ? \Carbon\Carbon::parse($start_at,$business->timezone)->addDays(-7) : \Carbon\Carbon::parse('last week',$business->timezone);
         $where_to = ($start_at!==null) ?  \Carbon\Carbon::parse($start_at,$business->timezone)->addDays(7) : \Carbon\Carbon::parse('next week',$business->timezone);
-        $appointments = \Timegridio\Concierge\Models\Appointment::query()->where('business_id','=',$business->id)->where('start_at','>=', $where_at)->where('start_at','<=',$where_to)->get();        
-        logger()->debug($appointments);
+        
+        $appointments = Appointment::query()
+            ->where('business_id','=',$business->id)
+            ->where('start_at','>=', $where_at)
+            ->where('start_at','<=',$where_to)
+            ->get();        
+
+        //logger()->debug($appointments);
+
         $jsAppointments = [];
 
         foreach ($appointments as $appointment) {
-            $staff = \Timegridio\Concierge\Models\Humanresource::query()->find($appointment->humanresource_id);
+            $staff = Humanresource::query()->find($appointment->humanresource_id);
             
-            $leaf = \App\Models\MedicalHistory::getHistory($appointment->contact->id);
+            $leaf = MedicalHistory::getHistory($appointment->contact->id);
             $leaf = ($leaf->total()==0) ? 'leaf' : '';
             
-            $sun = \App\Models\MedicalHistory::query()->where('appointment_id', '=',$appointment->id)->get()->count();
+            $sun = MedicalHistory::query()->where('appointment_id', '=',$appointment->id)->get()->count();
             $sun = ($sun==0) ? 'frown-o' : '';
             
-            $file = \App\Models\MedicalFile::query()->where('contact_id', '=',$appointment->contact->id)->get()->count();
+            $file = MedicalFile::query()->where('contact_id', '=',$appointment->contact->id)->get()->count();
             $file = ($file==0) ? '' : 'file';
 
-            $note = \App\Models\MedicalHistory::query()->where('appointment_id', '=',$appointment->id)->get()->toArray();
+            $note = MedicalHistory::query()->where('appointment_id', '=',$appointment->id)->get()->toArray();
             if(count($note)>0){
                 logger()->debug($note[0]['json_data']);
                 $note = json_decode($note[0]['json_data']);
@@ -624,7 +641,7 @@ class BookingController extends Controller
             }
             
             if( $hr!=null ){
-                if($appointment->humanresource_id == $hr){
+                if($appointment->humanresource_id != $hr) continue;
                 $jsAppointments[] = [
                     'id'    => $appointment->id,
                     'title' => $appointment->contact->lastname.' '.$appointment->contact->firstname.' '.$appointment->contact->mobile,//.' / '.$appointment->service->name.' / '.$staff->name,
@@ -638,19 +655,21 @@ class BookingController extends Controller
                     'icon3' => $file,
                     'icon4' => $note,
                     ];
-                }
             } else {
                 
-            $jsAppointments[] = [
-                'id'    => $appointment->id,
-                'title' => $appointment->contact->lastname.' '.$appointment->contact->firstname,//.' / '.$appointment->service->name.' / '.$staff->name,
-                'color' => $appointment->service->color,
-                'start' => $appointment->start_at->timezone($business->timezone)->toIso8601String(),
-                'end'   => $appointment->finish_at->timezone($business->timezone)->toIso8601String(),
-                'service' => $appointment->service->name,
-                'staff' => $staff->name,
-                'icon'  => $leaf,                
-                ];
+                $jsAppointments[] = [
+                    'id'    => $appointment->id,
+                    'title' => $appointment->contact->lastname.' '.$appointment->contact->firstname.' '.$appointment->contact->mobile,//.' / '.$appointment->service->name.' / '.$staff->name,
+                    'color' => $staff->color,
+                    'start' => $appointment->start_at->timezone($business->timezone)->toIso8601String(),
+                    'end'   => $appointment->finish_at->timezone($business->timezone)->toIso8601String(),
+                    'service' => $appointment->service->name,
+                    'staff' => $staff->name,
+                    'icon'  => $leaf,  
+                    'icon2' => $sun,
+                    'icon3' => $file,
+                    'icon4' => $note,
+                    ];
             }
         }
         

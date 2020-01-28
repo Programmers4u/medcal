@@ -13,7 +13,7 @@
         <div class="help-block with-errors"></div>
     </div>
 </div>
-
+<!--
 <div class="form-group">
     {!! Form::label( trans('manager.humanresource.form.capacity.label'), null, ['class' => 'control-label col-sm-3 col-md-3'] ) !!}
     <div class="col-sm-9 col-md-9">
@@ -27,9 +27,7 @@
         <div class="help-block with-errors"></div>
     </div>
 </div>
-
-<br/>
-
+-->
 <div class="form-group">
     {!! Form::label( trans('manager.humanresource.form.calendar_link.label'), null, ['class' => 'control-label col-sm-3 col-md-3'] ) !!}
     <div class="col-sm-9 col-md-9">
