@@ -24,14 +24,14 @@
             <div class="col-md-5">
             {!! Panel::normal()->withHeader(trans('wizard.business.header'))->withBody(
                 Thumbnail::image(asset('img/wizard/panel-business.png'))->caption(trans('wizard.business.caption')).
-                Button::success(trans('wizard.business.btn'))->large()->block()->asLinkTo(route('wizard.pricing'))
+                Button::success(trans('wizard.business.btn'))->block()->asLinkTo(route('wizard.pricing'))
                 ) !!}
             </div>
 
             <div class="col-md-5">
             {!! Panel::normal()->withHeader(trans('wizard.user.header'))->withBody(
                 Thumbnail::image(asset('img/wizard/panel-user.png'))->caption(trans('wizard.user.caption')).
-                Button::primary(trans('wizard.user.btn'))->large()->block()->asLinkTo(route('user.directory.list'))
+                Button::primary(trans('wizard.user.btn'))->block()->asLinkTo(route('user.directory.list'))
                 ) !!}
             </div>
         </div>
