@@ -1,7 +1,7 @@
 <!-- Tasks: style can be found in dropdown.less -->
 <li class="dropdown tasks-menu">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-      <i class="fa fa-flag-o"></i>
+      <i class="fa fa-calendar-check-o"></i>
       <span class="label label-danger" id='task_count_s'></span>
     </a>
     <ul class="dropdown-menu">
