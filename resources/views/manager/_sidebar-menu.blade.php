@@ -70,6 +70,12 @@
     {{-- @include('manager._sidebar-menu-i18n') --}}
 
 
+    <li class="{{ $route == 'medical.template.index' ? 'active' : '' }}" title="{{ trans('nav.manager.left.medical.template') }}" >
+        <a href="{{ route('medical.template.index', $business) }}">
+            <i class="fa fa-pencil-square-o"></i>
+            <span>{{ trans('nav.manager.left.medical.template') }}</span>
+        </a>
+    </li>
 
 
     <!--li class="header">{{ route('guest.business.home', $business->slug) }}</li-->
@@ -84,12 +90,6 @@
             <li><a href="{{ route('manager.business.vacancy.show', $business) }}"><i class="fa fa-calendar"></i><span>{{ trans('nav.manager.left.availability') }}</span></a></li>
             <li><a href="{{ route('manager.business.notifications.show', $business) }}"><i class="fa fa-bullhorn"></i><span>{{ trans('nav.manager.left.notifications') }}</span></a></li>
             -->
-            <li class="{{ $route == 'medical.template.index' ? 'active' : '' }}" title="{{ trans('nav.manager.left.medical.template') }}" >
-                <a href="{{ route('medical.template.index', $business) }}">
-                    <i class="fa fa-pencil-square-o"></i>
-                    <span>{{ trans('nav.manager.left.medical.template') }}</span>
-                </a>
-            </li>
 
         </ul>
     </li>
