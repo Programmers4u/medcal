@@ -284,7 +284,7 @@ class BookingController extends Controller
         logger()->debug(\GuzzleHttp\json_encode($py));
         //$finishAt = $startAt->copy()->addMinutes($seconds);
 
-        $appointment = Appointment::query()->find($id);
+        $appointment = Appointment::find($id);
         logger()->debug(\GuzzleHttp\json_encode($appointment));
         logger()->debug(\GuzzleHttp\json_encode($appointment->start_at));
 
@@ -316,8 +316,7 @@ class BookingController extends Controller
         logger()->debug(\GuzzleHttp\json_encode($startAt));
         logger()->debug(\GuzzleHttp\json_encode($finishAt));
         
-        $app = Appointment::find($id);
-        $hr = $app->humanresource_id;
+        $hr = $appointment->humanresource_id;
         $a = $this->isCollision($startAt,$finishAt,$hr,$id);
 
         /*$startAt = Carbon::parse($startAt);//->timezone($this->business->timezone);
@@ -327,17 +326,17 @@ class BookingController extends Controller
         $finishAt = $startAt->copy()->addMinutes($seconds);
         logger()->debug(\GuzzleHttp\json_encode($finishAt));
         */
-        $response = "Konflikt z innym terminem";
+        $response = ["info"=>"Konflikt z innym terminem",'type'=>'error'];
         if($a == 0){
             //$query = ['id'=>$id];
             //$update=["start_at"=>$startAt,'finish_at'=>$finishAt];
             //$app = Appointment::find($id);
-            $app->start_at = $startAt;
-            $app->finish_at = $finishAt;
-            $response = "Termin zmieniony";
-            $app->save();
+            $appointment->start_at = $startAt;
+            $appointment->finish_at = $finishAt;
+            $response = ["info"=>"Termin zmieniony",'type'=>'success'];
+            $appointment->save();
             //$response = Appointment::update($query,$update);
-            event(new NewAppointmentWasBooked(auth()->user(), $app));
+            //event(new NewAppointmentWasBooked(auth()->user(), $appointment));
             
         }
         return response()->json($response);
@@ -618,7 +617,7 @@ class BookingController extends Controller
         $jsAppointments = [];
 
         foreach ($appointments as $appointment) {
-            $staff = Humanresource::query()->find($appointment->humanresource_id);
+            $staff = Humanresource::find($appointment->humanresource_id);
             
             $leaf = MedicalHistory::getHistory($appointment->contact->id);
             $leaf = ($leaf->total()==0) ? 'leaf' : '';

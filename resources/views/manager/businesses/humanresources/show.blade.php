@@ -20,7 +20,7 @@
                 </ul>
 
                 <div class="panel-body">
-                    <p>{{ $humanresource->capacity }}</p>
+                    <p>{{ $humanresource->calendar_link }}</p>
                 </div>
 
                 <div class="panel-footer">

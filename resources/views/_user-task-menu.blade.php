@@ -18,7 +18,7 @@
 
 @push('footer_scripts')
 <script>
-
+@if (isset($business)) 
 var refreshMenuApp = function(){
     var task_count = 0;
     $('#task_count_s').text(task_count);
@@ -71,5 +71,7 @@ var refreshMenuApp = function(){
 $(document).ready(function(){
     refreshMenuApp();
 });
+
+@endif
 </script>
 @endpush

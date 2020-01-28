@@ -24,7 +24,7 @@
         <h3 class="modal-title" id="exampleModalLabel">Alert</h3>
       </div>
       <div class="modal-body">
-        <div style="display:none;" id="mc_info_success" class="alert alert-warning"></div>
+        <div style="display:none;" id="mc_info_success" class="alert alert-success"></div>
         <div style="display:none;" id="mc_info_error" class="alert alert-danger"></div>
       </div>
     </div>
@@ -451,7 +451,7 @@ var changeAppointment = function(id, times, revertFunc, type='a'){
         dataType: "json",
         type: "POST",
         success: function (data) {
-            alert(data);
+            alert(data.info,data.type);
             getAppointment();
         },
     });

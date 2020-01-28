@@ -5,20 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Timegridio\Concierge\Models\Contact;
-
-
-use App\Events\NewAppointmentWasBooked;
-use App\Events\NewSoftAppointmentWasBooked;
-use Event;
-use Notifynder;
-use Timegridio\Concierge\Exceptions\DuplicatedAppointmentException;
-
-use Timegridio\Concierge\Booking\BookingManager;
-use Timegridio\Concierge\Calendar\Calendar;
 use Timegridio\Concierge\Models\Business;
-use Timegridio\Concierge\Models\Service;
-use Timegridio\Concierge\Timetable\Strategies\TimetableStrategy;
-use Timegridio\Concierge\Vacancy\VacancyManager;
 
 class AroundBusinessController extends Controller
 {
