@@ -23,9 +23,10 @@ return [
         'welcome' => [
             'subject'              => 'Witamy w MedCal.pl',
             'hello-title'          => 'Cześć :userName',
-            'hello-paragraph'      => 'MedCal pomaga kontrahentom i klientom znaleźć idealny czas na spotkanie poprzez spotkania online.',
-            'quickstart-title'     => 'Jesteś gotowy do pracy',
-            'quickstart-paragraph' => 'Wystarczy wejść do MedCal w dowolnym momencie, aby dokonać rezerwacji',
+            'hello-paragraph'      => 'MedCal pomaga optymalnie zaplanować czas abyś mógł(a) skupić się na swojej profesji.',
+            'quickstart-title'     => 'Jesteś gotowy do pracy?',
+            'quickstart-paragraph' => 'Wystarczy wejść do programu w dowolnym momencie i dokonać rezerwacji.',
+            'button' => 'Miłej pracy :)',
         ],
         'appointment-notification' => [
             'subject'              => 'Szczegóły Twojego nowego spotkania',
