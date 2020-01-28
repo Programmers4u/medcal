@@ -8,6 +8,11 @@ use JavaScript;
 use Timegridio\Concierge\Concierge;
 use Timegridio\Concierge\Models\Business;
 use Timegridio\Concierge\Models\Contact;
+use \Carbon\Carbon;
+use \Timegridio\Concierge\Models\Appointment;
+use \Timegridio\Concierge\Models\Humanresource;
+use \App\Models\MedicalHistory;
+use \App\Http\Controllers\API\BookingController;
 
 class BusinessAgendaController extends Controller
 {
@@ -75,21 +80,26 @@ class BusinessAgendaController extends Controller
 
         //$appointments = $this->concierge->business($business)->getActiveAppointments();
         //$appointments = $this->concierge->business($business)->getUnarchivedAppointments();
-        $start_at = \Carbon\Carbon::createFromTimestamp(time());
-        $where_at = \Carbon\Carbon::parse($start_at,$business->timezone)->addDays(-7);
-        $where_to = \Carbon\Carbon::parse($start_at,$business->timezone)->addDays(7);
-        $appointments = \Timegridio\Concierge\Models\Appointment::query()->where('business_id','=',$business->id)->where('start_at','>=', $where_at)->where('start_at','<=',$where_to)->limit(150)->get();        
+        $start_at = Carbon::createFromTimestamp(time());
+        $where_at = Carbon::parse($start_at,$business->timezone)->addDays(-7);
+        $where_to = Carbon::parse($start_at,$business->timezone)->addDays(7);
+        $appointments = Appointment::query()
+            ->where('business_id','=',$business->id)
+            ->where('start_at','>=', $where_at)
+            ->where('start_at','<=',$where_to)
+            ->limit(150)
+            ->get();        
         
         logger()->debug($appointments);
 
         $jsAppointments = [];
 
         foreach ($appointments as $appointment) {
-            $staff = \Timegridio\Concierge\Models\Humanresource::query()->find($appointment->humanresource_id);
-            $leaf = \App\Models\MedicalHistory::getHistory($appointment->contact->id);
+            $staff = Humanresource::find($appointment->humanresource_id);
+            $leaf = MedicalHistory::getHistory($appointment->contact->id);
             $leaf = ($leaf->total()==0) ? 'leaf' : '';
 
-            $sun = \App\Models\MedicalHistory::query()->where('appointment_id', '=',$appointment->id)->get()->count();
+            $sun = MedicalHistory::query()->where('appointment_id', '=',$appointment->id)->get()->count();
             $sun = ($sun==0) ? 'frown-o' : 'smile-o';
 
             //if(!isset($staff->color)) return redirect()->route('manager.business.humanresource.index',[$business]);
@@ -108,7 +118,7 @@ class BusinessAgendaController extends Controller
             ];
         }
 
-        $holiDays = \App\Http\Controllers\API\BookingController::freeDays();
+        $holiDays = BookingController::freeDays();
         foreach($holiDays as $hd) {
             $jsAppointments[] = $hd;
         }
@@ -125,6 +135,7 @@ class BusinessAgendaController extends Controller
             flash()->warning('Brak ustawień, zapisz swoje ustawienia!');
             return redirect()->route('manager.business.preferences', $business);
         };
+        
         JavaScript::put([
             'minTime'      => $business->pref('start_at'),
             'maxTime'      => $business->pref('finish_at'),
