@@ -5,7 +5,7 @@
       <span class="label label-danger" id='task_count_s'></span>
     </a>
     <ul class="dropdown-menu">
-      <li class="header" id='task_count'>Dzisiejsze spotkania: 0</li>
+      <li class="header" id='task_count'>Dzisiejsze wizyty: 0</li>
       <li>
         <!-- inner menu: contains the actual data -->
         <ul class="menu" id='tasks'></ul>
@@ -22,7 +22,7 @@
 var refreshMenuApp = function(){
     var task_count = 0;
     $('#task_count_s').text(task_count);
-    $('#task_count').text('Dzisiejsze spotkania: '+task_count);
+    $('#task_count').text('Dzisiejsze wizyty: '+task_count);
     let business = {{ $business->id }} ;
 
     $.ajax({
@@ -40,15 +40,15 @@ var refreshMenuApp = function(){
             {
                 task_count = data.length;
                 $('#task_count_s').text(task_count);
-                $('#task_count').text('Dzisiejsze spotkania: '+task_count);
+                $('#task_count').text('Dzisiejsze wizyty: '+task_count);
 
                 let tasks = '';
 
                 for(let z=0;z<data.length;z++) {
-                    let taskName = data[z].start_at+' '+data[z].contact_name+' - '+data[z].staff;
+                    let taskName = data[z].start_at+' '+data[z].contact_name;
                     var link = "{{ route('medical.document.link',[$business,-1]) }}";
                     link = link.replace('-1','');
-                    let task = '<li><!-- Task item --><a href="'+link+data[z].id+'"><h3>'+taskName+'<small class="pull-right"></small></h3></a></li><!-- end task item -->';
+                    let task = '<li><!-- Task item --><a href="'+link+data[z].id+'"><h3>'+taskName+'<small class="pull-right">'+data[z].staff+'</small></h3></a></li><!-- end task item -->';
                     tasks+=task;
                 }
                 $('#tasks').html(tasks);
