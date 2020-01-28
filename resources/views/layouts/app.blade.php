@@ -130,7 +130,7 @@
 
                 @yield('content')
 
-                @if(!session()->has('selected.business'))
+                @if(session()->has('selected.business'))
                     {!! Button::success(trans('app.btn.get_to_dashboard'))
                                 ->large()
                                 ->block()
