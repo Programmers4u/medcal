@@ -43,7 +43,8 @@ var submit = function(){
         dataType: "json",
         type: "POST",
         success: function (data) {
-            alert(JSON.stringify(data));
+            //alert(JSON.stringify(data));
+            alert('zaktualizowane');
             document.location.href='{{ route('medical.template.index',[$business]) }}';
         }
     });
