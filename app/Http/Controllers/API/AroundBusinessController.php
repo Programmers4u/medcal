@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Timegridio\Concierge\Models\Contact;
 use Timegridio\Concierge\Models\Business;
+use \Timegridio\Concierge\Models\Appointment;
+use \Timegridio\Concierge\Models\Humanresource;
+use \Carbon\Carbon;
 
 class AroundBusinessController extends Controller
 {
@@ -17,18 +20,23 @@ class AroundBusinessController extends Controller
 
         $this->authorize('manage', $business);
 
-        $appoStaff = \Timegridio\Concierge\Models\Appointment::query()
+        $toDay = new Carbon('today');
+        $toMorrow = new Carbon('tomorrow');
+
+        //logger()->debug(json_encode($toDay));
+        //logger()->debug(json_encode($toMorrow));
+
+        $appoStaff = Appointment::query()
                ->where('business_id','=',$business->id)
-               //->where('humanresources_id','=',1)
-               ->where('start_at','>', \Carbon\Carbon::today()->timezone($business->timezone)) 
-               ->where('start_at','<', \Carbon\Carbon::tomorrow()->timezone($business->timezone)) 
+               ->where('start_at','>', $toDay) 
+               ->where('start_at','<', $toMorrow) 
                ->whereIn('status',['C','R'])
                ->orderBy('start_at','ASC')
                ->get();
 
         $agenda = [];
         foreach($appoStaff as $ag){
-            $staff = \Timegridio\Concierge\Models\Humanresource::query()
+            $staff = Humanresource::query()
                     ->where('id','=',$ag->humanresource_id)
                     ->where('business_id','=',$business->id)
                     ->get();
@@ -38,7 +46,7 @@ class AroundBusinessController extends Controller
 
             $contactName = $userApp[0]->firstname.' '.$userApp[0]->lastname;
 
-            $date = \Carbon\Carbon::parse($ag->start_at)->timezone($business->timezone)->format('H:i');
+            $date = Carbon::parse($ag->start_at)->timezone($business->timezone)->format('H:i');
             //$date = $date->hour.':'.$date->minute;
             
             $rec = [

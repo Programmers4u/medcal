@@ -283,6 +283,8 @@ class BookingController extends Controller
         //logger()->debug(\GuzzleHttp\json_encode($time));
         $time = intval(trim($time,"'"))/1000;
         logger()->debug(\GuzzleHttp\json_encode($time));
+        if(!is_int($time)) 
+            return response()->json('zły parametr id');
 
         if($type == 'a' ) {
             $startAt->addSeconds($time);     
