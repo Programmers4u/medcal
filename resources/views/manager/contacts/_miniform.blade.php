@@ -104,6 +104,8 @@ $(document).ready(function(){
 //    $('option[value="M"]').data("icon", "ion-male");
 //    $('option[value="F"]').data("icon", "ion-female");
 /*
+*/
+
     $("#mobile-input").intlTelInput({
         preferredCountries:["pl", "es", "us"],
         defaultCountry: "auto",
@@ -114,7 +116,7 @@ $(document).ready(function(){
             });
         }
     });
-*/
+
     $("form").submit(function() {
         $("input[name=mobile]").val($("#mobile-input").intlTelInput("getNumber"));
     });

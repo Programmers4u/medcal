@@ -270,20 +270,6 @@ class BookingController extends Controller
         if(!$id)
             return response()->json('Brak parametru id');
 
-        //P1DT30M
-        preg_match("/(\d{1,2})M/is", $time, $min);
-        logger()->debug(\GuzzleHttp\json_encode($min));
-        
-        preg_match("/(\d{1,2})H/is", $time, $ho);
-        logger()->debug(\GuzzleHttp\json_encode($ho));
-        
-        preg_match("/(\d{1,2})D/is", $time, $dy);
-        logger()->debug(\GuzzleHttp\json_encode($dy));
-
-        preg_match("/(.*)P/is", $time, $py);
-        logger()->debug(\GuzzleHttp\json_encode($py));
-        //$finishAt = $startAt->copy()->addMinutes($seconds);
-
         $appointment = Appointment::find($id);
         logger()->debug(\GuzzleHttp\json_encode($appointment));
         logger()->debug(\GuzzleHttp\json_encode($appointment->start_at));
@@ -293,24 +279,16 @@ class BookingController extends Controller
         
         $startAt = Carbon::parse($startAt);//->timezone($this->business->timezone);
         $finishAt = Carbon::parse($finishAt);//->timezone($this->business->timezone);
-        
-        if(isset($dy[1])){
-            eval("\$t = ".$py[1].$dy[1].";");
-            if($type=='a') $startAt->addDays($t);
-            $finishAt->addDays($t);
-            logger()->debug(\GuzzleHttp\json_encode($t));
-        }
-        if(isset($min[1])){
-            eval("\$t = ".$py[1].$min[1].";");
-            if($type=='a') $startAt->addMinutes($t);
-            $finishAt->addMinutes($t);
-            logger()->debug(\GuzzleHttp\json_encode($t));
-        }
-        if(isset($ho[1])){
-            eval("\$t = ".$py[1].$ho[1].";");
-            if($type=='a') $startAt->addHours($t);
-            $finishAt->addHours($t);
-            logger()->debug(\GuzzleHttp\json_encode($t));
+
+        //logger()->debug(\GuzzleHttp\json_encode($time));
+        $time = intval(trim($time,"'"))/1000;
+        logger()->debug(\GuzzleHttp\json_encode($time));
+
+        if($type == 'a' ) {
+            $startAt->addSeconds($time);     
+            $finishAt->addSeconds($time);                
+        } else {
+            $finishAt->addSeconds($time);                
         }
         
         logger()->debug(\GuzzleHttp\json_encode($startAt));
@@ -319,13 +297,6 @@ class BookingController extends Controller
         $hr = $appointment->humanresource_id;
         $a = $this->isCollision($startAt,$finishAt,$hr,$id);
 
-        /*$startAt = Carbon::parse($startAt);//->timezone($this->business->timezone);
-        logger()->debug(\GuzzleHttp\json_encode($startAt));
-
-        $seconds = 60;
-        $finishAt = $startAt->copy()->addMinutes($seconds);
-        logger()->debug(\GuzzleHttp\json_encode($finishAt));
-        */
         $response = ["info"=>"Konflikt z innym terminem",'type'=>'error'];
         if($a == 0){
             //$query = ['id'=>$id];

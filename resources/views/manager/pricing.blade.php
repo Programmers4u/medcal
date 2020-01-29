@@ -2,7 +2,7 @@
 
 @section('css')
 @parent
-<link rel="stylesheet" href="{{ asset('css/bootstrap-tour.min.css') }}">
+<link rel="stylesheet" href="{{ asset('css/tour.min.css') }}">
 <style>
     @import url(http://fonts.googleapis.com/css?family=Lato);
     body{
@@ -195,7 +195,7 @@
 @endsection
 
 @push('footer_scripts')
-<script src="{{ asset('js/bootstrap-tour.min.js') }}"></script>
+<script src="{{ asset('js/tour.min.js') }}"></script>
 <script>
     $(document).ready(function(){
 

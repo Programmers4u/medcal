@@ -205,8 +205,8 @@ var calendar = function(){
         defaultDate: moment(),
         locale: timegrid.lang,
         editable: true,
-        aspectRatio: 1.8,
-        height: '600',
+        aspectRatio: 2,
+        height: 'auto',
         header: {
             left: 'prev,next today',
             center: 'title',
@@ -214,7 +214,7 @@ var calendar = function(){
         },
         defaultView: 'agendaWeek',
         allDayDefault: false,
-        allDaySlot: true,
+        allDaySlot: false,
         allDayText: 'Asysta',
         businessHours: {
             start: timegrid.minTime,
@@ -323,7 +323,8 @@ var calendar = function(){
             $('#app-meeting-staff').html(calEvent.staff);
         },
         eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
-            /*alert(
+            let sec = dayDelta;
+            /*console.log(
                 event.title + " was moved " +
                 dayDelta + " days and " +
                 minuteDelta + " minutes."
@@ -337,13 +338,17 @@ var calendar = function(){
             if (!confirm("Jesteś pewny(a) zmiany?")) {
                 revertFunc();
             }
-            changeAppointment(event.id,dayDelta.toString(), revertFunc);
+
+            changeAppointment(event.id, sec);
         },        
         eventResize: function(event, dayDelta, revertFunc) {
+
             if (!confirm("Jesteś pewny(a) zmiany?")) {
               revertFunc();
             }
-            changeAppointment(event.id,dayDelta.toString(), revertFunc,'f');
+
+            let sec = dayDelta;
+            changeAppointment(event.id, sec, 'f');
         },
         eventRender: function(event, element) {
             if(event.icon){          
@@ -432,13 +437,16 @@ var getAppointment = function(){
 }
 
 var ca_revertFunc = null;
-var changeAppointment = function(id, times, revertFunc, type='a'){
-    ca_revertFunc = revertFunc;
-    
+var changeAppointmentLock = -1;
+var changeAppointment = function(id, times, type='a'){
+    //if(changeAppointmentLock!=-1) return;
+    changeAppointmentLock=1;
+    //console.log('times: '+times);
+
     var post = {
         'businessId':bussinesId,
         'id':id,
-        'time':times,
+        'time': "'"+times+"'",
         'app':type,
     }
     
@@ -453,12 +461,16 @@ var changeAppointment = function(id, times, revertFunc, type='a'){
         success: function (data) {
             alert(data.info,data.type);
             getAppointment();
+            changeAppointmentLock=-1;
         },
+        error: function (xhr, desc, err) {
+            if(xhr.status==403) document.location.reload();
+        },        
     });
 }
 </script>
 
-<script src="{{ asset('js/tour.js') }}"></script>
+<script src="{{ asset('js/tour.min.js') }}"></script>
 <script type="text/javascript">
 // Instance the tour
 var tour = new Tour({

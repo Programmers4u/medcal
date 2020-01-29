@@ -112,7 +112,7 @@ gulp.task('styles',function() {
     res = 
     gulp.src('./bower_components/bootstrap-tour/build/css/bootstrap-tour.min.css')
         .pipe(cleanCSS())
-        .pipe(concat('tour.css'))
+        .pipe(concat('tour.min.css'))
         .pipe(gulp.dest('public/css/'));
 
     res = 
@@ -225,7 +225,7 @@ gulp.task('script', function(){
         './bower_components/bootstrap-tour/build/js/bootstrap-tour.min.js',
         ])
         .pipe(uglify())
-        .pipe(concat('tour.js'))
+        .pipe(concat('tour.min.js'))
         .pipe(gulp.dest('public/js/'));
 
     // Highlight

@@ -12,6 +12,7 @@ return [
   ],
   'user' => [
     'btn'     => 'Chcę rezerwować',
+    'terms' => 'Akceptuję, chę rozpocząć pracę.',
     'header'  => 'jestem klientem',
     'caption' => 'Czy chcesz dokonać rezerwacji usługi?',
   ],
