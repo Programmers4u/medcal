@@ -10,6 +10,5 @@
 .DS_Store
 medical.code-workspace
 .env
-composer.lock
 package-lock.json
 !.gitignore
