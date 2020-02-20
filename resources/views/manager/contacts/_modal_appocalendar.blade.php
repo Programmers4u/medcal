@@ -55,6 +55,7 @@ var deleteAppointment = function(){
                 Pacjent: <b><span id='app-meeting-client'></span></b><br>
                 Lekarz: <b><span id='app-meeting-staff'></span></b><br>
                 Usługa: <b><span id='app-meeting-service'></span></b><br>
+                {{trans('medical.appointments.label.note')}}: <b><span id='app-meeting-note'></span></b><br>
             </div>    
         </div>
 

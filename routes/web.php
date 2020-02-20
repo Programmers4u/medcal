@@ -359,6 +359,11 @@ Route::group(['prefix' => '{business}'], function ($business) {
                 'uses' => 'MedicalController@ajaxAddNoteMedHistory',
             ]);
             
+
+            Route::post('note/get',[
+                'as'   => 'medical.note.get',
+                'uses' => 'MedicalController@ajaxGetNote',
+            ]);
     });
     
 

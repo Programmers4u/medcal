@@ -19,6 +19,7 @@ use \App\Models\MedicalFile;
 
 use App\Events\NewAppointmentWasBooked;
 use App\Events\NewSoftAppointmentWasBooked;
+use App\Models\Notes;
 use Event;
 use Notifynder;
 use Timegridio\Concierge\Exceptions\DuplicatedAppointmentException;
@@ -257,6 +258,13 @@ class BookingController extends Controller
 
         //return redirect()->route('user.agenda', '#'.$appointment->code);
 
+        /**
+         * Save note for appointment
+         */
+        if($appointment && $request->input('note',null)) {
+            Notes::setNote($request->input('note'),$appointment->id);
+        };
+
         return response()->json('Wizyta zapisana.');
     }
     
@@ -284,7 +292,7 @@ class BookingController extends Controller
         $time = intval(trim($time,"'"))/1000;
         logger()->debug(\GuzzleHttp\json_encode($time));
         if(!is_int($time)) 
-            return response()->json('zły parametr id');
+            return response()->json('bad parametr id');
 
         if($type == 'a' ) {
             $startAt->addSeconds($time);     
@@ -309,7 +317,7 @@ class BookingController extends Controller
             $response = ["info"=>"Termin zmieniony",'type'=>'success'];
             $appointment->save();
             //$response = Appointment::update($query,$update);
-            //event(new NewAppointmentWasBooked(auth()->user(), $appointment));
+            event(new NewAppointmentWasBooked(auth()->user(), $appointment));
             
         }
         return response()->json($response);
@@ -601,6 +609,7 @@ class BookingController extends Controller
             $file = MedicalFile::query()->where('contact_id', '=',$appointment->contact->id)->get()->count();
             $file = ($file==0) ? '' : 'file';
 
+            /*
             $note = MedicalHistory::query()->where('appointment_id', '=',$appointment->id)->get()->toArray();
             if(count($note)>0){
                 logger()->debug($note[0]['json_data']);
@@ -611,6 +620,11 @@ class BookingController extends Controller
                     $note = '';
                 }
             }
+            */
+
+            $note = Notes::getNote($appointment->id);
+            if($note)
+                $note = $note[0];
             
             if( $hr!=null ){
                 if($appointment->humanresource_id != $hr) continue;

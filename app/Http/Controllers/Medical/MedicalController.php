@@ -10,6 +10,7 @@ use Timegridio\Concierge\Models\Contact;
 use Illuminate\Support\Facades\Storage;
 use App\Models\MedicalFile;
 use App\Http\Controllers\Controller;
+use App\Models\Notes;
 use niklasravnsborg\LaravelPdf\Facades\Pdf;
 
 class MedicalController extends Controller
@@ -451,6 +452,19 @@ class MedicalController extends Controller
         return response()->json($response);
     }
     
+    public function ajaxGetNote(Request $request){
+
+        logger()->info(__METHOD__);
+
+        $issuer = auth()->user();
+        
+        //$this->authorize('manage', $business);
+        $app_id = $request->input('appointment_id',null);
+        $note = Notes::getNote($app_id);
+        $response['data']=($note) ? $note[0] : '';
+        $response['status']='ok';
+        return response()->json($response);
+    }
 
     public function indexLink(Business $business, \Timegridio\Concierge\Models\Appointment $link){
         //dd($link);

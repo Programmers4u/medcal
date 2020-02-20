@@ -45,7 +45,7 @@
 </div>
 
 <div class="row fullcalendar">
-    <div id="calendar"></div>
+    <div id="calendar" style="margin-left:3%;margin-right:3%;"></div>
 
     <div class="well" style="margin:1%;">{{ $icalURL }}</div>
 </div>
@@ -205,7 +205,7 @@ var calendar = function(){
         defaultDate: moment(),
         locale: timegrid.lang,
         editable: true,
-        aspectRatio: 2,
+        aspectRatio: 1.35,
         height: 'auto',
         header: {
             left: 'prev,next today',
@@ -321,6 +321,7 @@ var calendar = function(){
             $('#app-meeting-date').html(st[0]+' '+st[1].split('+')[0].slice(0,-3));
             $('#app-meeting-service').html(calEvent.service);
             $('#app-meeting-staff').html(calEvent.staff);
+            $('#app-meeting-note').html(calEvent.icon4.note?calEvent.icon4.note:'');
         },
         eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
             let sec = dayDelta;

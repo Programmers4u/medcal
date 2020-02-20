@@ -9,6 +9,9 @@ return  [
     'savefiles' => 'Zapisz plik',
     'close' => 'Zamknij',
   ],
+    'appointments' => [
+        'label' => ['note'=>'Notatka'],
+    ],
     'groups' => [
         'name' => [
             'label' => 'Nazwa grupy',
