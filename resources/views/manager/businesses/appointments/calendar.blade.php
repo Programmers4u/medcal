@@ -45,7 +45,7 @@
 </div>
 
 <div class="row fullcalendar">
-    <div id="calendar"></div>
+    <div id="calendar" style="margin-left:2%;margin-right:2%;"></div>
 
     <div class="well" style="margin:1%;">{{ $icalURL }}</div>
 </div>
