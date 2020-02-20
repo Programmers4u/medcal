@@ -2,7 +2,8 @@
 /database/seeds/seed_file/Produkty_lecznicze2.ods
 /public/vendor/
 /dbdata/
-/vendor/
+/vendor/*
+!/vendor/timegridio/
 /node_modules/
 /bower_components/
 .vscode
