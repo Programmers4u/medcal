@@ -13,6 +13,7 @@ use \Timegridio\Concierge\Models\Appointment;
 use \Timegridio\Concierge\Models\Humanresource;
 use \App\Models\MedicalHistory;
 use \App\Http\Controllers\API\BookingController;
+use App\Models\Notes;
 
 class BusinessAgendaController extends Controller
 {
@@ -103,6 +104,10 @@ class BusinessAgendaController extends Controller
             $sun = ($sun==0) ? 'frown-o' : 'smile-o';
 
             //if(!isset($staff->color)) return redirect()->route('manager.business.humanresource.index',[$business]);
+
+            $note = Notes::getNote($appointment->id);
+            if($note)
+                $note = $note[0];
             
             $jsAppointments[] = [
                 'id'    => $appointment->id,
@@ -115,6 +120,7 @@ class BusinessAgendaController extends Controller
                 'phone' => $appointment->contact->mobile,
                 'icon'  => $leaf,
                 'icon2'  => $sun,
+                'icon4' => $note,
             ];
         }
 

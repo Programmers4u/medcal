@@ -88,6 +88,7 @@ $(document).ready(function(){
             'hr':humanresources,
             'service_id':serviceId,
             'email':'x@x.pl',
+            'note' : $('#note_id')[0].value,
         };
         
         $('#savebtn')[0].innerText="{{ trans('manager.contacts.btn.progress') }}";
@@ -362,6 +363,13 @@ var openAddContact = function(){
         <input class="form-control" style="margin:5px;width:98%" value="{{ $services[0]->name }}" id="searchfieldservice" type="text" size="30" onkeyup="showResultService(this.value)">
         <div id="livesearchservice"></div>
 
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{ trans('medical.appointments.label.note') }}</h3>
+        </div>
+        <textarea class="form-control md-textarea" id="note_id" onchange=""></textarea>
     </div>
                   
       </div>

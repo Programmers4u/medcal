@@ -266,6 +266,36 @@ $('#staffapp').on('change',function(){
     document.location = http;
 });
 
+var getNote = function() {
+    
+    var post = {
+        'appointment_id':appointment_id,
+    };
+
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': '{{csrf_token()}}'
+        },            
+        url: "{{ route('medical.note.get', [$business]) }}",
+        data: post,            
+        dataType: "json",
+        type: "POST",
+        success: function (data) {
+            setTimeout(function(){
+                $('#note')[0].innerText = (data.data.note) ? data.data.note : '';
+            },700);
+        },
+        error: function(jqXHR, textStatus, errorThrown)
+        {
+            // Handle errors here
+            console.log('ERRORS: ' + textStatus);
+            alert('Błąd: '+textStatus);
+
+        }            
+    });
+
+}
+
 var getAppoIdFromLink = function(){
     
     if(!document.location.href.match('link')) return;
@@ -283,6 +313,7 @@ var getAppoIdFromLink = function(){
         if(this.value == id)
             $(this).prop('selected','true');
             appointment_id=id;
+            getNote();
             if($('#staffapp > option[value='+id+']').length > 0){
                 var sfid = $('#staffapp > option[value='+id+']')[0].attributes.staff.value;
                 $('#staff_id').val(sfid);
@@ -476,7 +507,7 @@ var addNote = function(historyId){
                                   <td style="font-weight:bold;">Data wizyty: 
                                   </td>
                                   <td  width="75%">
-                                      <select onchange="appointment_id=$(this).val();" class="form-control mdb-select  colorful-select dropdown-primary" id='appointment'>
+                                      <select onchange="appointment_id=$(this).val();getNote();" class="form-control mdb-select  colorful-select dropdown-primary" id='appointment'>
                                           <option value="-1" disabled selected>Wybierz datę wizyty</option>
                                           <option value="0">Bez wizyty</option>
                                           @foreach($appointments as $appo)
@@ -530,10 +561,8 @@ var addNote = function(historyId){
                                   </td>
                               </tr>
                               <tr>
-                                  <td style="font-weight:bold;">Notatka do wizyty</td>
-                                  <td>
-                                    <textarea class="form-control md-textarea" id="note_id" onchange="note=this.value"></textarea>
-                                  </td>
+                                  <td style="font-weight:bold;">{{ trans('medical.appointments.label.note') }}</td>
+                                  <td id="note"></td>
                               </tr>
                               <tr>
                                   <td style="font-weight:bold;">przyjęta kwota</td>
