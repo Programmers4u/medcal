@@ -17,23 +17,23 @@ class DatabaseSeeder extends Seeder
         $this->call('NotifynderCategoriesSeeder');
         $this->command->info('Seeded the Notifynder Categories!');
 
-        $this->call('CategoriesSeeder');
-        $this->command->info('Seeded the Param Categories!');
+        //$this->call('CategoriesSeeder');
+        //$this->command->info('Seeded the Param Categories!');
 
-        $this->call('CountriesSeeder');
-        $this->command->info('Seeded the Param Countries!');
+        //$this->call('CountriesSeeder');
+        //$this->command->info('Seeded the Param Countries!');
 
-        $this->call('RolesTableSeeder');
-        $this->command->info('Seeded the Param Roles!');
+        //$this->call('RolesTableSeeder');
+        //$this->command->info('Seeded the Param Roles!');
 
         //$this->call('ContactTableSeeder');
         //$this->command->info('Seeded the Param Contact from csv file!');
 
-        $this->call('MedicinesTableSeeder');
-        $this->command->info('Seeded the Medicines from csv file!');
+        //$this->call('MedicinesTableSeeder');
+        //$this->command->info('Seeded the Medicines from csv file!');
         
-        $this->call('TemplateTableSeeder');
-        $this->command->info('Seeded the Temple');
+        //$this->call('TemplateTableSeeder');
+        //$this->command->info('Seeded the Temple');
         
     }
 }

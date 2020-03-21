@@ -47,16 +47,14 @@ class SmsContrller extends Controller
             $result = $sms->sendSms();    
             array_push($results, $result);
             
-            /*
             $number = $cwm['mobile'];
             $message = $cwm['message'];
-            Notifynder::category('appointment.sms')
-                       ->from('sms', $event->user->id)
-                       ->to('Timegridio\Concierge\Models\Business', $business->id)
+            Notifynder::category('sms.send')
+                       ->from('App\Http\Controllers\SmsContrller', 0)
+                       ->to('App\Http\Controllers\SmsContrller', 0)
                        ->url('http://localhost')
                        ->extra(compact('number', 'message'))
                        ->send();
-            */
         };
         
         $store = 'sendMessage: '.date('d/m/Y H:i:s')."\r\n";
@@ -65,6 +63,14 @@ class SmsContrller extends Controller
         }
         logger()->debug($store);
         SmsContrller::pushReport($store);
+
+        // Generate local notification
+        Notifynder::category('sms.send')
+            ->from('App\Http\Controllers\SmsContrller', 0)
+            ->to('App\Http\Controllers\SmsContrller', 0)
+            ->url('http://localhost')
+            ->extra(compact('store'))
+            ->send();
 
         return $results;
     }
