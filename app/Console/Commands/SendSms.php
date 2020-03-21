@@ -3,10 +3,13 @@
 namespace App\Console\Commands;
 
 use App\Http\Controllers\SmsContrller;
+use App\Notifications\smsLog;
+use Fenos\Notifynder\Facades\Notifynder;
 use Illuminate\Console\Command;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Timegridio\Concierge\Models\Business;
+use Illuminate\Support\Facades\Notification;
 
 class SendSms extends Command
 {
@@ -48,7 +51,7 @@ class SendSms extends Command
         $business = Business::find($id_business);
         if(!$business) {
             $this->info('Can\'t find business');
-            return -1;
+            return;
         };
         $mobile = $this->ask('number to: ');        
         $message = $this->ask('message: ');        
@@ -59,6 +62,13 @@ class SendSms extends Command
         
         $report = SmsContrller::sendMessage([$contactwithmessage], $business);
         $this->info('Report from server sms: '.var_export($report,true));
+        // Generate local notification
+        Notifynder::category('sms.send')
+            ->from('App\Console\Commands', 0)
+            ->to('App\Http\Controllers\SmsContrller', 0)
+            ->url('http://localhost')
+            ->extra(compact('report'))
+            ->send();
     }
 
 }
