@@ -60,7 +60,8 @@
         "nesbot/carbon": "^1.22",
         "doctrine/dbal": "2.5.13",
         "doctrine/common": "2.7.0",
-        "niklasravnsborg/laravel-pdf": "^2.0"
+        "niklasravnsborg/laravel-pdf": "^2.0",
+        "rollbar/rollbar-laravel": "^5.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^2.0",
