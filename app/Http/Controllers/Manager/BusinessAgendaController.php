@@ -106,9 +106,14 @@ class BusinessAgendaController extends Controller
             //if(!isset($staff->color)) return redirect()->route('manager.business.humanresource.index',[$business]);
 
             $note = Notes::getNote($appointment->id);
-            if($note)
-                $note = $note[0];
-            
+            $notes = '';
+            if($note) {
+                $notes = null;
+                $note->map(function($item) use (&$notes) {
+                    $notes.= $item . "\n"; 
+                });        
+            };
+
             $jsAppointments[] = [
                 'id'    => $appointment->id,
                 'title' => $appointment->contact->lastname.' '.$appointment->contact->firstname.' '.$appointment->contact->mobile.' ',

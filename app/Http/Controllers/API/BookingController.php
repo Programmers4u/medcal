@@ -623,8 +623,13 @@ class BookingController extends Controller
             */
 
             $note = Notes::getNote($appointment->id);
-            if($note)
-                $note = $note[0];
+            $notes = '';
+            if($note) {
+                $notes = null;
+                $note->map(function($item) use (&$notes) {
+                    $notes.= $item . "\n"; 
+                });        
+            };
             
             if( $hr!=null ){
                 if($appointment->humanresource_id != $hr) continue;

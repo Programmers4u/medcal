@@ -10,7 +10,12 @@ use Timegridio\Concierge\Models\Contact;
 use Illuminate\Support\Facades\Storage;
 use App\Models\MedicalFile;
 use App\Http\Controllers\Controller;
+use App\Http\Consts\ResponseApi;
+use App\Http\Requests\Appointments\GetNoteRequest;
+use App\Http\Requests\AppointmentNoteRequest;
+use App\Http\Requests\Appointments\PutNoteRequest;
 use App\Models\Notes;
+use Illuminate\Http\JsonResponse;
 use niklasravnsborg\LaravelPdf\Facades\Pdf;
 
 class MedicalController extends Controller
@@ -452,17 +457,38 @@ class MedicalController extends Controller
         return response()->json($response);
     }
     
-    public function ajaxGetNote(Request $request){
+    public function ajaxGetNote(GetNoteRequest $request) : JsonResponse {
 
         logger()->info(__METHOD__);
 
-        $issuer = auth()->user();
-        
-        //$this->authorize('manage', $business);
-        $app_id = $request->input('appointment_id',null);
+        $app_id = $request->input('appointmentId',null);
         $note = Notes::getNote($app_id);
-        $response['data']=($note) ? $note[0] : '';
-        $response['status']='ok';
+        $notes = null;
+        $note->map(function($item) use (&$notes) {
+            $notes.= $item . "\n"; 
+        });
+        $response = [
+            ResponseApi::MEDICAL_NOTE => [
+                'note' => $notes,
+                'status' => 'ok',    
+            ]
+        ];
+        return response()->json($response);
+    }
+
+    public function ajaxPutNote(PutNoteRequest $request) : JsonResponse {
+
+        logger()->info(__METHOD__);
+
+        $app_id = $request->input('appointmentId',null);
+        $note = $request->input('note',null);
+        $notes = Notes::setNote($note, $app_id);
+        $response = [
+            ResponseApi::MEDICAL_NOTE => [
+                'note' => $notes ? $notes->note : null,
+                'status' => 'ok',    
+            ]
+        ];
         return response()->json($response);
     }
 
