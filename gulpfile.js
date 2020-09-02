@@ -63,17 +63,22 @@ gulp.task('styles',function() {
 
     util.log('styles -> start');
     var res = null;
-
+    
     // Main
     res = 
     gulp.src( [
-        './bower_components/bootstrap/dist/css/bootstrap.min.css',
+        // './bower_components/bootstrap/dist/css/bootstrap.min.css',
+        './bower_components/bootstrap/less/bootstrap.less',
         './bower_components/adminlte/dist/css/AdminLTE.css',
         //'./bower_components/adminlte/dist/css/skins/skin-blue.css',
         //'./bower_components/adminlte/dist/css/skins/skin-purple.min.css',
         './bower_components/adminlte/dist/css/skins/skin-purple-light.min.css',
-        './bower_components/adminlte/plugins/iCheck/square/purple.css'
+        './bower_components/adminlte/plugins/iCheck/square/purple.css',
+        // './resources/assets/less/app.less',
         ])
+        .pipe(less({
+          paths: [ path.join(__dirname, 'less', 'includes') ]
+        }))        
         .pipe(cleanCSS())
         .pipe(concat('app.min.css'))
         .pipe(gulp.dest('public/css/'));
@@ -200,6 +205,7 @@ gulp.task('script', function(){
         .pipe(concat('gender.min.js'))
         .pipe(gulp.dest('public/js/gender/'));
 
+    //clipboard
     res =
     gulp.src( [
         './bower_components/clipboard/dist/clipboard.min.js',
@@ -274,22 +280,93 @@ gulp.task('script', function(){
         .pipe(concat('utils.js'))
         .pipe(gulp.dest('public/js/lib/'));
         
+    // calendar
+    res =
+    gulp.src( [
+        'resources/assets/js/calendar/*',
+        ])
+        .pipe(uglify())
+        .pipe(concat('calendar.js'))
+        .pipe(rename({
+          suffix: '.min'
+        }))    
+        .pipe(gulp.dest('public/js/calendar/'));
+
+        // cookie
+      res =
+      gulp.src( [
+        'resources/assets/js/cookie/*',
+        ])
+        .pipe(uglify())
+        .pipe(concat('cookie.js'))
+        .pipe(rename({
+          suffix: '.min'
+        }))    
+        .pipe(gulp.dest('public/js/cookie/'));
     
-    return res;
+        // alert
+        res =
+        gulp.src( [
+          'resources/assets/js/alert/*',
+          ])
+          .pipe(uglify())
+          .pipe(concat('alert.js'))
+          .pipe(rename({
+            suffix: '.min'
+          }))    
+          .pipe(gulp.dest('public/js/alert/'));
+
+          // appointment
+        res =
+        gulp.src( [
+          'resources/assets/js/appointment/*',
+          ])
+          .pipe(uglify())
+          .pipe(concat('appointment.js'))
+          .pipe(rename({
+            suffix: '.min'
+          }))    
+          .pipe(gulp.dest('public/js/appointment/'));
+
+          // med doc
+        res =
+        gulp.src( [
+          'resources/assets/js/medical/*',
+          ])
+          .pipe(uglify())
+          .pipe(concat('doc.js'))
+          .pipe(rename({
+            suffix: '.min'
+          }))    
+          .pipe(gulp.dest('public/js/medical/'));
+        
+        // Rollbar
+        res =
+        gulp.src( [
+            './bower_components/rollbar/dist/rollbar.js',
+            'resources/assets/js/rollbar/*',
+            ])
+            .pipe(uglify())
+            .pipe(concat('rollbar.js'))
+            .pipe(rename({
+              suffix: '.min'
+            }))    
+            .pipe(gulp.dest('public/js/'));
+    
+        return res;
 });
 
 
-/*
 // Compile LESS
-gulp.task('less', function () {
-  util.log('less -> start');
-  return gulp.src('./resources/assets/less/app.less')
-    .pipe(less({
-      paths: [ path.join(__dirname, 'less', 'includes') ]
-    }))
-    .pipe(gulp.dest('./resources/assets/css'));
-});
-
+// gulp.task('less', function () {
+//   util.log('less -> start');
+//   return gulp.src('./resources/assets/less/app.less')
+//     .pipe(less({
+//       paths: [ path.join(__dirname, 'less', 'includes') ]
+//     }))
+//     .pipe(gulp.dest('./resources/assets/css'));
+// });
+/*
 // Minify CSS
 gulp.task('css:minify', function() {
   util.log('css minify -> start');
