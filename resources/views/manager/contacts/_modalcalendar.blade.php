@@ -1,58 +1,63 @@
 @push('footer_scripts')
 <script type="text/javascript" src="/js/appointment/appointment.min.js"></script>
 
-<script type="text/javascript">    
-    var serviceId = {{ $services[0]->id }};    
+<script type="text/javascript">
+var csrf = '{{csrf_token()}}';   
+var serviceId = '{{ $services[0]->id }}';
 
-    var saveAppointment = function (){
-        
-        var post = {
-            'businessId':bussinesId,
-            '_date':start_date,
-            '_time':start_date,
-            'date':start_date,
-            '_finish_date':finish_date,
-            '_finish_time':finish_date,
-            'finish_date':finish_date,
-            '_timezone': 'Europe/Warsaw',
-            'contact':contactId,
-            'contact_id':contactId,
-            'hr':humanresources,
-            'service_id':serviceId,
-            'email':'x@x.pl',
-            'note' : $('#note_id')[0].value,
-        };
-        
-        $('#savebtn')[0].innerText="{{ trans('manager.contacts.btn.progress') }}";
-        
-        $.ajax({
-            headers: {
-                'X-CSRF-TOKEN': '{{csrf_token()}}'
-            },            
-            url: "/book",
-            data: post,            
-            dataType: "json",
-            type: "POST",
-            success: function (data) {
-                getAppointment();
-                alert(JSON.stringify(data));
-                contactId = null;
-                document.getElementById("searchfield").value='';
-                document.getElementById("livesearch").innerHTML='';
-                $("#livesearch").css('height','auto');      
-                $('#savebtn').prop('disabled',true);    
-                $('#savebtn')[0].innerText="{{ trans('manager.contacts.btn.store') }}";                
-                $('.close').click();
-            },
-            error : function(jqXHR, textStatus, errorThrown){
-                alert(textStatus,'error');
-                getAppointment(); 
-            }
-        });
+Appointment.csrf = '{{csrf_token()}}';
+Appointment.businessId = '{{ $business->id }}';
+Appointment.endPoint = '{{ route('api.calendar.ajax') }}';
+Appointment.post = {
+    businessId : '{{ $business->id }}',
+    hr : humanresources,
+    start_at : start_at,
+    csrf : csrf,
+    success: function (data) {
+        timegrid.events = data;
+        $("#calendar").fullCalendar('removeEvents');
+        $("#calendar").fullCalendar('addEventSource',timegrid.events);
     }
-</script>
+};
 
-<script>
+var saveAppointment = function () {
+    var endPoint = '/book';
+    var post = {
+        businessId : '{{ $business->id }}',
+        _date : start_date,
+        _time : start_date,
+        date : start_date,
+        _finish_date : finish_date,
+        _finish_time : finish_date,
+        finish_date : finish_date,
+        _timezone : 'Europe/Warsaw',
+        contact : contactId,
+        contact_id : contactId,
+        hr : humanresources,
+        service_id : serviceId,
+        email : 'x@x.pl',
+        note : $('#note_id')[0].value,
+        csrf : '{{csrf_token()}}',
+        success: function (data) {
+            Appointment.get();
+            alert(JSON.stringify(data));
+            contactId = null;
+            document.getElementById('searchfield').value='';
+            document.getElementById('livesearch').innerHTML='';
+            $('#livesearch').css('height','auto');      
+            $('#savebtn').prop('disabled',true);    
+            $('#savebtn')[0].innerText='{{ trans('manager.contacts.btn.store') }}';                
+            $('.close').click();
+        },
+        error : function(jqXHR, textStatus, errorThrown){
+            alert(textStatus,'error');
+            Appointment.get(); 
+        }
+    }
+    $('#savebtn')[0].innerText='{{ trans('manager.contacts.btn.progress') }}';
+    webApi(endPoint,post);    
+}
+
 var showResult = function (str) {
     if (str.length < 2) { 
         document.getElementById("livesearch").innerHTML="";

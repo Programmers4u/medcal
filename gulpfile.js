@@ -245,10 +245,9 @@ gulp.task('script', function(){
         .pipe(gulp.dest('public/js/'));
 
     // Date & Time Helpers
-
     res =
     gulp.src( [
-         './bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
+        './bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js',
         './bower_components/air-datepicker/dist/js/datepicker.min.js',
         './bower_components/air-datepicker/dist/js/i18n/datepicker.es.js',
         './bower_components/air-datepicker/dist/js/i18n/datepicker.en.js',
@@ -322,10 +321,7 @@ gulp.task('script', function(){
           'resources/assets/js/appointment/*',
           ])
           .pipe(uglify())
-          .pipe(concat('appointment.js'))
-          .pipe(rename({
-            suffix: '.min'
-          }))    
+          .pipe(concat('appointment.min.js'))
           .pipe(gulp.dest('public/js/appointment/'));
 
           // med doc
@@ -334,10 +330,7 @@ gulp.task('script', function(){
           'resources/assets/js/medical/*',
           ])
           .pipe(uglify())
-          .pipe(concat('doc.js'))
-          .pipe(rename({
-            suffix: '.min'
-          }))    
+          .pipe(concat('doc.min.js'))
           .pipe(gulp.dest('public/js/medical/'));
         
         // Rollbar
@@ -347,10 +340,7 @@ gulp.task('script', function(){
             'resources/assets/js/rollbar/*',
             ])
             .pipe(uglify())
-            .pipe(concat('rollbar.js'))
-            .pipe(rename({
-              suffix: '.min'
-            }))    
+            .pipe(concat('rollbar.min.js'))
             .pipe(gulp.dest('public/js/'));
     
         return res;

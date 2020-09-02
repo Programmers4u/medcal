@@ -55,31 +55,91 @@
 @push('footer_scripts')
 <script type="text/javascript" src="/js/alert/alert.min.js"></script>
 <script type="text/javascript" src="/js/calendar/calendar.min.js"></script>
-{{-- <script type="text/javascript" src="/js/cookie/cookie.min.js"></script> --}}
+<script type="text/javascript" src="/js/cookie/cookie.min.js"></script>
 <script type="text/javascript" src="/js/appointment/appointment.min.js"></script>
 
 <script type="text/javascript">
 var csrf = '{{csrf_token()}}';   
 var businessId = '{{ $business->id }}';
+
+Appointment.csrf = '{{csrf_token()}}';
+Appointment.businessId = '{{ $business->id }}';
+Appointment.endPoint = '{{ route('api.calendar.ajax') }}';
+Appointment.post = {
+    businessId : '{{ $business->id }}',
+    hr : humanresources,
+    start_at : start_at,
+    csrf : csrf,
+    success: function (data) {
+        timegrid.events = data;
+        $("#calendar").fullCalendar('removeEvents');
+        $("#calendar").fullCalendar('addEventSource',timegrid.events);
+    }
+}
+
 $(document).ready(function() {
 
-    // var cookie = getCookie().split(',');
-    // var whos = getAsystaCook();
+    var cookie = getCookie().split(',');
+    var whos = getAsystaCook();
 
-    // if(whos){
-    //     whos = whos.split('^');
-    //     for(var i=0;i<whos.length-1;i++){
-    //         who = whos[i].split(',');
-    //         asysta(who[0],who[1]);
-    //         //console.log(who);
-    //     };
-    // }
+    if(whos){
+        whos = whos.split('^');
+        for(var i=0;i<whos.length-1;i++){
+            who = whos[i].split(',');
+            asysta(who[0],who[1]);
+            //console.log(who);
+        };
+    }
 
     calendar();
 
-    // if(cookie[0]!='')
-        // changeHr(cookie[0],cookie[1]);
+    if(cookie[0]!='')
+        changeHr(cookie[0],cookie[1]);
 });
+
+var changeHr = function (id,name) {
+    setCookie(id+','+name);
+    humanresources = id;
+    url = document.location.protocol+'\/\/'+document.location.host+document.location.pathname.substring(0,document.location.pathname.lastIndexOf('/'));
+    is = url.lastIndexOf('calendar')
+    url = (is === -1) ? url+'/calendar/'+humanresources : url+'/'+humanresources;
+    $('h1').html('<b>Kalendarz dla: '+name+'</b>');
+    Appointment.post = {
+        // businessId : bussinesId,
+        hr : humanresources,
+        start_at : start_at,
+        csrf : csrf,
+        error: function(data) { console.log(data) },
+        success: function(data) {
+            // var whos = getAsystaCook();
+                //console.log(whos);
+            // if(whos) {
+            //     whos = whos.split('^');
+            //     for(var i=0;i<whos.length-1;i++){
+            //         who = whos[i].split(',');
+            //         var obj = {
+            //             title : who[0],
+            //             allDay : true,
+            //             stick : true,
+            //             start: who[1],
+            //             editable: true,
+            //             overlap: true,
+            //             backgroundColor: '#f1f1f1',
+            //             textColor: '#000000',
+            //         }
+            //         data.push(obj);
+            //     }
+            // }
+            timegrid.events = data;
+            console.log(data)
+            $("#calendar").fullCalendar('removeEvents');
+            // $("#calendar").fullCalendar('addEventSource',timegrid.events);
+        }
+    }
+    console.log(Appointment);
+    Appointment.get();
+}    
+
 </script>
 
 <script type="text/javascript">
@@ -129,36 +189,36 @@ tour.start();
 
 $('.fc-prev-button.fc-button.fc-state-default.fc-corner-left').click(function(){
     try{
-        getAppointment('{{ route('api.calendar.ajax') }}', {
-            businessId : bussinesId,
-            hr : humanresources,
-            start_at : start_at,
-            csrf : csrf,
-            success: function (data) {
-                var whos = getAsystaCook();
-                //console.log(whos);
-                if(whos){
-                    whos = whos.split('^');
-                    for(var i=0;i<whos.length-1;i++){
-                        who = whos[i].split(',');
-                        var obj = {
-                            title : who[0],
-                            allDay : true,
-                            stick : true,
-                            start: who[1],
-                            editable: true,
-                            overlap: true,
-                            backgroundColor: '#f1f1f1',
-                            textColor: '#000000',
-                        }
-                        data.push(obj);
-                    }
-                }
-                timegrid.events = data;
-                $("#calendar").fullCalendar('removeEvents');
-                $("#calendar").fullCalendar('addEventSource',timegrid.events);
-            }
-        })
+        // getAppointment('{{ route('api.calendar.ajax') }}', {
+        //     businessId : bussinesId,
+        //     hr : humanresources,
+        //     start_at : start_at,
+        //     csrf : csrf,
+        //     success: function (data) {
+        //         var whos = getAsystaCook();
+        //         //console.log(whos);
+        //         if(whos){
+        //             whos = whos.split('^');
+        //             for(var i=0;i<whos.length-1;i++){
+        //                 who = whos[i].split(',');
+        //                 var obj = {
+        //                     title : who[0],
+        //                     allDay : true,
+        //                     stick : true,
+        //                     start: who[1],
+        //                     editable: true,
+        //                     overlap: true,
+        //                     backgroundColor: '#f1f1f1',
+        //                     textColor: '#000000',
+        //                 }
+        //                 data.push(obj);
+        //             }
+        //         }
+        //         timegrid.events = data;
+        //         $("#calendar").fullCalendar('removeEvents');
+        //         $("#calendar").fullCalendar('addEventSource',timegrid.events);
+        //     }
+        // })
     }catch(e){
         alert(e);
     }

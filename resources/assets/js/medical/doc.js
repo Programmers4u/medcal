@@ -1,19 +1,19 @@
 var appointment_id = -1;
 var historyId = -1;
 
-var alert = function(message){
-    $('#md_info_success').text(message);
-    $('#md_info_success').toggle();
-    $('#alertModal').modal({
-        keyboard: false,
-        backdrop: false,
-    })
-    setTimeout(function(){
-        $('#md_info_success').toggle();
-        $('#alertModal button').click();
-    },2000);
+// var alert = function(message){
+//     $('#md_info_success').text(message);
+//     $('#md_info_success').toggle();
+//     $('#alertModal').modal({
+//         keyboard: false,
+//         backdrop: false,
+//     })
+//     setTimeout(function(){
+//         $('#md_info_success').toggle();
+//         $('#alertModal button').click();
+//     },2000);
     
-}
+// }
 
 var popUp = function(obj){
     $('#'+obj).modal({

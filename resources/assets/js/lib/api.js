@@ -1,7 +1,7 @@
 var webApi = function (endPoint, post) {
     $.ajax({
         headers: {
-            'X-CSRF-TOKEN': post.csrf
+            'X-CSRF-TOKEN': post.csrf || null
         },            
         url: endPoint,
         data: post,            

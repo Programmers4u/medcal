@@ -152,9 +152,9 @@ var calendar = function() {
 
             var post = {
                 businessId : businessId,
-                id : id,
-                time : "'"+times+"'",
-                app : type,
+                id : event.id, 
+                times: sec, 
+                type: 'f',                 
                 csrf : csrf,
                 success: function (data) {
                     alert(data.info,data.type);
@@ -165,7 +165,10 @@ var calendar = function() {
                     if(xhr.status === 403) document.location.reload();
                 },
             }
-            changeAppointment(event.id, sec, post);
+
+            console.log(post);
+
+            changeAppointment(post);
         },        
         eventResize: function(event, dayDelta, revertFunc) {
 
@@ -176,9 +179,6 @@ var calendar = function() {
             var sec = dayDelta;
             var post = {
                 businessId : businessId,
-                id : id,
-                time : "'"+times+"'",
-                app : type,
                 csrf : csrf,
                 success: function (data) {
                     alert(data.info,data.type);
@@ -207,17 +207,6 @@ var calendar = function() {
         },    
     });
 };
-
-
-var changeHr = function (id,name) {
-    setCookie(id+','+name);
-    humanresources = id;
-    url = document.location.protocol+'\/\/'+document.location.host+document.location.pathname.substring(0,document.location.pathname.lastIndexOf('/'));
-    is = url.lastIndexOf('calendar')
-    url = (is === -1) ? url+'/calendar/'+humanresources : url+'/'+humanresources;
-    getAppointment();
-    $('h1').html('<b>Kalendarz dla: '+name+'</b>');
-}    
 
 var getAsystaCook = function(){
     var name = "asysta=";

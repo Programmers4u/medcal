@@ -8,6 +8,47 @@ var changeAppointmentLock = -1;
 var contactId = null;    
 var ajaxBlockClient = 0;                    
 
+var Appointment = {
+    csrf : '',
+    businessId : '',
+    endPoint : '',
+    post : {
+        businessId : '',
+        hr : '',
+        start_at : '',
+        csrf : '',
+        success: '',
+        error: '',
+    },
+    get : function() { 
+        console.log(this.endPoint);
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': this.post.csrf || null
+            },            
+            url: this.endPoint,
+            data: this.post,            
+            dataType: "json",
+            type: "POST",
+            success: function (data) {
+                if(this.post.success) {
+                    this.post.success(data);
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown)
+            {
+                // Handle errors here
+                if(this.post.error) {
+                    this.post.error(data);
+                } else {
+                    alert('Błąd: '+textStatus);
+                }
+                console.log('ERRORS: ' + textStatus);
+            }            
+        })   
+    }
+}
+
 var changeDateAppo = function(dateStart, dateStop){
     //dateAppo = date;
     //var t = new Date(dateAppo);
@@ -103,22 +144,40 @@ var saveNote = function() {
     
 }
 
-var getAppointment = function(endPoint, post) {
-
-    // refreshMenuApp();
-
-    try{
-        start_at = $('#calendar').fullCalendar('getDate').format();
-    } catch(e){
-        console.log(e);
+var app_meeting_Id = 0;
+var deleteAppointment = function(){
+    if(!confirm('Jesteś zdecydowany anulować spotkanie?')) return;
+    var post = {
+        'business' : bussinesId,
+        'appointment' : app_meeting_Id,
+        'action' : 'cancel',
+        'widget' : 'row',
     }
-    
-    webApi(endPoint, post);
+    if(humanresources==0){
+        var txt = 'Wybierz kalendarz pracownika';
+        alert(txt,'error');
+        return -1;
+    }
+
+    // $.ajax({
+    //     headers: {
+    //         'X-CSRF-TOKEN': '{{csrf_token()}}'
+    //     },            
+    //     url: "/booking",
+    //     data: post,            
+    //     dataType: "json",
+    //     type: "POST",
+    //     success: function (data) {
+    //         getAppointment();
+    //         $('#_modal_appocalendar [data-dismiss=modal]').click();
+    //     },
+    // });
 }
 
-var changeAppointment = function(id, times, type, post) {
+var changeAppointment = function(post) {
     //if(changeAppointmentLock!=-1) return;
     changeAppointmentLock=1;
-    //console.log('times: '+times);    
+    //console.log('times: '+times);  
+    console.log(post);  
     webApi('/bookchange', post);    
 }

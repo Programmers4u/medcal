@@ -19,6 +19,7 @@ use \App\Models\MedicalFile;
 
 use App\Events\NewAppointmentWasBooked;
 use App\Events\NewSoftAppointmentWasBooked;
+use App\Http\Requests\Appointments\BookingRequest;
 use App\Models\Notes;
 use Event;
 use Notifynder;
@@ -149,7 +150,7 @@ class BookingController extends Controller
     }
     
     
-    public function postBooking(Request $request){
+    public function postBooking(BookingRequest $request){
         
         logger()->info(__METHOD__);
 
