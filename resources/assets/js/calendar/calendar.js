@@ -164,6 +164,7 @@ var calendar = function(Appointment) {
             //     // changeAppointmentLock=-1;
             // });
             console.log(Appointment);
+            // Appointment.get();
         },        
         eventResize: function(event, dayDelta, revertFunc) {
 

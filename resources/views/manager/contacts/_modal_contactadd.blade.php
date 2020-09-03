@@ -1,9 +1,4 @@
 @push('footer_scripts')
-<script>
-$(document).ready(function(){
-
-});
-</script>
 
 <script>
 var saveContact = function () {

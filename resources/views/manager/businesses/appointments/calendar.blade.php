@@ -31,7 +31,6 @@
   </div>
 </div>
 
-
 <div class="row">
     <div class="col-lg-12" style="border-right:0px solid #afafaf;min-height:50px;position:relative;width:100%;">
         <div class="hr-box" style="display:block;">

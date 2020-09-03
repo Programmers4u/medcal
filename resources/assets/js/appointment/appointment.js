@@ -45,33 +45,7 @@ var Appointment = {
             }            
         })   
     },
-    set : function(success, error) { 
-        $.ajax({
-            headers: {
-                'X-CSRF-TOKEN': this.post.csrf || null
-            },            
-            url: this.endPoint,
-            data: this.post,            
-            dataType: "json",
-            type: "POST",
-            success: function (data) {
-                // console.log('successLog: ', data);
-                if(success) {
-                    success(data);
-                }
-            },
-            error: function(jqXHR, textStatus, errorThrown)
-            {
-                // console.log('errorLog: ' + textStatus);
-                // Handle errors here
-                if(error) {
-                    error(data);
-                } else {
-                    alert('Błąd: '+textStatus);
-                }
-            }            
-        })   
-    }
+    set : this.get,
 }
 
 var changeDateAppo = function(dateStart, dateStop){

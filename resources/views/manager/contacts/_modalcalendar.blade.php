@@ -5,7 +5,7 @@
 var csrf = '{{csrf_token()}}';   
 var serviceId = '{{ $services[0]->id }}';
 var AppointmentSave = Appointment;
-
+// console.log(AppointmentSave);
 AppointmentSave.csrf = '{{csrf_token()}}';
 AppointmentSave.businessId = '{{ $business->id }}';
 AppointmentSave.endPoint = '/book';
