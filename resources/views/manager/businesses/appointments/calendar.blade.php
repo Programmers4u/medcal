@@ -60,13 +60,19 @@
 <script type="text/javascript">
 var csrf = '{{csrf_token()}}';   
 var businessId = '{{ $business->id }}';
+var serviceId = '{{ $services[0]->id }}';
 
-var AppointmentHr = Appointment;
-var AppointmentChange = Appointment;
+var AppointmentSave = Object.create(Appointment);
+AppointmentSave.csrf = '{{csrf_token()}}';
+AppointmentSave.businessId = '{{ $business->id }}';
+AppointmentSave.endPoint = '/book';
 
+var AppointmentChange = Object.create(Appointment);
+console.log(AppointmentChange);
 AppointmentChange.csrf = '{{csrf_token()}}';
 AppointmentChange.businessId = '{{ $business->id }}';
 
+var AppointmentHr = Object.create(Appointment);
 AppointmentHr.csrf = '{{csrf_token()}}';
 AppointmentHr.businessId = '{{ $business->id }}';
 AppointmentHr.endPoint = '{{ route('api.calendar.ajax') }}';
@@ -85,7 +91,7 @@ $(document).ready(function() {
         };
     }
 
-    calendar(AppointmentChange);
+    calendar();
 
     if(cookie[0]!='')
         changeHr(cookie[0],cookie[1]);
@@ -161,7 +167,7 @@ tour.start();
 
 $('.fc-prev-button.fc-button.fc-state-default.fc-corner-left').click(function(){
     try{
-        Appointment.get(function(data) {
+        AppointmentHr.get(function(data) {
             timegrid.events = data;
             $("#calendar").fullCalendar('removeEvents');
             $("#calendar").fullCalendar('addEventSource',timegrid.events);
@@ -173,7 +179,7 @@ $('.fc-prev-button.fc-button.fc-state-default.fc-corner-left').click(function(){
 
 $('.fc-next-button.fc-button.fc-state-default.fc-corner-right').click(function(){
     try{
-        Appointment.get(function(data) {
+        AppointmentHr.get(function(data) {
             timegrid.events = data;
             $("#calendar").fullCalendar('removeEvents');
             $("#calendar").fullCalendar('addEventSource',timegrid.events);
@@ -185,7 +191,7 @@ $('.fc-next-button.fc-button.fc-state-default.fc-corner-right').click(function()
 
 $('.fc-today-button.fc-button.fc-state-default.fc-corner-left.fc-corner-right').click(function(){
     try{
-        Appointment.get(function(data) {
+        AppointmentHr.get(function(data) {
             timegrid.events = data;
             $("#calendar").fullCalendar('removeEvents');
             $("#calendar").fullCalendar('addEventSource',timegrid.events);

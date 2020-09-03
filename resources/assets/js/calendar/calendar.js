@@ -3,7 +3,7 @@ var dc = 0;
 var hix = document.location.pathname.substring(document.location.pathname.lastIndexOf('/')+1);
 var humanresources = hix === 'calendar' ? 0 : hix;
 
-var calendar = function(Appointment) {
+var calendar = function() {
     
     /*$('#mini_cal').datepicker({
         language: timegrid.lang,
@@ -135,8 +135,9 @@ var calendar = function(Appointment) {
         },
         eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
             var sec = dayDelta;
+            console.log(dayDelta);
 
-            Appointment.endPoint = '/bookchange';
+            AppointmentChange.endPoint = '/bookchange';
 
             if(event.allDay === true) {
                 //$('#calendar').fullCalendar( 'removeEvents', calEvent._id );
@@ -147,24 +148,24 @@ var calendar = function(Appointment) {
                 revertFunc();
             }
 
-            var post = {
+            var time, days, hours, minutes = 0;
+            days = sec._data.days ? (86400000 * sec._data.days) : 0;
+            hours = sec._data.hours ? (3600000 * sec._data.hours) : 0;
+            minutes = sec._data.minutes ? (60000 * sec._data.minutes) : 0;
+            time = days + hours +  minutes;
+
+            AppointmentChange.post = {
                 businessId : businessId,
+                hr : humanresources,
                 id : event.id, 
-                times: sec, 
-                type: 'f',                 
+                times: time, 
+                type: 'a',                 
                 csrf : csrf,
             }
-
-            Appointment.post = post;
-            // Appointment.set(function(data) {
-            //     console.log(data);
-            //     // changeAppointmentLock=-1;
-            // },function(data) {
-            //     console.log(data);
-            //     // changeAppointmentLock=-1;
-            // });
-            console.log(Appointment);
-            // Appointment.get();
+            AppointmentChange.get(function(data){
+                alert(data.info);
+                changeAppointmentLock=-1;                
+            });
         },        
         eventResize: function(event, dayDelta, revertFunc) {
 
@@ -173,19 +174,33 @@ var calendar = function(Appointment) {
             }
 
             var sec = dayDelta;
-            var post = {
+            AppointmentChange.endPoint = '/bookchange';
+
+            // var post = {
+            //     businessId : businessId,
+            //     csrf : csrf,
+            //     success: function (data) {
+            //         alert(data.info,data.type);
+            //         // getAppointment();
+            //         changeAppointmentLock=-1;
+            //     },
+            //     error: function (xhr, desc, err) {
+            //         if(xhr.status === 403) document.location.reload();
+            //     },
+            // }
+
+            AppointmentChange.post = {
                 businessId : businessId,
+                hr : humanresources,
+                id : event.id, 
+                times: sec._milliseconds, 
+                type: 'f',                 
                 csrf : csrf,
-                success: function (data) {
-                    alert(data.info,data.type);
-                    // getAppointment();
-                    changeAppointmentLock=-1;
-                },
-                error: function (xhr, desc, err) {
-                    if(xhr.status === 403) document.location.reload();
-                },
-            }        
-            changeAppointment(event.id, sec, 'f', post);
+            }
+            AppointmentChange.get(function(data){
+                alert(data.info);
+                changeAppointmentLock=-1;                
+            });
         },
         eventRender: function(event, element) {
             if(event.icon){          

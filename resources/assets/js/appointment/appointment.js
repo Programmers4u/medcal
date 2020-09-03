@@ -36,7 +36,6 @@ var Appointment = {
             error: function(jqXHR, textStatus, errorThrown)
             {
                 // console.log('errorLog: ' + textStatus);
-                // Handle errors here
                 if(error) {
                     error(data);
                 } else {
@@ -173,10 +172,10 @@ var deleteAppointment = function(){
     // });
 }
 
-var changeAppointment = function(post) {
-    //if(changeAppointmentLock!=-1) return;
-    changeAppointmentLock=1;
-    //console.log('times: '+times);  
-    console.log(post);  
-    webApi('/bookchange', post);    
-}
+// var changeAppointment = function(post) {
+//     //if(changeAppointmentLock!=-1) return;
+//     changeAppointmentLock=1;
+//     //console.log('times: '+times);  
+//     console.log(post);  
+//     webApi('/bookchange', post);    
+// }

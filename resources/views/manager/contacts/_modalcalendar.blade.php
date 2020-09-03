@@ -1,14 +1,6 @@
 @push('footer_scripts')
-<script type="text/javascript" src="/js/appointment/appointment.min.js"></script>
 
 <script type="text/javascript">
-var csrf = '{{csrf_token()}}';   
-var serviceId = '{{ $services[0]->id }}';
-var AppointmentSave = Appointment;
-// console.log(AppointmentSave);
-AppointmentSave.csrf = '{{csrf_token()}}';
-AppointmentSave.businessId = '{{ $business->id }}';
-AppointmentSave.endPoint = '/book';
 
 var saveAppointment = function () {
     var post = {
@@ -38,7 +30,7 @@ var saveAppointment = function () {
         csrf : csrf,
     }
 
-    AppointmentSave.set(function(data) {
+    AppointmentSave.get(function(data) {
         alert(JSON.stringify(data));
         contactId = null;
         document.getElementById('searchfield').value='';

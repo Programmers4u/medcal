@@ -1,5 +1,4 @@
 @push('footer_scripts')
-
 <script>
 var saveContact = function () {
     if($('#firstname').val().length<2 || $('#lastname').val().length<2){
