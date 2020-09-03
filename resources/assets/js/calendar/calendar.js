@@ -3,7 +3,7 @@ var dc = 0;
 var hix = document.location.pathname.substring(document.location.pathname.lastIndexOf('/')+1);
 var humanresources = hix === 'calendar' ? 0 : hix;
 
-var calendar = function() {
+var calendar = function(Appointment) {
     
     /*$('#mini_cal').datepicker({
         language: timegrid.lang,
@@ -135,12 +135,9 @@ var calendar = function() {
         },
         eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
             var sec = dayDelta;
-            /*console.log(
-                event.title + " was moved " +
-                dayDelta + " days and " +
-                minuteDelta + " minutes."
-            );*/
-        
+
+            Appointment.endPoint = '/bookchange';
+
             if(event.allDay === true) {
                 //$('#calendar').fullCalendar( 'removeEvents', calEvent._id );
                 return -1;
@@ -156,19 +153,17 @@ var calendar = function() {
                 times: sec, 
                 type: 'f',                 
                 csrf : csrf,
-                success: function (data) {
-                    alert(data.info,data.type);
-                    // getAppointment();
-                    changeAppointmentLock=-1;
-                },
-                error: function (xhr, desc, err) {
-                    if(xhr.status === 403) document.location.reload();
-                },
             }
 
-            console.log(post);
-
-            changeAppointment(post);
+            Appointment.post = post;
+            // Appointment.set(function(data) {
+            //     console.log(data);
+            //     // changeAppointmentLock=-1;
+            // },function(data) {
+            //     console.log(data);
+            //     // changeAppointmentLock=-1;
+            // });
+            console.log(Appointment);
         },        
         eventResize: function(event, dayDelta, revertFunc) {
 

@@ -17,11 +17,8 @@ var Appointment = {
         hr : '',
         start_at : '',
         csrf : '',
-        success: '',
-        error: '',
     },
-    get : function() { 
-        console.log(this.endPoint);
+    get : function(success, error) { 
         $.ajax({
             headers: {
                 'X-CSRF-TOKEN': this.post.csrf || null
@@ -31,19 +28,47 @@ var Appointment = {
             dataType: "json",
             type: "POST",
             success: function (data) {
-                if(this.post.success) {
-                    this.post.success(data);
+                // console.log('successLog: ', data);
+                if(success) {
+                    success(data);
                 }
             },
             error: function(jqXHR, textStatus, errorThrown)
             {
+                // console.log('errorLog: ' + textStatus);
                 // Handle errors here
-                if(this.post.error) {
-                    this.post.error(data);
+                if(error) {
+                    error(data);
                 } else {
                     alert('Błąd: '+textStatus);
                 }
-                console.log('ERRORS: ' + textStatus);
+            }            
+        })   
+    },
+    set : function(success, error) { 
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': this.post.csrf || null
+            },            
+            url: this.endPoint,
+            data: this.post,            
+            dataType: "json",
+            type: "POST",
+            success: function (data) {
+                // console.log('successLog: ', data);
+                if(success) {
+                    success(data);
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown)
+            {
+                // console.log('errorLog: ' + textStatus);
+                // Handle errors here
+                if(error) {
+                    error(data);
+                } else {
+                    alert('Błąd: '+textStatus);
+                }
             }            
         })   
     }

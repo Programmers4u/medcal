@@ -4,24 +4,13 @@
 <script type="text/javascript">
 var csrf = '{{csrf_token()}}';   
 var serviceId = '{{ $services[0]->id }}';
+var AppointmentSave = Appointment;
 
-Appointment.csrf = '{{csrf_token()}}';
-Appointment.businessId = '{{ $business->id }}';
-Appointment.endPoint = '{{ route('api.calendar.ajax') }}';
-Appointment.post = {
-    businessId : '{{ $business->id }}',
-    hr : humanresources,
-    start_at : start_at,
-    csrf : csrf,
-    success: function (data) {
-        timegrid.events = data;
-        $("#calendar").fullCalendar('removeEvents');
-        $("#calendar").fullCalendar('addEventSource',timegrid.events);
-    }
-};
+AppointmentSave.csrf = '{{csrf_token()}}';
+AppointmentSave.businessId = '{{ $business->id }}';
+AppointmentSave.endPoint = '/book';
 
 var saveAppointment = function () {
-    var endPoint = '/book';
     var post = {
         businessId : '{{ $business->id }}',
         _date : start_date,
@@ -38,24 +27,34 @@ var saveAppointment = function () {
         email : 'x@x.pl',
         note : $('#note_id')[0].value,
         csrf : '{{csrf_token()}}',
-        success: function (data) {
-            Appointment.get();
-            alert(JSON.stringify(data));
-            contactId = null;
-            document.getElementById('searchfield').value='';
-            document.getElementById('livesearch').innerHTML='';
-            $('#livesearch').css('height','auto');      
-            $('#savebtn').prop('disabled',true);    
-            $('#savebtn')[0].innerText='{{ trans('manager.contacts.btn.store') }}';                
-            $('.close').click();
-        },
-        error : function(jqXHR, textStatus, errorThrown){
-            alert(textStatus,'error');
-            Appointment.get(); 
-        }
     }
     $('#savebtn')[0].innerText='{{ trans('manager.contacts.btn.progress') }}';
-    webApi(endPoint,post);    
+    AppointmentSave.post = {
+        ...AppointmentSave.post,
+        ...post,
+        businessId : '{{ $business->id }}',
+        hr : humanresources,
+        start_at : start_at,
+        csrf : csrf,
+    }
+
+    AppointmentSave.set(function(data) {
+        alert(JSON.stringify(data));
+        contactId = null;
+        document.getElementById('searchfield').value='';
+        document.getElementById('livesearch').innerHTML='';
+        $('#livesearch').css('height','auto');      
+        $('#savebtn').prop('disabled',true);    
+        $('#savebtn')[0].innerText='{{ trans('manager.contacts.btn.store') }}';                
+        $('.close').click();
+        AppointmentHr.get(function(data) {
+            timegrid.events = data;
+            $("#calendar").fullCalendar('removeEvents');
+            $("#calendar").fullCalendar('addEventSource',timegrid.events);
+        })
+    }, function(data){
+        alert(textStatus,'error');
+    });
 }
 
 var showResult = function (str) {
