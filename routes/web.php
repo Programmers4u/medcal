@@ -114,6 +114,11 @@ Route::group(['namespace' => 'API'], function () {
         'as' => 'api.get.appointments',
         'uses' => 'AroundBusinessController@getAppointments',
     ]);
+
+    Route::get('statistics', [
+        'uses' => 'StatisticsController@getIndex',
+    ]);    
+
 });
 
 
@@ -364,9 +369,13 @@ Route::group(['prefix' => '{business}'], function ($business) {
                 'as'   => 'medical.note.get',
                 'uses' => 'MedicalController@ajaxGetNote',
             ]);
+
+            Route::post('note/put',[
+                'as'   => 'medical.note.put',
+                'uses' => 'MedicalController@ajaxPutNote',
+            ]);
     });
     
-
     ///////////////////////////
     // BUSINESS USER CONTEXT //
     ///////////////////////////

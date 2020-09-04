@@ -19,8 +19,12 @@ use \App\Models\MedicalFile;
 
 use App\Events\NewAppointmentWasBooked;
 use App\Events\NewSoftAppointmentWasBooked;
+use App\Http\Consts\ResponseApi;
+use App\Http\Requests\Appointments\BookingChangeRequest;
+use App\Http\Requests\Appointments\BookingRequest;
 use App\Models\Notes;
 use Event;
+use Illuminate\Http\JsonResponse;
 use Notifynder;
 use Timegridio\Concierge\Exceptions\DuplicatedAppointmentException;
 
@@ -149,7 +153,7 @@ class BookingController extends Controller
     }
     
     
-    public function postBooking(Request $request){
+    public function postBooking(BookingRequest $request){
         
         logger()->info(__METHOD__);
 
@@ -268,47 +272,36 @@ class BookingController extends Controller
         return response()->json('Wizyta zapisana.');
     }
     
-    public function bookingChange(Request $request) {
+    public function bookingChange(BookingChangeRequest $request) : JsonResponse {
 
         $this->business = Business::findOrFail($request->input('businessId'));
-        $time = $request->input('time');
+        
+        $time = $request->input('times');
         $id = $request->input('id');
-        $type = $request->input('app');
-
-        if(!$id)
-            return response()->json('Brak parametru id');
+        $type = $request->input('type');
 
         $appointment = Appointment::find($id);
-        logger()->debug(\GuzzleHttp\json_encode($appointment));
-        logger()->debug(\GuzzleHttp\json_encode($appointment->start_at));
 
         $startAt = $appointment->start_at->copy();
         $finishAt = $appointment->finish_at->copy();
         
-        $startAt = Carbon::parse($startAt);//->timezone($this->business->timezone);
-        $finishAt = Carbon::parse($finishAt);//->timezone($this->business->timezone);
+        $startAt = Carbon::parse($startAt);
+        $finishAt = Carbon::parse($finishAt);
 
-        //logger()->debug(\GuzzleHttp\json_encode($time));
         $time = intval(trim($time,"'"))/1000;
-        logger()->debug(\GuzzleHttp\json_encode($time));
-        if(!is_int($time)) 
-            return response()->json('bad parametr id');
 
-        if($type == 'a' ) {
+        if($type === 'a' ) {
             $startAt->addSeconds($time);     
             $finishAt->addSeconds($time);                
         } else {
             $finishAt->addSeconds($time);                
         }
-        
-        logger()->debug(\GuzzleHttp\json_encode($startAt));
-        logger()->debug(\GuzzleHttp\json_encode($finishAt));
-        
+                
         $hr = $appointment->humanresource_id;
-        $a = $this->isCollision($startAt,$finishAt,$hr,$id);
+        $isCollision = $this->isCollision($startAt,$finishAt,$hr,$id);
 
         $response = ["info"=>"Konflikt z innym terminem",'type'=>'error'];
-        if($a == 0){
+        if($isCollision === 0) {
             //$query = ['id'=>$id];
             //$update=["start_at"=>$startAt,'finish_at'=>$finishAt];
             //$app = Appointment::find($id);
@@ -318,9 +311,13 @@ class BookingController extends Controller
             $appointment->save();
             //$response = Appointment::update($query,$update);
             event(new NewAppointmentWasBooked(auth()->user(), $appointment));
-            
         }
-        return response()->json($response);
+        return response()->json([
+            'info' => $response['info'],
+            'type' => $response['type'],
+            'time' => $time,
+            ResponseApi::APPOINTMENT => $appointment ,
+        ]);
     }
     
     protected function takeReservation(array $request)
@@ -623,8 +620,13 @@ class BookingController extends Controller
             */
 
             $note = Notes::getNote($appointment->id);
-            if($note)
-                $note = $note[0];
+            $notes = '';
+            if($note) {
+                $notes = null;
+                $note->map(function($item) use (&$notes) {
+                    $notes.= $item . "\n"; 
+                });        
+            };
             
             if( $hr!=null ){
                 if($appointment->humanresource_id != $hr) continue;

@@ -1,14 +1,12 @@
 @push('footer_scripts')
 <script>
-$(document).ready(function(){
-
-});
-</script>
-
-<script>
 var saveContact = function () {
     if($('#firstname').val().length<2 || $('#lastname').val().length<2){
         alert('Wpisz imię i nazwisko, minimum 2 znaki.');
+        return;
+    }
+    if($('#birthdate').val().length<2){
+        alert('Wpisz datę urodzin');
         return;
     }
     var data = new FormData();
@@ -16,6 +14,7 @@ var saveContact = function () {
     data.append('firstname',$('#firstname').val());
     data.append('lastname',$('#lastname').val());
     data.append('mobile',$('#mobile-input').val());
+    data.append('birthdate',$('#birthdate').val());
     data.append('email','');
     data.append('gender',$('#gender').val());
 

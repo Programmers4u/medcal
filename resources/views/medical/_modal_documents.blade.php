@@ -5,6 +5,7 @@
 @section('title',$title)
 
 @push('footer_scripts')
+<script type="text/javascript" src="/js/medical/doc.min.js"></script>
 
 <script type="text/javascript">
 $(document).ready(function(){
@@ -32,28 +33,6 @@ var printHistory = function(){
     var url = "{{ route('medical.history.export.get',[$business,$contacts]) }}";
     window.open(url);
     return false;
-}
-</script>
-<script type="text/javascript">
-var alert = function(message){
-    $('#md_info_success').text(message);
-    $('#md_info_success').toggle();
-    $('#alertModal').modal({
-        keyboard: false,
-        backdrop: false,
-    })
-    setTimeout(function(){
-        $('#md_info_success').toggle();
-        $('#alertModal button').click();
-    },2000);
-    
-}
-
-var popUp = function(obj){
-    $('#'+obj).modal({
-        keyboard: false,
-        backdrop: false,
-    });
 }
 </script>
 <script type="text/javascript">
@@ -149,7 +128,6 @@ var popUp = function(obj){
 </script>
 
 <script type="text/javascript">
-var appointment_id = -1;
 var historyUpdateData = function(obj,id){
     //return -1;
     $('#rowphoto').hide();
@@ -183,7 +161,7 @@ var historyUpdateData = function(obj,id){
     return false;
 }
 
-var historyId = -1;
+
 var openFiles = function(){
     type = (historyId >= 0) ? '{{ $typeHistory }}' : '{{ $typePermission }}';
     if(historyId=='-2') type = '{{ $typePermissionTemplate }}';
@@ -266,36 +244,6 @@ $('#staffapp').on('change',function(){
     document.location = http;
 });
 
-var getNote = function() {
-    
-    var post = {
-        'appointment_id':appointment_id,
-    };
-
-    $.ajax({
-        headers: {
-            'X-CSRF-TOKEN': '{{csrf_token()}}'
-        },            
-        url: "{{ route('medical.note.get', [$business]) }}",
-        data: post,            
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-            setTimeout(function(){
-                $('#note')[0].innerText = (data.data.note) ? data.data.note : '';
-            },700);
-        },
-        error: function(jqXHR, textStatus, errorThrown)
-        {
-            // Handle errors here
-            console.log('ERRORS: ' + textStatus);
-            alert('Błąd: '+textStatus);
-
-        }            
-    });
-
-}
-
 var getAppoIdFromLink = function(){
     
     if(!document.location.href.match('link')) return;
@@ -310,14 +258,26 @@ var getAppoIdFromLink = function(){
     })
     
     $('#appointment > option').each(function(){
-        if(this.value == id)
+        console.log(this.value,id)
+        if(this.value === id) {
             $(this).prop('selected','true');
-            appointment_id=id;
-            getNote();
-            if($('#staffapp > option[value='+id+']').length > 0){
-                var sfid = $('#staffapp > option[value='+id+']')[0].attributes.staff.value;
-                $('#staff_id').val(sfid);
-            };
+            appointment_id = id;
+            getAppointmentNote('{{ route('medical.note.get', [$business]) }}', {
+                csrf: '{{csrf_token()}}',
+                appointmentId: appointment_id,
+                success: function(data) { 
+                    setTimeout( () => {
+                        console.log(data)
+                        if(data)
+                            $('#note_text')[0].innerText = data.medicalNote.note ? data.medicalNote.note : '';
+                    }, 1200,data)
+                },
+            });
+        }
+        if($('#staffapp > option[value='+id+']').length > 0){
+            var sfid = $('#staffapp > option[value='+id+']')[0].attributes.staff.value;
+            $('#staff_id').val(sfid);
+        };
     })
 }
 
@@ -330,45 +290,8 @@ $('#staff_id').on('change',function(){
 </script>
 
 <script type="text/javascript">
-
 var ePuap = function(){
     window.open('https://pz.gov.pl/dt/login/login','__blank');
-}
-
-var addNote = function(historyId){
-    const info = prompt('Napisz notatkę');
-    if(info==null) return;
-    
-    var post = {
-        'business_id':{{$business->id}},
-        'contact_id':{{$contacts->id}},
-        'history_id' : historyId,
-        'note' : info,
-    };
-
-    $.ajax({
-        headers: {
-            'X-CSRF-TOKEN': '{{csrf_token()}}'
-        },            
-        url: "{{ route('medical.history.note.add',[$business]) }}",
-        data: post,            
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-            alert(data.status);
-            setTimeout(function(){
-                document.location.reload();
-            },2100);
-        },
-        error: function(jqXHR, textStatus, errorThrown)
-        {
-            // Handle errors here
-            console.log('ERRORS: ' + textStatus);
-            alert('Błąd: '+textStatus);
-
-        }            
-    });
-    
 }
 </script>
 
@@ -493,7 +416,7 @@ var addNote = function(historyId){
 
     <div role="tabpanel" class="tab-pane active" id="dockmed">
           <br>
-          <div class="panel panel-default" id="">
+          <div class="panel-default" id="">
               <div class="panel-heading">
                   <h3 class="panel-title">
                       {{ trans('medical.document.history') }} <div style=' cursor: pointer;display:none;text-align: center; width: 93%;' onclick="document.location.reload();" id='edit' class="btn btn-danger">WYJDŹ Z EDYCJI <span class="glyphicon glyphicon-arrow-left"></span></div>
@@ -507,7 +430,19 @@ var addNote = function(historyId){
                                   <td style="font-weight:bold;">Data wizyty: 
                                   </td>
                                   <td  width="75%">
-                                      <select onchange="appointment_id=$(this).val();getNote();" class="form-control mdb-select  colorful-select dropdown-primary" id='appointment'>
+                                      <select onchange="
+                                        appointment_id = $(this).val();
+                                        getAppointmentNote('{{ route('medical.note.get', [$business]) }}', {
+                                            csrf: '{{csrf_token()}}',
+                                            appointmentId: appointment_id,
+                                            success: function(data) { 
+                                                setTimeout( () => {
+                                                    console.log(data)
+                                                    if(data)
+                                                        $('#note_text')[0].innerText = data.medicalNote.note ? data.medicalNote.note : '';
+                                                },1000,data)
+                                            },
+                                      });" class="form-control mdb-select  colorful-select dropdown-primary" id='appointment'>
                                           <option value="-1" disabled selected>Wybierz datę wizyty</option>
                                           <option value="0">Bez wizyty</option>
                                           @foreach($appointments as $appo)
@@ -562,7 +497,24 @@ var addNote = function(historyId){
                               </tr>
                               <tr>
                                   <td style="font-weight:bold;">{{ trans('medical.appointments.label.note') }}</td>
-                                  <td id="note"></td>
+                                  <td>
+                                      <div id="note_text"></div>
+                                      <textarea id="note" class="form-control md-textarea"></textarea>
+                                    <i class="fa fa-comment-o fa-1x" onclick="putAppointmentNote('{{ route('medical.note.put',[$business]) }}',{
+                                        appointmentId : appointment_id,
+                                        note : $('#note')[0].value,
+                                        csrf : '{{csrf_token()}}',
+                                        success : function (data) {
+                                            setTimeout( () => {
+                                                console.log(data);
+                                                 $('#note_text')[0].innerText += data.medicalNote.note ? data.medicalNote.note + '\n' : '';
+                                                 $('#note')[0].value = '';
+                                            },700,data);
+                                        }
+                                      });"></i>
+            
+                                
+                                </td>
                               </tr>
                               <tr>
                                   <td style="font-weight:bold;">przyjęta kwota</td>
@@ -645,7 +597,13 @@ var addNote = function(historyId){
                               -->
                           </div>
                           @endif
-                          <i class="fa fa-comment-o fa-1x" onclick="addNote('{{$page->history}}');"></i>
+                          <i class="fa fa-comment-o fa-1x" onclick="addNote('{{ route('medical.history.note.add',[$business]) }}',{
+                            business_id : '{{$business->id}}',
+                            contact_id : '{{$contacts->id}}',
+                            history_id : historyId,
+                            note : '',
+                            csrf : '{{csrf_token()}}',
+                          });"></i>
 
                       </td>
                   </tr>

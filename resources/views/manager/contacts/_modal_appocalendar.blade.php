@@ -24,7 +24,7 @@ var deleteAppointment = function(){
         dataType: "json",
         type: "POST",
         success: function (data) {
-            getAppointment();
+            // getAppointment();
             $('#_modal_appocalendar [data-dismiss=modal]').click();
         },
     });
