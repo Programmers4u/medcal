@@ -27,8 +27,6 @@ class CreateTableNotes extends Migration
                 ->onDelete('no action');
                 
             $table->string('note',960);
-
-            $table->index(['appointment_id']);
         });        
         
     }

@@ -30,10 +30,10 @@ class MedicalHistory extends Migration
             $table->bigInteger('appointment_id')
                 // ->unsigned()
                 ->index()
-                // ->foreign('appointment_id')
-                // ->references('id')
-                // ->on('appointments')
-                // ->onDelete('no action')
+                ->foreign('appointment_id')
+                ->references('id')
+                ->on('appointments')
+                ->onDelete('no action')
                 ;
             $table->text('json_data');
         });
