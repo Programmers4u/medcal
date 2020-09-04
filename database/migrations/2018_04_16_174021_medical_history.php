@@ -14,15 +14,28 @@ class MedicalHistory extends Migration
     public function up()
     {
         //
-        Schema::create('medical_history', function(Blueprint $table){
-            $table->bigIncrements('id');
-            $table->integer('contact_id')->unsigned()->index();
-            $table->foreign('contact_id')->references('id')->on('contacts')->onDelete('cascade');
-            $table->integer('appointment_id')->unsigned()->index();
-            $table->foreign('appointment_id')->references('id')->on('appointments')->onDelete('cascade');
-            $table->text('json_data');
-            $table->timestamps();
+        Schema::create('medical_history', function(Blueprint $table) {
             $table->softDeletes();
+            $table->bigIncrements('id');
+            $table->timestamps();
+
+            $table->bigInteger('contact_id')
+                // ->unsigned()
+                ->index()
+                ->foreign('contact_id')
+                ->references('id')
+                ->on('contacts')
+                ->onDelete('no action');
+
+            $table->bigInteger('appointment_id')
+                // ->unsigned()
+                ->index()
+                // ->foreign('appointment_id')
+                // ->references('id')
+                // ->on('appointments')
+                // ->onDelete('no action')
+                ;
+            $table->text('json_data');
         });
 
     }

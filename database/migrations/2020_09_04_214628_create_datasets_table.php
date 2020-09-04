@@ -17,13 +17,14 @@ class CreateDatasetsTable extends Migration
         //
         Schema::create('datasets', function(Blueprint $table){
             $table->softDeletes();
-            $table->bigIncrements('id')
-                ->index();
-            $table->string('sex');
-            $table->date('birthday');
-            $table->date('date_of_examination');
-            $table->text('diagnosis');
-            $table->text('procedures');
+            $table->timestamps();
+            $table->bigIncrements('id');
+
+            $table->string('sex')->nullable();
+            $table->date('birthday')->nullable();
+            $table->date('date_of_examination')->nullable();
+            $table->text('diagnosis')->nullable();
+            $table->text('procedures')->nullable();
         }); 
     }
 

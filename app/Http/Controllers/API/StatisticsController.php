@@ -21,15 +21,14 @@ class StatisticsController extends Controller
             ->get()
             ->toArray()
         ;
-
         foreach($model as $m) {
             $edm = json_decode($m['json_data']);
-            Datasets::updateOrCreate([
+            Datasets::create([
                 Datasets::DATE_OF_EXAMINATION  => Carbon::parse(),
                 Datasets::BIRTHDAY => Carbon::parse(),
                 Datasets::SEX => Datasets::SEX_FEMALE,
                 Datasets::DIAGNOSIS => $edm->diagnosis,
-                Datasets::PROCEDURES => $edm->procedures,                
+                Datasets::PROCEDURES => $edm->procedures,        
             ]);    
             // dd( $m );
         }

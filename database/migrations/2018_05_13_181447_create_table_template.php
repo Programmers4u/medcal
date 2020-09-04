@@ -15,13 +15,13 @@ class CreateTableTemplate extends Migration
     {
         //
         Schema::create('medical_template', function(Blueprint $table){
-            $table->bigIncrements('id');
-            $table->string('name');
-            $table->string('type');//A - Answer; Q - Question 
-            $table->longText('desc');
-
             $table->timestamps();
             $table->softDeletes();
+            $table->bigIncrements('id');
+            $table->string('name');
+
+            $table->string('type');//A - Answer; Q - Question 
+            $table->longText('desc');
         });        
         
     }

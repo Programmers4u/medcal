@@ -15,11 +15,12 @@ class CreateMedicalGroup extends Migration
     {
         //
         Schema::create('medical_group', function(Blueprint $table){
-            $table->bigIncrements('id');
-            $table->longText('contacts');
-            $table->string('name');
             $table->timestamps();
             $table->softDeletes();
+            $table->bigIncrements('id');
+
+            $table->Text('contacts');
+            $table->string('name');
         });        
         
     }
