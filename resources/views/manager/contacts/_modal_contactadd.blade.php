@@ -5,11 +5,16 @@ var saveContact = function () {
         alert('Wpisz imię i nazwisko, minimum 2 znaki.');
         return;
     }
+    if($('#birthdate').val().length<2){
+        alert('Wpisz datę urodzin');
+        return;
+    }
     var data = new FormData();
 //    data.append('business_id','{{ $business->id }}');
     data.append('firstname',$('#firstname').val());
     data.append('lastname',$('#lastname').val());
     data.append('mobile',$('#mobile-input').val());
+    data.append('birthdate',$('#birthdate').val());
     data.append('email','');
     data.append('gender',$('#gender').val());
 

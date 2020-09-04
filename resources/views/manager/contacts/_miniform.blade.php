@@ -42,6 +42,20 @@
 </div>
 
 <div class="form-group">
+    {!! Form::label( trans('manager.contacts.form.birthdate.label'), null, ['class' => 'control-label col-sm-3'] ) !!}
+    <div class="col-sm-9">
+    {!! Form::text('birthdate', null, [
+        'id' => 'birthdate',
+        'required',
+        'class' => 'form-control',
+        'placeholder'=> old('birthdate'),
+        'oninvalid' => 'this.setCustomValidity( "'.trans('manager.contacts.form.birthdate.validation').'" )',
+        'oninput' => 'this.setCustomValidity("")' ]) !!}
+        <div class="help-block with-errors"></div>
+    </div>
+</div>
+
+<div class="form-group">
     {!! Form::label( trans('manager.contacts.form.mobile.label'), null, ['class' => 'control-label col-sm-3'] ) !!}
     <div class="col-sm-9">
     {!! Form::text('mobile-input', isset($contact) ? old('mobile', $contact->mobile ?: null) : null, [
@@ -90,11 +104,11 @@ $(document).ready(function(){
         });
     });
 
-//    $("#birthdate").datetimepicker( {
-//        viewMode: 'years',
-//        locale: '{{ Session::get('language') }}',
-//        format: '{!! trans('app.dateformat.datetimepicker') !!}' }
-//        );
+   $("#birthdate").datetimepicker( {
+       viewMode: 'years',
+       locale: '{{ Session::get('language') }}',
+       format: '{!! trans('app.dateformat.datetimepicker') !!}' }
+       );
 
 //    Select2 Icons disabled for now
 

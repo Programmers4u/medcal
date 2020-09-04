@@ -31,7 +31,7 @@ class ContactFormRequest extends Request
                     'firstname' => 'required|min:3',
                     'lastname'  => 'required|min:3',
                     'gender'    => 'required|max:1',
-                    'birthdate' => 'date_format:'.trans('app.dateformat.carbon'),
+                    'birthdate' => 'required|date_format:'.trans('app.dateformat.carbon'),
                 ];
                 break;
             default:
