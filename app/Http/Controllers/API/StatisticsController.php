@@ -43,4 +43,18 @@ class StatisticsController extends Controller
         // ]);
     }
 
+    public function countSame($tab) {
+        $test = [];
+        $counter = [];
+        foreach($tab as $item) {
+            if(!in_array($item,$test)) {
+                $n = array_push($test,$item);
+                $counter[$item] = 1;
+            } else {
+                $counter[$item] += 1;
+            }
+        }
+        return $counter;
+    }
+
 }

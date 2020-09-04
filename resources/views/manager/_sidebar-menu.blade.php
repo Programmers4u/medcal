@@ -3,14 +3,13 @@
     {{-- Language Switcher Dropdown --}}
 
     <!-- Optionally, you can add icons to the links -->
-    <!--
     <li class="{{ $route == 'manager.business.show' ? 'active' : '' }}" title="{{ trans('nav.manager.left.dashboard') }}" >
         <a href="{{ route('manager.business.show', $business->slug) }}">
             <i class="fa fa-tachometer"></i>
             <span>{{ trans('nav.manager.left.dashboard') }}</span>
         </a>
     </li>
-
+<!--
     <li class="{{ $route == 'manager.business.agenda.index' ? 'active' : '' }}" title="{{ trans('nav.manager.left.agenda') }}" >
         <a href="{{ route('manager.business.agenda.index', $business) }}">
             <i class="fa fa-calendar-check-o"></i>
