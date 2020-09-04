@@ -56,11 +56,17 @@
 <script type="text/javascript" src="/js/calendar/calendar.min.js"></script>
 <script type="text/javascript" src="/js/cookie/cookie.min.js"></script>
 <script type="text/javascript" src="/js/appointment/appointment.min.js"></script>
+<script type="text/javascript" src="/js/statistics/statistics.min.js"></script>
 
 <script type="text/javascript">
 var csrf = '{{csrf_token()}}';   
 var businessId = '{{ $business->id }}';
 var serviceId = '{{ $services[0]->id }}';
+
+var Statistics = Object.create(Statistics);
+Statistics.csrf = '{{csrf_token()}}';
+Statistics.businessId = '{{ $business->id }}';
+Statistics.endPoint = '/statistics';
 
 var AppointmentSave = Object.create(Appointment);
 AppointmentSave.csrf = '{{csrf_token()}}';

@@ -85,6 +85,7 @@ gulp.task('styles',function() {
         //'./bower_components/adminlte/dist/css/skins/skin-purple.min.css',
         './bower_components/adminlte/dist/css/skins/skin-purple-light.min.css',
         './bower_components/adminlte/plugins/iCheck/square/purple.css',
+        './node_modules/chart.js/dist/Chart.min.css',
         // './resources/assets/less/app.less',
         ])
         .pipe(less({
@@ -184,7 +185,8 @@ gulp.task('script', function(){
         './bower_components/adminlte/plugins/iCheck/icheck.min.js',
         './bower_components/bootstrap/dist/js/bootstrap.min.js',
         './bower_components/adminlte/dist/js/adminlte.min.js',
-        './bower_components/tooltipster/js/jquery.tooltipster.min.js'
+        './bower_components/tooltipster/js/jquery.tooltipster.min.js',
+        './node_modules/chart.js/dist/Chart.min.js',
         ])
         .pipe(uglify())
         .pipe(concat('app.min.js'))
@@ -301,6 +303,15 @@ gulp.task('script', function(){
           suffix: '.min'
         }))    
         .pipe(gulp.dest('public/js/calendar/'));
+
+    // statistics
+    res =
+    gulp.src( [
+        'resources/assets/js/statistics/*',
+        ])
+        .pipe(uglify())
+        .pipe(concat('statistics.min.js'))
+        .pipe(gulp.dest('public/js/statistics/'));
 
         // cookie
       res =
