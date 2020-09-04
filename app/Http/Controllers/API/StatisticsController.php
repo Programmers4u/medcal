@@ -8,6 +8,7 @@ use Timegridio\Concierge\Models\Business;
 use \Carbon\Carbon;
 use App\Http\Requests\Statistics\GetRequest;
 use App\Http\Resources\Statistics\DefaultResources;
+use App\Models\Datasets;
 use App\Models\MedicalHistory;
 use Illuminate\Http\JsonResponse;
 
@@ -20,34 +21,21 @@ class StatisticsController extends Controller
             ->get()
             ->toArray()
         ;
-        $procedures = [];
-        $diagnosis = [];
-        $time = [];
+
         foreach($model as $m) {
             $edm = json_decode($m['json_data']);
-            array_push($procedures, $edm->procedures);
-            array_push($diagnosis, $edm->diagnosis);
-            array_push($time, $m['created_at']);
+            Datasets::updateOrCreate([
+                Datasets::DATE_OF_EXAMINATION  => Carbon::parse(),
+                Datasets::BIRTHDAY => Carbon::parse(),
+                Datasets::SEX => Datasets::SEX_FEMALE,
+                Datasets::DIAGNOSIS => $edm->diagnosis,
+                Datasets::PROCEDURES => $edm->procedures,                
+            ]);    
             // dd( $m );
         }
-        // dd($procedures, $diagnosis);
-        // dd($model1->get()->toArray());
-        $data = [
-            'procedures' => $procedures,
-            'diagnosis' => $diagnosis,
-        ];
-
-        // dd($data);
-        // dd($time);
-        $return = [
-            'labels' => $time,
-            'label' => 'procedures',
-            'data' => [15,2,count($data['procedures']),count($data['diagnosis'])],
-        ];
-        // dd($return);
-        return response()->json([
-            ResponseApi::STATISTICS => $return,
-        ]);
+        
+        $dataset = Datasets::query();
+        dd($dataset->get()->toArray());
 
         // $DefaultResources = new DefaultResources($model2);
         // return response()->json([
