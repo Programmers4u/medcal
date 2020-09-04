@@ -26,11 +26,12 @@ class StatisticsController extends Controller
         foreach($model as $m) {
             $edm = json_decode($m['json_data']);
             array_push($procedures, $edm->procedures);
+
             array_push($diagnosis, $edm->diagnosis);
             array_push($time, $m['created_at']);
             // dd( $m );
         }
-        // dd($procedures, $diagnosis);
+        dd($procedures, $diagnosis);
         // dd($model1->get()->toArray());
         $data = [
             'procedures' => $procedures,
@@ -53,6 +54,20 @@ class StatisticsController extends Controller
         // return response()->json([
         //     ResponseApi::STATISTICS => $DefaultResources->toArray,
         // ]);
+    }
+
+    public function countSame($tab) {
+        $test = [];
+        $counter = [];
+        foreach($tab as $item) {
+            if(!in_array($item,$test)) {
+                $n = array_push($test,$item);
+                $counter[$item] = 1;
+            } else {
+                $counter[$item] += 1;
+            }
+        }
+        return $counter;
     }
 
 }

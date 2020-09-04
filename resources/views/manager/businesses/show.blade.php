@@ -10,15 +10,6 @@
 @section('content')
 <div class="container-fluid">
 
-  <div class="row">
-    <div class="col-md-12">
-      <b>Statystyka</b>
-      <div style="position: relative; height:80vh; width:60vw">
-        <canvas id="myChart"></canvas>
-      </div>
-    </div>
-  </div>
-
     @if ($business->services()->count() == 0)
     <div class="row">
         <div class="col-md-12">
@@ -42,7 +33,7 @@
         </div>
     </div>
     @endif
-
+    
     @foreach ($boxes->chunk(3) as $chunk)
         <div class="row">
             @foreach ($chunk as $box)
@@ -52,6 +43,15 @@
             @endforeach
         </div>
     @endforeach
+
+    <div class="row">
+        <div class="col-md-12">
+          <b>Przyczyny</b>
+          <div style="position: relative; height:60vh; width:60vw">
+            <canvas id="myChart"></canvas>
+          </div>
+        </div>
+    </div>
 
 </div>
 @endsection
