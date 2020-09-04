@@ -3,19 +3,28 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model as EloquentModel;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 class MedicalHistory extends EloquentModel
 {
-    //
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+    use SoftDeletes;
+
     protected $softDelete = true;
     protected $dates = ['deleted_at'];
     protected $table = 'medical_history';
-    protected $fillable = ['json_data','contact_id','appointment_id','humanresources_id'];
+
+    const TABLE = 'medical_history';
+    const JSON_DATA  = 'json_data';
+    const CONTACT_ID = 'contact_id';
+    const APPOINTMENT_ID = 'appointment_id';
+    const HUMANRESOURCES_ID = 'humanresources_id';
+
+    protected $fillable = [
+        self::JSON_DATA,
+        self::CONTACT_ID,
+        self::APPOINTMENT_ID,
+        self::HUMANRESOURCES_ID,
+    ];
     
     public static function getHistory($contact_id){
         $paginate = MedicalHistory::query()

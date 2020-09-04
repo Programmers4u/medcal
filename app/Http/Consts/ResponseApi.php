@@ -7,4 +7,5 @@ class ResponseApi {
     const MEDICAL_NOTE = 'medicalNote';
     const APPOINTMENT = 'appointment';
     const APPOINTMENTS = 'appointments';
+    const STATISTICS = 'statistics';
 }
