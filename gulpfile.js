@@ -55,6 +55,17 @@ gulp.task('copy',function() {
     gulp.src('resources/assets/css/intlTelInput/intlTelInput.css')
       .pipe(gulp.dest('public/css/intlTelInput/'));
 
+    // React Front
+    // res = 
+    //   gulp.src('resources/medcal-front/dist/index.html')
+    //     .pipe(gulp.dest('resources/views/React/index.blade.php'));
+    res = 
+      gulp.src('resources/medcal-front/dist/react-front-images/*')
+          .pipe(gulp.dest('public/react-front-images/'));
+    res = 
+      gulp.src('resources/medcal-front/dist/main.js')
+          .pipe(gulp.dest('public/react-front/'));
+    
     return res;
 });
 
