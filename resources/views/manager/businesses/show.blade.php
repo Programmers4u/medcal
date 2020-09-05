@@ -133,26 +133,22 @@ Statistics.get(function(data) {
             datasets: [{
                 label: 'Kobiety',
                 data: data.statistics[0].data,
-                backgroundColor: [
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                ],
-                borderColor: [
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'                
-                ],
+                backgroundColor: data.statistics[0].data.map(item=>{
+                    return 'rgba(54, 162, 235, 0.2)';
+                }),
+                borderColor: data.statistics[0].data.map(item=>{
+                    return 'rgba(255, 99, 132, 1)';
+                }),
                 borderWidth: 1            
             },{
                 label: 'Męzczyźni',
                 data: data.statistics[1].data,
-                backgroundColor: [
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                ],
+                backgroundColor: data.statistics[1].data.map(item=>{
+                        return 'rgba(255, 159, 64, 0.2)';
+                }),
+                borderColor: data.statistics[1].data.map(item=>{
+                        return 'rgba(255, 159, 64, 0.2)';
+                }),
                 borderWidth: 1            
             }],
             options: {
