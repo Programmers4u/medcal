@@ -3,7 +3,7 @@
 return  [
   //==================================== Translations ====================================//
   'feature' => [
-    'customized_support'     => 'Customized Support',
+    'customized_support'     => 'Dostęp do danych kolegów',
     'one_specialist'         => '<strong>one</strong> specialist',
     'unlimited_appointments' => '<strong>bez limitu</strong> wizyt',
     'unlimited_contacts'     => '<strong>bez limitu</strong> kontaktów',
@@ -13,16 +13,16 @@ return  [
     'up_to_services'         => '<strong>do :limit</strong> usług',
   ],
   'free'  => 'FREE',
-  'month' => 'month',
+  'month' => 'mies',
   'plan'  => [
     'free' => [
-      'hint'   => 'Najlepsze dla małych gabinetów',
-      'name'   => 'Free',
+      'hint'   => 'Osobisty, w celach badawczych',
+      'name'   => 'Za darmo',
       'submit' => 'Start',
     ],
     'premium' => [
-      'hint'   => 'Idealne dla rozwojowych gabinetów',
-      'name'   => 'Premium',
+      'hint'   => 'Aktywny Partner',
+      'name'   => 'Partner',
       'submit' => 'Abonament',
     ],
   ],
