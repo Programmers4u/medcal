@@ -4,7 +4,7 @@
 *************************************************************************/
 
 return [
-  'alert'    => 'Wspaniale! Proszę, powiedz nam co byś chcisał zrobić?',
+  'alert'    => 'Witamy! Proszę, powiedz co byś chciał/chciała zrobić?',
   'business' => [
     'btn'     => 'Chcę świadczyć usługi',
     'header'  => 'Prowadzę firmę',
