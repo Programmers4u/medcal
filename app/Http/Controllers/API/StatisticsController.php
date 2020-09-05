@@ -8,6 +8,7 @@ use Timegridio\Concierge\Models\Business;
 use \Carbon\Carbon;
 use App\Http\Requests\Statistics\GetRequest;
 use App\Http\Resources\Statistics\DefaultResources;
+use App\Models\Datasets;
 use App\Models\MedicalHistory;
 use Illuminate\Http\JsonResponse;
 
@@ -20,39 +21,42 @@ class StatisticsController extends Controller
             ->get()
             ->toArray()
         ;
-        $procedures = [];
-        $diagnosis = [];
-        $time = [];
         foreach($model as $m) {
             $edm = json_decode($m['json_data']);
-            array_push($procedures, $edm->procedures);
-            array_push($diagnosis, $edm->diagnosis);
-            array_push($time, $m['created_at']);
-            // dd( $m );
+            Datasets::create([
+                Datasets::DATE_OF_EXAMINATION  => Carbon::parse(),
+                Datasets::BIRTHDAY => Carbon::parse(),
+                Datasets::SEX => Datasets::SEX_MALE,
+                Datasets::DIAGNOSIS => $edm->diagnosis,
+                Datasets::PROCEDURES => $edm->procedures,        
+            ]);    
         }
-        // dd($procedures, $diagnosis);
-        // dd($model1->get()->toArray());
-        $data = [
-            'procedures' => $procedures,
-            'diagnosis' => $diagnosis,
-        ];
+        
+        $dataset = Datasets::query()
+            ->selectRaw('Count(1) as data, diagnosis as label, created_at as labels')
+            ->groupBy(Datasets::DIAGNOSIS)
+            ->get()->toArray()
+            ;
+        // dd($dataset);
 
-        // dd($data);
-        // dd($time);
-        $return = [
-            'labels' => $time,
-            'label' => 'procedures',
-            'data' => [15,2,count($data['procedures']),count($data['diagnosis'])],
-        ];
-        // dd($return);
+        // $DefaultResources = new DefaultResources($dataset);
         return response()->json([
-            ResponseApi::STATISTICS => $return,
+            ResponseApi::STATISTICS => $dataset,
         ]);
+    }
 
-        // $DefaultResources = new DefaultResources($model2);
-        // return response()->json([
-        //     ResponseApi::STATISTICS => $DefaultResources->toArray,
-        // ]);
+    public function countSame($tab) {
+        $test = [];
+        $counter = [];
+        foreach($tab as $item) {
+            if(!in_array($item,$test)) {
+                $n = array_push($test,$item);
+                $counter[$item] = 1;
+            } else {
+                $counter[$item] += 1;
+            }
+        }
+        return $counter;
     }
 
 }

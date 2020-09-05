@@ -15,8 +15,8 @@ class DropForeignKeyAppointmentIdToMedicalHistory extends Migration
     {
         //
         Schema::table('medical_history', function(Blueprint $table){
-            $table->dropForeign(['appointment_id']);
-            $table->dropIndex(['appointment_id']);
+            // $table->dropForeign(['appointment_id']);
+            // $table->dropIndex(['appointment_id']);
         });
         
     }
@@ -30,8 +30,8 @@ class DropForeignKeyAppointmentIdToMedicalHistory extends Migration
     {
         //
         Schema::table('medical_history', function(Blueprint $table){
-            $table->integer('appointment_id')->unsigned()->index();
-            $table->foreign('appointment_id')->references('id')->on('appointments')->onDelete('cascade');
+            // $table->integer('appointment_id')->unsigned()->index();
+            // $table->foreign('appointment_id')->references('id')->on('appointments')->onDelete('cascade');
         });        
     }
 }

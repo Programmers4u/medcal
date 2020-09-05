@@ -16,7 +16,10 @@ class SmsServer extends Migration
     {
         //
         Schema::create('sms_server', function(Blueprint $table){
+            $table->timestamps();
+            $table->softDeletes();
             $table->bigIncrements('id');
+
             $table->string('client_id', 80);
             $table->tinyInteger('status')->default(ServerSMS::$STATUS_TOSEND);
             $table->string('to',16);
@@ -24,8 +27,6 @@ class SmsServer extends Migration
             $table->string('msg_id', 120);
             $table->dateTimeTz('date_start');            
 
-            $table->timestamps();
-            $table->softDeletes();
             $table->index(['client_id', 'created_at', 'date_start', 'status']);
         });        
         

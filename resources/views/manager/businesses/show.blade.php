@@ -10,15 +10,6 @@
 @section('content')
 <div class="container-fluid">
 
-  <div class="row">
-    <div class="col-md-12">
-      <b>Statystyka</b>
-      <div style="position: relative; height:80vh; width:60vw">
-        <canvas id="myChart"></canvas>
-      </div>
-    </div>
-  </div>
-
     @if ($business->services()->count() == 0)
     <div class="row">
         <div class="col-md-12">
@@ -42,7 +33,7 @@
         </div>
     </div>
     @endif
-
+    
     @foreach ($boxes->chunk(3) as $chunk)
         <div class="row">
             @foreach ($chunk as $box)
@@ -52,6 +43,15 @@
             @endforeach
         </div>
     @endforeach
+
+    <div class="row">
+        <div class="col-md-12">
+          <b>Przyczyny</b>
+          <div style="position: relative; height:60vh; width:60vw">
+            <canvas id="myChart"></canvas>
+          </div>
+        </div>
+    </div>
 
 </div>
 @endsection
@@ -79,10 +79,27 @@ Statistics.endPoint = '/statistics';
     type: 'line',
     data: {
         datasets: [{
-            label: data.statistics.label,
-            data: data.statistics.data
+            label: data.statistics[0].label,
+            data: [data.statistics[0].data, data.statistics[1].data],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+            ],
+            borderWidth: 1            
+        },{
+            label: data.statistics[1].label,
+            data: [data.statistics[1].data, data.statistics[0].data],
+            backgroundColor: [
+                'rgba(54, 162, 235, 0.2)',
+            ],
+            borderColor: [
+                'rgba(54, 162, 235, 1)',
+            ],
+            borderWidth: 1            
         }],
-        labels: data.statistics.labels
+        labels: [data.statistics[0].labels, data.statistics[1].labels]
     },
     options: {
         scales: {

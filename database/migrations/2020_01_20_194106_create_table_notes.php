@@ -15,13 +15,18 @@ class CreateTableNotes extends Migration
     {
         //
         Schema::create('notes', function(Blueprint $table){
-            $table->bigIncrements('id');
-            $table->bigInteger('appointment_id');
-            $table->string('note',960);
-
             $table->timestamps();
             $table->softDeletes();
-            $table->index(['appointment_id']);
+            $table->bigIncrements('id');
+
+            $table->bigInteger('appointment_id')
+                ->index()
+                ->foregin('appointment_id')
+                ->references('id')
+                ->on('appointments')
+                ->onDelete('no action');
+                
+            $table->string('note',960);
         });        
         
     }

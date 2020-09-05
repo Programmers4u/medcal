@@ -4,6 +4,9 @@
 // User //
 //////////
 
+use App\Models\Datasets;
+use Carbon\Carbon;
+
 $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
     return [
         'username' => $faker->unique()->firstName,
@@ -168,5 +171,20 @@ $factory->define(Timegridio\Concierge\Models\Domain::class, function ($faker) {
     return [
         'slug'     => str_slug($faker->name),
         'owner_id' => factory(App\Models\User::class)->create()->id,
+    ];
+});
+
+
+////////////
+// Datasets //
+////////////
+
+$factory->define(Datasets::class, function ($faker) {
+    return [
+        Datasets::DATE_OF_EXAMINATION  => Carbon::parse(),
+        Datasets::BIRTHDAY => Carbon::parse(),
+        Datasets::SEX => Datasets::SEX_FEMALE,
+        Datasets::DIAGNOSIS => $faker->text,
+        Datasets::PROCEDURES => $faker->text,
     ];
 });
