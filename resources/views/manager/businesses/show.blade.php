@@ -79,10 +79,27 @@ Statistics.endPoint = '/statistics';
     type: 'line',
     data: {
         datasets: [{
-            label: data.statistics.label,
-            data: data.statistics.data
+            label: data.statistics[0].label,
+            data: [data.statistics[0].data, data.statistics[1].data],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+            ],
+            borderWidth: 1            
+        },{
+            label: data.statistics[1].label,
+            data: [data.statistics[1].data, data.statistics[0].data],
+            backgroundColor: [
+                'rgba(54, 162, 235, 0.2)',
+            ],
+            borderColor: [
+                'rgba(54, 162, 235, 1)',
+            ],
+            borderWidth: 1            
         }],
-        labels: data.statistics.labels
+        labels: [data.statistics[0].labels, data.statistics[1].labels]
     },
     options: {
         scales: {

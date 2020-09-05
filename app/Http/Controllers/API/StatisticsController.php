@@ -26,20 +26,23 @@ class StatisticsController extends Controller
             Datasets::create([
                 Datasets::DATE_OF_EXAMINATION  => Carbon::parse(),
                 Datasets::BIRTHDAY => Carbon::parse(),
-                Datasets::SEX => Datasets::SEX_FEMALE,
+                Datasets::SEX => Datasets::SEX_MALE,
                 Datasets::DIAGNOSIS => $edm->diagnosis,
                 Datasets::PROCEDURES => $edm->procedures,        
             ]);    
-            // dd( $m );
         }
         
-        $dataset = Datasets::query();
-        dd($dataset->get()->toArray());
+        $dataset = Datasets::query()
+            ->selectRaw('Count(1) as data, diagnosis as label, created_at as labels')
+            ->groupBy(Datasets::DIAGNOSIS)
+            ->get()->toArray()
+            ;
+        // dd($dataset);
 
-        // $DefaultResources = new DefaultResources($model2);
-        // return response()->json([
-        //     ResponseApi::STATISTICS => $DefaultResources->toArray,
-        // ]);
+        // $DefaultResources = new DefaultResources($dataset);
+        return response()->json([
+            ResponseApi::STATISTICS => $dataset,
+        ]);
     }
 
     public function countSame($tab) {
