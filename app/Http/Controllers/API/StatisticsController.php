@@ -37,11 +37,92 @@ class StatisticsController extends Controller
             ->groupBy(Datasets::DIAGNOSIS)
             ->get()->toArray()
             ;
-        // dd($dataset);
+
+        $datasetFemale = Datasets::query()
+            ->selectRaw('Count(1) as data, diagnosis as label, created_at as labels')
+            ->where(Datasets::SEX, Datasets::SEX_FEMALE)
+            ->groupBy(Datasets::DIAGNOSIS)
+            ->groupBy(Datasets::DATE_OF_EXAMINATION)
+            ->get()->toArray()
+            ;
+
+        $datasetIll = Datasets::query()
+            ->selectRaw('Count(1) as data, diagnosis as label, created_at as labels')
+            ->groupBy(Datasets::DIAGNOSIS)
+            // ->groupBy(Datasets::DATE_OF_EXAMINATION)
+            ->get()->toArray()
+            ;
+        $ill = [
+            'data' => [],
+            'labels' => [],
+            'label' => [],
+        ];
+        foreach($datasetIll as $d) {
+            array_push($ill['data'], $d['data']);
+            array_push($ill['labels'], $d['label']);
+            // array_push($ill['label'], $d['label']);
+        }
+
+        // dd($ill);
 
         // $DefaultResources = new DefaultResources($dataset);
         return response()->json([
-            ResponseApi::STATISTICS => $dataset,
+            ResponseApi::STATISTICS => $ill,
+        ]);
+    }
+
+    public function getIll(GetRequest $requestst, Business $business) : JsonResponse
+    {
+        $dataset = Datasets::query()
+            ->selectRaw('Count(1) as data, diagnosis as label, created_at as labels')
+            ->groupBy(Datasets::DIAGNOSIS)
+            // ->groupBy(Datasets::DATE_OF_EXAMINATION)
+            ->get()->toArray()
+        ;
+        
+        $ill = [
+            'data' => [],
+            'labels' => [],
+            'label' => [],
+        ];
+
+        foreach($dataset as $data) {
+            array_push($ill['data'], $data['data']);
+            array_push($ill['labels'], $data['label']);
+            // array_push($ill['label'], $data['label']);
+        }
+
+        // $DefaultResources = new DefaultResources($dataset);
+        return response()->json([
+            ResponseApi::STATISTICS => $ill,
+        ]);
+    }
+
+    public function getIllSex(GetRequest $requestst, Business $business) : JsonResponse
+    {
+        $dataset = Datasets::query()
+            ->selectRaw('Count(1) as data, diagnosis as label, created_at as labels')
+            ->where(Datasets::SEX, Datasets::SEX_FEMALE)
+            ->groupBy(Datasets::DIAGNOSIS)
+            // ->groupBy(Datasets::DATE_OF_EXAMINATION)
+            ->get()->toArray()
+        ;
+        
+        $ill = [
+            'data' => [],
+            'labels' => [],
+            'label' => [],
+        ];
+
+        foreach($dataset as $data) {
+            array_push($ill['data'], $data['data']);
+            array_push($ill['labels'], $data['label']);
+            // array_push($ill['label'], $data['label']);
+        }
+
+        // $DefaultResources = new DefaultResources($dataset);
+        return response()->json([
+            ResponseApi::STATISTICS => $ill,
         ]);
     }
 

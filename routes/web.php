@@ -119,6 +119,14 @@ Route::group(['namespace' => 'API'], function () {
         'uses' => 'StatisticsController@getIndex',
     ]);    
 
+    Route::get('statistics/ill', [
+        'uses' => 'StatisticsController@getIll',
+    ]);    
+
+    Route::get('statistics/ill-sex', [
+        'uses' => 'StatisticsController@getIllSex',
+    ]);    
+
 });
 
 
