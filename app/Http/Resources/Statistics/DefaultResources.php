@@ -11,7 +11,7 @@ class DefaultResources extends Resource
         return [
             'label' => $item['label'],
             'data' => $item['data'],
-            // 'jsonRaw' => $item[MedicalHistory::JSON_DATA]
+            'labels' => $item['labels'],
         ];
     }
 }
