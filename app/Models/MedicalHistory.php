@@ -4,7 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Http\Request;
+use Timegridio\Concierge\Models\Appointment;
+use Timegridio\Concierge\Models\Humanresource;
+
 class MedicalHistory extends EloquentModel
 {
     use SoftDeletes;
@@ -63,23 +65,27 @@ class MedicalHistory extends EloquentModel
         return $result;
     }
 
-    /**
-     * has Contacts.
-     *
-     *      Contacts are the different profiles for different Businesses the User may have
-     *
-     * @return Illuminate\Database\Query Relationship User has Contacts query
-     */
+    const RELATION_CONTACT = 'contacts';
+
     public function contacts()
     {
-        return $this->belongsTo(\Timegridio\Concierge\Models\Contact::class);
+        return $this->belongsTo(\Timegridio\Concierge\Models\Contact::class, self::CONTACT_ID);
     }
 
-    /**
-     * has Contacts.
-     *
-     * @return bool The User has at least one Contact profile set
-     */
+    const RELATION_APPOINTMENT = 'appointment';
+
+    public function appointment()
+    {
+        return $this->belongsTo(Appointment::class, self::APPOINTMENT_ID);
+    }
+
+    const RELATION_HR = 'hr';
+
+    public function hr()
+    {
+        return $this->belongsTo(Humanresource::class, self::HUMANRESOURCES_ID);
+    }
+
     public function hasContacts()
     {
         return $this->contacts->count() > 0;
