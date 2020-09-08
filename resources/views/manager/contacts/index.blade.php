@@ -164,7 +164,7 @@ var changeContact = function(id,name){
     </div>          
     {!! $contacts->render() !!}
 
-    <div class="panel panel-primary filterable">
+    <div class="panel panel-default filterable">
         <div class="panel-heading">
             <h3 class="panel-title">{{ trans('manager.contacts.title') }}</h3>
             <div class="pull-right">
@@ -191,7 +191,7 @@ var changeContact = function(id,name){
                     <td>{{ $contact->email }}</td>
                     <td>{{ $contact->mobile }}</td>
                     <td>
-                        {!! Button::withIcon(Icon::book())->primary(trans('medical.btn.history'), [$business,$contact])
+                        {!! Button::withIcon(Icon::book())->success(trans('medical.btn.history'), [$business,$contact])
                                   ->asLinkTo( route('medical.document', [$business, $contact]) )
                                   ->small()
                                   ->block() !!}
@@ -201,8 +201,13 @@ var changeContact = function(id,name){
             @endforeach
             </tbody>
         </table>
+
+        {{-- Pagination --}}
+        <div class="d-flex justify-content-center">
+            {!! $contacts->links() !!}
+        </div>
     </div>
-{!! Button::withIcon(Icon::plus())->primary(trans('manager.businesses.contacts.btn.create'))
+{!! Button::withIcon(Icon::plus())->info(trans('manager.businesses.contacts.btn.create'))
                                   ->asLinkTo( route('manager.addressbook.create', $business) )
                                   ->large()
                                   ->block() !!}
