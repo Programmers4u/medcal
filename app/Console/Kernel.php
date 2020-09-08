@@ -6,7 +6,7 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use App\Http\Controllers\SmsContrller;
+use App\Services\SmsService;
 
 class Kernel extends ConsoleKernel
 {
@@ -67,15 +67,15 @@ class Kernel extends ConsoleKernel
         $schedule->command('storage:public_clear')->hourly();
         
         $schedule->call(function () {
-            //$job = SmsContrller::getNow();
-            //$job = SmsContrller::getTomorrow();
-            //$job = SmsContrller::getSixMonth();
+            //$job = SmsService::getNow();
+            //$job = SmsService::getTomorrow();
+            //$job = SmsService::getSixMonth();
         })->everyMinute();
 
         $schedule->call(function () {
             
-            $job[0] = SmsContrller::getTomorrow();
-            $job[1] = SmsContrller::getSixMonth();
+            $job[0] = SmsService::getTomorrow();
+            $job[1] = SmsService::getSixMonth();
 
         })->dailyAt('9:00'); 
     }
