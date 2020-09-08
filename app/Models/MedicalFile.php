@@ -12,6 +12,15 @@ class MedicalFile extends Model
     protected $softDelete = true;
     protected $dates = ['deleted_at'];
     protected $table = 'medical_file';
+
+    const TABLE = 'medical_file';
+    const CONATCT_ID = 'contact_id';
+    const FILE = 'file';
+    const DESCRIPTION = 'description';
+    const MEDICAL_HISTORY_ID = 'medical_history_id';
+    const TYPE = 'type';
+    const ORIGINAL_NAME = 'original_name';
+
     protected $fillable = ['contact_id','file','description','id','medical_history_id','type','original_name'];
     
     public static $typePermission = 'P';

@@ -8,7 +8,7 @@ use App\TG\TransMail;
 use Fenos\Notifynder\Facades\Notifynder;
 use Timegridio\Concierge\Models\Contact;
 use Timegridio\Concierge\Models\Business;
-use App\Http\Controllers\SmsContrller;
+use App\Services\SmsService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -111,7 +111,7 @@ class SendBookingNotification
             'mobile' => $phone
         ]];
 
-        $result = SmsContrller::sendMessage($contactsWithMessage, $business);
+        $result = SmsService::sendMessage($contactsWithMessage, $business);
                 
         logger()->debug('stop sending sms');
         

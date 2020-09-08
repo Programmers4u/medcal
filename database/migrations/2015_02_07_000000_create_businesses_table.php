@@ -13,6 +13,7 @@ class CreateBusinessesTable extends Migration
     public function up()
     {
         Schema::create('businesses', function (Blueprint $table) {
+            $table->softDeletes();
             $table->increments('id');
             $table->integer('category_id')->unsigned();
             $table->foreign('category_id')->references('id')->on('categories');
@@ -25,7 +26,6 @@ class CreateBusinessesTable extends Migration
             $table->string('timezone');
             $table->string('strategy', 15)->default('timeslot'); /* Appointment Booking Strategy */
             $table->string('plan', 20);
-            $table->softDeletes();
             $table->nullableTimestamps();
         });
     }

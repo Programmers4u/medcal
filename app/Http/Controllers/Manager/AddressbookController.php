@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ContactFormRequest;
 use App\Models\User;
 use CreateUser;
+use Timegridio\Concierge\Addressbook;
 use Timegridio\Concierge\Models\Business;
 use Timegridio\Concierge\Models\Contact;
 
@@ -29,7 +30,7 @@ class AddressbookController extends Controller
         $this->authorize('manageContacts', $business);
 
         $contacts = $business->addressbook()->listing(10);
-
+        
         return view('manager.contacts.index', compact('business', 'contacts'));
     }
 

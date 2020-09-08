@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Services;
 
-use Illuminate\Http\Request;
 use Timegridio\Concierge\Models\Contact;
 use Carbon\Carbon;
 use Timegridio\Concierge\Models\Business;
@@ -12,7 +11,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Programmers4u\gatesms\sms\sender\SmsSender;
 
-class SmsContrller extends Controller
+class SmsService
 {
     //
     
@@ -27,7 +26,7 @@ class SmsContrller extends Controller
         if ($business->pref('disable_outbound_mailing')) {
             $store = "disable_outbound_mailing\r\n";
             logger()->debug($store);
-            SmsContrller::pushReport($store);
+            SmsService::pushReport($store);
             return [];
         }
         
@@ -50,8 +49,8 @@ class SmsContrller extends Controller
             $number = $cwm['mobile'];
             $message = $cwm['message'];
             Notifynder::category('sms.send')
-                       ->from('App\Http\Controllers\SmsContrller', 0)
-                       ->to('App\Http\Controllers\SmsContrller', 0)
+                       ->from('App\SmsService', 0)
+                       ->to('App\SmsService', 0)
                        ->url('http://localhost')
                        ->extra(compact('number', 'message'))
                        ->send();
@@ -62,12 +61,12 @@ class SmsContrller extends Controller
             $store.= 'Report: '.$result."\r\n";
         }
         logger()->debug($store);
-        SmsContrller::pushReport($store);
+        SmsService::pushReport($store);
 
         // Generate local notification
         Notifynder::category('sms.send')
-            ->from('App\Http\Controllers\SmsContrller', 0)
-            ->to('App\Http\Controllers\SmsContrller', 0)
+            ->from('App\SmsService', 0)
+            ->to('App\SmsService', 0)
             ->url('http://localhost')
             ->extra(compact('store'))
             ->send();
@@ -130,12 +129,12 @@ class SmsContrller extends Controller
         foreach ($response as $m){
             $record['mobile'] = $m['mobile'];
             $record['message'] = $m['message'];
-            $result = SmsContrller::sendMessage([$record], $m['business']);
+            $result = SmsService::sendMessage([$record], $m['business']);
             array_push ($out, $result);
             $store.= json_encode($record)."\r\n";
         }
         $store.= json_encode($out)."\r\n";
-        SmsContrller::pushReport($store);
+        SmsService::pushReport($store);
         return $out;
     }
 
@@ -151,7 +150,7 @@ class SmsContrller extends Controller
                 ->where('start_at','<', Carbon::parse()->addDays(1)->toIso8601String())
                 ->get()
                 ;
-        return SmsContrller::getBody($rows,'sms_message');
+        return SmsService::getBody($rows,'sms_message');
         
     }
     
@@ -168,7 +167,7 @@ class SmsContrller extends Controller
                 ->where('start_at','<', Carbon::parse()->addDays(2)->toIso8601String())
                 ->get()
                 ;
-        return SmsContrller::getBody($rows,'sms_message1');
+        return SmsService::getBody($rows,'sms_message1');
     }
 
     protected function getWeek(){
@@ -205,7 +204,7 @@ class SmsContrller extends Controller
             }
         }
         
-        return SmsContrller::getBody($filtr_rows,'sms_message2');
+        return SmsService::getBody($filtr_rows,'sms_message2');
         
     }
     

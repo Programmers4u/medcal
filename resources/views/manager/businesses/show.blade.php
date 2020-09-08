@@ -45,15 +45,20 @@
     @endforeach
 
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-1"></div>
+            <div class="col-md-11">
           <b>Rozpoznania - choroby</b>
-          <div style="position: relative; height:60vh; width:45vw">
+          <div style="position: relative; height:60vh; width:60vw">
             <canvas id="myChart"></canvas>
           </div>
         </div>
-        <div class="col-md-6">
+    </div>
+
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-11">
             <b>Rozpoznania - choroby kobiety/męzczyźni</b>
-            <div style="position: relative; height:60vh; width:45vw">
+            <div style="position: relative; height:60vh; width:60vw">
               <canvas id="myChart2"></canvas>
             </div>
         </div>  
@@ -81,7 +86,6 @@ Statistics.post.type = 'diagnosis';
 <script>
   var ctx = document.getElementById('myChart');
   var ctx2 = document.getElementById('myChart2');
-
 
 Statistics.get(function(data) {
     var chart = new Chart(ctx, {

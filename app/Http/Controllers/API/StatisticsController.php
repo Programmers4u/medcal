@@ -12,7 +12,6 @@ use App\Models\Datasets;
 use App\Models\MedicalHistory;
 use Illuminate\Http\JsonResponse;
 use Timegridio\Concierge\Models\Contact;
-use Timegridio\Concierge\Presenters\ContactPresenter;
 
 class StatisticsController extends Controller
 {

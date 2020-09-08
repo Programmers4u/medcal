@@ -38,6 +38,8 @@ class WizardController extends Controller
             return redirect()->route('user.dashboard');
         }
 
+        return redirect()->route('wizard.pricing');
+
         return view('wizard');
     }
 
