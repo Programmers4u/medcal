@@ -4,7 +4,7 @@ return  [
   //==================================== Translations ====================================//
   'feature' => [
     'customized_support'     => 'Dostęp do danych kolegów',
-    'one_specialist'         => '<strong>one</strong> specialist',
+    'one_specialist'         => '<strong>jeden</strong> specialista/ka',
     'unlimited_appointments' => '<strong>bez limitu</strong> wizyt',
     'unlimited_contacts'     => '<strong>bez limitu</strong> kontaktów',
     'unlimited_services'     => '<strong>bez limitu</strong> katalogu usług',
@@ -16,12 +16,12 @@ return  [
   'month' => 'mies',
   'plan'  => [
     'free' => [
-      'hint'   => 'Osobisty, w celach badawczych',
+      'hint'   => 'Osobisty, w celach badawczych, przepraszamy za limity ale ci od infrastruktury chcą kasę ;)',
       'name'   => 'Za darmo',
       'submit' => 'Start',
     ],
     'premium' => [
-      'hint'   => 'Aktywny Partner',
+      'hint'   => 'Aktywny Partner, dzięki wam, mamy pieniądze na dalesze prace, dziękujemy!',
       'name'   => 'Partner',
       'submit' => 'Abonament',
     ],
