@@ -2,32 +2,20 @@
 <script>
 var app_meeting_Id = 0;
 var deleteAppointment = function(){
-    if(!confirm('Jesteś zdecydowany anulować spotkanie?')) return;
-    var post = {
-        'business' : bussinesId,
-        'appointment' : app_meeting_Id,
-        'action' : 'cancel',
-        'widget' : 'row',
-    }
-    if(humanresources==0){
-        var txt = 'Wybierz kalendarz pracownika';
-        alert(txt,'error');
-        return -1;
-    }
+  if(!confirm('Jesteś zdecydowany anulować spotkanie?')) return;
 
-    $.ajax({
-        headers: {
-            'X-CSRF-TOKEN': '{{csrf_token()}}'
-        },            
-        url: "/booking",
-        data: post,            
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-            // getAppointment();
-            $('#_modal_appocalendar [data-dismiss=modal]').click();
-        },
-    });
+  AppointmentDelete.post = {
+    ...AppointmentDelete.post,
+    business : '{{ $business->id }}',
+    appointment: app_meeting_Id,
+    csrf : csrf,
+    'action' : 'cancel',
+    'widget' : 'row',
+  }
+  AppointmentDelete.get(function (data) {
+    $('#_modal_appocalendar [data-dismiss=modal]').click();
+    document.location.reload();
+  });
 }
 </script>
 

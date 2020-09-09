@@ -93,7 +93,7 @@ class SendBookingNotification implements ShouldQueue
             'mobile' => $phone
         ]];
 
-        $result = SmsService::sendMessage($contactsWithMessage, Business::find($event->appointment->business-id) );
+        $result = SmsService::sendMessage($contactsWithMessage, $event->appointment->business );
                 
         logger()->debug('stop sending sms: ' . json_encode($result));
         

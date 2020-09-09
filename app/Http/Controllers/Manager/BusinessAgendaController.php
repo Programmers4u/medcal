@@ -88,6 +88,13 @@ class BusinessAgendaController extends Controller
             ->where('business_id','=',$business->id)
             ->where('start_at','>=', $where_at)
             ->where('start_at','<=',$where_to)
+            ->where(function($q) {
+                $q
+                ->where('status', \Timegridio\Concierge\Models\Appointment::STATUS_CONFIRMED)
+                ->orWhere('status', \Timegridio\Concierge\Models\Appointment::STATUS_RESERVED)
+                ->orWhere('status', \Timegridio\Concierge\Models\Appointment::STATUS_SERVED)
+                ;
+            })
             ->limit(150)
             ->get();        
         

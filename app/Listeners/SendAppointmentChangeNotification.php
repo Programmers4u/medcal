@@ -2,41 +2,37 @@
 
 namespace App\Listeners;
 
-use App\Events\AppointmentWasConfirmed;
+use App\Events\AppointmentWasChange;
 use App\Events\Event;
+use App\Models\User;
 use App\Services\SmsService;
 use App\TG\TransMail;
 use Fenos\Notifynder\Facades\Notifynder;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Timegridio\Concierge\Models\Contact;
 
-class SendAppointmentConfirmationNotification implements ShouldQueue
+class SendAppointmentChangeNotification implements ShouldQueue
 {
     use InteractsWithQueue;
 
     private $transmail;
 
+ 
     public function __construct(TransMail $transmail)
     {
         $this->transmail = $transmail;
     }
 
-    /**
-     * Handle the event.
-     *
-     * @param AppointmentWasConfirmed $event
-     *
-     * @return void
-     */
-    public function handle(AppointmentWasConfirmed $event)
+    public function handle(AppointmentWasChange $event)
     {
         logger()->info(__METHOD__);
-
+        
         $code = $event->appointment->code;
         $date = $event->appointment->start_at->toDateString();
         $businessName = $event->appointment->business->name;
 
-        Notifynder::category('appointment.confirm')
+        Notifynder::category('appointment.cancel')
                    ->from('App\Models\User', $event->user->id)
                    ->to('Timegridio\Concierge\Models\Business', $event->appointment->business->id)
                    ->url('http://localhost')
@@ -51,24 +47,14 @@ class SendAppointmentConfirmationNotification implements ShouldQueue
         // Send emails //
         /////////////////
 
-        // Mail to User
-        $params = [
-            'user'         => $event->user,
-            'appointment'  => $event->appointment,
-            'userName'     => $event->appointment->contact->firstname,
-            'businessName' => $businessName,
-        ];
-        $header = [
-            'name'  => $event->appointment->contact->firstname,
-            'email' => $event->appointment->contact->email,
-        ];
-        $this->transmail->locale($event->appointment->business->locale)
-                        ->timezone($event->user->pref('timezone'))
-                        ->template('user.appointment-confirmation.notification')
-                        ->subject('user.appointment-confirmation.subject', compact('businessName'))
-                        ->send($header, $params);
+        $this->sendEmailToContactUser($event);
+
+        /////////////////
+        // Send sms //
+        /////////////////
 
         $this->sendSMSToContactUser($event);
+
     }
 
     protected function sendSMSToContactUser(Event $event) {
@@ -80,7 +66,7 @@ class SendAppointmentConfirmationNotification implements ShouldQueue
         $businessName = $event->appointment->business->name;
 
         $phone = $event->appointment->contact->mobile;
-        $message = $event->appointment->business->pref('sms_message1');
+        $message = $event->appointment->business->pref('sms_message');
         $date = $event->appointment->start_at->setTimezone($event->appointment->business->timezone);
         $day = $date->format('Y-m-d');
         $hour = $date->format('H:i');
@@ -100,7 +86,55 @@ class SendAppointmentConfirmationNotification implements ShouldQueue
 
         $result = SmsService::sendMessage($contactsWithMessage, $event->appointment->business);
                 
-        logger()->debug('stop sending sms: ' . json_encode($result));        
+        logger()->debug('stop sending sms: ' . json_encode($result));
+        
+    }
+
+    protected function sendEmailToContactUser($event)
+    {        
+        if (!$user = $event->user) {
+            return false;
+        }
+
+        $destinationEmail = $this->getDestinationEmail($user, $event->appointment->contact);
+
+        // Mail to User
+        $params = [
+            'user'         => $event->user,
+            'appointment'  => $event->appointment,
+            'userName'     => $event->appointment->contact->firstname,
+        ];
+        $header = [
+            'name'  => $event->appointment->contact->firstname,
+            'email' => $destinationEmail,
+        ];
+
+        $email = [
+            'header'   => $header,
+            'params'   => $params,
+            'locale'   => $event->appointment->business->locale,
+            'timezone' => $event->user->pref('timezone'),
+            'template' => 'user.appointment-change.notification',
+            'subject'  => 'user.appointment-cancellation.subject',
+        ];
+
+        $this->sendemail($email);
+    }
+
+    protected function sendEmail($email)
+    {
+        extract($email);
+
+        $this->transmail->locale($locale)
+                        ->timezone($timezone)
+                        ->template($template)
+                        ->subject($subject)
+                        ->send($header, $params);
+    }
+
+    protected function getDestinationEmail(User $user, Contact $contact)
+    {
+        return $contact->email ?: $user->email;
     }
 
 }

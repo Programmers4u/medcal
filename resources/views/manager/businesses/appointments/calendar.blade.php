@@ -73,8 +73,12 @@ AppointmentSave.csrf = '{{csrf_token()}}';
 AppointmentSave.businessId = '{{ $business->id }}';
 AppointmentSave.endPoint = '/book';
 
+var AppointmentDelete = Object.create(Appointment);
+AppointmentDelete.csrf = '{{csrf_token()}}';
+AppointmentDelete.businessId = '{{ $business->id }}';
+AppointmentDelete.endPoint = '/booking';
+
 var AppointmentChange = Object.create(Appointment);
-console.log(AppointmentChange);
 AppointmentChange.csrf = '{{csrf_token()}}';
 AppointmentChange.businessId = '{{ $business->id }}';
 

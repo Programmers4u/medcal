@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Events\AppointmentWasCanceled;
+use App\Events\AppointmentWasChange;
 use App\Events\AppointmentWasConfirmed;
 use App\Events\NewAppointmentWasBooked;
 use App\Events\NewSoftAppointmentWasBooked;
@@ -108,8 +109,6 @@ class BookingController extends Controller
         
         switch ($action) {
             case 'cancel':
-                // $app = Appointment::find($appointment->id);
-                // $app->delete();
                 $appointment = $appointmentManager->cancel();
                 event(new AppointmentWasCanceled($isuser, $appointment));
                 break;
@@ -307,7 +306,7 @@ class BookingController extends Controller
             $response = ["info"=>"Termin zmieniony",'type'=>'success'];
             $appointment->save();
             //$response = Appointment::update($query,$update);
-            event(new NewAppointmentWasBooked(auth()->user(), $appointment));
+            event(new AppointmentWasChange(auth()->user(), $appointment));
         }
         return response()->json([
             'info' => $response['info'],

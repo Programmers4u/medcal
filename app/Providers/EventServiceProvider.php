@@ -29,6 +29,9 @@ class EventServiceProvider extends ServiceProvider
         \App\Events\AppointmentWasCanceled::class => [
             \App\Listeners\SendAppointmentCancellationNotification::class,
         ],
+        \App\Events\AppointmentWasChange::class => [
+            \App\Listeners\SendAppointmentChangeNotification::class,
+        ],
         \App\Events\NewSoftAppointmentWasBooked::class => [
             \App\Listeners\SendSoftAppointmentValidationRequest::class,
         ],
