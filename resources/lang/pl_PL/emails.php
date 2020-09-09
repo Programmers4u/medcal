@@ -13,10 +13,10 @@ return [
             'button'       => 'View Calendar',
         ],
         'appointment-notification' => [
-            'subject'      => 'You have a new appointment',
-            'welcome'      => ':ownerName, you have a new appointment',
-            'instructions' => 'A new appointment was reserved',
-            'title'        => 'Appointment Details',
+            'subject'      => 'Masz nowe spotkanie',
+            'welcome'      => ':ownerName, masz nowe spotkanie',
+            'instructions' => 'Nowe spotkanie zarezerwowane',
+            'title'        => 'Szczegóły spotkania',
         ],
     ],
     'user'    => [
@@ -66,10 +66,10 @@ return [
         ],
     ],
     'text'  => [
-        'business'          => 'Business',
+        'business'          => 'Firma',
         'user'              => 'Użytkownik',
         'date'              => 'Data',
-        'time'              => 'Czas',
+        'time'              => 'Godzina',
         'code'              => 'Kod',
         'where'             => 'Gdzie',
         'phone'             => 'Telefon',
