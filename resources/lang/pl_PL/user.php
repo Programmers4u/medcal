@@ -73,7 +73,7 @@ return  [
         'contact'     => 'Klient',
         'duration'    => 'Okres',
         'finish_time' => 'koniec',
-        'remaining'   => 'Within',
+        'remaining'   => 'Długość',
         'service'     => 'Usługa',
         'start_time'  => 'Początek',
         'status'      => 'Status',
