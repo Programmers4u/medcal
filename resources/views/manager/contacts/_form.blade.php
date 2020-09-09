@@ -66,7 +66,13 @@
         'F' => trans('manager.contacts.form.gender.female.label')
         ],
         null,
-        ['id' => 'gender', 'class' => 'form-control'] ) !!}
+        [
+            'id' => 'gender', 
+            'class' => 'form-control',
+            'required',
+            'oninvalid' => 'this.setCustomValidity( "'.trans('manager.contacts.form.gender.validation').'" )',
+            'oninput' => 'this.setCustomValidity("")',        
+        ] ) !!}
         <div class="help-block with-errors"></div>
     </div>
 </div>
@@ -75,6 +81,9 @@
     {!! Form::label( trans('manager.contacts.form.birthdate.label'), null, ['class' => 'control-label col-sm-3'] ) !!}
     <div class="col-sm-9">
     {!! Form::text('birthdate', isset($contact) ? old('birthdate', $contact->birthdate ? $contact->birthdate->format(trans('app.dateformat.carbon')) : null) : null, [
+        'required',
+        'oninvalid' => 'this.setCustomValidity( "'.trans('manager.contacts.form.birthdate.validation').'" )',
+        'oninput' => 'this.setCustomValidity("")',        
         'class' => 'form-control',
         'id' => 'birthdate',
         'placeholder'=> old('birthdate'),
@@ -100,6 +109,9 @@
     <div class="col-sm-9">
     {!! Form::text('mobile-input', isset($contact) ? old('mobile', $contact->mobile ?: null) : null, [
         'id' => 'mobile-input',
+        'required',
+        'oninvalid' => 'this.setCustomValidity( "'.trans('manager.contacts.form.mobile.validation').'" )',
+        'oninput' => 'this.setCustomValidity("")',        
         'class' => 'form-control',
         'placeholder'=> old('mobile') ]) !!}
         <div class="help-block with-errors"></div>

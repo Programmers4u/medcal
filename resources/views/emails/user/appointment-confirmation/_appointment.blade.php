@@ -2,7 +2,7 @@
 ----------------------------------------------
 {{ trans('emails.text.business') }}: {{ $appointment->business->name }}
     {{ trans('emails.text.date') }}: {{ $appointment->date }}
-    {{ trans('emails.text.time') }}: {{ trans_choice('appointments.text.arrive_at', count($arriveAt = $appointment->arriveAt), $arriveAt) }}
+    {{ trans('emails.text.time') }}: {{$appointment->start_at->format('H:i')}}
     {{ trans('emails.text.code') }}: {{ $appointment->code() }}
 @if($appointment->business->pref('show_postal_address'))
    {{ trans('emails.text.where') }}: {{ $appointment->business->postal_address }}

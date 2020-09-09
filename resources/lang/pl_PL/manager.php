@@ -164,7 +164,7 @@ return  [
         
     ],
       
-          'search' => 'Wyszukaj kontakty',
+    'search' => 'Wyszukaj kontakty',
       
     'create' => [
       'title' => 'Kontakty',
@@ -172,6 +172,7 @@ return  [
     'form' => [
       'birthdate' => [
         'label' => 'Data urodzin',
+        'validation' => 'Data urodzin jest wymagana',
       ],
       'description' => [
         'label' => 'Opis',
@@ -184,10 +185,11 @@ return  [
         'validation' => 'Imię jest wymagane',
       ],
       'gender' => [
+        'label' => 'Płeć',
+        'validation' => 'Płeć jest wymagana',
         'female' => [
           'label' => 'Kobieta',
         ],
-        'label' => 'Płeć',
         'male'  => [
           'label' => 'Mężczyzna',
         ],
@@ -198,6 +200,7 @@ return  [
       ],
       'mobile' => [
         'label' => 'Mobile',
+        'validation' => 'Telefon jest wymagany',
       ],
       'nin' => [
         'label' => 'Pesel',

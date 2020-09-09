@@ -32,13 +32,13 @@ class Dashboard
                 'icon'  => 'check',
                 'color' => 'green',
                 'title' => 'manager.businesses.dashboard.panel.title_appointments_active',
-                'link'  => route('manager.business.agenda.index', $this->business),
+                'link'  => route('manager.business.agenda.index', [$this->business,'status'=>'active']),
                 ],
             'appointments_canceled_today' => [
                 'icon'  => 'minus-circle',
                 'color' => 'red',
                 'title' => 'manager.businesses.dashboard.panel.title_appointments_canceled',
-                'link'  => route('manager.business.agenda.index', $this->business),
+                'link'  => route('manager.business.agenda.index', [$this->business,'status'=>'unserved']),
                 ],
             'appointments_active_tomorrow' => [
                 'icon'  => 'hourglass-o',

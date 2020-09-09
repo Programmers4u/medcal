@@ -4,6 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Events\AppointmentWasCanceled;
 use App\Events\AppointmentWasConfirmed;
+use App\Events\NewAppointmentWasBooked;
+use App\Events\NewSoftAppointmentWasBooked;
+
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AlterAppointmentRequest;
 use Timegridio\Concierge\Concierge;
@@ -17,8 +20,6 @@ use \Timegridio\Concierge\Models\Humanresource;
 use \App\Models\MedicalHistory;
 use \App\Models\MedicalFile;
 
-use App\Events\NewAppointmentWasBooked;
-use App\Events\NewSoftAppointmentWasBooked;
 use App\Http\Consts\ResponseApi;
 use App\Http\Requests\Appointments\BookingChangeRequest;
 use App\Http\Requests\Appointments\BookingRequest;
@@ -80,11 +81,7 @@ class BookingController extends Controller
     {
         logger()->info(__METHOD__);
         
-        //////////////////
-        // FOR REFACOTR //
-        //////////////////
-
-        $issuer = auth()->user();
+        $isuser = auth()->user();
         $business = Business::findOrFail($request->input('business'));
         $appointment = Appointment::findOrFail($request->input('appointment'));
         $action = $request->input('action');
@@ -99,7 +96,7 @@ class BookingController extends Controller
 
         logger()->info(sprintf(
             'postAction.request:[issuer:%s, action:%s, business:%s, appointment:%s]',
-            $issuer->email,
+            $isuser->email,
             $action,
             $business->id,
             $appointment->id
@@ -111,14 +108,14 @@ class BookingController extends Controller
         
         switch ($action) {
             case 'cancel':
-                $app = Appointment::find($appointment->id);
-                $app->delete();
-                //$appointment = $appointmentManager->cancel();
-                //event(new AppointmentWasCanceled($issuer, $appointment));
+                // $app = Appointment::find($appointment->id);
+                // $app->delete();
+                $appointment = $appointmentManager->cancel();
+                event(new AppointmentWasCanceled($isuser, $appointment));
                 break;
             case 'confirm':
                 $appointment = $appointmentManager->confirm();
-                //event(new AppointmentWasConfirmed($issuer, $appointment));
+                event(new AppointmentWasConfirmed($isuser, $appointment));
                 break;
             case 'serve':
                 $appointment = $appointmentManager->serve();
@@ -143,13 +140,13 @@ class BookingController extends Controller
         return response()->json(compact('code', 'html'));
     }
     
-    protected function findSubscrbedContact($issuer, $isOwner, Business $business, $contactId)
+    protected function findSubscrbedContact($isuser, $isOwner, Business $business, $contactId)
     {
         if ($contactId && $isOwner) {
             return $business->contacts()->find($contactId);
         }
 
-        return $issuer->getContactSubscribedTo($business->id);
+        return $isuser->getContactSubscribedTo($business->id);
     }
     
     
@@ -588,6 +585,13 @@ class BookingController extends Controller
             ->where('business_id','=',$business->id)
             ->where('start_at','>=', $where_at)
             ->where('start_at','<=',$where_to)
+            ->where(function($q) {
+                $q
+                ->where('status', \Timegridio\Concierge\Models\Appointment::STATUS_CONFIRMED)
+                ->orWhere('status', \Timegridio\Concierge\Models\Appointment::STATUS_RESERVED)
+                ->orWhere('status', \Timegridio\Concierge\Models\Appointment::STATUS_SERVED)
+                ;
+            })
             ->get();        
 
         //logger()->debug($appointments);

@@ -37,6 +37,11 @@ return  [
       'help'   => 'Dodaj wiadomość od %name% .... z parametrami %day%, %hour%',
       'label'  => 'Wiadomość sms, wysyłane po 6 miesiącach',
     ],
+    'sms_message3' => [
+      'format' => 'Informujemy ze wizyta pacjenta %client% w gabinecie %name% zostala anulowana.',
+      'help'   => 'Dodaj wiadomość od %name% .... z parametrami %day%, %hour%',
+      'label'  => 'Wiadomość sms, wysyłane w momencie anulowania',
+    ],
       
     'appointment_cancellation_pre_hs' => [
       'format' => 'Liczba godzin',
