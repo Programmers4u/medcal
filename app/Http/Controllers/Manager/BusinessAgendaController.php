@@ -153,7 +153,7 @@ class BusinessAgendaController extends Controller
             'events'       => $jsAppointments,
             'lang'         => $this->getActiveLanguage($business->locale),
             'slotDuration' => $slotDuration,
-            'serviceDuration' => $preferences[13]->value,
+            'serviceDuration' => is_array($preferences) ? $preferences[13]->value : 0,
         ]);
         
         $contacts = $business->addressbook()->listing(1);

@@ -79,7 +79,7 @@ class SendBookingNotification
         $message = str_replace("%name%", $businessName, $message);    
         $message = str_replace("%client%", $contact->firstname.' '.$contact->lastname, $message);    
 
-        $this->sendSMSToContactUser($phone,$message,$event->appointment->business);
+        $this->sendSMSToContactUser($phone,$message, $event->appointment->business);
                 
         /////////////////
         // Send emails //
