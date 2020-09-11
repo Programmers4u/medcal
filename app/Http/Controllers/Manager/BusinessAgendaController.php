@@ -13,6 +13,7 @@ use \Timegridio\Concierge\Models\Appointment;
 use \Timegridio\Concierge\Models\Humanresource;
 use \App\Models\MedicalHistory;
 use \App\Http\Controllers\API\BookingController;
+use App\Http\Requests\Request;
 use App\Models\Notes;
 
 class BusinessAgendaController extends Controller
@@ -49,9 +50,8 @@ class BusinessAgendaController extends Controller
         logger()->info(sprintf('businessId:%s', $business->id));
 
         $this->authorize('manage', $business);
-
-        $status = 'unserved';
-        switch ($status){
+        
+        switch (request()->input('status')) {
             case 'active' : 
                 $appointments = $this->concierge->business($business)->getActiveAppointments();
             break;
@@ -75,7 +75,7 @@ class BusinessAgendaController extends Controller
         logger()->info(__METHOD__);
         logger()->info(sprintf('businessId:%s', $business->id));
         
-        $requestst = json_encode($hr);
+        // $hr = json_encode($hr);
         
         $this->authorize('manage', $business);
 
@@ -88,6 +88,13 @@ class BusinessAgendaController extends Controller
             ->where('business_id','=',$business->id)
             ->where('start_at','>=', $where_at)
             ->where('start_at','<=',$where_to)
+            ->where(function($q) {
+                $q
+                ->where('status', \Timegridio\Concierge\Models\Appointment::STATUS_CONFIRMED)
+                ->orWhere('status', \Timegridio\Concierge\Models\Appointment::STATUS_RESERVED)
+                ->orWhere('status', \Timegridio\Concierge\Models\Appointment::STATUS_SERVED)
+                ;
+            })
             ->limit(150)
             ->get();        
         
@@ -129,9 +136,9 @@ class BusinessAgendaController extends Controller
             ];
         }
 
-        $holiDays = BookingController::freeDays();
-        foreach($holiDays as $hd) {
-            $jsAppointments[] = $hd;
+        $holliDays = BookingController::freeDays();
+        foreach($holliDays as $holliDay) {
+            $jsAppointments[] = $holliDay;
         }
         
         $slotDuration = count($appointments) > 5 ? '0:15' : '0:30';
@@ -142,7 +149,7 @@ class BusinessAgendaController extends Controller
         
         $preferences = $business->preferences;
 
-        if(count($preferences)==0){
+        if(count($preferences)===0){
             flash()->warning('Brak ustawień, zapisz swoje ustawienia!');
             return redirect()->route('manager.business.preferences', $business);
         };
@@ -153,7 +160,7 @@ class BusinessAgendaController extends Controller
             'events'       => $jsAppointments,
             'lang'         => $this->getActiveLanguage($business->locale),
             'slotDuration' => $slotDuration,
-            'serviceDuration' => $preferences[13]->value,
+            'serviceDuration' => is_array($preferences) ? $preferences[13]->value : 0,
         ]);
         
         $contacts = $business->addressbook()->listing(1);

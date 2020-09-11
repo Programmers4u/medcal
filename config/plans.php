@@ -38,28 +38,39 @@ return [
     'plans'      => [
 
         'free' => [
-            'title'       => 'Free',
-            'description' => '',
+            'title'       => 'FREE',
+            'description' => 'Personal use only',
             'price'       => '0',
-            'currency'    => 'USD',
+            'currency'    => 'PLN',
             'limits'      => [
-                'contacts'    => 5000,
-                'services'    => 5,
-                'specialists' => 5,
+                'contacts'    => 200,
+                'services'    => 3,
+                'specialists' => 1,
+            ],
+        ],
+
+        'standard' => [
+            'title'       => 'STANDARD',
+            'description' => 'Partners use only',
+            'price'       => '40',
+            'currency'    => 'PLN',
+            'limits'      => [
+                'contacts'    => 25000,
+                'services'    => 10,
+                'specialists' => 10,
             ],
         ],
 
         'premium' => [
-            'title'       => 'Premium',
-            'description' => '',
-            'price'       => '25',
-            'currency'    => 'USD',
+            'title'       => 'PREMIUM',
+            'description' => 'Partners use only',
+            'price'       => '80',
+            'currency'    => 'PLN',
             'limits'      => [
-                'contacts'    => 25000,
+                'contacts'    => 250000,
                 'services'    => 100,
-                'specialists' => 50,
+                'specialists' => 100,
             ],
         ],
-
     ],
 ];

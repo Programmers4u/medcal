@@ -4,9 +4,10 @@
 @parent
 <link rel="stylesheet" href="{{ asset('css/tour.min.css') }}">
 <style>
-    @import url(http://fonts.googleapis.com/css?family=Lato);
+    /* @import url(http://fonts.googleapis.com/css?family=Lato); */
     body{
         background-color: #f0f0f0;
+        font-size: 1.5em;
     }
     .flat .plan {
         border-radius: 6px;
@@ -47,12 +48,12 @@
 	}
     
     .flat .plan li.plan-price {
-        font-family: 'Lato', sans-serif;
+        /* font-family: 'Lato', sans-serif; */
         font-size: 2em;
         border-top: 0;
     }
     .flat .plan li.plan-hint {
-        font-family: 'Lato', sans-serif;
+        /* font-family: 'Lato', sans-serif; */
         font-size: 1em;
         border-top: 0;
         color: #9a9a9a;
@@ -62,13 +63,13 @@
         border-bottom: 1px dashed #9a9a9a;
     }
     .flat .plan li.plan-name {
-        font-family: 'Lato', sans-serif;
+        /* font-family: 'Lato', sans-serif; */
         border-radius: 6px 6px 0 0;
         padding: 15px;
         font-size: 24px;
         line-height: 24px;
         color: #fff;
-        background: #e74c3c;
+        background: #367FA9;
         margin-bottom: 30px;
         border-top: 0;
     }
@@ -92,7 +93,7 @@
     }
 
     .plan-action .btn {
-        font-family: 'Lato', sans-serif;
+        /* font-family: 'Lato', sans-serif; */
         font-size: 1.5em;
         border: 0px;
         -webkit-transition: 300ms;
@@ -122,7 +123,7 @@
 
     <div class="row flat">
         <div class="col-lg-offset-1 col-md-offset-1 col-xs-offset-1">
-            <div class="col-lg-6 col-md-6 col-xs-3">
+            <div class="col-lg-4 col-md-4 col-xs-3">
                 <ul class="plan plan1 featured" id="plan1">
                     <li class="plan-name noZoom">
                         {{trans('pricing.plan.free.name')}}
@@ -137,10 +138,10 @@
                         {!! trans('pricing.feature.unlimited_appointments') !!}
                     </li>
                     <li id="p1_contacts">
-                        {!! trans('pricing.feature.up_to_contacts', ['limit' => 200]) !!}
+                        {!! trans('pricing.feature.up_to_contacts', ['limit' => config('plans.plans.free.limits.contacts')]) !!}
                     </li>
                     <li id="p1_services">
-                        {!! trans('pricing.feature.up_to_services', ['limit' => 3]) !!}
+                        {!! trans('pricing.feature.up_to_services', ['limit' => config('plans.plans.free.limits.services')]) !!}
                     </li>
                     <li id="p1_specialists">
                         {!! trans('pricing.feature.one_specialist') !!}
@@ -154,39 +155,71 @@
                 </ul>
             </div>
 
-            <div class="col-lg-6 col-md-6 col-xs-3">
+            <div class="col-lg-4 col-md-4 col-xs-3">
                 <ul class="plan plan2" id="plan2">
                     <li class="plan-name">
-                        {{trans('pricing.plan.premium.name')}}
+                        {{config('plans.plans.standard.title')}}
                     </li>
                     <li class="plan-hint noZoom">
                         {{trans('pricing.plan.premium.hint')}}
                     </li>
                     <li class="plan-price">
                         {{-- Important to use unescaped for currency as might have html entities --}}
-                        <strong>{!! config('marketplace.pricing.currency_price') !!}</strong> / {{ trans('pricing.month') }}
+                        <strong>{!! config('plans.plans.standard.price') !!} {!! config('plans.plans.standard.currency') !!}</strong> / {{ trans('pricing.month') }}
                     </li>
                     <li id="p2_appointments">
                         {!! trans('pricing.feature.unlimited_appointments') !!}
                     </li>
                     <li id="p2_contacts">
-                        {!! trans('pricing.feature.unlimited_contacts') !!}
+                        {!! trans('pricing.feature.up_to_contacts', ['limit' => config('plans.plans.standard.limits.contacts')]) !!}
                     </li>
                     <li id="p2_services">
-                        {!! trans('pricing.feature.unlimited_services') !!}
+                        {!! trans('pricing.feature.up_to_services', ['limit' => config('plans.plans.standard.limits.services')]) !!}
                     </li>
                     <li id="p2_specialists">
-                        {!! trans('pricing.feature.unlimited_specialists') !!}
+                        {!! trans('pricing.feature.up_to_specialists', ['limit' => config('plans.plans.standard.limits.specialists')]) !!}
                     </li>
                     <li>
                         {{ trans('pricing.feature.customized_support') }}
                     </li>
                     <li class="plan-action">
-                        <a href="{{ route('manager.business.register', ['plan' => 'premium']) }}" class="btn btn-danger btn-lg">{!! Icon::shopping_cart() !!}&nbsp;{{ trans('pricing.plan.premium.submit') }}</a>
+                        <a href="{{ route('manager.business.register', ['plan' => 'premium']) }}" class="btn btn-danger btn-lg">{!! Icon::cloud_upload() !!}&nbsp;{{ trans('pricing.plan.premium.submit') }}</a>
                     </li>
                 </ul>
             </div>
 
+            <div class="col-lg-4 col-md-4 col-xs-3">
+                <ul class="plan plan3" id="plan3">
+                    <li class="plan-name">
+                        {{config('plans.plans.premium.title')}}
+                    </li>
+                    <li class="plan-hint noZoom">
+                        {{trans('pricing.plan.premium.hint')}}
+                    </li>
+                    <li class="plan-price">
+                        {{-- Important to use unescaped for currency as might have html entities --}}
+                        <strong>{!!  config('plans.plans.premium.price') !!} {!! config('plans.plans.standard.currency') !!}</strong> / {{ trans('pricing.month') }}
+                    </li>
+                    <li id="p2_appointments">
+                        {!! trans('pricing.feature.unlimited_appointments') !!}
+                    </li>
+                    <li id="p2_contacts">
+                        {!! trans('pricing.feature.up_to_contacts', ['limit' => config('plans.plans.premium.limits.contacts')]) !!}
+                    </li>
+                    <li id="p2_services">
+                        {!! trans('pricing.feature.up_to_services', ['limit' => config('plans.plans.premium.limits.services')]) !!}
+                    </li>
+                    <li id="p2_specialists">
+                        {!! trans('pricing.feature.up_to_specialists', ['limit' => config('plans.plans.premium.limits.specialists')]) !!}
+                    </li>
+                    <li>
+                        {{ trans('pricing.feature.customized_support') }}
+                    </li>
+                    <li class="plan-action">
+                        <a href="{{ route('manager.business.register', ['plan' => 'premium']) }}" class="btn btn-danger btn-lg">{!! Icon::cloud_upload() !!}&nbsp;{{ trans('pricing.plan.premium.submit') }}</a>
+                    </li>
+                </ul>
+            </div>
 
         </div> <!-- /offset -->
     </div> <!-- /flat -->

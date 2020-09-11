@@ -3,17 +3,21 @@
 namespace App\Listeners;
 
 use App\Events\NewAppointmentWasBooked;
+use App\Events\Event;
 use App\Models\User;
 use App\TG\TransMail;
 use Fenos\Notifynder\Facades\Notifynder;
 use Timegridio\Concierge\Models\Contact;
-use Timegridio\Concierge\Models\Business;
 use App\Services\SmsService;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
+use Timegridio\Concierge\Models\Business;
 
-class SendBookingNotification
+class SendBookingNotification implements ShouldQueue
 {
+    use InteractsWithQueue;
+
     private $transmail;
 
     public function __construct(TransMail $transmail)
@@ -21,17 +25,9 @@ class SendBookingNotification
         $this->transmail = $transmail;
     }
 
-    /**
-     * Handle the event.
-     *
-     * @param NewAppointmentWasBooked $event
-     *
-     * @return void
-     */
     public function handle(NewAppointmentWasBooked $event)
     {
         logger()->debug(__METHOD__);
-        //logger()->debug($event->appointment->contact_id);
         
         $code = $event->appointment->code;
         $date = $event->appointment->start_at->toDateString();
@@ -55,71 +51,60 @@ class SendBookingNotification
         
         if($app_date->timestamp < Carbon::now()->setTimezone($event->appointment->business->timezone)->timestamp) {
             logger()->debug('Data mniejsza od teraźniejszej: '.$app_date->toDateTimeString());
-            return;
+            // return;
         }
-        
         
         /////////////////
         // Send sms    //
         /////////////////
-        $contact = Contact::query(['firstname','lastname','mobile'])
-                ->where('id','=', $event->appointment->contact_id)
-                ->first()
-                //->toArray()
-                ;    
-        
-        //$phone = $contact[0]['mobile'];
-        $phone = $contact->mobile;
-        $message = $event->appointment->business->pref('sms_message');
-        $date = $event->appointment->start_at->setTimezone($event->appointment->business->timezone);//->toDateTimeString();
-        $day = $date->format('Y-m-d');
-        $hour = $date->format('H:i');
-        $message = str_replace("%day%", $day, $message);        
-        $message = str_replace("%hour%", $hour, $message);        
-        $message = str_replace("%name%", $businessName, $message);    
-        $message = str_replace("%client%", $contact->firstname.' '.$contact->lastname, $message);    
 
-        $this->sendSMSToContactUser($phone,$message,$event->appointment->business);
+        $this->sendSMSToContactUser($event);
                 
         /////////////////
         // Send emails //
         /////////////////
 
-        //$this->sendEmailToContactUser($event);
+        $this->sendEmailToContactUser($event);
 
-        //$this->sendEmailToOwner($event);
-        
-        //odblokuj wysyłkę 6-miesięczną
-        
-        DB::table('med_permission')
-            ->where('contact_id','=', $event->appointment->contact_id)
-            ->update(['appo_sms_sent'=>FALSE]);
-
+        // $this->sendEmailToOwner($event);
         
     }
 
-    protected function sendSMSToContactUser($phone, $message, Business $business) {
+    protected function sendSMSToContactUser(Event $event) {
         
         logger()->debug('start sending sms');
 
-        //if (!$user = $event->appointment->contact->user) {
-          //  return false;
-        //}
+        $code = $event->appointment->code;
+        $date = $event->appointment->start_at->toDateString();
+        $businessName = $event->appointment->business->name;
+
+        $phone = $event->appointment->contact->mobile;
+        $message = $event->appointment->business->pref('sms_message');
+        $date = $event->appointment->start_at->setTimezone($event->appointment->business->timezone);
+        $day = $date->format('Y-m-d');
+        $hour = $date->format('H:i');
+        $message = str_replace("%day%", $day, $message);        
+        $message = str_replace("%hour%", $hour, $message);        
+        $message = str_replace("%name%", $businessName, $message);    
+        $message = str_replace("%client%", $event->appointment->contact->firstname.' '.$event->appointment->contact->lastname, $message);    
                 
         $contactsWithMessage = [[
             'message' => $message,
             'mobile' => $phone
         ]];
 
-        $result = SmsService::sendMessage($contactsWithMessage, $business);
+        $result = SmsService::sendMessage($contactsWithMessage, $event->appointment->business );
                 
-        logger()->debug('stop sending sms');
+        logger()->debug('stop sending sms: ' . json_encode($result));
         
     }
     
-    protected function sendEmailToContactUser($event)
+    protected function sendEmailToContactUser(Event $event)
     {
-        if (!$user = $event->appointment->contact->user) {
+        logger()->debug('start sending email');
+
+        if (!$user = $event->user) {
+            logger()->debug('not user');
             return false;
         }
 
@@ -172,6 +157,8 @@ class SendBookingNotification
      */
     protected function sendEmail($email)
     {
+        logger()->debug('send email');
+
         extract($email);
 
         $this->transmail->locale($locale)

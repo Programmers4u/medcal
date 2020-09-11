@@ -5,21 +5,13 @@ namespace App\Services;
 use Timegridio\Concierge\Models\Contact;
 use Carbon\Carbon;
 use Timegridio\Concierge\Models\Business;
-
 use Fenos\Notifynder\Facades\Notifynder;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Programmers4u\gatesms\sms\sender\SmsSender;
 
-class SmsService
-{
-    //
-    
-    public function index(){
-        
-    }
-    
-    public static function sendMessage($contactsWithMessage, Business $business){
+class SmsService {
+
+    public static function sendMessage($contactsWithMessage, Business $business) {
         
         $preferences = $business->preferences;
         
@@ -138,11 +130,6 @@ class SmsService
         return $out;
     }
 
-    /**
-     * Get available appointments from now to 1 day forward
-     * @param type $message
-     * @return array
-     */
     public static function getNow(){
         // all business messages send
         $rows = \Timegridio\Concierge\Models\Appointment::query()

@@ -11,11 +11,6 @@ use App\Http\Controllers\Controller;
  ******************************************************************************/
 class WizardController extends Controller
 {
-    /**
-     * get home page for old users and wizard for new users.
-     *
-     * @return Response Rendered view of Wizard or Redirect
-     */
     public function getWizard()
     {
         logger()->info(__METHOD__);
@@ -40,21 +35,12 @@ class WizardController extends Controller
 
         return redirect()->route('wizard.pricing');
 
-        return view('wizard');
+        // return view('wizard');
     }
 
-    /**
-     * get Dashboard page.
-     *
-     * @return Response Rendered view for Wizard
-     */
     public function getDashboard()
     {
         logger()->info(__METHOD__);
-
-        //////////////////
-        // FOR REFACTOR //
-        //////////////////
 
         $appointments = auth()->user()->appointments()->orderBy('start_at')->unarchived()->get();
 
@@ -65,11 +51,6 @@ class WizardController extends Controller
         return view('user.dashboard', compact('appointments', 'appointmentsCount', 'subscriptionsCount'));
     }
 
-    /**
-     * get Welcome page.
-     *
-     * @return Response Rendered view for Wizard
-     */
     public function getWelcome()
     {
         logger()->info(__METHOD__);
@@ -77,11 +58,6 @@ class WizardController extends Controller
         return view('wizard');
     }
 
-    /**
-     * get Pricing.
-     *
-     * @return Response Returns pricing table
-     */
     public function getPricing()
     {
         logger()->info(__METHOD__);
@@ -89,11 +65,6 @@ class WizardController extends Controller
         return view('manager.pricing');
     }
 
-    /**
-     * get Terms and Conditions.
-     *
-     * @return Response Rendered view for Terms and Conditions of use
-     */
     public function getTerms()
     {
         logger()->info(__METHOD__);

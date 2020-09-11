@@ -81,8 +81,8 @@
             <!--
             <div class="row">
                 <div class="social-auth-links text-center">
-                    <p>{{ trans('auth.label.oauth_direct_access') }}</p>
-                    @include('auth/social')
+                    {{-- <p>{{ trans('auth.label.oauth_direct_access') }}</p> --}}
+                    {{-- @include('auth/social') --}}
                 </div>
             </div>
             -->
