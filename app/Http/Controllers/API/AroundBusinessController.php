@@ -9,19 +9,20 @@ use Timegridio\Concierge\Models\Business;
 use \Timegridio\Concierge\Models\Appointment;
 use \Timegridio\Concierge\Models\Humanresource;
 use \Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 
 class AroundBusinessController extends Controller
 {
-    public function getAppointments(Request $request, $business_id) {
-
+    public function getAppointments(Request $request, $business_id) : JsonResponse 
+    {
         if(!$business_id) return response()->json(['error'=>'not business']);
 
         $business = Business::find($business_id);
 
         $this->authorize('manage', $business);
 
-        $toDay = new Carbon('today');
-        $toMorrow = new Carbon('tomorrow');
+        $toDay = Carbon::now()->startOfDay();
+        $endDay = $toDay->copy()->endOfDay();
 
         //logger()->debug(json_encode($toDay));
         //logger()->debug(json_encode($toMorrow));
@@ -29,8 +30,8 @@ class AroundBusinessController extends Controller
         $appoStaff = Appointment::query()
                ->where('business_id','=',$business->id)
                ->where('start_at','>', $toDay) 
-               ->where('start_at','<', $toMorrow) 
-               ->whereIn('status',['C','R'])
+               ->where('start_at','<', $endDay) 
+            //    ->whereIn('status',['C','R'])
                ->orderBy('start_at','ASC')
                ->get();
 
