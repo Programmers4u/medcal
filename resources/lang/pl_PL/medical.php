@@ -68,6 +68,7 @@ return  [
         'appointment' => 'Wizyty',
         'note' => 'Notatki',
         'interview' => 'Wywiad',
+        'statistics' => 'Statystyki',
         'file' => [
             'title' => 'Obsługa plików',
             'desc' => 'Opisz plik który chcesz wgrać',

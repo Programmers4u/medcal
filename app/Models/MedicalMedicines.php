@@ -12,5 +12,28 @@ class MedicalMedicines extends Model
     protected $softDelete = true;
     protected $dates = ['deleted_at'];
     protected $table = 'medical_medicines';
-    protected $fillable = ['name','shortname','power','shape','no_permission','permission_expaired','company','type','code'];
+
+    const TABLE = 'medical_medicines';
+    const NAME = 'name';
+    const SHORT_NAME = 'shortname';
+    const POWER = 'power';
+    const SHAPE = 'shape';
+    const NO_PERMISSION = 'no_permission';
+    const PERMISSION_EXPIRED = 'permission_expaired';
+    const COMPANY = 'company';
+    const TYPE ='type';
+    const CODE = 'code';
+
+    protected $fillable = [
+        self::NAME,
+        self::SHORT_NAME,
+        self::POWER,
+        self::SHAPE,
+        self::NO_PERMISSION,
+        self::PERMISSION_EXPIRED,
+        self::COMPANY,
+        self::TYPE,
+        self::CODE,
+    ];
+
 }

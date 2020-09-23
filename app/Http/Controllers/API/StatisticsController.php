@@ -17,19 +17,27 @@ class StatisticsController extends Controller
 {
     const DIAGNOSIS = 'diagnosis';
     const DIAGNOSIS_SEX = 'diagnosis_sex';
+    const DIAGNOSIS_PATIENT = 'diagnosis_patient';
 
     const STATISTICS = [
         self::DIAGNOSIS,
         self::DIAGNOSIS_SEX,
+        self::DIAGNOSIS_PATIENT,
     ];
 
     public function getIndex(GetRequest $request, Business $business) : JsonResponse
     {
 
         $model = MedicalHistory::query()
-            ->get()
-            ->toArray()
+            // ->get()
+            // ->toArray()
         ;
+
+        if($request->input('contactId')) {
+            $model->where(MedicalHistory::CONTACT_ID,$request->input('contactId'));
+        };
+        Datasets::truncate();
+        $model = $model->get()->toArray();
         foreach($model as $m) {
             $edm = json_decode($m['json_data']);
             $contact = Contact::find($m['contact_id']);
@@ -44,6 +52,7 @@ class StatisticsController extends Controller
             ]);    
         }
         $dataset = null;
+
         switch($request->input('type')) {
             case self::DIAGNOSIS: 
                 $dataset =[ Datasets::query()
@@ -52,6 +61,44 @@ class StatisticsController extends Controller
                     // ->groupBy(Datasets::DATE_OF_EXAMINATION)
                     ->get()->toArray()
                 ];
+            break;
+            case self::DIAGNOSIS_PATIENT: 
+
+                $modelOne = Datasets::query()
+                    ->selectRaw('Count(1) as data, diagnosis as label, created_at as labels')
+                    ->groupBy(Datasets::DIAGNOSIS)
+                    // ->groupBy(Datasets::DATE_OF_EXAMINATION)
+                    ->get()->toArray()
+                    ;
+
+                $model = MedicalHistory::query()
+                    ->get()
+                    ->toArray()
+                    ;
+                    foreach($model as $m) {
+                        $edm = json_decode($m['json_data']);
+                        $contact = Contact::find($m['contact_id']);
+                        $birthdate = $contact->birthday;
+                        $sex = $contact->gender;
+                        Datasets::create([
+                            Datasets::DATE_OF_EXAMINATION  => Carbon::parse($m['created_at']),
+                            Datasets::BIRTHDAY => Carbon::parse($birthdate),
+                            Datasets::SEX => $sex === 'M' ? Datasets::SEX_MALE : Datasets::SEX_FEMALE,
+                            Datasets::DIAGNOSIS => $edm->diagnosis,
+                            Datasets::PROCEDURES => $edm->procedures,        
+                        ]);    
+                    }
+            
+                $modelTwo = Datasets::query()
+                ->selectRaw('Count(1) as data, diagnosis as label, created_at as labels')
+                ->groupBy(Datasets::DIAGNOSIS)
+                // ->groupBy(Datasets::DATE_OF_EXAMINATION)
+                ->get()->toArray()
+                ;
+                
+                $dataset = [$modelOne, $modelTwo];
+                
+    
             break;
             case self::DIAGNOSIS_SEX: 
                 $datasetFemale = Datasets::query()

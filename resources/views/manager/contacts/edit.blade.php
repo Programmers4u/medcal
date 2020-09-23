@@ -8,7 +8,6 @@
         <div class="panel panel-default">
 
             <div class="panel-heading">
-                <a title="wróć do karty pacjenta" class="btn btn-primary btn-info fa fa-arrow-circle-left" href="javascript:window.history.back();"></a>
                 {{ trans('manager.contacts.create.title') }}
             </div>
 

@@ -4,8 +4,13 @@
 
 @section('title',$title)
 
+@section('css')
+<link rel="stylesheet" href="{{ asset('css/forms.css') }}">
+@endsection
+
 @push('footer_scripts')
 <script type="text/javascript" src="/js/medical/doc.min.js"></script>
+<script type="text/javascript" src="/js/alert/alert.min.js"></script>
 
 <script type="text/javascript">
 $(document).ready(function(){
@@ -270,7 +275,7 @@ var getAppoIdFromLink = function(){
                         console.log(data)
                         if(data)
                             $('#note_text')[0].innerText = data.medicalNote.note ? data.medicalNote.note : '';
-                    }, 1200,data)
+                    }, 1200, data)
                 },
             });
         }
@@ -295,6 +300,28 @@ var ePuap = function(){
 }
 </script>
 
+<script type="text/javascript">
+var urlAppointmentNote = '{{ route('medical.note.put',[$business]) }}';
+var putAppointmentNoteCallBack = () => {
+    if(appointment_id < 1) {
+        alert('Wybierz datę wizyty');
+        return;
+    }
+    return {
+        appointmentId : appointment_id,
+        note : $('#note')[0].value,
+        csrf : '{{csrf_token()}}',
+        success : function (data) {
+            setTimeout( () => {
+                console.log(data);
+                $('#note_text')[0].innerText += data.medicalNote.note ? data.medicalNote.note + '\n' : '';
+                $('#note')[0].value = '';
+            },700,data);
+        }
+    }
+};    
+</script>
+
 @endpush
 
 @section('content')
@@ -309,6 +336,7 @@ var ePuap = function(){
 
       <!-- Nav tabs -->
       <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation"><a href="#statistics" aria-controls="statistics" role="tab" data-toggle="tab">{{ trans('medical.document.statistics') }}</a></li>
         <li role="presentation"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">{{ trans('medical.document.client') }}</a></li>
         <li role="presentation" class="active"><a href="#dockmed" aria-controls="dockmed" role="tab" data-toggle="tab">{{ trans('medical.btn.history') }}</a></li>
         <li role="presentation"><a href="#interview" aria-controls="interview" role="tab" data-toggle="tab">{{ trans('medical.document.interview') }}</a></li>
@@ -318,6 +346,22 @@ var ePuap = function(){
 
     <!-- Tab panes -->
     <div class="tab-content">
+
+        <div role="tabpanel" class="tab-pane" id="statistics">
+            <br>
+            <div class="panel" id="statistics">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Statystyki</h3>
+                </div>
+  
+                <div class="panel-body">
+                    @include('medical._statistics',[$contacts,$business] )
+                </div>
+  
+            </div>
+  
+        </div>
+  
         <div role="tabpanel" class="tab-pane" id="home">
           <br>
         {{ trans('medical.document.clients.name') }}: <b>{{ $contacts->firstname }} {{ $contacts->lastname }}</b><br><br>
@@ -498,28 +542,22 @@ var ePuap = function(){
                               <tr>
                                   <td style="font-weight:bold;">{{ trans('medical.appointments.label.note') }}</td>
                                   <td>
-                                      <div id="note_text"></div>
-                                      <textarea id="note" class="form-control md-textarea"></textarea>
-                                    <i class="fa fa-comment-o fa-1x" onclick="putAppointmentNote('{{ route('medical.note.put',[$business]) }}',{
-                                        appointmentId : appointment_id,
-                                        note : $('#note')[0].value,
-                                        csrf : '{{csrf_token()}}',
-                                        success : function (data) {
-                                            setTimeout( () => {
-                                                console.log(data);
-                                                 $('#note_text')[0].innerText += data.medicalNote.note ? data.medicalNote.note + '\n' : '';
-                                                 $('#note')[0].value = '';
-                                            },700,data);
-                                        }
-                                      });"></i>
-            
-                                
+                                    <div id="note_text"></div>
+                                    <textarea id="note" class="form-control md-textarea"></textarea>
+                                    <div style="padding-top:1em;" >
+                                      {!! 
+                                        Button::withIcon(Icon::save())
+                                            ->info('zapisz notatkę')
+                                            ->small()
+                                            ->asLinkTo("javascript:putAppointmentNote(urlAppointmentNote, putAppointmentNoteCallBack())")
+                                        !!}     
+                                    </div>                           
                                 </td>
                               </tr>
                               <tr>
                                   <td style="font-weight:bold;">przyjęta kwota</td>
                                   <td>
-                                    <input type="text" id="price_id" onchange="price=this.value"/>
+                                    <input style="max-width:6em" class="form-control price" type="text" id="price_id" onchange="price=this.value"/>
                                   </td>
                               </tr>
                       </table>
@@ -641,8 +679,8 @@ var ePuap = function(){
         <h3 class="modal-title" id="exampleModalLabel">Alert</h3>
       </div>
       <div class="modal-body">
-        <div style="display:none;" id="md_info_success" class="alert alert-warning"></div>
-        <div style="display:none;" id="md_info_error" class="alert alert-danger"></div>
+        <div style="display:none;" id="mc_info_success" class="alert alert-warning"></div>
+        <div style="display:none;" id="mc_info_error" class="alert alert-danger"></div>
       </div>
     </div>
   </div>
