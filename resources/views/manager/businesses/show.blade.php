@@ -117,9 +117,10 @@ Statistics.get(function(data) {
                 scales: {
                     yAxes: [{
                         ticks: {
-                            suggestedMin: 50,
+                            suggestedMin: 0,
                             suggestedMax: 100,
-                            beginAtZero: true
+                            beginAtZero: true,
+                            stepSize: 1,
                         }
                     }]
                 }
