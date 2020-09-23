@@ -1,6 +1,6 @@
 {
     "name": "programmers4u/medical",
-    "description": "Free, self-hosted online platform for dental service based on timegrido and the Laravel PHP Framework.",
+    "description": "Free, self-hosted online platform for dental service based on timegrido and the Laravel PHP Framework. Medical records with statistics.",
     "homepage": "http://medical.programmers4u.com",
     "keywords": ["appointments", "reservations", "booking", "agenda", "marketplace", "time", "date", "calendar","dentist","med"],
     "license": "AGPL",
