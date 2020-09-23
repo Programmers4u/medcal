@@ -42,7 +42,7 @@
         <div class="modal" id="alertModal" tabindex="1" style="z-index:1000000;" role="dialog" aria-labelledby="alertModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header" style="background-color:gainsboro;">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -71,14 +71,12 @@
             <!-- Header Navbar -->
             <nav class="navbar navbar-static-top" role="navigation">
                 <!-- Sidebar toggle button-->
-                <!--
-                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                {{-- <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
                     <span class="sr-only">Toggle navigation</span>
-                </a>
-            -->
+                </a> --}}
                 <!-- Navbar Right Menu -->
-                <div class="navbar-custom-menu">
-                    <ul class="nav navbar-nav">
+                <div class="navbar-custom-menu collapse navbar-collapse">
+                    <ul class="nav navbar-nav mr-auto">
                        <!-- Search Menu Here -->
                         @include('_user-search-menu')                     
                             
