@@ -15,9 +15,7 @@ var prepareUpload = function(event) {
 
 var uploadFiles = function () {
     var data = new FormData();
-    data.append('business', '{{ $business->id }}');
-    $.each(files, function(key, value)
-    {
+    $.each(files, function(key, value) {
         data.append(key, value);
         filesName.push(value.name);
     });
@@ -34,23 +32,18 @@ var uploadFiles = function () {
         dataType: 'json',
         processData: false, // Don't process the files
         contentType: false, // Set content type to false as jQuery will tell the server its a query string request
-        success: function(data, textStatus, jqXHR)
-        {
-            if(data.status === 'ok')
-            {
+        success: function(data, textStatus, jqXHR) {
+            if(data.status === 'ok') {
                 // $('.close').click();
                 alert(JSON.stringify(data.data));
-            }
-            else
-            {
+            } else {
                 console.log('ERRORS: ' + data.error);
                 alert('Błąd: '+data.error, 'error');
             }
         },
-        error: function(jqXHR, textStatus, errorThrown)
-        {
+        error: function(jqXHR, textStatus, errorThrown) {
             console.log('ERRORS: ' + textStatus);
-            alert('Błąd: '+textStatus, 'error');
+            alert('Błąd globalny komunikacji: '+textStatus, 'error');
         }
     });        
 }
@@ -61,7 +54,7 @@ var uploadFiles = function () {
 <div class="modal" id="importContactModal" tabindex="-5" role="dialog" aria-labelledby="importContactModal" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header" style="background-color: lightblue;">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
@@ -74,11 +67,23 @@ var uploadFiles = function () {
                 <br><br>
                 <div class="container">
                 <div class="row col-sm-8">
-                Format pliku:<br>
-                imię, nazwisko, pesel, płeć, data urodzenia,numer komórkowy,<br>
+                Format pliku: <b>CSV</b><br>
+                kolejność kolumn:<br>
+                <b>
+                unikalne id,<br>
+                imię,<br>
+                nazwisko,<br>
+                pesel,<br>
+                płeć,<br>
+                data urodzenia,<br>
+                numer komórkowy,<br>
+                adres e-mail,<br>
+                <br>
                 Wazne!<br>
-                Pola muszą wystąpić dokładnie w takiej kolejności.
-                </div>
+                Kolumny muszą wystąpić dokładnie w takiej kolejności.<br>
+                W pierwszym wierszu nie ma nazw kolumn. Od razu są dane.
+                </b>
+            </div>
             </div>
         </div>
                     

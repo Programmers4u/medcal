@@ -20,29 +20,34 @@ class ContactsController extends Controller
 
     public function importFromFile(GetRequest $request, Business $business) : JsonResponse
     {
-        $business = $business->first();
         $response = ['status'=>'ok','data'=>'','error'=>''];
+
         $uploadedFile = $request->file()[0];
-        $filename = $uploadedFile->getClientOriginalName();
-        $file = Storage::disk('local')->putFile('temp/', $uploadedFile);
-        $contacts = explode("\n", Storage::get($file)) ;
+        // $filename = $uploadedFile->getClientOriginalName();
+        $file = Storage::disk('local')->putFile('temp', $uploadedFile);
+        // dd($file);
+        $contacts = explode("\n" ,Storage::get($file));
         $response['data'] = 'Ilość rekordów: ' . count($contacts);
-        if (count($contacts) > plan('limits.contacts', $business->plan)) {
-            $response['error'] = trans('app.saas.plan_limit_reached');
-            $response['status'] = 'error';
-        };
-        foreach($contacts as $index => $contact) {
-            if($business->addressbook()->count() > plan('limits.contacts', $business->plan))
-                break;
+        // if (count($contacts) > plan('limits.contacts', $business->plan)) {
+        //     $response['error'] = trans('app.saas.plan_limit_reached');
+        //     $response['status'] = 'error';
+        // };
+
+        // dd($contacts);
+    foreach($contacts as $index => $contact) {
+        // dd($contact);
+        if($index > 200) break;
+            // if($business->contacts()->count() > plan('limits.contacts', $business->plan))
+                // break;
             $register = [
-                'firstname' => $contact['firstname'],
-                'lastname' => $contact['lastname'],
-                'email' => $contact['email'],
-                'nin' => $contact['nin'],
-                'gender' => $contact['gender'],
-                'birthdate' => $contact['birthdate'],
-                'mobile' => $contact['mobile'],
-                'mobile_country' => $contact['mobile_country']
+                'firstname' => $contact[1],
+                'lastname' => $contact[2],
+                'nin' => $contact[3],
+                'gender' => $contact[4],
+                'birthdate' => Carbon::parse($contact[5]),
+                'mobile' => $contact[6],
+                'email' => $contact[7],
+                // 'mobile_country' => $contact['mobile_country']
             ];
             
             $business->addressbook()->register($register);
