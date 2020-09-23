@@ -13,8 +13,9 @@ var prepareUpload = function(event) {
   files = event.target.files;
 }        
 
-var uploadFiles = function (){
+var uploadFiles = function () {
     var data = new FormData();
+    data.append('business', '{{ $business->id }}');
     $.each(files, function(key, value)
     {
         data.append(key, value);
@@ -25,7 +26,6 @@ var uploadFiles = function (){
     $.ajax({
         headers: {
             'X-CSRF-TOKEN': '{{csrf_token()}}',
-            // 'Content-type': 'text/csv',
         },                    
         url: url,
         type: 'POST',
@@ -36,31 +36,21 @@ var uploadFiles = function (){
         contentType: false, // Set content type to false as jQuery will tell the server its a query string request
         success: function(data, textStatus, jqXHR)
         {
-            // $('#atach_file').html(filesName.join('<br>'));
-            if(typeof data.error === 'undefined')
+            if(data.status === 'ok')
             {
-                // Success so call function to process the form
-                //submitForm(event, data);
-                $('.close').click();
-                // document.location.reload();
-                alert('Załącznik został dołączony');
+                // $('.close').click();
+                alert(JSON.stringify(data.data));
             }
             else
             {
-                // Handle errors here
-                //console.log('ERRORS: ' + data.error);
-                // document.location.reload();
-                alert('Załącznik został dołączony');
-                // alert('Błąd: '+data.error);
+                console.log('ERRORS: ' + data.error);
+                alert('Błąd: '+data.error, 'error');
             }
         },
         error: function(jqXHR, textStatus, errorThrown)
         {
-            // Handle errors here
-            //console.log('ERRORS: ' + textStatus);
-            // document.location.reload();
-            // alert('Błąd: '+textStatus);
-
+            console.log('ERRORS: ' + textStatus);
+            alert('Błąd: '+textStatus, 'error');
         }
     });        
 }
@@ -75,7 +65,7 @@ var uploadFiles = function (){
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
-                <h3 class="modal-title" id="exampleModalLabel">{{trans('medical.document.file.title')}}</h3>
+                <h3 class="modal-title" id="importContactModal">{{trans('medical.document.file.title')}}</h3>
             </div>
             <div class="modal-body">
                 <div class="file-loading"> 
@@ -84,7 +74,10 @@ var uploadFiles = function (){
                 <br><br>
                 <div class="container">
                 <div class="row col-sm-8">
-                
+                Format pliku:<br>
+                imię, nazwisko, pesel, płeć, data urodzenia,numer komórkowy,<br>
+                Wazne!<br>
+                Pola muszą wystąpić dokładnie w takiej kolejności.
                 </div>
             </div>
         </div>
