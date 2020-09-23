@@ -2,11 +2,11 @@
 <script>
 var saveContact = function () {
     if($('#firstname').val().length<2 || $('#lastname').val().length<2){
-        alert('Wpisz imię i nazwisko, minimum 2 znaki.');
+        alert('Wpisz imię i nazwisko, minimum 2 znaki.', 'error');
         return;
     }
     if($('#birthdate').val().length<2){
-        alert('Wpisz datę urodzin');
+        alert('Wpisz datę urodzin', 'error');
         return;
     }
     var data = new FormData();
@@ -35,7 +35,7 @@ var saveContact = function () {
             //{
                 // Success so call function to process the form
                 if(data.status=='error'){
-                    alert(data.error);
+                    alert(data.error, , 'error');
                 }else{
                     alert(data.status);
                     contactId = data.data;
@@ -47,13 +47,13 @@ var saveContact = function () {
             //else
             //{
                 // Handle errors here
-                console.log('ERRORS: ' + data.error);
+                console.log('ERRORS: ' + data.error, , 'error');
             //}
         },
         error: function(jqXHR, textStatus, errorThrown)
         {
             // Handle errors here
-            console.log('ERRORS: ' + textStatus);
+            console.log('ERRORS: ' + textStatus, , 'error');
             // STOP LOADING SPINNER
         }
     });        
@@ -69,7 +69,7 @@ var saveContact = function () {
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-        <h3 class="modal-title" id="exampleModalLabel">{{trans('manager.contacts.create.title')}}</h3>
+        <h3 class="modal-title" id="addContactModalLabel">{{trans('manager.contacts.create.title')}}</h3>
       </div>
       <div class="modal-body">
           @include('manager.contacts._miniform', [compact('$contact')])            

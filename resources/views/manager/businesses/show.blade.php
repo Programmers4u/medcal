@@ -22,7 +22,7 @@
     </div>
     @endif
 
-    @if ($business->vacancies()->future()->count() == 0)
+    {{-- @if ($business->vacancies()->future()->count() == 0)
     <div class="row">
         <div class="col-md-12">
             {!! Alert::warning(Button::withIcon(Icon::time())
@@ -32,7 +32,7 @@
             !!}
         </div>
     </div>
-    @endif
+    @endif --}}
     
     @foreach ($boxes->chunk(3) as $chunk)
         <div class="row">

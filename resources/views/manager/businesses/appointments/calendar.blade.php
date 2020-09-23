@@ -13,23 +13,6 @@
 <div>@include('manager.contacts._modalcalendar')</div>
 <div>@include('manager.contacts._modal_appocalendar')</div>
 <div>@include('manager.contacts._modal_contactadd')</div>
-<div>
-<div class="modal" id="alertModal" tabindex="-3" role="dialog" aria-labelledby="alertModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <h3 class="modal-title" id="exampleModalLabel">Alert</h3>
-      </div>
-      <div class="modal-body">
-        <div style="display:none;" id="mc_info_success" class="alert alert-success"></div>
-        <div style="display:none;" id="mc_info_error" class="alert alert-danger"></div>
-      </div>
-    </div>
-  </div>
-</div>
 
 <div class="row">
     <div class="col-lg-12" style="border-right:0px solid #afafaf;min-height:50px;position:relative;width:100%;">

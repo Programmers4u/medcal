@@ -20,11 +20,12 @@ var uploadFiles = function (){
         data.append(key, value);
         filesName.push(value.name);
     });
-    var url = "{{ route('medical.file.put',[$business]) }}";
+    var url = "{{ route('contacts.import.file',[$business]) }}";
 
     $.ajax({
         headers: {
-            'X-CSRF-TOKEN': '{{csrf_token()}}'
+            'X-CSRF-TOKEN': '{{csrf_token()}}',
+            // 'Content-type': 'text/csv',
         },                    
         url: url,
         type: 'POST',
@@ -48,17 +49,17 @@ var uploadFiles = function (){
             {
                 // Handle errors here
                 //console.log('ERRORS: ' + data.error);
-                document.location.reload();
+                // document.location.reload();
                 alert('Załącznik został dołączony');
-                alert('Błąd: '+data.error);
+                // alert('Błąd: '+data.error);
             }
         },
         error: function(jqXHR, textStatus, errorThrown)
         {
             // Handle errors here
             //console.log('ERRORS: ' + textStatus);
-            document.location.reload();
-            alert('Błąd: '+textStatus);
+            // document.location.reload();
+            // alert('Błąd: '+textStatus);
 
         }
     });        
@@ -67,7 +68,7 @@ var uploadFiles = function (){
 @endpush
 
 <!-- Modal -->
-<div class="modal" id="importContactModal" tabindex="-1" role="dialog" aria-labelledby="importContactModal" aria-hidden="true">
+<div class="modal" id="importContactModal" tabindex="-5" role="dialog" aria-labelledby="importContactModal" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">

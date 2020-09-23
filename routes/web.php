@@ -127,6 +127,12 @@ Route::group(['namespace' => 'API'], function () {
         'uses' => 'StatisticsController@getIllSex',
     ]);    
 
+    Route::post('import-contacts',[
+        'as'   => 'contacts.import.file',
+        'uses' => 'ContactsController@importFromFile',
+    ]);
+
+
 });
 
 
