@@ -20,33 +20,35 @@ class ContactsController extends Controller
 
     public function importFromFile(GetRequest $request, Business $business) : JsonResponse
     {
+        $business = $business->first();
         $response = ['status'=>'ok','data'=>'','error'=>''];
-
         $uploadedFile = $request->file()[0];
         $filename = $uploadedFile->getClientOriginalName();
         $file = Storage::disk('local')->putFile('temp/', $uploadedFile);
-        // $files = Storage::get($file);
-
-        $row = 1;
-        if (($handle = fopen($file, "r")) !== FALSE) {
-            while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-                $num = count($data);
-                echo "<p> $num fields in line $row: <br /></p>\n";
-                $row++;
-                for ($c=0; $c < $num; $c++) {
-                    echo $data[$c] . "<br />\n";
-                }
-            }
-            fclose($handle);
-        }        
+        $contacts = explode("\n", Storage::get($file)) ;
+        $response['data'] = 'Ilość rekordów: ' . count($contacts);
+        if (count($contacts) > plan('limits.contacts', $business->plan)) {
+            $response['error'] = trans('app.saas.plan_limit_reached');
+            $response['status'] = 'error';
+        };
+        foreach($contacts as $index => $contact) {
+            if($business->addressbook()->count() > plan('limits.contacts', $business->plan))
+                break;
+            $register = [
+                'firstname' => $contact['firstname'],
+                'lastname' => $contact['lastname'],
+                'email' => $contact['email'],
+                'nin' => $contact['nin'],
+                'gender' => $contact['gender'],
+                'birthdate' => $contact['birthdate'],
+                'mobile' => $contact['mobile'],
+                'mobile_country' => $contact['mobile_country']
+            ];
+            
+            $business->addressbook()->register($register);
+        };
         
-            //foreach($request->file()[0] as $file){
-            // $path = Storage::disk('local')->putFile('medical/'.$business->id.'/import_contacts', $file);
-            // $originalName = $file->getClientOriginalName();
-            // $response['data'] = $path;
-        //}
-        //$path = Storage::disk('local')->putFile('medical', $request->file()[0]);
-        //$result = MedicalFile::putFile($path, $request->input('contact_id'), $request->input('description'), $request->input('history_id'), $request->input('type'));
+        Storage::disk('local')->delete($file);
 
         return response()->json($response);
     }
