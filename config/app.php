@@ -275,7 +275,7 @@ return [
         'Location'   => Stevebauman\Location\Facades\Location::class,
         'Markdown'   => GrahamCampbell\Markdown\Facades\Markdown::class,
         'Notifynder' => Fenos\Notifynder\Facades\Notifynder::class,
-        'PDF2'        => Barryvdh\Snappy\Facades\SnappyPdf::class,
+        // 'PDF2'        => Barryvdh\Snappy\Facades\SnappyPdf::class,
         'Socialite'  => Laravel\Socialite\Facades\Socialite::class,
         'TidioChat'  => Alariva\Tidiochat\Facades\TidioChat::class,
         'Widget'     => Caffeinated\Widgets\Facades\Widget::class,

@@ -1,6 +1,3 @@
-@section('css')
-<link rel="stylesheet" href="{{ asset('css/forms.css') }}">
-@endsection
 
 <ul class="list-group">
     @foreach($permission as $data)

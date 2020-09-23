@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ContactFormRequest;
 use App\Models\User;
 use CreateUser;
+use Illuminate\Http\JsonResponse;
 use Timegridio\Concierge\Addressbook;
 use Timegridio\Concierge\Models\Business;
 use Timegridio\Concierge\Models\Contact;
@@ -101,7 +102,7 @@ class AddressbookController extends Controller
      * @return Response json
      */
     
-    public function miniStore(Business $business, ContactFormRequest $request)
+    public function miniStore(Business $business, ContactFormRequest $request) : JsonResponse
     {
         $response = ['status'=>'ok','error'=>null];
         

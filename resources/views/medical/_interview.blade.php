@@ -1,6 +1,3 @@
-@section('css')
-<link rel="stylesheet" href="{{ asset('css/forms.css') }}">
-@endsection
 
 {!! Form::label( trans('medical.interview.index.sick') ) !!}<br>
 {!! Form::select('sick', $interviewData['diseases_data'], null, ['multiple', 'style' =>'width:100%', 'id' => 'sick', 'class' => 'form-control select2']) !!}

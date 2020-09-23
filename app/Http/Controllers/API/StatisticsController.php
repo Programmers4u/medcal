@@ -17,43 +17,61 @@ class StatisticsController extends Controller
 {
     const DIAGNOSIS = 'diagnosis';
     const DIAGNOSIS_SEX = 'diagnosis_sex';
+    const DIAGNOSIS_PATIENT = 'diagnosis_patient';
 
     const STATISTICS = [
         self::DIAGNOSIS,
         self::DIAGNOSIS_SEX,
+        self::DIAGNOSIS_PATIENT,
     ];
 
     public function getIndex(GetRequest $request, Business $business) : JsonResponse
     {
 
-        $model = MedicalHistory::query()
-            ->get()
-            ->toArray()
-        ;
-        foreach($model as $m) {
-            $edm = json_decode($m['json_data']);
-            $contact = Contact::find($m['contact_id']);
-            $birthdate = $contact->birthday;
-            $sex = $contact->gender;
-            Datasets::create([
-                Datasets::DATE_OF_EXAMINATION  => Carbon::parse($m['created_at']),
-                Datasets::BIRTHDAY => Carbon::parse($birthdate),
-                Datasets::SEX => $sex === 'M' ? Datasets::SEX_MALE : Datasets::SEX_FEMALE,
-                Datasets::DIAGNOSIS => $edm->diagnosis,
-                Datasets::PROCEDURES => $edm->procedures,        
-            ]);    
-        }
+        $model = MedicalHistory::query();
         $dataset = null;
+
         switch($request->input('type')) {
             case self::DIAGNOSIS: 
+                $this->setRecords($model);
                 $dataset =[ Datasets::query()
                     ->selectRaw('Count(1) as data, diagnosis as label, created_at as labels')
                     ->groupBy(Datasets::DIAGNOSIS)
                     // ->groupBy(Datasets::DATE_OF_EXAMINATION)
                     ->get()->toArray()
                 ];
+                // array_push($dataset,['data'=>0,'label'=>'','labels'=>'']);
+            break;
+            case self::DIAGNOSIS_PATIENT: 
+
+                Datasets::truncate();                    
+                $this->setRecords($model);
+            
+                $modelTwo = Datasets::query()
+                    ->selectRaw('Count(1) as data, diagnosis as label, created_at as labels')
+                    ->groupBy(Datasets::DIAGNOSIS)
+                    // ->groupBy(Datasets::DATE_OF_EXAMINATION)
+                    ->get()->toArray();
+
+                if($request->input('contactId')) {
+                    $model->where(MedicalHistory::CONTACT_ID,$request->input('contactId'));
+                };
+        
+                Datasets::truncate();
+                $this->setRecords($model);
+        
+                $modelOne = Datasets::query()
+                    ->selectRaw('Count(1) as data, diagnosis as label, created_at as labels')
+                    ->groupBy(Datasets::DIAGNOSIS)
+                    // ->groupBy(Datasets::DATE_OF_EXAMINATION)
+                    ->get()->toArray()
+                    ;
+                array_push($modelOne,['data'=>0,'label'=>'','labels'=>'']);
+                array_push($modelTwo,['data'=>0,'label'=>'','labels'=>'']);
+                $dataset = [$modelOne, $modelTwo];
             break;
             case self::DIAGNOSIS_SEX: 
+                $this->setRecords($model);
                 $datasetFemale = Datasets::query()
                         ->selectRaw('Count(1) as data, diagnosis as label, created_at as labels')
                         ->where(Datasets::SEX, Datasets::SEX_FEMALE)
@@ -68,9 +86,14 @@ class StatisticsController extends Controller
                     // ->groupBy(Datasets::DATE_OF_EXAMINATION)
                     ->get()->toArray()
                 ;
+
+                array_push($datasetMale,['data'=>0,'label'=>'','labels'=>'']);
+                array_push($datasetFemale,['data'=>0,'label'=>'','labels'=>'']);
+
                 $dataset = [$datasetFemale, $datasetMale];
             break;
             default: 
+                $this->setRecords($model);
                 $dataset = [Datasets::query()
                     ->selectRaw('Count(1) as data, diagnosis as label, created_at as labels')
                     ->groupBy(Datasets::DIAGNOSIS)
@@ -101,5 +124,24 @@ class StatisticsController extends Controller
             array_push($singleFormat['label'], $data['label']);
         }
         return $singleFormat;
+    }
+
+    private function setRecords($model) {
+        if(!is_array($model))
+            $model = $model->get()->toArray();
+        foreach($model as $m) {
+            $edm = json_decode($m['json_data']);
+            $contact = Contact::find($m['contact_id']);
+            $birthdate = $contact->birthday;
+            $sex = $contact->gender;
+            Datasets::create([
+                Datasets::DATE_OF_EXAMINATION  => Carbon::parse($m['created_at']),
+                Datasets::BIRTHDAY => Carbon::parse($birthdate),
+                Datasets::SEX => $sex === 'M' ? Datasets::SEX_MALE : Datasets::SEX_FEMALE,
+                Datasets::DIAGNOSIS => $edm->diagnosis,
+                Datasets::PROCEDURES => $edm->procedures,        
+            ]);    
+        }
+
     }
 }

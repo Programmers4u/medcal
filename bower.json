@@ -1,12 +1,10 @@
 {
-  "name": "medical",
-  "description": "",
+  "name": "medcal",
+  "description": "Medical records with statistics",
   "main": "",
   "authors": [
     "Marcin Kania <job@gatesms.eu>"
   ],
-  "license": "MIT",
-  "homepage": "",
   "ignore": [
     "**/.*",
     "node_modules",
