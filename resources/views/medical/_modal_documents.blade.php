@@ -53,22 +53,22 @@ var printHistory = function(){
     var saveHistory = function (){
         if($('#staff_id').val()=='') {
             var txt = 'Wybierz pracownika';
-            alert(txt);
+            alert(txt, 'error');
             return -1;
         }
         if($('#diagnosis').val()=='') {
             var txt = 'Wpisz rozpoznanie';
-            alert(txt);
+            alert(txt, 'error');
             return -1;
         }
         if($('#procedures').val()=='') {
             var txt = 'Wpisz co zostało wykonane';
-            alert(txt);
+            alert(txt, 'error');
             return -1;
         }
         if(appointment_id=='-1') {
             var txt = 'Wybierz wizytę';
-            alert(txt);
+            alert(txt, 'error');
             return -1;
         }
         if($('#edit').css('display') != 'none'){
@@ -101,7 +101,7 @@ var printHistory = function(){
         var e = $("#appointment :selected").text();
         var saveDay = new Date(e.split(' - ')[0].replace(/ /gi,'T'));
         
-        if(toDay<saveDay.getTime()){
+        if(toDay < saveDay.getTime()){
             var ans = confirm("UWAGA!\nOpisujesz wizytę której jeszcze nie było.");
             if(ans === false ) return 0;
         };
@@ -124,7 +124,7 @@ var printHistory = function(){
             {
                 // Handle errors here
                 console.log('ERRORS: ' + textStatus);
-                alert('Błąd: '+textStatus);
+                alert('Błąd: '+textStatus, 'error');
 
             }            
         });
