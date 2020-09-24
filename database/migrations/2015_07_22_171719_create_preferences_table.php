@@ -13,13 +13,14 @@ class CreatePreferencesTable extends Migration
     public function up()
     {
         Schema::create('preferences', function (Blueprint $table) {
+            $table->nullableTimestamps();
+
             $table->increments('id');
             $table->string('key');
             $table->string('value');
             $table->enum('type', ['string', 'bool', 'int', 'float', 'array', 'time', 'json'])->default('string');
             $table->string('preferenceable_type');
             $table->integer('preferenceable_id')->unsigned();
-            $table->nullableTimestamps();
 
             $table->unique(['key', 'preferenceable_type', 'preferenceable_id']);
         });

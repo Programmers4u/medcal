@@ -31,7 +31,7 @@ var saveAppointment = function () {
     }
 
     AppointmentSave.get(function(data) {
-        alert(JSON.stringify(data));
+        alert(JSON.stringify(data),'success');
         contactId = null;
         document.getElementById('searchfield').value='';
         document.getElementById('livesearch').innerHTML='';
@@ -178,7 +178,7 @@ var showResultService = function (str) {
 @endpush
 
 <!-- Modal -->
-<div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal" id="exampleModal" tabindex="-3" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">

@@ -25,9 +25,8 @@ use App\Http\Consts\ResponseApi;
 use App\Http\Requests\Appointments\BookingChangeRequest;
 use App\Http\Requests\Appointments\BookingRequest;
 use App\Models\Notes;
-use Event;
+
 use Illuminate\Http\JsonResponse;
-use Notifynder;
 use Timegridio\Concierge\Exceptions\DuplicatedAppointmentException;
 
 use Timegridio\Concierge\Booking\BookingManager;
@@ -35,8 +34,6 @@ use Timegridio\Concierge\Calendar\Calendar;
 use Timegridio\Concierge\Models\Service;
 use Timegridio\Concierge\Timetable\Strategies\TimetableStrategy;
 use Timegridio\Concierge\Vacancy\VacancyManager;
-
-use Illuminate\Support\Facades\DB;
 
 class BookingController extends Controller
 {

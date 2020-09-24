@@ -79,6 +79,22 @@
     </div>
 </div>
 
+
+<div class="form-group">
+    {!! Form::label( trans('manager.contacts.form.nin.label'), null, ['class' => 'control-label col-sm-3'] ) !!}
+    <div class="col-sm-9">
+    {!! Form::text('nin', null, [
+        'onkeydown' => 'capitalize(this)',
+        'id' => 'nin',
+        'required',
+        'class' => 'form-control',
+        'placeholder'=> old('nin'),
+        'oninvalid' => 'this.setCustomValidity( "'.trans('manager.contacts.form.nin.validation').'" )',
+        'oninput' => 'this.setCustomValidity("")' ]) !!}
+        <div class="help-block with-errors"></div>
+    </div>
+</div>
+
 @push('footer_scripts')
 <script src="{{ asset('js/forms.js') }}"></script>
 <script src="{{ asset('js/datetime.js') }}"></script>

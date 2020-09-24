@@ -13,7 +13,8 @@ class AddServiceTypeColumnToServicesTable extends Migration
     {
         Schema::table('services', function ($table) {
             $table->integer('type_id')->unsigned()->nullable()->after('id');
-            $table->foreign('type_id')->references('id')->on('service_types')->onDelete('cascade');
+            $table->foreign('type_id')
+                ->references('id')->on('service_types')->onDelete('cascade');
         });
     }
 

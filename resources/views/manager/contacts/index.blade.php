@@ -4,7 +4,13 @@
 
 @push('footer_scripts')
 <script>
-    
+var openImport = () => {
+    $('#importContactModal').modal({
+        keyboard: false,
+        backdrop: false,
+    }) 
+}   
+
 $(document).ready(function(){
 
     $('.filterable .btn-filter').click(function(){
@@ -207,10 +213,16 @@ var changeContact = function(id,name){
             {!! $contacts->links() !!}
         </div>
     </div>
-{!! Button::withIcon(Icon::plus())->info(trans('manager.businesses.contacts.btn.create'))
+{!! Button::withIcon(Icon::plus())->primary(trans('manager.businesses.contacts.btn.create'))
                                   ->asLinkTo( route('manager.addressbook.create', $business) )
-                                  ->large()
+                                //   ->large()
                                   ->block() !!}
+
+{!! Button::withIcon(Icon::plus())->primary(trans('manager.businesses.contacts.btn.import'))
+->asLinkTo("javascript:openImport()")
+//   ->large()
+->block() !!}
 </div>
 
+@include('manager.contacts._modal_contact_import',[$business])
 @endsection

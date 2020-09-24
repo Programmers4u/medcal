@@ -13,6 +13,8 @@ class CreateNotificationsTable extends Migration
     public function up()
     {
         Schema::create('notifications', function (Blueprint $table) {
+            $table->nullableTimestamps();
+
             $table->increments('id');
             $table->bigInteger('from_id')->index()->unsigned();
             $table->string('from_type')->index()->nullable();
@@ -22,7 +24,6 @@ class CreateNotificationsTable extends Migration
             $table->string('url');
             $table->string('extra')->nullable();
             $table->tinyInteger('read')->default(0);
-            $table->nullableTimestamps();
 
             $table->foreign('category_id')->references('id')
                   ->on('notification_categories');

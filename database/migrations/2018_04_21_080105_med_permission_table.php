@@ -35,10 +35,10 @@ class MedPermissionTable extends Migration
                 ->on('contacts')
                 ->onDelete('no action');
             
-            $table->boolean('appo_sms');
-            $table->boolean('appo_email');
-            $table->boolean('news_email');
-            $table->boolean('news_sms');
+            $table->boolean('appo_sms')->default(true);
+            $table->boolean('appo_email')->default(true);
+            $table->boolean('news_email')->default(false);
+            $table->boolean('news_sms')->default(false);
 
             $table->text('json');
             

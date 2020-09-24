@@ -1,20 +1,23 @@
 @push('footer_scripts')
 <script>
 var app_meeting_Id = 0;
-var deleteAppointment = function(){
-  if(!confirm('Jesteś zdecydowany anulować spotkanie?')) return;
-
-  AppointmentDelete.post = {
-    ...AppointmentDelete.post,
-    business : '{{ $business->id }}',
-    appointment: app_meeting_Id,
-    csrf : csrf,
-    'action' : 'cancel',
-    'widget' : 'row',
-  }
-  AppointmentDelete.get(function (data) {
-    $('#_modal_appocalendar [data-dismiss=modal]').click();
-    document.location.reload();
+var deleteAppointment = function() {      
+  confirm('Jesteś zdecydowany anulować spotkanie?', (result) => {
+    console.log(result);
+    if(false === result) return false;
+      AppointmentDelete.post = {
+      ...AppointmentDelete.post,
+      business : '{{ $business->id }}',
+      appointment: app_meeting_Id,
+      csrf : csrf,
+      'action' : 'cancel',
+      'widget' : 'row',
+      };
+      AppointmentDelete.get(function (data) {
+        $('#_modal_appocalendar [data-dismiss=modal]').click();
+        document.location.reload();
+      });
+    return true;
   });
 }
 </script>

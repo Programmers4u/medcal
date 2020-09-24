@@ -79,14 +79,14 @@ gulp.task('styles',function() {
     res = 
     gulp.src( [
         // './bower_components/bootstrap/dist/css/bootstrap.min.css',
-        './bower_components/bootstrap/less/bootstrap.less',
+        // './bower_components/bootstrap/less/bootstrap.less',
         './bower_components/adminlte/dist/css/AdminLTE.css',
         //'./bower_components/adminlte/dist/css/skins/skin-blue.css',
         //'./bower_components/adminlte/dist/css/skins/skin-purple.min.css',
         './bower_components/adminlte/dist/css/skins/skin-purple-light.min.css',
         './bower_components/adminlte/plugins/iCheck/square/purple.css',
         './node_modules/chart.js/dist/Chart.min.css',
-        // './resources/assets/less/app.less',
+        './resources/assets/less/app.less',
         ])
         .pipe(less({
           paths: [ path.join(__dirname, 'less', 'includes') ]
@@ -336,6 +336,18 @@ gulp.task('script', function(){
             suffix: '.min'
           }))    
           .pipe(gulp.dest('public/js/alert/'));
+
+        // confirm
+        res =
+        gulp.src( [
+          'resources/assets/js/confirm/*',
+          ])
+          .pipe(uglify())
+          .pipe(concat('confirm.js'))
+          .pipe(rename({
+            suffix: '.min'
+          }))    
+          .pipe(gulp.dest('public/js/confirm/'));
 
           // appointment
         res =

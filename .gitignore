@@ -1,7 +1,7 @@
-/database/seeds/VivaDentSeed.php
 /database/seeds/seed_file/Produkty_lecznicze2.ods
 /public/vendor/
 /dbdata/
+/docker/mysql/dbdata/
 /vendor/*
 !/vendor/timegridio/
 /node_modules/

@@ -40,6 +40,7 @@ return  [
     'contacts' => [
       'btn' => [
         'create' => 'Dodaj kontakt',
+        'import' => 'Importuj kontakty',
       ],
     ],
     'create' => [

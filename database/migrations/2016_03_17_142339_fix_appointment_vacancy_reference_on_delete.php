@@ -14,7 +14,8 @@ class FixAppointmentVacancyReferenceOnDelete extends Migration
     {
         Schema::table('appointments', function ($table) {
             $table->dropForeign(['vacancy_id']);
-            $table->foreign('vacancy_id')->references('id')->on('vacancies')->onDelete('set null');
+            $table->foreign('vacancy_id')
+                ->references('id')->on('vacancies')->onDelete('set null');
         });
     }
 
@@ -27,7 +28,8 @@ class FixAppointmentVacancyReferenceOnDelete extends Migration
     {
         Schema::table('appointments', function ($table) {
             $table->dropForeign(['vacancy_id']);
-            $table->foreign('vacancy_id')->references('id')->on('vacancies')->onDelete('set null');
+            $table->foreign('vacancy_id')
+                ->references('id')->on('vacancies')->onDelete('set null');
         });
     }
 }

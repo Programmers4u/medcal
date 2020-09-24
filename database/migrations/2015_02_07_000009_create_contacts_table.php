@@ -13,9 +13,16 @@ class CreateContactsTable extends Migration
     public function up()
     {
         Schema::create('contacts', function (Blueprint $table) {
+            $table->nullableTimestamps();
+            $table->softDeletes();
+
             $table->increments('id');
             $table->integer('user_id')->unsigned()->nullable();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('no action')
+                ->onUpdate('cascade');
             $table->string('nin')->nullable()->index();
             $table->enum('gender', ['M', 'F']);
             $table->string('firstname');
@@ -27,8 +34,6 @@ class CreateContactsTable extends Migration
             $table->char('mobile', 15)->nullable();
             $table->char('mobile_country', 2)->nullable();
             $table->string('email')->nullable();
-            $table->nullableTimestamps();
-            $table->softDeletes();
         });
     }
 

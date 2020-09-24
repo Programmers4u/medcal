@@ -20,7 +20,6 @@ class MedicalHistory extends Migration
             $table->timestamps();
 
             $table->bigInteger('contact_id')
-                // ->unsigned()
                 ->index()
                 ->foreign('contact_id')
                 ->references('id')
@@ -28,7 +27,6 @@ class MedicalHistory extends Migration
                 ->onDelete('no action');
 
             $table->bigInteger('appointment_id')
-                // ->unsigned()
                 ->index()
                 ->foreign('appointment_id')
                 ->references('id')

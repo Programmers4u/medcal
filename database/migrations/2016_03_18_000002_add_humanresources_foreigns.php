@@ -13,12 +13,14 @@ class AddHumanresourcesForeigns extends Migration
     {
         Schema::table('appointments', function ($table) {
             $table->integer('humanresource_id')->unsigned()->nullable();
-            $table->foreign('humanresource_id')->references('id')->on('humanresources')->onDelete('cascade');
+            $table->foreign('humanresource_id')
+                ->references('id')->on('humanresources')->onDelete('cascade');
         });
 
         Schema::table('vacancies', function ($table) {
             $table->integer('humanresource_id')->unsigned()->nullable();
-            $table->foreign('humanresource_id')->references('id')->on('humanresources')->onDelete('cascade');
+            $table->foreign('humanresource_id')
+                ->references('id')->on('humanresources')->onDelete('cascade');
         });
     }
 

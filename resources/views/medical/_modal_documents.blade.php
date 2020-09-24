@@ -10,7 +10,6 @@
 
 @push('footer_scripts')
 <script type="text/javascript" src="/js/medical/doc.min.js"></script>
-<script type="text/javascript" src="/js/alert/alert.min.js"></script>
 
 <script type="text/javascript">
 $(document).ready(function(){
@@ -54,22 +53,22 @@ var printHistory = function(){
     var saveHistory = function (){
         if($('#staff_id').val()=='') {
             var txt = 'Wybierz pracownika';
-            alert(txt);
+            alert(txt, 'error');
             return -1;
         }
         if($('#diagnosis').val()=='') {
             var txt = 'Wpisz rozpoznanie';
-            alert(txt);
+            alert(txt, 'error');
             return -1;
         }
         if($('#procedures').val()=='') {
             var txt = 'Wpisz co zostało wykonane';
-            alert(txt);
+            alert(txt, 'error');
             return -1;
         }
         if(appointment_id=='-1') {
             var txt = 'Wybierz wizytę';
-            alert(txt);
+            alert(txt, 'error');
             return -1;
         }
         if($('#edit').css('display') != 'none'){
@@ -102,7 +101,7 @@ var printHistory = function(){
         var e = $("#appointment :selected").text();
         var saveDay = new Date(e.split(' - ')[0].replace(/ /gi,'T'));
         
-        if(toDay<saveDay.getTime()){
+        if(toDay < saveDay.getTime()){
             var ans = confirm("UWAGA!\nOpisujesz wizytę której jeszcze nie było.");
             if(ans === false ) return 0;
         };
@@ -125,7 +124,7 @@ var printHistory = function(){
             {
                 // Handle errors here
                 console.log('ERRORS: ' + textStatus);
-                alert('Błąd: '+textStatus);
+                alert('Błąd: '+textStatus, 'error');
 
             }            
         });
@@ -668,27 +667,9 @@ var putAppointmentNoteCallBack = () => {
 <div>
 @include('medical._modal_files',[$business])
 </div>
-<div>
-<div class="modal" id="alertModal" tabindex="-2" role="dialog" aria-labelledby="alertModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <h3 class="modal-title" id="exampleModalLabel">Alert</h3>
-      </div>
-      <div class="modal-body">
-        <div style="display:none;" id="mc_info_success" class="alert alert-warning"></div>
-        <div style="display:none;" id="mc_info_error" class="alert alert-danger"></div>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
 <!-- MODAL DIAGNOSIS-->
 <div>
-<div class="modal draggable fade" id="diagnosisModal" tabindex="-3" role="dialog" aria-labelledby="diagnosisModalLabel" aria-hidden="true">
+<div class="modal draggable fade" id="diagnosisModal" tabindex="-2" role="dialog" aria-labelledby="diagnosisModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">

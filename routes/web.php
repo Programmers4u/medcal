@@ -255,6 +255,16 @@ Route::group(['prefix' => '{business}'], function ($business) {
         'as'   => 'business.ical.download',
         'uses' => 'User\ICalController@download',
     ]);
+
+    Route::group(['namespace' => 'API'], function ($business) {
+        
+        Route::post('import-contacts',[
+            'as'   => 'contacts.import.file',
+            'uses' => 'ContactsController@importFromFile',
+        ]);    
+
+    });
+
     
     ///////////////////
     // MEDICAL CONTEXT //

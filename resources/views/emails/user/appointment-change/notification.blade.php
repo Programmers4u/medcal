@@ -5,7 +5,7 @@
     @include('beautymail::templates.minty.contentStart')
         <tr>
             <td class="title">
-                {{ trans('emails.user.appointment-confirmation.hello-title', compact('userName')) }}
+                {{ trans('emails.user.appointment-changing.hello-title', compact('userName')) }}
             </td>
         </tr>
         <tr>
@@ -13,7 +13,7 @@
         </tr>
         <tr>
             <td class="paragraph">
-                {{ trans('emails.user.appointment-confirmation.hello-paragraph') }}
+                {{ trans('emails.user.appointment-changing.hello-paragraph') }}
             </td>
         </tr>
         <tr>
@@ -21,7 +21,7 @@
         </tr>
         <tr>
             <td class="title">
-                {{ trans('emails.user.appointment-confirmation.appointment-title') }}
+                {{ trans('emails.user.appointment-changing.appointment-title') }}
             </td>
         </tr>
         <tr>
@@ -29,7 +29,7 @@
         </tr>
         <tr>
             <td class="paragraph">
-                @include('emails.user.appointment-confirmation._appointment', compact('appointment'))
+                @include('emails.user.appointment-changing._appointment', compact('appointment'))
             </td>
         </tr>
         <tr>
@@ -37,7 +37,7 @@
         </tr>
         <tr>
             <td>
-                @include('beautymail::templates.minty.button', ['text' => trans('emails.user.appointment-confirmation.button'), 'link' => route('user.agenda')])
+                @include('beautymail::templates.minty.button', ['text' => trans('emails.user.appointment-changing.button'), 'link' => route('user.agenda')])
             </td>
         </tr>
         <tr>

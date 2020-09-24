@@ -4,7 +4,7 @@ var finish_date = null;
 var start_date = null;
 var start_at = null;
 var ca_revertFunc = null;
-var changeAppointmentLock = -1;
+var changeAppointmentLock = true;
 var contactId = null;    
 var ajaxBlockClient = 0;                    
 
@@ -141,41 +141,3 @@ var openAddContact = function(){
 var saveNote = function() {
     
 }
-
-var app_meeting_Id = 0;
-var deleteAppointment = function(){
-    if(!confirm('Jesteś zdecydowany anulować spotkanie?')) return;
-    var post = {
-        'business' : bussinesId,
-        'appointment' : app_meeting_Id,
-        'action' : 'cancel',
-        'widget' : 'row',
-    }
-    if(humanresources==0){
-        var txt = 'Wybierz kalendarz pracownika';
-        alert(txt,'error');
-        return -1;
-    }
-
-    // $.ajax({
-    //     headers: {
-    //         'X-CSRF-TOKEN': '{{csrf_token()}}'
-    //     },            
-    //     url: "/booking",
-    //     data: post,            
-    //     dataType: "json",
-    //     type: "POST",
-    //     success: function (data) {
-    //         getAppointment();
-    //         $('#_modal_appocalendar [data-dismiss=modal]').click();
-    //     },
-    // });
-}
-
-// var changeAppointment = function(post) {
-//     //if(changeAppointmentLock!=-1) return;
-//     changeAppointmentLock=1;
-//     //console.log('times: '+times);  
-//     console.log(post);  
-//     webApi('/bookchange', post);    
-// }
