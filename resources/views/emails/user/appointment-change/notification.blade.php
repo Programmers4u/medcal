@@ -29,7 +29,7 @@
         </tr>
         <tr>
             <td class="paragraph">
-                @include('emails.user.appointment-changing._appointment', compact('appointment'))
+                @include('emails.user.appointment-change._appointment', compact('appointment'))
             </td>
         </tr>
         <tr>

@@ -32,7 +32,7 @@ class SendAppointmentChangeNotification implements ShouldQueue
         // $date = $event->appointment->start_at->toDateString();
         // $businessName = $event->appointment->business->name;
 
-        // Notifynder::category('appointment.cancel')
+        // Notifynder::category('appointment.change')
         //            ->from('App\Models\User', $event->user->id)
         //            ->to('Timegridio\Concierge\Models\Business', $event->appointment->business->id)
         //            ->url('http://localhost')
@@ -116,7 +116,7 @@ class SendAppointmentChangeNotification implements ShouldQueue
             'locale'   => $event->appointment->business->locale,
             'timezone' => $event->user->pref('timezone'),
             'template' => 'user.appointment-change.notification',
-            'subject'  => 'user.appointment-change.subject',
+            'subject'  => 'user.appointment-changing.subject',
         ];
 
         $this->sendemail($email);
