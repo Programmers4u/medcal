@@ -54,7 +54,7 @@ var uploadFiles = function () {
 <div class="modal" id="importContactModal" tabindex="-5" role="dialog" aria-labelledby="importContactModal" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header" style="background-color: lightblue;">
+            <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>

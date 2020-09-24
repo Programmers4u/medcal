@@ -213,7 +213,7 @@ $(document).ready(function() {
 </script>
 
 
-<div class="modal" id="alertModal" tabindex="1" style="z-index:1000000;" role="dialog" aria-labelledby="alertModalLabel" aria-hidden="true">
+<div class="modal" id="alertModal" tabindex="1" style="z-index:90000000;" role="dialog" aria-labelledby="alertModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background-color:gainsboro;">
@@ -231,7 +231,7 @@ $(document).ready(function() {
   </div>
 </div>
 
-<div class="modal" id="confirmModal" tabindex="1" style="z-index:1000000;" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+<div class="modal" id="confirmModal" tabindex="1" style="z-index:100000;" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header" style="background-color:gainsboro;">
@@ -241,8 +241,12 @@ $(document).ready(function() {
                 <h3 class="modal-title" id="confirmModalLabel">Potwierdź</h3>
             </div>
             <div class="modal-body">
-                <div style="display:none;" id="confirm_info_success" class="alert alert-success"></div>
+                <div style="display:none;font-weight: 800" id="confirm_info_success" class="alert"></div>
                 <div style="display:none;" id="confirm_info_error" class="alert alert-danger"></div>
+            </div>
+            <div class="modal-footer">
+                <div class="btn btn-success" id="confirmYes" >OK</div>
+                <div class="btn btn-danger" id="confirmNo" >Anuluj</div>
             </div>
         </div>
     </div>

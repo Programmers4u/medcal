@@ -1,20 +1,23 @@
 @push('footer_scripts')
 <script>
 var app_meeting_Id = 0;
-var deleteAppointment = function(){
-  if(!confirm('Jesteś zdecydowany anulować spotkanie?')) return;
-
-  AppointmentDelete.post = {
-    ...AppointmentDelete.post,
-    business : '{{ $business->id }}',
-    appointment: app_meeting_Id,
-    csrf : csrf,
-    'action' : 'cancel',
-    'widget' : 'row',
-  }
-  AppointmentDelete.get(function (data) {
-    $('#_modal_appocalendar [data-dismiss=modal]').click();
-    document.location.reload();
+var deleteAppointment = function() {      
+  confirm('Jesteś zdecydowany anulować spotkanie?', (result) => {
+    console.log(result);
+    if(false === result) return false;
+      AppointmentDelete.post = {
+      ...AppointmentDelete.post,
+      business : '{{ $business->id }}',
+      appointment: app_meeting_Id,
+      csrf : csrf,
+      'action' : 'cancel',
+      'widget' : 'row',
+      };
+      AppointmentDelete.get(function (data) {
+        $('#_modal_appocalendar [data-dismiss=modal]').click();
+        document.location.reload();
+      });
+    return true;
   });
 }
 </script>
@@ -25,7 +28,7 @@ var deleteAppointment = function(){
 <div class="modal" id="_modal_appocalendar" tabindex="-2" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header"  style="background-color: lightblue;">
+      <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

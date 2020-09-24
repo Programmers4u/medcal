@@ -86,7 +86,7 @@ gulp.task('styles',function() {
         './bower_components/adminlte/dist/css/skins/skin-purple-light.min.css',
         './bower_components/adminlte/plugins/iCheck/square/purple.css',
         './node_modules/chart.js/dist/Chart.min.css',
-        // './resources/assets/less/app.less',
+        './resources/assets/less/app.less',
         ])
         .pipe(less({
           paths: [ path.join(__dirname, 'less', 'includes') ]
