@@ -15,6 +15,9 @@ class CreateTableMedicines extends Migration
     {
         //
         Schema::create('medical_medicines', function(Blueprint $table){
+            $table->timestamps();
+            $table->softDeletes();
+
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('shortname');
@@ -25,8 +28,6 @@ class CreateTableMedicines extends Migration
             $table->string('company');
             $table->string('type');
             $table->string('code');
-            $table->timestamps();
-            $table->softDeletes();
         });        
         
     }

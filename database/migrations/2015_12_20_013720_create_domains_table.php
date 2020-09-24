@@ -13,12 +13,14 @@ class CreateDomainsTable extends Migration
     public function up()
     {
         Schema::create('domains', function (Blueprint $table) {
+            $table->nullableTimestamps();
+            $table->softdeletes();
+
             $table->increments('id');
             $table->string('slug', 50)->unique();
             $table->integer('owner_id')->unsigned();
-            $table->foreign('owner_id')->references('id')->on('users')->onDelete('cascade');
-            $table->nullableTimestamps();
-            $table->softdeletes();
+            $table->foreign('owner_id')
+                ->references('id')->on('users')->onDelete('cascade');
         });
     }
 

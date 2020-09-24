@@ -13,16 +13,19 @@ class CreateHumanresourcesTable extends Migration
     public function up()
     {
         Schema::create('humanresources', function (Blueprint $table) {
+            $table->nullableTimestamps();
+            $table->softDeletes();
+
             $table->increments('id');
             $table->string('name');
             $table->string('slug', 50)->index();
             $table->integer('capacity')->unsigned()->default(1);
             $table->integer('contact_id')->unsigned()->nullable();
-            $table->foreign('contact_id')->references('id')->on('contacts')->onDelete('set null');
+            $table->foreign('contact_id')
+                ->references('id')->on('contacts')->onDelete('set null');
             $table->integer('business_id')->unsigned();
-            $table->foreign('business_id')->references('id')->on('businesses')->onDelete('cascade');
-            $table->nullableTimestamps();
-            $table->softDeletes();
+            $table->foreign('business_id')
+                ->references('id')->on('businesses')->onDelete('cascade');
         });
     }
 

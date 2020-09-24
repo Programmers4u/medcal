@@ -25,6 +25,7 @@ class CreateDatasetsTable extends Migration
             $table->date('date_of_examination')->nullable();
             $table->text('diagnosis')->nullable();
             $table->text('procedures')->nullable();
+            $table->uuid('uuid')->nullable()->index();
         }); 
     }
 

@@ -13,7 +13,8 @@ class AddDomainIdToBusinessesTable extends Migration
     {
         Schema::table('businesses', function ($table) {
             $table->integer('domain_id')->unsigned()->nullable()->after('category_id');
-            $table->foreign('domain_id')->references('id')->on('domains')->onDelete('set null');
+            $table->foreign('domain_id')
+                ->references('id')->on('domains')->onDelete('set null');
         });
     }
 

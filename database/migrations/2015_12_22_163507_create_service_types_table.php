@@ -12,14 +12,18 @@ class CreateServiceTypesTable extends Migration
     public function up()
     {
         Schema::create('service_types', function ($table) {
+            $table->nullableTimestamps();
+            $table->softDeletes();
+
             $table->increments('id');
             $table->integer('business_id')->unsigned();
-            $table->foreign('business_id')->references('id')->on('businesses');
+            $table->foreign('business_id')
+                ->references('id')
+                ->on('businesses')
+                ->onDelete('no action');
             $table->string('slug')->index();
             $table->string('name');
             $table->string('description');
-            $table->nullableTimestamps();
-            $table->softDeletes();
         });
     }
 

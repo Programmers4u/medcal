@@ -14,9 +14,17 @@ class CreateBusinessUserPivotTable extends Migration
     {
         Schema::create('business_user', function (Blueprint $table) {
             $table->integer('business_id')->unsigned()->index();
-            $table->foreign('business_id')->references('id')->on('businesses')->onDelete('cascade');
+            $table->foreign('business_id')
+                ->references('id')
+                ->on('businesses')
+                ->onDelete('no action')
+                ->onUpdate('cascade');
             $table->integer('user_id')->unsigned()->index();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('no action')
+                ->onUpdate('cascade');
             $table->nullableTimestamps();
         });
     }
