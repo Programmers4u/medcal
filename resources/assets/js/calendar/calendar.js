@@ -97,7 +97,7 @@ var calendar = function() {
             $('#app-meeting-note').html(calEvent.icon4.note?calEvent.icon4.note:'');
         },
         eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
-            if( !changeAppointmentLock ) return false;
+            // if( !changeAppointmentLock ) return false;
 
             var sec = dayDelta;
             console.log(dayDelta);
@@ -111,9 +111,9 @@ var calendar = function() {
             }
 
             confirm("Jesteś pewny(a) zmiany?", function(result) {
-                changeAppointmentLock = false;                
+                // changeAppointmentLock = false;                
                 if(!result) {
-                    changeAppointmentLock = true;                
+                    // changeAppointmentLock = true;                
                     revertFunc();
                     return false;
                 }
@@ -132,6 +132,9 @@ var calendar = function() {
                     type: 'a',                 
                     csrf : csrf,
                 }
+                if( !changeAppointmentLock ) return false;
+                changeAppointmentLock = false;                
+
                 AppointmentChange.get(function(data){
                     alert(data.info);
                     changeAppointmentLock = true;                
@@ -140,11 +143,10 @@ var calendar = function() {
             })
         },        
         eventResize: function(event, dayDelta, revertFunc) {
-            if( !changeAppointmentLock ) return false;
+
             confirm("Jesteś pewny(a) zmiany?", function(result) {                               
-                changeAppointmentLock = false;                
                 if(!result) {
-                    changeAppointmentLock = true;                
+                    // changeAppointmentLock = true;                
                     revertFunc();
                     return false;
                 }
@@ -159,6 +161,10 @@ var calendar = function() {
                     type: 'f',                 
                     csrf : csrf,
                 }
+
+                if( !changeAppointmentLock ) return false;
+                changeAppointmentLock = false;                
+
                 AppointmentChange.get(function(data){
                     alert(data.info);
                     changeAppointmentLock = true;                
