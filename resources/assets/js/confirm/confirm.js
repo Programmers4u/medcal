@@ -22,4 +22,5 @@ var confirm = function(message, resultFunc) {
         $('#confirm_info_success').text('');        
         return false;
     });    
+    return true;
 }
