@@ -22,6 +22,7 @@ class NotifynderCategoriesSeeder extends Seeder
         Notifynder::addCategory('appointment.cancel', '{from.username} canceled appointment');
         Notifynder::addCategory('appointment.confirm', '{from.username} confirmed appointment');
         Notifynder::addCategory('appointment.serve', '{from.username} served appointment');
+        Notifynder::addCategory('appointment.change', '{from.username} change appointment');
         Notifynder::addCategory('sms.send', '{from.username} sent massage');
     }
 }
