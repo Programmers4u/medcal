@@ -79,7 +79,7 @@ gulp.task('styles',function() {
     res = 
     gulp.src( [
         // './bower_components/bootstrap/dist/css/bootstrap.min.css',
-        './bower_components/bootstrap/less/bootstrap.less',
+        // './bower_components/bootstrap/less/bootstrap.less',
         './bower_components/adminlte/dist/css/AdminLTE.css',
         //'./bower_components/adminlte/dist/css/skins/skin-blue.css',
         //'./bower_components/adminlte/dist/css/skins/skin-purple.min.css',
