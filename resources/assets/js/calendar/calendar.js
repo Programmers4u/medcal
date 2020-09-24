@@ -107,6 +107,8 @@ var calendar = function() {
             }
 
             confirm("Jesteś pewny(a) zmiany?", function(result) {
+                changeAppointmentLock=-1;                
+
                 if(!result) {
                     revertFunc();
                     return -1;
@@ -135,6 +137,8 @@ var calendar = function() {
         eventResize: function(event, dayDelta, revertFunc) {
 
             confirm("Jesteś pewny(a) zmiany?", function(result) {
+                changeAppointmentLock=-1;                
+
                 if(!result) {
                     revertFunc();
                     return -1;

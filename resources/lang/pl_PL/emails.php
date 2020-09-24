@@ -49,6 +49,13 @@ return [
             'appointment-title'    => 'Oto szczegóły anulowanage spotkania.',
             'button'               => 'Zobacz agendę',
         ],
+        'appointment-changing' => [
+            'subject'              => 'Szczegóły Twojego nowego spotkania',
+            'hello-title'          => ':userName, twój nowy termin',
+            'hello-paragraph'      => 'Twoja rezerwacja spotkania została zmieniona.',
+            'appointment-title'    => 'Oto szczegóły twojego spotkania',
+            'button'               => 'Zobacz agendę',
+        ],
     ],
     'guest'   => [
         'password' => [

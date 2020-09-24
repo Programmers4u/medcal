@@ -28,16 +28,16 @@ class SendAppointmentChangeNotification implements ShouldQueue
     {
         logger()->info(__METHOD__);
         
-        $code = $event->appointment->code;
-        $date = $event->appointment->start_at->toDateString();
-        $businessName = $event->appointment->business->name;
+        // $code = $event->appointment->code;
+        // $date = $event->appointment->start_at->toDateString();
+        // $businessName = $event->appointment->business->name;
 
-        Notifynder::category('appointment.cancel')
-                   ->from('App\Models\User', $event->user->id)
-                   ->to('Timegridio\Concierge\Models\Business', $event->appointment->business->id)
-                   ->url('http://localhost')
-                   ->extra(compact('businessName', 'code', 'date'))
-                   ->send();
+        // Notifynder::category('appointment.cancel')
+        //            ->from('App\Models\User', $event->user->id)
+        //            ->to('Timegridio\Concierge\Models\Business', $event->appointment->business->id)
+        //            ->url('http://localhost')
+        //            ->extra(compact('businessName', 'code', 'date'))
+        //            ->send();
 
         if ($event->appointment->business->pref('disable_outbound_mailing')) {
             return;
@@ -66,7 +66,7 @@ class SendAppointmentChangeNotification implements ShouldQueue
         $businessName = $event->appointment->business->name;
 
         $phone = $event->appointment->contact->mobile;
-        $message = $event->appointment->business->pref('sms_message');
+        $message = $event->appointment->business->pref('sms_message3');
         $date = $event->appointment->start_at->setTimezone($event->appointment->business->timezone);
         $day = $date->format('Y-m-d');
         $hour = $date->format('H:i');
@@ -103,6 +103,7 @@ class SendAppointmentChangeNotification implements ShouldQueue
             'user'         => $event->user,
             'appointment'  => $event->appointment,
             'userName'     => $event->appointment->contact->firstname,
+            'businessName' => $event->appointment->business->name,
         ];
         $header = [
             'name'  => $event->appointment->contact->firstname,
@@ -115,7 +116,7 @@ class SendAppointmentChangeNotification implements ShouldQueue
             'locale'   => $event->appointment->business->locale,
             'timezone' => $event->user->pref('timezone'),
             'template' => 'user.appointment-change.notification',
-            'subject'  => 'user.appointment-cancellation.subject',
+            'subject'  => 'user.appointment-change.subject',
         ];
 
         $this->sendemail($email);
