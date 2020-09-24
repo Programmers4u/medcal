@@ -1,60 +1,49 @@
 @push('footer_scripts')
-<script>
+<script type="text/javascript">
 var saveContact = function () {
-    if($('#firstname').val().length<2 || $('#lastname').val().length<2){
+    if($('#firstname').val().length < 2 || $('#lastname').val().length < 2){
         alert('Wpisz imię i nazwisko, minimum 2 znaki.', 'error');
-        return;
+        return -1;
     }
-    if($('#birthdate').val().length<2){
+    if($('#birthdate').val().length < 2){
         alert('Wpisz datę urodzin', 'error');
-        return;
+        return -1;
     }
+
     var data = new FormData();
-//    data.append('business_id','{{ $business->id }}');
     data.append('firstname',$('#firstname').val());
     data.append('lastname',$('#lastname').val());
     data.append('mobile',$('#mobile-input').val());
     data.append('birthdate',$('#birthdate').val());
     data.append('email','');
     data.append('gender',$('#gender').val());
+    data.append('nin',$('#nin').val());
 
     $.ajax({
         headers: {
             'X-CSRF-TOKEN': '{{csrf_token()}}'
         },                    
-        url: "{{ route('manager.addressbook.ministore',[$business]) }}",
+        url: '{{ route('manager.addressbook.ministore',[$business]) }}',
         type: 'POST',
         data: data,
         cache: false,
         dataType: 'json',
-        processData: false, // Don't process the files
-        contentType: false, // Set content type to false as jQuery will tell the server its a query string request
-        success: function(data, textStatus, jqXHR)
-        {
-            //if(typeof data === 'undefined')
-            //{
-                // Success so call function to process the form
-                if(data.status=='error'){
-                    alert(data.error, , 'error');
-                }else{
-                    alert(data.status);
-                    contactId = data.data;
-                    $('#savebtn').attr('disabled',false);
-                    document.getElementById("searchfield").value = $('#firstname').val()+' '+$('#lastname').val()+', '+$('#mobile-input').val();
-                    $('#addContactModal button').click();
-                }
-            //}
-            //else
-            //{
-                // Handle errors here
-                console.log('ERRORS: ' + data.error, , 'error');
-            //}
+        processData: false, 
+        contentType: false, 
+        success: function(data, textStatus, jqXHR) {
+            if(data.status === 'error') {
+                alert(data.error, 'error');
+                console.log('ERRORS: ' + data.error, 'error');
+            } else {
+                alert(data.data);
+                contactId = data.data;
+                $('#savebtn').attr('disabled',false);
+                document.getElementById("searchfield").value = $('#firstname').val()+' '+$('#lastname').val()+', '+$('#mobile-input').val();
+                $('#addContactModal button').click();
+            }
         },
-        error: function(jqXHR, textStatus, errorThrown)
-        {
-            // Handle errors here
-            console.log('ERRORS: ' + textStatus, , 'error');
-            // STOP LOADING SPINNER
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log('ERRORS: ' + textStatus, 'error');
         }
     });        
 }
@@ -65,7 +54,7 @@ var saveContact = function () {
 <div class="modal" id="addContactModal" tabindex="-4" role="dialog" aria-labelledby="addContactModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header" style="background-color: lightblue;">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

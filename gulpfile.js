@@ -337,6 +337,18 @@ gulp.task('script', function(){
           }))    
           .pipe(gulp.dest('public/js/alert/'));
 
+        // confirm
+        res =
+        gulp.src( [
+          'resources/assets/js/confirm/*',
+          ])
+          .pipe(uglify())
+          .pipe(concat('confirm.js'))
+          .pipe(rename({
+            suffix: '.min'
+          }))    
+          .pipe(gulp.dest('public/js/confirm/'));
+
           // appointment
         res =
         gulp.src( [
