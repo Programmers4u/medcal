@@ -30,7 +30,7 @@ class AddForeginUserIdToContactsTable extends Migration
     {
         //
         Schema::table('contacts', function($table){
-            $table->dropColum('foregin_user_id');
+            $table->dropColumn('foregin_user_id');
         });
     }
 }
