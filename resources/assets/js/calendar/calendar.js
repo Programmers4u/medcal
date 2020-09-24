@@ -107,11 +107,11 @@ var calendar = function() {
             }
 
             confirm("Jesteś pewny(a) zmiany?", function(result) {
-                changeAppointmentLock=-1;                
+                // changeAppointmentLock=-1;                
 
                 if(!result) {
-                    revertFunc();
-                    return -1;
+                    if(typeof revertFunc === 'function') revertFunc();
+                    return false;
                 }
 
                 var time, days, hours, minutes = 0;
@@ -130,18 +130,19 @@ var calendar = function() {
                 }
                 AppointmentChange.get(function(data){
                     alert(data.info);
-                    changeAppointmentLock=-1;                
-                })    
+                    // changeAppointmentLock=-1;                
+                })   
+                return true; 
             })
         },        
         eventResize: function(event, dayDelta, revertFunc) {
-
-            confirm("Jesteś pewny(a) zmiany?", function(result) {
-                changeAppointmentLock=-1;                
-
+            if( !changeAppointmentLock ) return false;
+            confirm("Jesteś pewny(a) zmiany?", function(result) {                               
+                changeAppointmentLock = false;                
                 if(!result) {
+                    changeAppointmentLock = true;                
                     revertFunc();
-                    return -1;
+                    return false;
                 }
                 var sec = dayDelta;
                 AppointmentChange.endPoint = '/bookchange';
@@ -156,8 +157,9 @@ var calendar = function() {
                 }
                 AppointmentChange.get(function(data){
                     alert(data.info);
-                    changeAppointmentLock=-1;                
+                    changeAppointmentLock = true;                
                 });
+                return true; 
             });
         },
         eventRender: function(event, element) {

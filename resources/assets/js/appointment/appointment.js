@@ -4,7 +4,7 @@ var finish_date = null;
 var start_date = null;
 var start_at = null;
 var ca_revertFunc = null;
-var changeAppointmentLock = -1;
+var changeAppointmentLock = true;
 var contactId = null;    
 var ajaxBlockClient = 0;                    
 
