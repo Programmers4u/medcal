@@ -97,33 +97,29 @@ var calendar = function() {
             $('#app-meeting-note').html(calEvent.icon4.note?calEvent.icon4.note:'');
         },
         eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
-            // if( !changeAppointmentLock ) return false;
-
-            var sec = dayDelta;
-            console.log(dayDelta);
-
-            AppointmentChange.endPoint = '/bookchange';
-
             if(event.allDay === true) {
-                changeAppointmentLock = true;        
                 revertFunc();        
                 return -1;
             }
 
             confirm("Jesteś pewny(a) zmiany?", function(result) {
-                // changeAppointmentLock = false;                
                 if(!result) {
-                    // changeAppointmentLock = true;                
                     revertFunc();
                     return false;
                 }
 
+                var sec = dayDelta;
+    
                 var time, days, hours, minutes = 0;
                 days = sec._data.days ? (86400000 * sec._data.days) : 0;
                 hours = sec._data.hours ? (3600000 * sec._data.hours) : 0;
                 minutes = sec._data.minutes ? (60000 * sec._data.minutes) : 0;
                 time = days + hours +  minutes;
-    
+
+                if( !changeAppointmentLock ) return false;
+                changeAppointmentLock = false;                
+
+                AppointmentChange.endPoint = '/bookchange';
                 AppointmentChange.post = {
                     businessId : businessId,
                     hr : humanresources,
@@ -131,14 +127,14 @@ var calendar = function() {
                     times: time, 
                     type: 'a',                 
                     csrf : csrf,
-                }
-                if( !changeAppointmentLock ) return false;
-                changeAppointmentLock = false;                
-
+                };
+                // console.log(AppointmentChange);
                 AppointmentChange.get(function(data){
                     alert(data.info);
-                    changeAppointmentLock = true;                
-                })   
+                    changeAppointmentLock = true;  
+                    // document.location.reload();              
+                });
+
                 return true; 
             })
         },        
@@ -146,13 +142,16 @@ var calendar = function() {
 
             confirm("Jesteś pewny(a) zmiany?", function(result) {                               
                 if(!result) {
-                    // changeAppointmentLock = true;                
                     revertFunc();
                     return false;
                 }
+
                 var sec = dayDelta;
-                AppointmentChange.endPoint = '/bookchange';
-        
+                
+                if( !changeAppointmentLock ) return false;
+                changeAppointmentLock = false;                
+
+                AppointmentChange.endPoint = '/bookchange';        
                 AppointmentChange.post = {
                     businessId : businessId,
                     hr : humanresources,
@@ -160,14 +159,13 @@ var calendar = function() {
                     times: sec._milliseconds, 
                     type: 'f',                 
                     csrf : csrf,
-                }
-
-                if( !changeAppointmentLock ) return false;
-                changeAppointmentLock = false;                
+                };
+                // console.log(AppointmentChange);
 
                 AppointmentChange.get(function(data){
                     alert(data.info);
-                    changeAppointmentLock = true;                
+                    changeAppointmentLock = true;   
+                    // document.location.reload();
                 });
                 return true; 
             });
