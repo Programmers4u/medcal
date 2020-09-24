@@ -97,20 +97,24 @@ var calendar = function() {
             $('#app-meeting-note').html(calEvent.icon4.note?calEvent.icon4.note:'');
         },
         eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
+            if( !changeAppointmentLock ) return false;
+
             var sec = dayDelta;
             console.log(dayDelta);
 
             AppointmentChange.endPoint = '/bookchange';
 
             if(event.allDay === true) {
+                changeAppointmentLock = true;        
+                revertFunc();        
                 return -1;
             }
 
             confirm("Jesteś pewny(a) zmiany?", function(result) {
-                // changeAppointmentLock=-1;                
-
+                changeAppointmentLock = false;                
                 if(!result) {
-                    if(typeof revertFunc === 'function') revertFunc();
+                    changeAppointmentLock = true;                
+                    revertFunc();
                     return false;
                 }
 
@@ -130,7 +134,7 @@ var calendar = function() {
                 }
                 AppointmentChange.get(function(data){
                     alert(data.info);
-                    // changeAppointmentLock=-1;                
+                    changeAppointmentLock = true;                
                 })   
                 return true; 
             })
