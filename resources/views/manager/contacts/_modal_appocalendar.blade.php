@@ -2,7 +2,7 @@
 <script>
 var app_meeting_Id = 0;
 var deleteAppointment = function() {      
-  confirm('Jesteś zdecydowany anulować spotkanie?', (result) => {
+  confirm('Jesteś zdecydowan(a)y anulować spotkanie?', (result) => {
     console.log(result);
     if(false === result) return false;
       AppointmentDelete.post = {
@@ -15,7 +15,8 @@ var deleteAppointment = function() {
       };
       AppointmentDelete.get(function (data) {
         $('#_modal_appocalendar [data-dismiss=modal]').click();
-        document.location.reload();
+        // document.location.reload();
+        // AppointmentHr.get();
       });
     return true;
   });
