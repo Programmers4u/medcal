@@ -206,7 +206,7 @@ var findDoctor = function(obj){
         headers: {
             'X-CSRF-TOKEN': '{{csrf_token()}}'
         },                    
-        url: "/getaxajcallendar",
+        url: "/getajaxcalendar",
         type: 'POST',
         data: data,
         cache: false,

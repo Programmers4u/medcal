@@ -44,16 +44,16 @@ AppointmentHr.endPoint = '{{ route('api.calendar.ajax') }}';
 $(document).ready(function() {
 
     var cookie = getCookie().split(',');
-    var whos = getAsystaCook();
+    // var whos = getAsystaCook();
 
-    if(whos){
-        whos = whos.split('^');
-        for(var i=0;i<whos.length-1;i++){
-            who = whos[i].split(',');
-            asysta(who[0],who[1]);
-            //console.log(who);
-        };
-    }
+    // if(whos){
+    //     whos = whos.split('^');
+    //     for(var i=0;i<whos.length-1;i++){
+    //         who = whos[i].split(',');
+    //         asysta(who[0],who[1]);
+    //         //console.log(who);
+    //     };
+    // }
 
     calendar();
 

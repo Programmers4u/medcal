@@ -97,10 +97,10 @@ var calendar = function() {
             $('#app-meeting-note').html(calEvent.icon4.note?calEvent.icon4.note:'');
         },
         eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
-            if(event.allDay === true) {
-                revertFunc();        
-                return -1;
-            }
+            // if(event.allDay === true) {
+            //     revertFunc();        
+            //     return -1;
+            // }
 
             confirm("Jesteś pewny(a) zmiany?", function(result) {
                 if(!result) {
