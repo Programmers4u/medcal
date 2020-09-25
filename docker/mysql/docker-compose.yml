@@ -7,8 +7,8 @@ services:
     volumes:
       - ./dbdata:/var/lib/mysql
     environment:
-      - "MYSQL_DATABASE=medical"
-      - "MYSQL_USER=medical"
+      - "MYSQL_DATABASE=medcal"
+      - "MYSQL_USER=medcal"
       - "MYSQL_PASSWORD=secret"
       - "MYSQL_ROOT_PASSWORD=secret"
     ports:
