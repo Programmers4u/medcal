@@ -5,35 +5,6 @@
 <link rel="stylesheet" href="{{ asset('css/datetime.css') }}">
 @endsection
 
-@section('title', 'Kalendarz' )
-@section('subtitle', '')
-
-@section('content')
-
-<div>@include('manager.contacts._modalcalendar')</div>
-<div>@include('manager.contacts._modal_appocalendar')</div>
-<div>@include('manager.contacts._modal_contactadd')</div>
-
-<div class="row">
-    <div class="col-lg-12" style="border-right:0px solid #afafaf;min-height:50px;position:relative;width:100%;">
-        <div class="hr-box" style="display:block;">
-            <a class="btn btn-default btn-block" style="display:inline-block;max-width:200px;" onclick="setCookie('');" href="javascript:document.location.reload();">Wszystkie kalendarze</a> 
-            @foreach ($humanresources as $hr)
-                <a class="btn btn-block" style="display:inline-block;max-width:200px; background-color:{{$hr->color}};color:#FFFFFF;" href="javascript:changeHr({{$hr->id}}, '{{$hr->name}}')">{{$hr->name}}</a>    
-            @endforeach
-        </div>
-        <div id='mini_cal'></div>
-    </div>
-</div>
-
-<div class="row fullcalendar">
-    <div id="calendar" style="margin-left:3%;margin-right:3%;"></div>
-
-    <div class="well" style="margin:1%;">{{ $icalURL }}</div>
-</div>
-
-@endsection
-
 @push('footer_scripts')
 <script type="text/javascript" src="/js/alert/alert.min.js"></script>
 <script type="text/javascript" src="/js/calendar/calendar.min.js"></script>
@@ -73,16 +44,16 @@ AppointmentHr.endPoint = '{{ route('api.calendar.ajax') }}';
 $(document).ready(function() {
 
     var cookie = getCookie().split(',');
-    var whos = getAsystaCook();
+    // var whos = getAsystaCook();
 
-    if(whos){
-        whos = whos.split('^');
-        for(var i=0;i<whos.length-1;i++){
-            who = whos[i].split(',');
-            asysta(who[0],who[1]);
-            //console.log(who);
-        };
-    }
+    // if(whos){
+    //     whos = whos.split('^');
+    //     for(var i=0;i<whos.length-1;i++){
+    //         who = whos[i].split(',');
+    //         asysta(who[0],who[1]);
+    //         //console.log(who);
+    //     };
+    // }
 
     calendar();
 
@@ -196,5 +167,32 @@ $('.fc-today-button.fc-button.fc-state-default.fc-corner-left.fc-corner-right').
     
 });
 </script>
-
 @endpush
+
+@section('title', 'Kalendarz' )
+@section('subtitle', '')
+@section('content')
+
+<div>@include('manager.contacts._modalcalendar')</div>
+<div>@include('manager.contacts._modal_appocalendar')</div>
+<div>@include('manager.contacts._modal_contactadd')</div>
+
+<div class="row">
+    <div class="col-lg-12" style="border-right:0px solid #afafaf;min-height:50px;position:relative;width:100%;">
+        <div class="hr-box" style="display:block;">
+            <a class="btn btn-default btn-block" style="display:inline-block;max-width:200px;" onclick="setCookie('');" href="javascript:document.location.reload();">Wszystkie kalendarze</a> 
+            @foreach ($humanresources as $hr)
+                <a class="btn btn-block" style="display:inline-block;max-width:200px; background-color:{{$hr->color}};color:#FFFFFF;" href="javascript:changeHr({{$hr->id}}, '{{$hr->name}}')">{{$hr->name}}</a>    
+            @endforeach
+        </div>
+        <div id='mini_cal'></div>
+    </div>
+</div>
+
+<div class="row fullcalendar">
+    <div id="calendar" style="margin-left:3%;margin-right:3%;"></div>
+
+    <div class="well" style="margin:1%;">{{ $icalURL }}</div>
+</div>
+
+@endsection

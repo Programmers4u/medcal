@@ -58,9 +58,9 @@ Route::group(['namespace' => 'API'], function () {
         'uses' => 'BookingController@postBooking',
     ]);
     
-    Route::post('getaxajcallendar', [
+    Route::post('getajaxcalendar', [
         'as'   => 'api.calendar.ajax',
-        'uses' => 'BookingController@ajaxgetCallendar',
+        'uses' => 'BookingController@ajaxGetCalendar',
     ]);
 
     Route::post('getaxajcontact', [

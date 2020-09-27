@@ -557,7 +557,7 @@ class BookingController extends Controller
         return response()->json($response);
     }
     
-    public function ajaxgetCallendar(Request $request) {
+    public function ajaxGetCalendar(Request $request) : JsonResponse {
 
         $business = Business::findOrFail($request->input('businessId',null));
         $this->business = $business;
@@ -657,7 +657,7 @@ class BookingController extends Controller
                     'icon2' => $sun,
                     'icon3' => $file,
                     'icon4' => $note,
-                    ];
+                ];
             }
         }
         

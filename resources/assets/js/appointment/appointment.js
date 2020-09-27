@@ -28,14 +28,12 @@ var Appointment = {
             dataType: "json",
             type: "POST",
             success: function (data) {
-                // console.log('successLog: ', data);
                 if(success) {
                     success(data);
                 }
             },
             error: function(jqXHR, textStatus, errorThrown)
             {
-                // console.log('errorLog: ' + textStatus);
                 if(error) {
                     error(data);
                 } else {
