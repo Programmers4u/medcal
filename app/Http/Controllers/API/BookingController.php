@@ -657,7 +657,7 @@ class BookingController extends Controller
                     'icon2' => $sun,
                     'icon3' => $file,
                     'icon4' => $note,
-                    ];
+                ];
             }
         }
         
