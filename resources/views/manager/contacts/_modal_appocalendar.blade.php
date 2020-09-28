@@ -2,8 +2,8 @@
 <script>
 var app_meeting_Id = 0;
 var deleteAppointment = function() {      
-  confirm('Jesteś zdecydowany anulować spotkanie?', (result) => {
-    console.log(result);
+  confirm('Jesteś zdecydowan(a)y anulować spotkanie?', (result) => {
+    // console.log(result);
     if(false === result) return false;
       AppointmentDelete.post = {
       ...AppointmentDelete.post,

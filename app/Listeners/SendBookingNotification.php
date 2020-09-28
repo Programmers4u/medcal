@@ -114,6 +114,7 @@ class SendBookingNotification implements ShouldQueue
             'user'        => $user,
             'appointment' => $event->appointment,
             'userName'    => $event->appointment->contact->firstname,
+            'businessName' => $event->appointment->business->name,
         ];
         $header = [
             'name'  => $event->appointment->contact->firstname,
