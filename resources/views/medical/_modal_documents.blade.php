@@ -102,32 +102,31 @@ var printHistory = function(){
         var saveDay = new Date(e.split(' - ')[0].replace(/ /gi,'T'));
         
         if(toDay < saveDay.getTime()){
-            var ans = confirm("UWAGA!\nOpisujesz wizytę której jeszcze nie było.");
-            if(ans === false ) return 0;
+            confirm("UWAGA!\nOpisujesz wizytę której jeszcze nie było.", function(result){
+                if(!result) return false;
+
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': '{{csrf_token()}}'
+                    },            
+                    url: "{{ route('medical.history.update',[$business]) }}",
+                    data: post,            
+                    dataType: "json",
+                    type: "POST",
+                    success: function (data) {
+                        alert(data);
+                        setTimeout(function(){
+                            document.location.reload();
+                        },2100);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown)
+                    {
+                        console.log('ERRORS: ' + textStatus);
+                        alert('Błąd: '+textStatus, 'error');
+                    }            
+                });
+            });
         };
-
-        $.ajax({
-            headers: {
-                'X-CSRF-TOKEN': '{{csrf_token()}}'
-            },            
-            url: "{{ route('medical.history.update',[$business]) }}",
-            data: post,            
-            dataType: "json",
-            type: "POST",
-            success: function (data) {
-                alert(data);
-                setTimeout(function(){
-                    document.location.reload();
-                },2100);
-            },
-            error: function(jqXHR, textStatus, errorThrown)
-            {
-                // Handle errors here
-                console.log('ERRORS: ' + textStatus);
-                alert('Błąd: '+textStatus, 'error');
-
-            }            
-        });
     }    
 </script>
 
