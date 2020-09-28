@@ -58,8 +58,6 @@ var destroy  = function(id) {
         url = url.replace('0',id);
         document.location = url;
         return true;
-    }
-
     });
 }
 
