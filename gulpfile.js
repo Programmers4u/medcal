@@ -349,6 +349,18 @@ gulp.task('script', function(){
           }))    
           .pipe(gulp.dest('public/js/confirm/'));
 
+        // services
+        res =
+        gulp.src( [
+          'resources/assets/js/service/*',
+          ])
+          .pipe(uglify())
+          .pipe(concat('services.js'))
+          .pipe(rename({
+            suffix: '.min'
+          }))    
+          .pipe(gulp.dest('public/js/service/'));
+
           // appointment
         res =
         gulp.src( [
