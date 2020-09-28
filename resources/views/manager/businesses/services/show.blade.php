@@ -78,20 +78,27 @@ $(document).ready(function() {
  
             // Allow user to optionally provide data-confirm="Are you sure?"
             if ( link.data('confirm') ) {
-                if ( ! laravel.verifyConfirm(link) ) {
-                    return false;
-                }
+                confirm(link.data('confirm', (result)=>{
+                    if(result) {
+                        form = laravel.createForm(link);
+                        form.submit();            
+                        e.preventDefault();
+                    }
+                });
+                // if ( ! laravel.verifyConfirm(link) ) {
+                    // return false;
+                // }
             }
  
-            form = laravel.createForm(link);
-            form.submit();
+            // form = laravel.createForm(link);
+            // form.submit();
  
-            e.preventDefault();
+            // e.preventDefault();
         },
  
-        verifyConfirm: function(link) {
-            return confirm(link.data('confirm'));
-        },
+        // verifyConfirm: function(link) {
+            // return confirm(link.data('confirm'));
+        // },
  
         createForm: function(link) {
             var form =

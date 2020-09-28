@@ -117,7 +117,9 @@ $(document).ready(function() {
         },
  
         verifyConfirm: function(link) {
-            return confirm(link.data('confirm'));
+            return confirm(link.data('confirm'), (result) {
+                return (!result) ? false : true;
+            });
         },
  
         createForm: function(link) {
