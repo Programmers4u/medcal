@@ -106,7 +106,10 @@ $(document).ready(function() {
         },
  
         verifyConfirm: function(link) {
-            return confirm(link.data('confirm'));
+            confirm(link.data('confirm'), (result)=>{
+                if(!result) return false;
+                return true;
+            });
         },
  
         createForm: function(link) {

@@ -52,12 +52,15 @@
 
 var destroy  = function(id) {
     
-    var r = confirm("Czy chcesz usunąć wpis?");
-    if (r === true) {
+    var r = confirm("Czy chcesz usunąć wpis?", function(result){
+        if(!result) return false;
         var url = "{!! route('medical.template.delete', [$business,'0']) !!}";
         url = url.replace('0',id);
         document.location = url;
+        return true;
     }
+
+    });
 }
 
 </script>
