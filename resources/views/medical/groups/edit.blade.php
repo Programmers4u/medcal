@@ -43,26 +43,28 @@ $(document).ready(function(){
     
 var destroy = function(){
     
-    if(!confirm('Czy chcesz usunąć grupę?')) return;
-    
-    var post = {
-        'id': '{{$group_id}}',
-    };
-        
-    $.ajax({
-        headers: {
-            'X-CSRF-TOKEN': '{{csrf_token()}}'
-        },            
-        url: "{{ route('medical.group.delete',[$business,$group_id]) }}",
-        data: post,            
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-            //alert(JSON.stringify(data));
-            alert('ok');
-            document.location.href = '{{ route('medical.group.index',[$business]) }}';
-        }
-    });
+    confirm('Czy chcesz usunąć grupę?', function(result){
+        if(!result) return false;
+
+        var post = {
+            'id': '{{$group_id}}',
+        };
+            
+        $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': '{{csrf_token()}}'
+            },            
+            url: "{{ route('medical.group.delete',[$business,$group_id]) }}",
+            data: post,            
+            dataType: "json",
+            type: "POST",
+            success: function (data) {
+                alert('ok');
+                document.location.href = '{{ route('medical.group.index',[$business]) }}';
+            }
+        });
+        return true;
+    });    
 }
 
 var submit = function(){

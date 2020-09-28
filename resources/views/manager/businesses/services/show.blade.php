@@ -33,10 +33,7 @@
                     {!! Button::danger()->withIcon(Icon::trash())->withAttributes([
                         'type' => 'button',
                         'data-toggle' => 'tooltip',
-                        'data-original-title' => trans('manager.service.btn.delete'),
-                        'data-method' => 'DELETE',
-                        'data-confirm' => trans('manager.service.btn.delete').'?']
-                    )->asLinkTo( route('manager.business.service.destroy', [$service->business, $service]) ) !!}
+                    ])->asLinkTo( "javascript:remove()") !!}
 
                     {!! Button::normal()
                         ->withIcon(Icon::edit())
@@ -49,7 +46,12 @@
 @endsection
 
 @push('footer_scripts')
+<script type="text/javascript" src="/js/service/services.min.js"></script>
 <script>
+var remove = () => {
+    removeService("{{ trans('manager.service.btn.delete').'?' }}", "{{ route('manager.business.service.destroy', [$service->business, $service]) }}");
+}
+
 $(document).ready(function() {
 
     $('[data-toggle="tooltip"]').tooltip();
@@ -90,7 +92,7 @@ $(document).ready(function() {
         },
  
         verifyConfirm: function(link) {
-            return confirm(link.data('confirm'));
+            return window.confirm(link.data('confirm'));
         },
  
         createForm: function(link) {

@@ -1,14 +1,12 @@
 /database/seeds/seed_file/Produkty_lecznicze2.ods
 /public/vendor/
-/dbdata/
 /docker/mysql/dbdata/
-/vendor/*
+vendor
 !/vendor/timegridio/
-/node_modules/
-/bower_components/
+node_modules
+bower_components
 .vscode
 .DS_Store
 medical.code-workspace
 .env
-package-lock.json
 !.gitignore
