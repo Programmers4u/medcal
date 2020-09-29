@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -13,7 +14,9 @@ use Timegridio\Concierge\Models\Business;
 class ProcessContactImport implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels;
-
+    
+    public $timeout = 0;
+    
     private $business;
     private $pathToContactFile;
 
@@ -36,24 +39,33 @@ class ProcessContactImport implements ShouldQueue
      */
     public function handle()
     {
-        $contacts = explode("\n" , Storage::get($this->pathToContactFile));
-        
-        foreach($contacts as $index => $contact) {
+        $contacts = file($this->pathToContactFile);
+        for($indx=0;$indx<count($contacts);$indx++) {
+            $item = explode(";",str_replace("\"","",$contacts[$indx]));
+            $name = explode(" ",$item[2]);
             $register = [
-                'uuid' => $contact[0],
-                'firstname' => $contact[1],
-                'lastname' => $contact[2],
-                'nin' => $contact[3],
-                'gender' => $contact[4],
-                'birthdate' => Carbon::parse($contact[5]),
-                'mobile' => $contact[6],
-                'email' => $contact[7],
-                // 'mobile_country' => $contact['mobile_country']
+                'foregin_user_id' => $item[0],
+                'firstname' => $name[1],//$item[1],
+                'lastname' => $name[0],//$item[2],
+                'nin' => $item[3],
+                'gender' => $item[4] 
+                    ? $item[4] 
+                    : rand(0,1) 
+                        ? 'F' 
+                        : 'M',
+                'birthdate' => $item[5] ? Carbon::parse($item[5]) : Carbon::now(),
+                'mobile' => $item[6],
+                'email' => $item[7],
+                'postal_address' => $item[8] . ', ' .$item[9],
+                'mobile_country' => 'PL',
             ];
-            
-            $this->business->addressbook()->register($register);
+            try {
+                $this->business->addressbook()->register($register);
+            } catch(Exception $e){
+                
+            }
         };
-        
-        Storage::disk('local')->delete($this->pathToContactFile);
+        // unlink($this->pathToContactFile);
+        // return true;
     }
 }
