@@ -537,10 +537,10 @@ class BookingController extends Controller
                 ->toArray();
         $response = [];
         foreach ($query as $row){
-            $group = \App\Models\MedicalGroup::query(['name'])
-                    ->where('contacts','LIKE','%'.$row['id'].'%')
-                    ->get()
-                    ->toArray();
+            // $group = \App\Models\MedicalGroup::query(['name'])
+            //         ->where('contacts','LIKE','%'.$row['id'].'%')
+            //         ->get()
+            //         ->toArray();
             $group = (!empty($group)) ? $group[0]['name'] : '';
             array_push($response, [ 'name'=>$row['lastname'].' '.$row['firstname'].', '.$row['mobile'], 'id'=>$row['id'], 'group'=>$group ]);
         }

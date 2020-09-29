@@ -81,9 +81,11 @@ var uploadFiles = function () {
                 data urodzenia,<br>
                 numer komórkowy,<br>
                 adres e-mail,<br>
+                adres (ulica numer domu),<br>
+                miasto,<br>
                 <br>
-                Wazne!<br>
-                Kolumny muszą wystąpić dokładnie w takiej kolejności.<br>
+                Ważne!<br>
+                Kolumny muszą wystąpić dokładnie w takiej kolejności jak podano powyżej.<br>
                 W pierwszym wierszu nie ma nazw kolumn. Od razu są dane.
                 </b>
             </div>

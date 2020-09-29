@@ -16,9 +16,9 @@ class ProcessContactImport implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels;
     
-    public $timeout = 240;
-    public $tries = 5;
-    public $maxExceptions = 3;
+    public $timeout = 120;
+    public $tries = 1;
+    public $maxExceptions = 1;
     
     private $business;
     private $pathToContactFile;
@@ -45,7 +45,8 @@ class ProcessContactImport implements ShouldQueue
         if(!is_file($this->pathToContactFile)) return;
 
         $contacts = file($this->pathToContactFile);
-        for($indx=1;$indx<count($contacts);$indx++) {
+        for($indx=0;$indx<count($contacts);$indx++) {
+            if($indx>200) break;
             $item = explode(";",str_replace("\"","",$contacts[$indx]));
 
             $name = explode(" ",$item[2]);
@@ -66,12 +67,12 @@ class ProcessContactImport implements ShouldQueue
                 'postal_address' => $item[8] . ', ' .$item[9],
                 'mobile_country' => 'PL',
             ];
-            try {
+            // try {
                 // if(!$this->duplicate($register))
                 $this->business->addressbook()->register($register);
-            } catch(Exception $e) {
+            // } catch(Exception $e) {
                 // echo $e->getMessage();
-            };
+            // };
         };
         unlink($this->pathToContactFile);
     }
@@ -86,4 +87,10 @@ class ProcessContactImport implements ShouldQueue
             ;
         return count($model) > 0 ? true : false;
     }
+
+    public function failed(Exception $exception)
+    {
+        // Send user notification of failure, etc...
+
+    }    
 }
