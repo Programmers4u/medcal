@@ -14,7 +14,6 @@ use Timegridio\Concierge\Models\Contact;
 
 class ContactsController extends Controller
 {
-
     public function importFromFile(PutRequest $request, Business $business) : JsonResponse
     {
         $response = ['status'=>'ok','data'=>'','error'=>''];
