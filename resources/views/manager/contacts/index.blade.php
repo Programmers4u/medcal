@@ -167,8 +167,7 @@ var changeContact = function(id,name){
         </div>
         <input class="form-control" style="margin:5px;width:98%" id="searchfield" type="text" size="30" onkeyup="showResult(this.value)">
         <div id="livesearch"></div>
-    </div>          
-    {!! $contacts->render() !!}
+    </div>       
 
     <div class="panel panel-default filterable">
         <div class="panel-heading">
@@ -209,7 +208,7 @@ var changeContact = function(id,name){
         </table>
 
         {{-- Pagination --}}
-        <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-center" style="margin:auto;margin-left:45%;">
             {!! $contacts->links() !!}
         </div>
     </div>

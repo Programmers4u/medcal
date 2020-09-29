@@ -34,8 +34,11 @@ var uploadFiles = function () {
         contentType: false, // Set content type to false as jQuery will tell the server its a query string request
         success: function(data, textStatus, jqXHR) {
             if(data.status === 'ok') {
-                // $('.close').click();
+                $('.close').click();
                 alert(JSON.stringify(data.data));
+                setTimeout(()=>{
+                    document.location.reload();
+                },5000);
             } else {
                 console.log('ERRORS: ' + data.error);
                 alert('Błąd: '+data.error, 'error');
