@@ -16,6 +16,7 @@ class ProcessContactImport implements ShouldQueue
 
     private $business;
     private $pathToContactFile;
+
     /**
      * Create a new job instance.
      *
@@ -36,16 +37,8 @@ class ProcessContactImport implements ShouldQueue
     public function handle()
     {
         $contacts = explode("\n" , Storage::get($this->pathToContactFile));
-        // if (count($contacts) > plan('limits.contacts', $business->plan)) {
-        //     $response['error'] = trans('app.saas.plan_limit_reached');
-        //     $response['status'] = 'error';
-        // };
-
-        // dd($contacts);
+        
         foreach($contacts as $index => $contact) {
-            if($index > 200) break;
-            // if($business->contacts()->count() > plan('limits.contacts', $business->plan))
-                // break;
             $register = [
                 'uuid' => $contact[0],
                 'firstname' => $contact[1],
