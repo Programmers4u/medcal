@@ -40,19 +40,21 @@ class ProcessContactImport implements ShouldQueue
     public function handle()
     {
         $contacts = file($this->pathToContactFile);
-        for($indx=0;$indx<count($contacts);$indx++) {
+        for($indx=1;$indx<count($contacts);$indx++) {
             $item = explode(";",str_replace("\"","",$contacts[$indx]));
+
             $name = explode(" ",$item[2]);
+            
+            $gender = $item[4] ? $item[4] : '';
+            $gnr = rand(0,1) ? 'M' : 'F';
+            $gender = $gender!=='' ? $gender : $gnr;
+            
             $register = [
                 'foregin_user_id' => $item[0],
-                'firstname' => $name[1],//$item[1],
-                'lastname' => $name[0],//$item[2],
+                'firstname' => $name[1],
+                'lastname' => $name[0],
                 'nin' => $item[3],
-                'gender' => $item[4] 
-                    ? $item[4] 
-                    : rand(0,1) 
-                        ? 'F' 
-                        : 'M',
+                'gender' => $gender,
                 'birthdate' => $item[5] ? Carbon::parse($item[5]) : Carbon::now(),
                 'mobile' => $item[6],
                 'email' => $item[7],
@@ -61,11 +63,10 @@ class ProcessContactImport implements ShouldQueue
             ];
             try {
                 $this->business->addressbook()->register($register);
-            } catch(Exception $e){
-                
-            }
+            } catch(Exception $e) {
+                echo $e->getMessage();
+            };
         };
         // unlink($this->pathToContactFile);
-        // return true;
     }
 }
