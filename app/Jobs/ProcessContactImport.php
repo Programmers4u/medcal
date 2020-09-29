@@ -10,12 +10,15 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Storage;
 use Timegridio\Concierge\Models\Business;
+use Timegridio\Concierge\Models\Contact;
 
 class ProcessContactImport implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels;
     
-    public $timeout = 0;
+    public $timeout = 240;
+    public $tries = 5;
+    public $maxExceptions = 3;
     
     private $business;
     private $pathToContactFile;
@@ -39,6 +42,8 @@ class ProcessContactImport implements ShouldQueue
      */
     public function handle()
     {
+        if(!is_file($this->pathToContactFile)) return;
+
         $contacts = file($this->pathToContactFile);
         for($indx=1;$indx<count($contacts);$indx++) {
             $item = explode(";",str_replace("\"","",$contacts[$indx]));
@@ -46,7 +51,7 @@ class ProcessContactImport implements ShouldQueue
             $name = explode(" ",$item[2]);
             
             $gender = $item[4] ? $item[4] : '';
-            $gnr = rand(0,1) ? 'M' : 'F';
+            $gnr = substr($name[1],strlen($name[1])-1,1) !== 'a' ? 'M' : 'F';
             $gender = $gender!=='' ? $gender : $gnr;
             
             $register = [
@@ -56,17 +61,29 @@ class ProcessContactImport implements ShouldQueue
                 'nin' => $item[3],
                 'gender' => $gender,
                 'birthdate' => $item[5] ? Carbon::parse($item[5]) : Carbon::now(),
-                'mobile' => $item[6],
+                'mobile' => preg_match('/\d[. *]+/',$item[6]) ? $item[6] : '',
                 'email' => $item[7],
                 'postal_address' => $item[8] . ', ' .$item[9],
                 'mobile_country' => 'PL',
             ];
             try {
+                // if(!$this->duplicate($register))
                 $this->business->addressbook()->register($register);
             } catch(Exception $e) {
-                echo $e->getMessage();
+                // echo $e->getMessage();
             };
         };
-        // unlink($this->pathToContactFile);
+        unlink($this->pathToContactFile);
+    }
+
+    private function duplicate($register) : bool {
+        $model = Contact::query()
+            ->where('firstname',$register['firstname'])
+            ->where('lastname',$register['lastname'])
+            ->where('mobile',$register['mobile'])
+            ->get()
+            ->toArray()
+            ;
+        return count($model) > 0 ? true : false;
     }
 }
