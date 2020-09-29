@@ -132,8 +132,8 @@ class StatisticsController extends Controller
         foreach($model as $m) {
             $edm = json_decode($m['json_data']);
             $contact = Contact::find($m['contact_id']);
-            $birthdate = $contact->birthday;
-            $sex = $contact->gender;
+            $birthdate = $contact ? $contact->birthday : '';
+            $sex = $contact? $contact->gender : '';
             Datasets::create([
                 Datasets::DATE_OF_EXAMINATION  => Carbon::parse($m['created_at']),
                 Datasets::BIRTHDAY => Carbon::parse($birthdate),
