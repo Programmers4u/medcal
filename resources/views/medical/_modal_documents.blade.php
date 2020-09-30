@@ -572,9 +572,9 @@ var putAppointmentNoteCallBack = () => {
                         ->primary('Połącz z ePuap')
                         ->asLinkTo("javascript:ePuap()") !!}
 
-                    {!! Button::withIcon(Icon::edit())
+                    {{-- {!! Button::withIcon(Icon::edit())
                         ->success('importuj dokumentację')
-                        ->asLinkTo("javascript:openImport()") !!}
+                        ->asLinkTo("javascript:openImport()") !!} --}}
 
                 <hr>
           <table id="history_table" class="table-bordered table table-condensed table-hover table-striped table-responsive table-scrollable">
