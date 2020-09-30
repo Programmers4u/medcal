@@ -3,13 +3,7 @@
 @section('title', trans('manager.contacts.title'))
 
 @push('footer_scripts')
-<script>
-var openImport = () => {
-    $('#importContactModal').modal({
-        keyboard: false,
-        backdrop: false,
-    }) 
-}   
+<script>  
 
 $(document).ready(function(){
 

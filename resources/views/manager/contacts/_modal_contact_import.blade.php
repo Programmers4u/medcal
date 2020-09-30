@@ -1,5 +1,11 @@
 @push('footer_scripts')
 <script type="text/javascript">
+var openImport = () => {
+    $('#importContactModal').modal({
+        keyboard: false,
+        backdrop: false,
+    }) 
+} 
 $(document).ready(function(){
     $('input[type=file]').on('change', prepareUpload);
 });
