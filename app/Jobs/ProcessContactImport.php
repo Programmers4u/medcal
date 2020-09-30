@@ -68,7 +68,7 @@ class ProcessContactImport implements ShouldQueue
                 'mobile_country' => 'PL',
             ];
             // try {
-                // if(!$this->duplicate($register))
+                if(!$this->duplicate($register))
                 $this->business->addressbook()->register($register);
             // } catch(Exception $e) {
                 // echo $e->getMessage();
@@ -78,7 +78,8 @@ class ProcessContactImport implements ShouldQueue
     }
 
     private function duplicate($register) : bool {
-        $model = Contact::query()
+        
+        $model = $this->business->contacts()
             ->where('firstname',$register['firstname'])
             ->where('lastname',$register['lastname'])
             ->where('mobile',$register['mobile'])
