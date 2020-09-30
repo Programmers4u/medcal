@@ -571,9 +571,12 @@ var putAppointmentNoteCallBack = () => {
                     {!! Button::withIcon(Icon::folderOpen())
                         ->primary('Połącz z ePuap')
                         ->asLinkTo("javascript:ePuap()") !!}
-                                            
-                      <br>
-                      <hr>
+
+                    {!! Button::withIcon(Icon::edit())
+                        ->success('importuj dokumentację')
+                        ->asLinkTo("javascript:openImport()") !!}
+
+                <hr>
           <table id="history_table" class="table-bordered table table-condensed table-hover table-striped table-responsive table-scrollable">
               @if(count($historyPagin)>0)
               <thead class="text-bold">
@@ -771,6 +774,8 @@ var putAppointmentNoteCallBack = () => {
   </div>
 </div>
 </div>
+
+@include('medical._modal_md_import')
 @endsection
 
 @section('css')
