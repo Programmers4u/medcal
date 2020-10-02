@@ -1,7 +1,7 @@
 @push('footer_scripts')
 <script type="text/javascript">
 var openImport = () => {
-    $('#importContactModal').modal({
+    $('#importMDModal').modal({
         keyboard: false,
         backdrop: false,
     }) 
@@ -60,14 +60,14 @@ var uploadFiles = function () {
 @endpush
 
 <!-- Modal -->
-<div class="modal" id="importContactModal" tabindex="-5" role="dialog" aria-labelledby="importContactModal" aria-hidden="true">
+<div class="modal" id="importMDModal" tabindex="-5" role="dialog" aria-labelledby="importMDModal" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
-                <h3 class="modal-title" id="importContactModal">{{trans('medical.document.file.title')}}</h3>
+                <h3 class="modal-title" id="importMDModal">{{trans('medical.document.file.title')}}</h3>
             </div>
             <div class="modal-body">
                 <div class="file-loading"> 
@@ -80,15 +80,11 @@ var uploadFiles = function () {
                 kolejność kolumn:<br>
                 <b>
                 unikalne id,<br>
-                imię,<br>
-                nazwisko,<br>
-                pesel,<br>
-                płeć,<br>
-                data urodzenia,<br>
-                numer komórkowy,<br>
-                adres e-mail,<br>
-                adres (ulica numer domu),<br>
-                miasto,<br>
+                diagnoza,<br>
+                leczenie,<br>
+                data,<br>
+                leki zastosowana,<br>
+                notatka,<br>
                 <br>
                 Ważne!<br>
                 Kolumny muszą wystąpić dokładnie w takiej kolejności jak podano powyżej.<br>

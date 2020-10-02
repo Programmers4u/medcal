@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Storage;
 use Timegridio\Concierge\Models\Business;
 use Timegridio\Concierge\Models\Contact;
 
-class ProcessContactImport implements ShouldQueue
+class ProcessMedicalDocumentsImport implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels;
     
@@ -21,18 +21,18 @@ class ProcessContactImport implements ShouldQueue
     public $maxExceptions = 1;
     
     private $business;
-    private $pathToContactFile;
+    private $pathToMedicalDocumentFile;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(Business $business, $pathToContactFile)
+    public function __construct(Business $business, $pathToMedicalDocumentFile)
     {
         //
         $this->business = $business;
-        $this->pathToContactFile = $pathToContactFile;
+        $this->pathToMedicalDocumentFile = $pathToMedicalDocumentFile;
     }
 
     /**
@@ -42,12 +42,12 @@ class ProcessContactImport implements ShouldQueue
      */
     public function handle()
     {
-        if(!is_file($this->pathToContactFile)) return;
+        if(!is_file($this->pathToMedicalDocumentFile)) return;
 
-        $contacts = file($this->pathToContactFile);
-        for($indx=0;$indx<count($contacts);$indx++) {
+        $medicalDocuments = file($this->pathToMedicalDocumentFile);
+        for($indx=0;$indx<count($medicalDocuments);$indx++) {
             if($indx>200) break;
-            $item = explode(";",str_replace("\"","",$contacts[$indx]));
+            $item = explode(";",str_replace("\"","",$medicalDocuments[$indx]));
 
             $name = explode(" ",$item[2]);
             
@@ -68,13 +68,13 @@ class ProcessContactImport implements ShouldQueue
                 'mobile_country' => 'PL',
             ];
             // try {
-                if(!$this->duplicate($register))
-                $this->business->addressbook()->register($register);
+                // if(!$this->duplicate($register))
+                // $this->business->addressbook()->register($register);
             // } catch(Exception $e) {
                 // echo $e->getMessage();
             // };
         };
-        unlink($this->pathToContactFile);
+        // unlink($this->pathToMedicalDocumentFile);
     }
 
     private function duplicate($register) : bool {
