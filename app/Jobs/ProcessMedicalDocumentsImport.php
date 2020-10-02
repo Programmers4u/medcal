@@ -67,12 +67,8 @@ class ProcessMedicalDocumentsImport implements ShouldQueue
                 'postal_address' => $item[8] . ', ' .$item[9],
                 'mobile_country' => 'PL',
             ];
-            // try {
-                // if(!$this->duplicate($register))
+            // if(!$this->duplicate($register))
                 // $this->business->addressbook()->register($register);
-            // } catch(Exception $e) {
-                // echo $e->getMessage();
-            // };
         };
         // unlink($this->pathToMedicalDocumentFile);
     }
