@@ -57,7 +57,7 @@ class UserEventListener
     {
         logger()->info("Loading user preferences");
         if ($timezone = $user->pref('timezone')) {
-            session()->set('timezone', $timezone);
+            session()->put('timezone', $timezone);
             logger()->info("Loaded user timezone from preferences: $timezone");
         }
     }
