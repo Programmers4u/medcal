@@ -128,7 +128,7 @@ class TransMail
         if ($timezone !== null && $timezone != '') {
             $this->revertTimezone = session()->get('timezone');
 
-            session()->set('timezone', $timezone);
+            session()->put('timezone', $timezone);
             logger()->info("Switching timezone to $timezone for session");
         }
 

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bc89523da60a17e7c8ec19a2d306fb09",
+    "content-hash": "36c893d2383d67132d1a708212a56cff",
     "packages": [
         {
             "name": "alariva/tidiochat",
@@ -948,16 +948,16 @@
         },
         {
             "name": "giggsey/libphonenumber-for-php",
-            "version": "8.12.10",
+            "version": "8.12.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/giggsey/libphonenumber-for-php.git",
-                "reference": "befffd590d1e2333bbb6d712541ccccf5fc08f1f"
+                "reference": "a3e8c9c832b3c40d69b477b2a96b252d03fbf274"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/befffd590d1e2333bbb6d712541ccccf5fc08f1f",
-                "reference": "befffd590d1e2333bbb6d712541ccccf5fc08f1f",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/a3e8c9c832b3c40d69b477b2a96b252d03fbf274",
+                "reference": "a3e8c9c832b3c40d69b477b2a96b252d03fbf274",
                 "shasum": ""
             },
             "require": {
@@ -1012,7 +1012,7 @@
                 "phonenumber",
                 "validation"
             ],
-            "time": "2020-09-22T07:23:22+00:00"
+            "time": "2020-10-09T15:01:50+00:00"
         },
         {
             "name": "giggsey/locale",
@@ -1503,16 +1503,16 @@
         },
         {
             "name": "jaybizzle/crawler-detect",
-            "version": "v1.2.99",
+            "version": "v1.2.100",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JayBizzle/Crawler-Detect.git",
-                "reference": "0ffea34489b258a2709bfe93a9553e1efa5d1904"
+                "reference": "82e1d983e29d9fea6e8e5505110d0278a5285f36"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JayBizzle/Crawler-Detect/zipball/0ffea34489b258a2709bfe93a9553e1efa5d1904",
-                "reference": "0ffea34489b258a2709bfe93a9553e1efa5d1904",
+                "url": "https://api.github.com/repos/JayBizzle/Crawler-Detect/zipball/82e1d983e29d9fea6e8e5505110d0278a5285f36",
+                "reference": "82e1d983e29d9fea6e8e5505110d0278a5285f36",
                 "shasum": ""
             },
             "require": {
@@ -1548,7 +1548,7 @@
                 "crawlerdetect",
                 "php crawler detect"
             ],
-            "time": "2020-08-25T21:35:55+00:00"
+            "time": "2020-10-11T18:08:38+00:00"
         },
         {
             "name": "jenssegers/agent",

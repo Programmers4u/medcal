@@ -25,7 +25,7 @@ class BusinessController extends Controller
         }
 
         if ($business = Business::where('slug', $slug)->first()) {
-            session()->set('guest.last-intended-business-home', $slug);
+            session()->put('guest.last-intended-business-home', $slug);
 
             return view('guest.businesses.show', compact('business'));
         }

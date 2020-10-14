@@ -1,7 +1,7 @@
 {
-    "name": "programmers4u/medical",
+    "name": "programmers4u/medcal",
     "description": "Free, self-hosted online platform for dental service based on timegrido and the Laravel PHP Framework. Medical records with statistics.",
-    "homepage": "http://medical.programmers4u.com",
+    "homepage": "http://medcal.pl",
     "keywords": ["appointments", "reservations", "booking", "agenda", "marketplace", "time", "date", "calendar","dentist","med"],
     "license": "AGPL",
     "authors": [

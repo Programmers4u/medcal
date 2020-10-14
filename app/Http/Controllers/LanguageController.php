@@ -36,8 +36,8 @@ class LanguageController extends Controller
         $localeSubtags = locale_parse($posixLocale);
         $language = array_get($localeSubtags, 'language');
 
-        session()->set('language', $language);
-        session()->set('applocale', $posixLocale);
+        session()->put('language', $language);
+        session()->put('applocale', $posixLocale);
 
         logger()->info("Language Switched: LANG='{$language}' POSIX='{$posixLocale}'");
     }
