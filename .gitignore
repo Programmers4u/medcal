@@ -2,11 +2,9 @@
 /public/vendor/
 /docker/mysql/dbdata/
 vendor
-!/vendor/timegridio/
 node_modules
 bower_components
 .vscode
 .DS_Store
-medical.code-workspace
 .env
 !.gitignore
