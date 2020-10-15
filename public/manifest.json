@@ -1,6 +1,6 @@
 {
-  "name": "medical",
-  "short_name": "medical",
+  "name": "medcal",
+  "short_name": "medcal",
   "theme_color": "#5b3167",
   "background_color": "#ffffff",
   "display": "fullscreen",

@@ -73,7 +73,7 @@ class BusinessController extends Controller
 
             //flash()->success(trans('manager.businesses.msg.index.only_one_found'));
             $business = $businesses->first();
-            session()->set('selected.business', $business);
+            session()->put('selected.business', $business);
             return redirect()->route('manager.business.agenda.calendar', $business );
             //return redirect()->route('manager.business.show', $businesses->first());
         }
@@ -169,11 +169,11 @@ class BusinessController extends Controller
 
         // BEGIN
 
-        session()->set('selected.business', $business);
+        session()->put('selected.business', $business);
 
-        $notifications = Notifynder::entity(Business::class)->getNotRead($business->id, 20);
+        // $notifications = Notifynder::entity(Business::class)->getNotRead($business->id, 20);
 
-        Notifynder::entity(Business::class)->readAll($business->id);
+        // Notifynder::entity(Business::class)->readAll($business->id);
 
         $this->time->timezone($business->timezone);
 
