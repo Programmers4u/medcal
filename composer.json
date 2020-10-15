@@ -21,14 +21,14 @@
     "type": "project",
     "require": {
         "php": ">=7.1",
-        "laravel/framework": "5.4.*",
+        "laravel/framework": "5.5.*",
         "anhskohbo/no-captcha": "^3.3",
         "programmers4u/gatesms_sender": "^0.2.0",
         "bassjobsen/bootstrap-3-typeahead": "~4.0",
         "camroncade/timezone": "^0.2.0",
         "creativeorange/gravatar": "^1.0",
         "fenos/notifynder": "^4.3",
-        "graham-campbell/markdown": "^7.0",
+        "graham-campbell/markdown": "^8.0",
         "guzzlehttp/guzzle": "^6.5",
         "intervention/image": "^2.5",
         "intervention/imagecache": "^2.4",
@@ -54,7 +54,7 @@
         "phpunit/phpunit": "^6.0.0",
         "laracasts/generators": "^1.1",
         "barryvdh/laravel-debugbar": "^2.0",
-        "potsky/laravel-localization-helpers" : "2.4.5"
+        "potsky/laravel-localization-helpers" : "2.6.*"
     },
     "autoload": {
         "classmap": [
