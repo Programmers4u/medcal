@@ -119,20 +119,19 @@ class AddressbookController extends Controller
                 ->where('business_contact.business_id','=',$business->id)
                 ->join('business_contact','contact_id','id')
                 ->get()->count();
-        
-        if($duplicate>0){
+
+        if($duplicate > 0){
             $response['status'] = 'error';
             $response['error'] = trans('manager.contacts.msg.store.warning_showing_existing_contact');
             return response()->json($response);
         }
 
         $contact = $business->addressbook()->register($request->all());
-
-        if (!$contact->wasRecentlyCreated) {
-            $response['status'] = 'error';
-            $response['error'] = trans('manager.contacts.msg.store.warning_showing_existing_contact');
-            return response()->json($response);
-        }
+        // if ($contact->wasRecentlyCreated) {
+        //     $response['status'] = 'error';
+        //     $response['error'] = trans('manager.contacts.msg.store.warning_showing_existing_contact');
+        //     return response()->json($response);
+        // }
         
         event(new NewContactWasRegistered($contact));
         

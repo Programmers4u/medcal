@@ -48,7 +48,8 @@
         "spatie/laravel-cookie-consent": "^1.2",
         "alariva/tidiochat": "^2.1",
         "timegridio/icalreader": "dev-master",
-        "niklasravnsborg/laravel-pdf": "^4.0"
+        "niklasravnsborg/laravel-pdf": "^4.0",
+        "jenssegers/rollbar": "^1.5"
      },
     "require-dev": {
         "phpunit/phpunit": "^6.0.0",
