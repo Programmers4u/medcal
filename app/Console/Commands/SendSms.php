@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use App\Services\SmsService;
-use Fenos\Notifynder\Facades\Notifynder;
 use Illuminate\Console\Command;
 use Timegridio\Concierge\Models\Business;
 
@@ -58,13 +57,6 @@ class SendSms extends Command
         
         $report = SmsService::sendMessage([$contactwithmessage], $business);
         $this->info('Report from server sms: '.var_export($report,true));
-        // Generate local notification
-        Notifynder::category('sms.send')
-            ->from('App\Console\Commands', 0)
-            ->to('App\SmsService', 0)
-            ->url('http://localhost')
-            ->extra(compact('report'))
-            ->send();
     }
 
 }

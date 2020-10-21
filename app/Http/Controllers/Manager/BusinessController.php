@@ -9,7 +9,6 @@ use App\Models\MedicalHistory;
 use App\TG\Business\Dashboard;
 use App\TG\BusinessService;
 use Carbon\Carbon;
-use Fenos\Notifynder\Facades\Notifynder;
 use Illuminate\Support\Facades\File as FacadesFile;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Storage;
@@ -137,15 +136,6 @@ class BusinessController extends Controller
             return redirect()->back()->withInput(request()->all());
         }
 
-        // Generate local notification
-        $businessName = $business->name;
-        Notifynder::category('user.registeredBusiness')
-            ->from('App\Models\User', auth()->id())
-            ->to('Timegridio\Concierge\Models\Business', $business->id)
-            ->url('http://localhost')
-            ->extra(compact('businessName'))
-            ->send();
-
         // Redirect success
         flash()->success(trans('manager.businesses.msg.store.success'));
 
@@ -170,10 +160,6 @@ class BusinessController extends Controller
         // BEGIN
 
         session()->put('selected.business', $business);
-
-        // $notifications = Notifynder::entity(Business::class)->getNotRead($business->id, 20);
-
-        // Notifynder::entity(Business::class)->readAll($business->id);
 
         $this->time->timezone($business->timezone);
 

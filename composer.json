@@ -27,7 +27,6 @@
         "bassjobsen/bootstrap-3-typeahead": "~4.0",
         "camroncade/timezone": "^0.2.0",
         "creativeorange/gravatar": "^1.0",
-        "fenos/notifynder": "^4.3",
         "graham-campbell/markdown": "^8.0",
         "guzzlehttp/guzzle": "^6.5",
         "intervention/image": "^2.5",
@@ -49,7 +48,8 @@
         "alariva/tidiochat": "^2.1",
         "timegridio/icalreader": "dev-master",
         "niklasravnsborg/laravel-pdf": "^4.0",
-        "jenssegers/rollbar": "^1.5"
+        "jenssegers/rollbar": "^1.5",
+        "seanstewart/plan-config": "dev-master"        
      },
     "require-dev": {
         "phpunit/phpunit": "^6.0.0",

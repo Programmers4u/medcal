@@ -9,7 +9,6 @@ use Carbon;
 use Event;
 use Illuminate\Http\Request;
 use JavaScript;
-use Notifynder;
 use Timegridio\Concierge\Concierge;
 use Timegridio\Concierge\Exceptions\DuplicatedAppointmentException;
 use Timegridio\Concierge\Models\Appointment;
@@ -77,11 +76,6 @@ class AgendaController extends Controller
                 }
             }
 
-            Notifynder::category('user.checkingVacancies')
-               ->from('App\Models\User', auth()->id())
-               ->to('Timegridio\Concierge\Models\Business', $business->id)
-               ->url('http://localhost')
-               ->send();
         }
 
         $date = $request->input('date', 'today');

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use Fenos\Notifynder\Facades\Notifynder;
 use Timegridio\Concierge\Concierge;
 use Timegridio\Concierge\Models\Business;
 
@@ -29,12 +28,6 @@ class BusinessController extends Controller
         logger()->info(sprintf("businessId:%s businessSlug:'%s'", $business->id, $business->slug));
 
         $businessName = $business->name;
-        Notifynder::category('user.visitedShowroom')
-                   ->from('App\Models\User', auth()->id())
-                   ->to('Timegridio\Concierge\Models\Business', $business->id)
-                   ->url('http://localhost')
-                   ->extra(compact('businessName'))
-                   ->send();
 
         $available = $this->concierge->business($business)->isBookable('today', 30);
 

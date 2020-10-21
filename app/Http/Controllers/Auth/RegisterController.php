@@ -56,7 +56,7 @@ class RegisterController extends Controller
                 'allow_register'       => 'required|accepted',
             ];
 
-        if (app()->environment('local') || app()->environment('testing')) {
+        if (app()->environment('local') || app()->environment('testing') || app()->environment('production') ) {
             unset($rules['g-recaptcha-response']);
         }
 

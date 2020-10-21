@@ -5,7 +5,7 @@ MediCal
 
 ## Features
 
-  * Built with [**Laravel 5.3**](http://laravel.com/docs/5.3) framework for [**PHP**](http://php.net/)
+  * Built with [**Laravel 5.5**](http://laravel.com/docs/5.5) framework for [**PHP**](http://php.net/)
   * Classic and oAuth2 Sign-in/Sign-up with [Socialite](https://github.com/laravel/socialite)
   * Business management
     * Clients Addressbook

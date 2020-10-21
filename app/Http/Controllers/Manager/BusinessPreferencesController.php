@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Manager;
 
 use App\Http\Controllers\Controller;
 use Timegridio\Concierge\Models\Business;
-use Fenos\Notifynder\Facades\Notifynder;
 use Illuminate\Http\Request;
 
 class BusinessPreferencesController extends Controller
@@ -55,12 +54,6 @@ class BusinessPreferencesController extends Controller
         $this->setBusinessPreferences($business, $request->all());
 
         $businessName = $business->name;
-        Notifynder::category('user.updatedBusinessPreferences')
-                   ->from('App\Models\User', auth()->id())
-                   ->to('Timegridio\Concierge\Models\Business', $business->id)
-                   ->url('http://localhost')
-                   ->extra(compact('businessName'))
-                   ->send();
 
         flash()->success(trans('manager.businesses.msg.preferences.success'));
 
