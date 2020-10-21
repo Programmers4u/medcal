@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "90dd8513dd1b835f724ce2256df054d0",
+    "content-hash": "6f9576801d722a3ebfb0e3cdf7e4f2a6",
     "packages": [
         {
             "name": "alariva/tidiochat",
@@ -958,74 +958,6 @@
                 "parser"
             ],
             "time": "2019-12-30T22:54:17+00:00"
-        },
-        {
-            "name": "fenos/notifynder",
-            "version": "4.3.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/fenos/Notifynder.git",
-                "reference": "d848d0e3a86bbc18b5ac11091c923dc46cf4ab00"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/fenos/Notifynder/zipball/d848d0e3a86bbc18b5ac11091c923dc46cf4ab00",
-                "reference": "d848d0e3a86bbc18b5ac11091c923dc46cf4ab00",
-                "shasum": ""
-            },
-            "require": {
-                "doctrine/dbal": "^2.5",
-                "illuminate/support": "~5.0",
-                "php": ">=5.5.0"
-            },
-            "require-dev": {
-                "codeclimate/php-test-reporter": "^0.3.2",
-                "laracasts/testdummy": "~2.0",
-                "laravel/framework": "~5.0",
-                "orchestra/database": "~3.0|3.4.x-dev",
-                "orchestra/testbench": "~3.0",
-                "phpunit/phpunit": "~4.0|~5.0",
-                "satooshi/php-coveralls": "^1.0"
-            },
-            "suggest": {
-                "astrotomic/notifynder-sender-email": "Allows to send notifications as email.",
-                "astrotomic/notifynder-sender-messagebird": "Allows to send notifications via MessageBird.",
-                "astrotomic/notifynder-sender-nexmo": "Allows to send notifications via Nexmo.",
-                "astrotomic/notifynder-sender-redis": "Allows to send notifications via Redis (Pub/Sub).",
-                "astrotomic/notifynder-sender-slack": "Allows to send notifications via Slack.",
-                "astrotomic/notifynder-sender-twilio": "Allows to send notifications via Twilio."
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Fenos\\Notifynder\\": "src/Notifynder"
-                },
-                "files": [
-                    "src/Notifynder/Helpers/helpers.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabrizio Fenoglio",
-                    "email": "fabri_feno@yahoo.it",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Tom Witkowski",
-                    "email": "dev.gummibeer@gmail.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Management system of internal notifications for Laravel 5.*",
-            "keywords": [
-                "laravel",
-                "notifications"
-            ],
-            "time": "2017-08-10T09:01:14+00:00"
         },
         {
             "name": "geoip2/geoip2",
@@ -4017,6 +3949,70 @@
                 "monitoring"
             ],
             "time": "2016-07-05T15:50:29+00:00"
+        },
+        {
+            "name": "seanstewart/plan-config",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/theseanstewart/Plan-Config.git",
+                "reference": "b2f6fedaf6c120dff1d12e7d1707b485e9b814a6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/theseanstewart/Plan-Config/zipball/b2f6fedaf6c120dff1d12e7d1707b485e9b814a6",
+                "reference": "b2f6fedaf6c120dff1d12e7d1707b485e9b814a6",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.5",
+                "php": ">=7.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "~1.0",
+                "orchestra/testbench": "^3.2",
+                "phpunit/phpunit": "~6.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Seanstewart\\PlanConfig\\PlanConfigServiceProvider"
+                    ],
+                    "aliases": {
+                        "Plan": "Seanstewart\\PlanConfig\\Plan"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Seanstewart\\PlanConfig\\": "src/"
+                },
+                "files": [
+                    "src/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sean Stewart",
+                    "email": "sean@ekoim.com"
+                }
+            ],
+            "description": "Plan config allows you to easily define attributes and limits for your SaaS application subscription plans.",
+            "homepage": "https://github.com/theseanstewart/Plan-Config",
+            "keywords": [
+                "config",
+                "laravel",
+                "laravel5",
+                "plans",
+                "saas",
+                "subscription plans"
+            ],
+            "time": "2019-12-12T14:30:50+00:00"
         },
         {
             "name": "setasign/fpdi",
@@ -8912,7 +8908,8 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "timegridio/concierge": 20,
-        "timegridio/icalreader": 20
+        "timegridio/icalreader": 20,
+        "seanstewart/plan-config": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

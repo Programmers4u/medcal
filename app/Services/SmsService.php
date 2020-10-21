@@ -5,7 +5,6 @@ namespace App\Services;
 use Timegridio\Concierge\Models\Contact;
 use Carbon\Carbon;
 use Timegridio\Concierge\Models\Business;
-use Fenos\Notifynder\Facades\Notifynder;
 use Illuminate\Support\Facades\DB;
 use Programmers4u\gatesms\sms\sender\SmsSender;
 
@@ -38,14 +37,6 @@ class SmsService {
             $result = $sms->sendSms();    
             array_push($results, $result);
             
-            $number = $cwm['mobile'];
-            $message = $cwm['message'];
-            Notifynder::category('sms.send')
-                       ->from('App\SmsService', 0)
-                       ->to('App\SmsService', 0)
-                       ->url('http://localhost')
-                       ->extra(compact('number', 'message'))
-                       ->send();
         };
         
         $store = 'sendMessage: '.date('d/m/Y H:i:s')."\r\n";
@@ -54,14 +45,6 @@ class SmsService {
         }
         logger()->debug($store);
         SmsService::pushReport($store);
-
-        // Generate local notification
-        Notifynder::category('sms.send')
-            ->from('App\SmsService', 0)
-            ->to('App\SmsService', 0)
-            ->url('http://localhost')
-            ->extra(compact('store'))
-            ->send();
 
         return $results;
     }

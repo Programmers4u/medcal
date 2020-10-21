@@ -6,7 +6,6 @@ use App\Events\NewContactWasRegistered;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AlterContactRequest;
 use App\Models\User;
-use Notifynder;
 use Request;
 use Timegridio\Concierge\Models\Business;
 use Timegridio\Concierge\Models\Contact;

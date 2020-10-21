@@ -165,7 +165,6 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Creativeorange\Gravatar\GravatarServiceProvider::class,
         GrahamCampbell\Markdown\MarkdownServiceProvider::class,
-        Fenos\Notifynder\NotifynderServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Ipunkt\LaravelAnalytics\AnalyticsServiceProvider::class,
         Jenssegers\Agent\AgentServiceProvider::class,
@@ -183,7 +182,7 @@ return [
         Alariva\Tidiochat\TidioChatServiceProvider::class,
         Timegridio\Concierge\TimegridioConciergeServiceProvider::class,
         Timegridio\ICalReader\ICalReaderServiceProvider::class,
-        // Seanstewart\PlanConfig\PlanConfigServiceProvider::class,
+        Seanstewart\PlanConfig\PlanConfigServiceProvider::class,
         
         niklasravnsborg\LaravelPdf\PdfServiceProvider::class,
     ],
@@ -274,13 +273,10 @@ return [
         //'Image'      => Barryvdh\Snappy\Facades\SnappyImage::class,
         'Location'   => Stevebauman\Location\Facades\Location::class,
         'Markdown'   => GrahamCampbell\Markdown\Facades\Markdown::class,
-        'Notifynder' => Fenos\Notifynder\Facades\Notifynder::class,
-        // 'PDF2'        => Barryvdh\Snappy\Facades\SnappyPdf::class,
         'Socialite'  => Laravel\Socialite\Facades\Socialite::class,
         'TidioChat'  => Alariva\Tidiochat\Facades\TidioChat::class,
         'Widget'     => Caffeinated\Widgets\Facades\Widget::class,
-        'Plan'       => Seanstewart\PlanConfig\Plan::class,
-        
+        'Plan'       => Seanstewart\PlanConfig\Plan::class,        
         'PDF'        => niklasravnsborg\LaravelPdf\Facades\Pdf::class,
     ],
 
