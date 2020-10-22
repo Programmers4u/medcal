@@ -101,33 +101,37 @@ var printHistory = function(){
         var e = $("#appointment :selected").text();
         var saveDay = new Date(e.split(' - ')[0].replace(/ /gi,'T'));
         
-        if(toDay < saveDay.getTime()){
-            confirm("UWAGA!\nOpisujesz wizytę której jeszcze nie było.", function(result){
+        if(toDay < saveDay.getTime()) {
+            confirm("UWAGA!\nOpisujesz wizytę której jeszcze nie było.", function(result) {
                 if(!result) return false;
-
-                $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': '{{csrf_token()}}'
-                    },            
-                    url: "{{ route('medical.history.update',[$business]) }}",
-                    data: post,            
-                    dataType: "json",
-                    type: "POST",
-                    success: function (data) {
-                        alert(data);
-                        setTimeout(function(){
-                            document.location.reload();
-                        },2100);
-                    },
-                    error: function(jqXHR, textStatus, errorThrown)
-                    {
-                        console.log('ERRORS: ' + textStatus);
-                        alert('Błąd: '+textStatus, 'error');
-                    }            
-                });
+                sendSaveHistory(post);            
             });
-        };
+        } else {
+            sendSaveHistory(post);            
+        }
     }    
+var sendSaveHistory = function(post) {
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': '{{csrf_token()}}'
+        },            
+        url: "{{ route('medical.history.update',[$business]) }}",
+            data: post,            
+            dataType: "json",
+            type: "POST",
+            success: function (data) {
+                alert(data);
+                setTimeout(function(){
+                    document.location.reload();
+                },2100);
+            },
+            error: function(jqXHR, textStatus, errorThrown)
+            {
+                console.log('ERRORS: ' + textStatus);
+                alert('Błąd: '+textStatus, 'error');
+            }            
+    });
+}    
 </script>
 
 <script type="text/javascript">
@@ -167,7 +171,7 @@ var historyUpdateData = function(obj,id){
 
 var openFiles = function(){
     type = (historyId >= 0) ? '{{ $typeHistory }}' : '{{ $typePermission }}';
-    if(historyId=='-2') type = '{{ $typePermissionTemplate }}';
+    if(historyId==='-2') type = '{{ $typePermissionTemplate }}';
     $('div[type]').hide();
     $('div[type='+type+']').show();
     if(historyId > 0){
@@ -775,7 +779,6 @@ var putAppointmentNoteCallBack = () => {
 </div>
 </div>
 
-@include('medical._modal_md_import')
 @endsection
 
 @section('css')
