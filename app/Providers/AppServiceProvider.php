@@ -28,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
         }
 
         if (config('services.rollbar.access_token', false)) {
-            $this->app->register(\Jenssegers\Rollbar\RollbarServiceProvider::class);
+            $this->app->register(\Rollbar\Laravel\RollbarServiceProvider::class);
         }
         
         if (!Collection::hasMacro('paginate')) {
