@@ -29,7 +29,7 @@ class SendAppointmentConfirmationNotification implements ShouldQueue
      */
     public function handle(AppointmentWasConfirmed $event)
     {
-        logger()->info(__METHOD__);
+        // logger()->info(__METHOD__);
 
         $code = $event->appointment->code;
         $date = $event->appointment->start_at->toDateString();
@@ -65,7 +65,7 @@ class SendAppointmentConfirmationNotification implements ShouldQueue
 
     protected function sendSMSToContactUser(Event $event) {
         
-        logger()->debug('start sending sms');
+        // logger()->debug('start sending sms');
 
         $code = $event->appointment->code;
         $date = $event->appointment->start_at->toDateString();
@@ -92,7 +92,7 @@ class SendAppointmentConfirmationNotification implements ShouldQueue
 
         $result = SmsService::sendMessage($contactsWithMessage, $event->appointment->business);
                 
-        logger()->debug('stop sending sms: ' . json_encode($result));        
+        // logger()->debug('stop sending sms: ' . json_encode($result));        
     }
 
 }

@@ -49,7 +49,7 @@ class AuthenticateUser
 
         $providerUser = $this->getUser($provider);
 
-        logger()->info('PROVIDER USER:'.serialize($providerUser));
+        // logger()->info('PROVIDER USER:'.serialize($providerUser));
 
         $user = $this->users->findOrCreate($providerUser);
         if ($user === null) {

@@ -25,8 +25,8 @@ class AddressbookController extends Controller
      */
     public function index(Business $business)
     {
-        logger()->info(__METHOD__);
-        logger()->info(sprintf('businessId:%s', $business->id));
+        // logger()->info(__METHOD__);
+        // logger()->info(sprintf('businessId:%s', $business->id));
 
         $this->authorize('manageContacts', $business);
 
@@ -44,8 +44,8 @@ class AddressbookController extends Controller
      */
     public function create(Business $business)
     {
-        logger()->info(__METHOD__);
-        logger()->info(sprintf('businessId:%s', $business->id));
+        // logger()->info(__METHOD__);
+        // logger()->info(sprintf('businessId:%s', $business->id));
 
         if ($business->contacts()->count() > plan('limits.contacts', $business->plan)) {
             flash()->warning(trans('app.saas.plan_limit_reached'));
@@ -72,8 +72,8 @@ class AddressbookController extends Controller
      */
     public function store(Business $business, ContactFormRequest $request)
     {
-        logger()->info(__METHOD__);
-        logger()->info(sprintf('businessId:%s', $business->id));
+        // logger()->info(__METHOD__);
+        // logger()->info(sprintf('businessId:%s', $business->id));
 
         $this->authorize('manageContacts', $business);
 
@@ -106,8 +106,8 @@ class AddressbookController extends Controller
     {
         $response = ['status'=>'ok','error'=>null];
         
-        logger()->info(__METHOD__);
-        logger()->info(sprintf('businessId:%s', $business->id));
+        // logger()->info(__METHOD__);
+        // logger()->info(sprintf('businessId:%s', $business->id));
 
         $this->authorize('manageContacts', $business);
 
@@ -150,8 +150,8 @@ class AddressbookController extends Controller
      */
     public function show(Business $business, Contact $contact)
     {
-        logger()->info(__METHOD__);
-        logger()->info(sprintf('businessId:%s contactId:%s', $business->id, $contact->id));
+        // logger()->info(__METHOD__);
+        // logger()->info(sprintf('businessId:%s contactId:%s', $business->id, $contact->id));
 
         $this->authorize('manageContacts', $business);
 
@@ -180,8 +180,8 @@ class AddressbookController extends Controller
      */
     public function edit(Business $business, Contact $contact)
     {
-        logger()->info(__METHOD__);
-        logger()->info(sprintf('businessId:%s contactId:%s', $business->id, $contact->id));
+        // logger()->info(__METHOD__);
+        // logger()->info(sprintf('businessId:%s contactId:%s', $business->id, $contact->id));
 
         $this->authorize('manageContacts', $business);
 
@@ -212,8 +212,8 @@ class AddressbookController extends Controller
      */
     public function update(Business $business, Contact $contact, ContactFormRequest $request)
     {
-        logger()->info(__METHOD__);
-        logger()->info(sprintf('businessId:%s contactId:%s', $business->id, $contact->id));
+        // logger()->info(__METHOD__);
+        // logger()->info(sprintf('businessId:%s contactId:%s', $business->id, $contact->id));
 
         $this->authorize('manageContacts', $business);
 
@@ -252,8 +252,8 @@ class AddressbookController extends Controller
      */
     public function transformContactToUser(Business $business, Contact $contact)
     {
-        logger()->info(__METHOD__);
-        logger()->info(sprintf('businessId:%s contactId:%s', $business->id, $contact->id));
+        // logger()->info(__METHOD__);
+        // logger()->info(sprintf('businessId:%s contactId:%s', $business->id, $contact->id));
 
         $this->authorize('manageContacts', $business);
 
@@ -267,8 +267,8 @@ class AddressbookController extends Controller
 
         // Search existing registered + email in same business
         $existingUser = User::where('email','=',$contact->email)->first();
-        if($existingUser)
-            logger()->info(sprintf('existingUser:%s', $existingUser->id));
+        // if($existingUser)
+        //     logger()->info(sprintf('existingUser:%s', $existingUser->id));
         
         // Search existing any authenticated profile for user
         if (!$existingUser) {
@@ -280,7 +280,7 @@ class AddressbookController extends Controller
             $contact->user()->associate($user->id);
             $contact->save();
             $contact->fresh();
-            logger()->info("[ADVICE] Register new user userId:{$user->id}");
+            // logger()->info("[ADVICE] Register new user userId:{$user->id}");
             $response['status'] = 'new';
         } else {
             // Search existing subscribed email in same business
@@ -291,7 +291,7 @@ class AddressbookController extends Controller
             $contact->user()->associate($existingUser->id);
             $contact->save();
             $contact->fresh();
-            logger()->info("[ADVICE] Found existing user userId:{$existingUser->id}");
+            // logger()->info("[ADVICE] Found existing user userId:{$existingUser->id}");
             $response['status'] = 'exists';
         }
         
@@ -308,8 +308,8 @@ class AddressbookController extends Controller
      */
     public function destroy(Business $business, Contact $contact)
     {
-        logger()->info(__METHOD__);
-        logger()->info(sprintf('businessId:%s contactId:%s', $business->id, $contact->id));
+        // logger()->info(__METHOD__);
+        // logger()->info(sprintf('businessId:%s contactId:%s', $business->id, $contact->id));
 
         $this->authorize('manageContacts', $business);
 

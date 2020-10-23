@@ -7,5 +7,5 @@ bower_components
 .vscode
 .DS_Store
 .env
-!.gitignore
 delete.this
+!.gitignore

@@ -60,7 +60,7 @@ class BusinessController extends Controller
      */
     public function index()
     {
-        logger()->info(__METHOD__);
+        // logger()->info(__METHOD__);
 
         // BEGIN
         
@@ -68,7 +68,7 @@ class BusinessController extends Controller
         $businesses = auth()->user()->businesses;
 
         if ($businesses->count() == 1) {
-            logger()->info('Only one business to show');
+            // logger()->info('Only one business to show');
 
             //flash()->success(trans('manager.businesses.msg.index.only_one_found'));
             $business = $businesses->first();
@@ -89,8 +89,8 @@ class BusinessController extends Controller
      */
     public function create($plan = 'free')
     {
-        logger()->info(__METHOD__);
-        logger()->info("plan:$plan");
+        // logger()->info(__METHOD__);
+        // logger()->info("plan:$plan");
 
         // BEGIN
 
@@ -123,7 +123,7 @@ class BusinessController extends Controller
      */
     public function store(BusinessFormRequest $request)
     {
-        logger()->info(__METHOD__);
+        // logger()->info(__METHOD__);
 
         // BEGIN
 
@@ -152,8 +152,8 @@ class BusinessController extends Controller
      */
     public function show(Business $business)
     {
-        logger()->info(__METHOD__);
-        logger()->info(sprintf('businessId:%s', $business->id));
+        // logger()->info(__METHOD__);
+        // logger()->info(sprintf('businessId:%s', $business->id));
 
         $this->authorize('manage', $business);
 
@@ -181,8 +181,8 @@ class BusinessController extends Controller
      */
     public function edit(Business $business)
     {
-        logger()->info(__METHOD__);
-        logger()->info(sprintf('businessId:%s', $business->id));
+        // logger()->info(__METHOD__);
+        // logger()->info(sprintf('businessId:%s', $business->id));
 
         $this->authorize('update', $business);
 
@@ -224,7 +224,7 @@ class BusinessController extends Controller
             $finance['avg'] = $finance['sum']/count($proces);
         }
 
-        logger()->info(sprintf('businessId:%s timezone:%s category:%s', $business->id, $timezone, $category));
+        // logger()->info(sprintf('businessId:%s timezone:%s category:%s', $business->id, $timezone, $category));
 
         return view('manager.businesses.edit', compact('finance' ,'business', 'category', 'categories', 'timezone', 'storageSize'));
     }
@@ -239,8 +239,8 @@ class BusinessController extends Controller
      */
     public function update(Business $business, BusinessFormRequest $request)
     {
-        logger()->info(__METHOD__);
-        logger()->info(sprintf('businessId:%s', $business->id));
+        // logger()->info(__METHOD__);
+        // logger()->info(sprintf('businessId:%s', $business->id));
 
         $this->authorize('update', $business);
 
@@ -274,11 +274,11 @@ class BusinessController extends Controller
      */
     public function destroy(Business $business)
     {
-        logger()->info(__METHOD__);
+        // logger()->info(__METHOD__);
 
         $this->authorize('destroy', $business);
 
-        logger()->info(sprintf('Deactivating: businessId:%s', $business->id));
+        // logger()->info(sprintf('Deactivating: businessId:%s', $business->id));
         // BEGIN
 
         $this->businessService->deactivate($business);
@@ -323,7 +323,7 @@ class BusinessController extends Controller
 
         $this->getLocation();
 
-        logger()->info(sprintf('TIMEZONE FALLBACK="%s" GUESSED="%s"', $timezone, $this->location['timezone']));
+        // logger()->info(sprintf('TIMEZONE FALLBACK="%s" GUESSED="%s"', $timezone, $this->location['timezone']));
 
         $identifiers = timezone_identifiers_list();
 
@@ -340,13 +340,13 @@ class BusinessController extends Controller
     protected function getLocation()
     {
         if ($this->location === null) {
-            logger()->info('Getting location');
+            // logger()->info('Getting location');
 
             $geoip = app('geoip');
 
             $this->location = $geoip->getLocation();
 
-            logger()->info(serialize($this->location));
+            // logger()->info(serialize($this->location));
         }
 
         return $this->location;

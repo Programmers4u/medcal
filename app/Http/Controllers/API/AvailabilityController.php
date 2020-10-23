@@ -46,8 +46,8 @@ class AvailabilityController extends Controller
      */
     public function getDates($businessId, $serviceId)
     {
-        logger()->info(__METHOD__);
-        logger()->info(serialize(compact('businessId', 'serviceId')));
+        // logger()->info(__METHOD__);
+        // logger()->info(serialize(compact('businessId', 'serviceId')));
 
         $business = Business::findOrFail($businessId);
         $service = $business->services()->findOrFail($serviceId);
@@ -66,7 +66,7 @@ class AvailabilityController extends Controller
 
         $disabledDates = $this->getDisabledDates($baseDate, $endDate, $dates);
 
-        logger()->debug('Disabled Dates:'.serialize($disabledDates));
+        // logger()->debug('Disabled Dates:'.serialize($disabledDates));
 
         return response()->json([
             'business' => $business->id,
@@ -92,15 +92,15 @@ class AvailabilityController extends Controller
      */
     public function getTimes($businessId, $serviceId, $date, $preferredTimezone = false)
     {
-        logger()->info(__METHOD__);
-        logger()->info(serialize(compact('businessId', 'serviceId', 'date', 'preferredTimezone')));
+        // logger()->info(__METHOD__);
+        // logger()->info(serialize(compact('businessId', 'serviceId', 'date', 'preferredTimezone')));
 
         $business = Business::findOrFail($businessId);
         $service = $business->services()->findOrFail($serviceId);
 
         $timezone = $this->decideTimezone($preferredTimezone, $business->timezone);
 
-        logger()->info("Using Timezone: {$timezone}");
+        // logger()->info("Using Timezone: {$timezone}");
 
         $times = $this->availability->timezone($timezone)->getTimes($business, $service, Carbon::parse($date));
 
@@ -148,7 +148,7 @@ class AvailabilityController extends Controller
 
         $excluded = Storage::get($filepath);
 
-        logger()->debug('ICal Exclude Dates:'.serialize($excluded));
+        // logger()->debug('ICal Exclude Dates:'.serialize($excluded));
 
         $this->availability->excludeDates(explode("\n", $excluded));
     }

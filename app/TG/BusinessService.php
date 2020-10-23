@@ -64,7 +64,7 @@ class BusinessService
             return false;
         }
 
-        logger()->info("Found existing businessId:{$business->id}");
+        // logger()->info("Found existing businessId:{$business->id}");
 
         if (!$user->isOwnerOf($business->id)) {
             logger()->info("Already taken businessId:{$business->id}");

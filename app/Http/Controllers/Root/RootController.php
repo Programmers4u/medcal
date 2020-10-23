@@ -14,8 +14,8 @@ class RootController extends Controller
      */
     public function getIndex()
     {
-        logger()->info(__METHOD__);
-        logger()->warning('[ROOT ACCESS]');
+        // logger()->info(__METHOD__);
+        // logger()->warning('[ROOT ACCESS]');
 
         //////////////////
         // FOR REFACTOR //

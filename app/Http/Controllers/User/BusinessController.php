@@ -24,8 +24,8 @@ class BusinessController extends Controller
      */
     public function getHome(Business $business)
     {
-        logger()->info(__METHOD__);
-        logger()->info(sprintf("businessId:%s businessSlug:'%s'", $business->id, $business->slug));
+        // logger()->info(__METHOD__);
+        // logger()->info(sprintf("businessId:%s businessSlug:'%s'", $business->id, $business->slug));
 
         $businessName = $business->name;
 
@@ -43,7 +43,7 @@ class BusinessController extends Controller
      */
     public function getList()
     {
-        logger()->info(__METHOD__);
+        // logger()->info(__METHOD__);
 
         $businesses = Business::where('listed', true)->get();
 
@@ -61,7 +61,7 @@ class BusinessController extends Controller
      */
     public function getSubscriptions()
     {
-        logger()->info(__METHOD__);
+        // logger()->info(__METHOD__);
 
         $contacts = auth()->user()->contacts;
 

@@ -33,13 +33,13 @@ class WelcomeController extends Controller
      */
     public function index()
     {
-        logger()->info(__METHOD__);
+        // logger()->info(__METHOD__);
         $locale = preg_replace('/_[A-Z]*/is','', App::getLocale());
         return view(env('APP_FIP_THEME','welcome'), compact('locale'));
     }
     
     public function contactForm(){
-        logger()->info(__METHOD__);
+        // logger()->info(__METHOD__);
         return response()->json(['msg'=>'ok']);
     }
 }

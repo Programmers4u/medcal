@@ -13,22 +13,22 @@ class WizardController extends Controller
 {
     public function getWizard()
     {
-        logger()->info(__METHOD__);
+        // logger()->info(__METHOD__);
 
         if ($slug = session()->pull('guest.last-intended-business-home')) {
-            logger()->info('Resume Business visit to:'.$slug);
+            // logger()->info('Resume Business visit to:'.$slug);
 
             return redirect()->to('/'.$slug);
         }
 
         if (auth()->user()->hasBusiness()) {
-            logger()->info('User has Business');
+            // logger()->info('User has Business');
 
             return redirect()->route('manager.business.index');
         }
 
         if (auth()->user()->hasContacts()) {
-            logger()->info('User has Contacts');
+            // logger()->info('User has Contacts');
 
             return redirect()->route('user.dashboard');
         }
@@ -40,7 +40,7 @@ class WizardController extends Controller
 
     public function getDashboard()
     {
-        logger()->info(__METHOD__);
+        // logger()->info(__METHOD__);
 
         $appointments = auth()->user()->appointments()->orderBy('start_at')->unarchived()->get();
 
@@ -53,21 +53,21 @@ class WizardController extends Controller
 
     public function getWelcome()
     {
-        logger()->info(__METHOD__);
+        // logger()->info(__METHOD__);
 
         return view('wizard');
     }
 
     public function getPricing()
     {
-        logger()->info(__METHOD__);
+        // logger()->info(__METHOD__);
 
         return view('manager.pricing');
     }
 
     public function getTerms()
     {
-        logger()->info(__METHOD__);
+        // logger()->info(__METHOD__);
 
         return view('manager.terms');
     }

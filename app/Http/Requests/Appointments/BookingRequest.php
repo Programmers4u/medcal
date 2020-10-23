@@ -17,7 +17,7 @@ class BookingRequest extends Request
 
         $authorize = (auth()->user()->isOwnerOf($businessId));
 
-        logger()->info("Authorize:$authorize");
+        // logger()->info("Authorize:$authorize");
 
         return $authorize;
     }

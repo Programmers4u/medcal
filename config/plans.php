@@ -60,17 +60,5 @@ return [
                 'specialists' => 10,
             ],
         ],
-
-        'premium' => [
-            'title'       => 'PREMIUM',
-            'description' => 'Partners use only',
-            'price'       => '80',
-            'currency'    => 'PLN',
-            'limits'      => [
-                'contacts'    => 250000,
-                'services'    => 100,
-                'specialists' => 100,
-            ],
-        ],
     ],
 ];

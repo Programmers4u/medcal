@@ -48,7 +48,7 @@
         "alariva/tidiochat": "^2.1",
         "timegridio/icalreader": "dev-master",
         "niklasravnsborg/laravel-pdf": "^4.0",
-        "rollbar/rollbar-laravel": "^4.0.3",
+        "rollbar/rollbar-laravel": "^2.0",
         "seanstewart/plan-config": "dev-master"        
      },
     "require-dev": {

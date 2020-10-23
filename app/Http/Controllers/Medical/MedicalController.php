@@ -31,8 +31,8 @@ class MedicalController extends Controller
 
     public function index(Business $business, Contact $contact){
         
-        logger()->info(__METHOD__);
-        logger()->info(sprintf('businessId:%s contactId:%s', $business->id, $contact->id));
+        // logger()->info(__METHOD__);
+        // logger()->info(sprintf('businessId:%s contactId:%s', $business->id, $contact->id));
 
         $this->authorize('manage', $business);
         
@@ -361,7 +361,7 @@ class MedicalController extends Controller
     }
 
     public function putHistory(Request $request){
-        logger()->info(__METHOD__);
+        // logger()->info(__METHOD__);
         
         $contact_id = $request->input('contact_id');
         $business_id = $request->input('business_id');
@@ -375,7 +375,7 @@ class MedicalController extends Controller
             $result = MedicalHistory::putHistory($json_data, $contact_id, $appointment_id, $staff);
             try{
                 $appointment = \Timegridio\Concierge\Models\Appointment::findOrFail($appointment_id);
-                logger()->debug($appointment);
+                // logger()->debug($appointment);
 
                 $business = Business::findOrFail($business_id);
                 if($appointment && $business){
@@ -385,7 +385,7 @@ class MedicalController extends Controller
                     $appointment = $appointmentManager->serve();
                 }
             } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e){
-                logger()->debug($e->getMessage());
+                // logger()->debug($e->getMessage());
             }
 
         } else {
@@ -436,8 +436,8 @@ class MedicalController extends Controller
         
         $business = Business::findOrFail($request->input('business_id'));
         
-        logger()->info(__METHOD__);
-        logger()->info(sprintf('businessId:%s', $business->id));
+        // logger()->info(__METHOD__);
+        // logger()->info(sprintf('businessId:%s', $business->id));
 
         $issuer = auth()->user();
         
@@ -459,7 +459,7 @@ class MedicalController extends Controller
     
     public function ajaxGetNote(GetNoteRequest $request) : JsonResponse {
 
-        logger()->info(__METHOD__);
+        // logger()->info(__METHOD__);
 
         $app_id = $request->input('appointmentId',null);
         $note = Notes::getNote($app_id);
@@ -478,7 +478,7 @@ class MedicalController extends Controller
 
     public function ajaxPutNote(PutNoteRequest $request) : JsonResponse {
 
-        logger()->info(__METHOD__);
+        // logger()->info(__METHOD__);
 
         $app_id = $request->input('appointmentId',null);
         $note = $request->input('note',null);

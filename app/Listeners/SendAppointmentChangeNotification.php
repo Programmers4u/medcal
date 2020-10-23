@@ -25,7 +25,7 @@ class SendAppointmentChangeNotification implements ShouldQueue
 
     public function handle(AppointmentWasChange $event)
     {
-        logger()->info(__METHOD__);
+        // logger()->info(__METHOD__);
         
         if ($event->appointment->business->pref('disable_outbound_mailing')) {
             return;
@@ -47,7 +47,7 @@ class SendAppointmentChangeNotification implements ShouldQueue
 
     protected function sendSMSToContactUser(Event $event) {
         
-        logger()->debug('start sending sms');
+        // logger()->debug('start sending sms');
 
         $code = $event->appointment->code;
         $date = $event->appointment->start_at->toDateString();
@@ -74,7 +74,7 @@ class SendAppointmentChangeNotification implements ShouldQueue
 
         $result = SmsService::sendMessage($contactsWithMessage, $event->appointment->business);
                 
-        logger()->debug('stop sending sms: ' . json_encode($result));
+        // logger()->debug('stop sending sms: ' . json_encode($result));
         
     }
 

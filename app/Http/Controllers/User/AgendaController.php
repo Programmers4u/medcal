@@ -43,7 +43,7 @@ class AgendaController extends Controller
      */
     public function getIndex()
     {
-        logger()->info(__METHOD__);
+        // logger()->info(__METHOD__);
 
         $appointments = auth()->user()->appointments()->orderBy('start_at')->unarchived()->get();
         
@@ -59,7 +59,7 @@ class AgendaController extends Controller
      */
     public function getAvailability(Business $business, Request $request)
     {
-        logger()->info(__METHOD__);
+        // logger()->info(__METHOD__);
 
         if (auth()->user()) {
             if ($behalofOfId = $request->input('behalfOfId')) {
@@ -68,7 +68,7 @@ class AgendaController extends Controller
                 $contact = $business->contacts()->find($behalofOfId);
             } else {
                 if (!$contact = auth()->user()->getContactSubscribedTo($business->id)) {
-                    logger()->info('  [ADVICE] User not subscribed to Business');
+                    // logger()->info('  [ADVICE] User not subscribed to Business');
 
                     flash()->warning(trans('user.booking.msg.you_are_not_subscribed_to_business'));
 
@@ -119,7 +119,7 @@ class AgendaController extends Controller
      */
     public function postStore(Request $request)
     {
-        logger()->info(__METHOD__);
+        // logger()->info(__METHOD__);
 
         //////////////////
         // FOR REFACTOR //
@@ -139,7 +139,7 @@ class AgendaController extends Controller
             $contact = $this->getContact($business, $email);
 
             if (!$contact) {
-                logger()->info('[ADVICE] Not subscribed');
+                // logger()->info('[ADVICE] Not subscribed');
 
                 flash()->warning(trans('user.booking.msg.store.not-registered'));
 
@@ -164,14 +164,14 @@ class AgendaController extends Controller
 
         $reservation = compact('issuer', 'contact', 'service', 'date', 'time', 'timezone', 'comments');
 
-        logger()->info('Reservation:'.print_r($reservation, true));
+        // logger()->info('Reservation:'.print_r($reservation, true));
 
         try {
             $appointment = $this->concierge->business($business)->takeReservation($reservation);
         } catch (DuplicatedAppointmentException $e) {
             $code = $this->concierge->appointment()->code;
 
-            logger()->info("DUPLICATED Appointment with CODE:{$code}");
+            // logger()->info("DUPLICATED Appointment with CODE:{$code}");
 
             flash()->warning(trans('user.booking.msg.store.sorry_duplicated', compact('code')));
 
@@ -183,14 +183,14 @@ class AgendaController extends Controller
         }
 
         if (false === $appointment) {
-            logger()->info('[ADVICE] Unable to book');
+            // logger()->info('[ADVICE] Unable to book');
 
             flash()->warning(trans('user.booking.msg.store.error'));
 
             return redirect()->back();
         }
 
-        logger()->info('Appointment saved successfully');
+        // logger()->info('Appointment saved successfully');
 
         flash()->success(trans('user.booking.msg.store.success', ['code' => $appointment->code]));
 
@@ -290,7 +290,7 @@ class AgendaController extends Controller
         try {
             $date = Carbon::parse($dateString);
         } catch (\Exception $e) {
-            logger()->warning('Unexpected date string: '.$dateString);
+            // logger()->warning('Unexpected date string: '.$dateString);
             $date = Carbon::now();
         }
 

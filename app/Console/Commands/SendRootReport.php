@@ -47,7 +47,7 @@ class SendRootReport extends Command
      */
     public function handle()
     {
-        logger()->info('Generating Root Report');
+        // logger()->info('Generating Root Report');
 
         //////////////////
         // FOR REFACTOR //
@@ -57,7 +57,7 @@ class SendRootReport extends Command
 
         $registeredUsersCount = DB::table('users')->count();
 
-        logger()->info('Users Count: '.$registeredUsersCount);
+        // logger()->info('Users Count: '.$registeredUsersCount);
 
         // Mail to Root
         $params = [

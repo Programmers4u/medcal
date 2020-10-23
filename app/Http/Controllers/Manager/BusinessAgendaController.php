@@ -46,8 +46,8 @@ class BusinessAgendaController extends Controller
      */
     public function getIndex(Business $business)
     {
-        logger()->info(__METHOD__);
-        logger()->info(sprintf('businessId:%s', $business->id));
+        // logger()->info(__METHOD__);
+        // logger()->info(sprintf('businessId:%s', $business->id));
 
         $this->authorize('manage', $business);
         
@@ -72,8 +72,8 @@ class BusinessAgendaController extends Controller
 
     public function getCalendar(Business $business, $hr=null)
     {
-        logger()->info(__METHOD__);
-        logger()->info(sprintf('businessId:%s', $business->id));
+        // logger()->info(__METHOD__);
+        // logger()->info(sprintf('businessId:%s', $business->id));
         
         // $hr = json_encode($hr);
         
@@ -98,7 +98,7 @@ class BusinessAgendaController extends Controller
             ->limit(150)
             ->get();        
         
-        logger()->debug($appointments);
+        // logger()->debug($appointments);
 
         $jsAppointments = [];
 

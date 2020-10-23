@@ -10,7 +10,7 @@ class UserPreferencesController extends Controller
 {
     public function getPreferences()
     {
-        logger()->info(__METHOD__);
+        // logger()->info(__METHOD__);
 
         // BEGIN
 
@@ -22,7 +22,7 @@ class UserPreferencesController extends Controller
 
     public function postPreferences(Request $request)
     {
-        logger()->info(__METHOD__);
+        // logger()->info(__METHOD__);
 
         // BEGIN
 

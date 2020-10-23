@@ -32,7 +32,7 @@ class FetchICalFile extends Job implements ShouldQueue
      */
     public function handle()
     {
-        logger()->info(__METHOD__);
+        // logger()->info(__METHOD__);
 
         // $this->resetCompiled($this->business->id);
 

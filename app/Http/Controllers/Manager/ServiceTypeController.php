@@ -19,8 +19,8 @@ class ServiceTypeController extends Controller
      */
     public function edit(Business $business)
     {
-        logger()->info(__METHOD__);
-        logger()->info(sprintf('businessId:%s', $business->id));
+        // logger()->info(__METHOD__);
+        // logger()->info(sprintf('businessId:%s', $business->id));
 
         $this->authorize('manageServices', $business);
 
@@ -40,8 +40,8 @@ class ServiceTypeController extends Controller
      */
     public function update(Business $business, Request $request)
     {
-        logger()->info(__METHOD__);
-        logger()->info(sprintf('businessId:%s', $business->id));
+        // logger()->info(__METHOD__);
+        // logger()->info(sprintf('businessId:%s', $business->id));
 
         $this->authorize('manageServices', $business);
 

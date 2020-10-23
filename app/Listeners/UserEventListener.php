@@ -17,7 +17,7 @@ class UserEventListener
         $this->touchAudit($login->user);
         $this->loadSessionPreferences($login->user);
 
-        logger()->info("User logged in: UserId:{$login->user->id}");
+        // logger()->info("User logged in: UserId:{$login->user->id}");
     }
 
     /**
@@ -25,7 +25,7 @@ class UserEventListener
      */
     public function onUserLogout(Logout $logout)
     {
-        logger()->info('User logged out');
+        // logger()->info('User logged out');
     }
 
     /**
@@ -55,10 +55,10 @@ class UserEventListener
 
     protected function loadSessionPreferences(User $user)
     {
-        logger()->info("Loading user preferences");
+        // logger()->info("Loading user preferences");
         if ($timezone = $user->pref('timezone')) {
             session()->put('timezone', $timezone);
-            logger()->info("Loaded user timezone from preferences: $timezone");
+            // logger()->info("Loaded user timezone from preferences: $timezone");
         }
     }
 }

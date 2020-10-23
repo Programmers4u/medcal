@@ -16,7 +16,7 @@
 
 Medical has some server requirements for web hosting:
 
-  * PHP ~5.6 || 7.1
+  * PHP 7.1
   * OpenSSL PHP Extension
   * PDO PHP Extension
   * Mbstring PHP Extension
