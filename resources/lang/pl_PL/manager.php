@@ -58,7 +58,7 @@ return  [
       'panel' => [
         'title_appointments_active_tomorrow'    => 'Spotkanie Umówione na Jutro',
         'title_appointments_active'    => 'Spotkanie Umówione Dzisiaj',
-        'title_appointments_reserversion'    => 'Spotkanie Do Potwierdzenia',
+        'title_appointments_reserversion'    => 'Spotkania Do Potwierdzenia',
         'title_appointments_canceled'  => 'Spotkanie Anulowane',
         'title_appointments_served'    => 'Spotkanie Zapisane',
         'title_appointments_today'     => 'Dzisiaj',

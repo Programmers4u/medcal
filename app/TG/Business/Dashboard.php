@@ -76,9 +76,9 @@ class Dashboard
     protected function loadCounters()
     {
         // Build Dashboard Report
-        $this->counter['appointments_active_today'] = $this->business->bookings()->active()->ofDate($this->time->today())->get()->count();
+        $this->counter['appointments_active_today'] = $this->business->bookings()->whereIn('status', ['C'])->ofDate($this->time->today())->get()->count();
         $this->counter['appointments_reserversion'] = $this->business->bookings()->whereIn('status', ['R'])->get()->count();
-        $this->counter['appointments_canceled_today'] = $this->business->bookings()->canceled()->ofDate($this->time->today())->get()->count();
+        $this->counter['appointments_canceled_today'] = $this->business->bookings()->canceled()->get()->count();
         $this->counter['appointments_active_tomorrow'] = $this->business->bookings()->active()->ofDate($this->time->tomorrow())->get()->count();
 //        $this->counter['appointments_active_total'] = $this->business->bookings()->active()->get()->count();
 //        $this->counter['appointments_served_total'] = $this->business->bookings()->served()->get()->count();
