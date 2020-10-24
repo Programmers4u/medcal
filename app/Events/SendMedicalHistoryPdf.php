@@ -2,12 +2,11 @@
 
 namespace App\Events;
 
-use App\Models\User;
 use Illuminate\Queue\SerializesModels;
 use Timegridio\Concierge\Models\Business;
 use Timegridio\Concierge\Models\Contact;
 
-class GenerateMedicalHistoryPdf extends Event
+class SendMedicalHistoryPdf extends Event
 {
     use SerializesModels;
 

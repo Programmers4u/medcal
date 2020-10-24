@@ -3,14 +3,14 @@
 namespace App\Listeners;
 
 use App\Events\Event;
-use App\Events\GenerateMedicalHistoryPdf;
+use App\Events\SendMedicalHistoryPdf;
 use App\Models\User;
 use App\TG\TransMail;
 use Timegridio\Concierge\Models\Contact;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-class GenerateMedicalHistoryPdfNotification implements ShouldQueue
+class SendMedicalHistoryPdfNotification implements ShouldQueue
 {
     use InteractsWithQueue;
 
@@ -21,7 +21,7 @@ class GenerateMedicalHistoryPdfNotification implements ShouldQueue
         $this->transmail = $transmail;
     }
 
-    public function handle(GenerateMedicalHistoryPdf $event)
+    public function handle(SendMedicalHistoryPdf $event)
     {
         // $this->sendEmailToContact($event);
         $this->sendEmailToOwner($event);
@@ -60,22 +60,20 @@ class GenerateMedicalHistoryPdfNotification implements ShouldQueue
     {
         $params = [
             'user'        => $event->business->owner(),
-            // 'appointment' => $event->appointment,
             'ownerName'   => $event->business->owner()->name,
         ];
         $header = [
             'name'  => $event->business->owner()->name,
             'email' => $event->business->owner()->email,
-            'filePathName' => $event->pathFile,
         ];
         $email = [
+            'filePathName' => [$event->pathFile],
             'header'   => $header,
             'params'   => $params,
             'locale'   => $event->business->locale,
             'timezone' => $event->business->owner()->pref('timezone'),
             'template' => 'manager.medical-history-notification.notification',
-            'subject'  => 'manager.appointment-notification.subject',
-            
+            'subject'  => 'manager.medical-document-notification.subject',
         ];
         $this->sendemail($email);
     }
@@ -88,6 +86,7 @@ class GenerateMedicalHistoryPdfNotification implements ShouldQueue
                         ->timezone($timezone)
                         ->template($template)
                         ->subject($subject)
+                        ->attach($filePathName)
                         ->send($header, $params);
     }
 }

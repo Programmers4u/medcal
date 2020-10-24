@@ -64,6 +64,11 @@ class TransMail
     protected $subject = '';
 
     /**
+     * @var array
+     */
+    protected $attach = [];
+
+    /**
      * @var  bool Post sent success status indicator.
      */
     protected $success = false;
@@ -166,6 +171,21 @@ class TransMail
         return $this;
     }
 
+
+    /**
+     * Set the attach file parameters.
+     *
+     * @param array  $params
+     *
+     * @return $this
+     */
+    public function attach($params = [])
+    {
+        $this->attach = $params;
+
+        return $this;
+    }
+
     /**
      * Switch application wide locale, send message, and restore locale.
      *
@@ -182,8 +202,11 @@ class TransMail
         $this->mail->send($this->getViewKey(), $params, function ($message) use ($header) {
             $message
                 ->to(array_get($header, 'email'), array_get($header, 'name'))
-                ->attach(array_get($header, 'filePathName'))
                 ->subject($this->getSubject());
+
+            if(isset($this->attach[0])) {
+                $message->attach($this->attach[0]);
+            }
         });
 
         $this->switchLocale($this->revertLocale);

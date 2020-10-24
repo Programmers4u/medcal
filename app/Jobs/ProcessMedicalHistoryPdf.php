@@ -2,10 +2,9 @@
 
 namespace App\Jobs;
 
-use App\Events\GenerateMedicalHistoryPdf;
+use App\Events\SendMedicalHistoryPdf;
 use App\Models\MedicalFile;
 use App\Models\MedicalHistory;
-use Carbon\Carbon;
 use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
@@ -75,7 +74,7 @@ class ProcessMedicalHistoryPdf implements ShouldQueue
         $path = storage_path();
         $pathFile = $path . DIRECTORY_SEPARATOR . 'temp' . DIRECTORY_SEPARATOR . $fileName;
         $pdf->save($pathFile);
-        event(new GenerateMedicalHistoryPdf($this->contact, $this->business, $pathFile));
+        event(new SendMedicalHistoryPdf($this->contact, $this->business, $pathFile));
     }
 
     public function failed(Exception $exception)

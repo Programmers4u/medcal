@@ -37,10 +37,10 @@ var printHistory = function(){
     var url = "{{ route('medical.history.export.get',[$business,$contacts]) }}";
     webApi(url, {
         csrf : '{{csrf_token()}}',
+        success: function(data) {
+            alert('Dokument zostanie przesłany na adres e-mail');
+        },
     });
-    alert('Dokument zostanie przesłany na adres e-mail');
-    // window.open(url);
-    // return false;
 }
 </script>
 <script type="text/javascript">

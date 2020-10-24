@@ -329,11 +329,14 @@ class MedicalController extends Controller
         return $historyData;
     }
 
-    public function exportHistory($business, $contact)
+    public function exportHistory($business, $contact) : JsonResponse
     {
         $business = Business::where('slug', $business)->first();
         $contact = Contact::find($contact);
         dispatch(new ProcessMedicalHistoryPdf($business, $contact));
+        return response()->json([
+            'status' => 'ok',
+        ]);
     }
 
     public function putHistory(Request $request){

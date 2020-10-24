@@ -35,8 +35,8 @@ class EventServiceProvider extends ServiceProvider
         \App\Events\NewSoftAppointmentWasBooked::class => [
             \App\Listeners\SendSoftAppointmentValidationRequest::class,
         ],
-        \App\Events\GenerateMedicalHistoryPdf::class => [
-            \App\Listeners\GenerateMedicalHistoryPdfNotification::class,
+        \App\Events\SendMedicalHistoryPdf::class => [
+            \App\Listeners\SendMedicalHistoryPdfNotification::class,
         ],
     ];
 
