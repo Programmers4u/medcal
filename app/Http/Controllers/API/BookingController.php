@@ -111,8 +111,7 @@ class BookingController extends Controller
                 break;
             case 'confirm':
                 $appointment = $appointmentManager->confirm();
-                // event(new AppointmentWasConfirmed($isuser, $appointment));
-                event(new NewAppointmentWasBooked($isuser, $appointment));
+                event(new AppointmentWasConfirmed($isuser, $appointment));
             break;
             case 'serve':
                 $appointment = $appointmentManager->serve();

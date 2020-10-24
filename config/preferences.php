@@ -11,6 +11,7 @@ return [
         'sms_message2'                     => ['type' => 'text', 'value' => ''],
         'sms_message3'                     => ['type' => 'text', 'value' => ''],
         'sms_message4'                     => ['type' => 'text', 'value' => ''],
+        'sms_message5'                     => ['type' => 'text', 'value' => ''],
         'start_at'                        => ['type' => 'time', 'value' => '07:00:00'],
         'finish_at'                       => ['type' => 'time', 'value' => '23:00:00'],
         'show_map'                        => ['type' => 'bool', 'value' => false],

@@ -78,7 +78,7 @@ class SendAppointmentConfirmationNotification implements ShouldQueue
         $businessName = $event->appointment->business->name;
 
         $phone = $event->appointment->contact->mobile;
-        $message = $event->appointment->business->pref('sms_message1');
+        $message = $event->appointment->business->pref('sms_message5');
         $date = $event->appointment->start_at->setTimezone($event->appointment->business->timezone);
         $day = $date->format('Y-m-d');
         $hour = $date->format('H:i');
