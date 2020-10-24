@@ -33,7 +33,7 @@ class Kernel extends HttpKernel
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-            // \App\Http\Middleware\VerifyCsrfToken::class,
+            \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\Language::class,
             \App\Http\Middleware\SessionTimeout::class,
@@ -62,23 +62,4 @@ class Kernel extends HttpKernel
         'throttle'   => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'role'       => \App\Http\Middleware\RoleMiddleware::class,
     ];
-
-    /**
-     * We need to replace the ConfigureLogging bootstrappers to use the custom
-     * one. We’ll do this by overriding their respective constructors and
-     * doing an array_walk to the bootstrappers property.
-     *
-     * @param Application $app
-     * @param Router      $router
-     */
-    public function __construct(Application $app, Router $router)
-    {
-        parent::__construct($app, $router);
-
-        array_walk($this->bootstrappers, function (&$bootstrapper) {
-            if ($bootstrapper === \Illuminate\Foundation\Bootstrap\ConfigureLogging::class) {
-                $bootstrapper = \App\Bootstrap\ConfigureLogging::class;
-            }
-        });
-    }
 }

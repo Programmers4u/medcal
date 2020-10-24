@@ -48,7 +48,7 @@
         "alariva/tidiochat": "^2.1",
         "timegridio/icalreader": "dev-master",
         "niklasravnsborg/laravel-pdf": "^4.0",
-        "jenssegers/rollbar": "^1.5",
+        "rollbar/rollbar-laravel": "^2.0",
         "seanstewart/plan-config": "dev-master"        
      },
     "require-dev": {
@@ -84,9 +84,20 @@
         "post-install-cmd": [
         ],
         "post-update-cmd": [
-        ]
+        ],
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover"
+        ]        
     },
     "config": {
         "preferred-install": "dist"
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": [
+                "rollbar/rollbar-laravel"
+            ]
+        }
     }
 }

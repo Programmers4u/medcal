@@ -23,7 +23,7 @@ class SendMailUserWelcome
      */
     public function handle(NewUserWasRegistered $event)
     {
-        logger()->info(__METHOD__);
+        // logger()->info(__METHOD__);
 
         $params = [
             'user' => $event->user,

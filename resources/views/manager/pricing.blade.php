@@ -2,7 +2,6 @@
 
 @section('css')
 @parent
-<link rel="stylesheet" href="{{ asset('css/tour.min.css') }}">
 <style>
     /* @import url(http://fonts.googleapis.com/css?family=Lato); */
     body{
@@ -123,7 +122,7 @@
 
     <div class="row flat">
         <div class="col-lg-offset-1 col-md-offset-1 col-xs-offset-1">
-            <div class="col-lg-4 col-md-4 col-xs-3">
+            <div class="col-lg-6 col-md-5 col-xs-3">
                 <ul class="plan plan1 featured" id="plan1">
                     <li class="plan-name noZoom">
                         {{trans('pricing.plan.free.name')}}
@@ -155,7 +154,7 @@
                 </ul>
             </div>
 
-            <div class="col-lg-4 col-md-4 col-xs-3">
+            <div class="col-lg-6 col-md-6 col-xs-3">
                 <ul class="plan plan2" id="plan2">
                     <li class="plan-name">
                         {{config('plans.plans.standard.title')}}
@@ -188,38 +187,6 @@
                 </ul>
             </div>
 
-            <div class="col-lg-4 col-md-4 col-xs-3">
-                <ul class="plan plan3" id="plan3">
-                    <li class="plan-name">
-                        {{config('plans.plans.premium.title')}}
-                    </li>
-                    <li class="plan-hint noZoom">
-                        {{trans('pricing.plan.premium.hint')}}
-                    </li>
-                    <li class="plan-price">
-                        {{-- Important to use unescaped for currency as might have html entities --}}
-                        <strong>{!!  config('plans.plans.premium.price') !!} {!! config('plans.plans.standard.currency') !!}</strong> / {{ trans('pricing.month') }}
-                    </li>
-                    <li id="p2_appointments">
-                        {!! trans('pricing.feature.unlimited_appointments') !!}
-                    </li>
-                    <li id="p2_contacts">
-                        {!! trans('pricing.feature.up_to_contacts', ['limit' => config('plans.plans.premium.limits.contacts')]) !!}
-                    </li>
-                    <li id="p2_services">
-                        {!! trans('pricing.feature.up_to_services', ['limit' => config('plans.plans.premium.limits.services')]) !!}
-                    </li>
-                    <li id="p2_specialists">
-                        {!! trans('pricing.feature.up_to_specialists', ['limit' => config('plans.plans.premium.limits.specialists')]) !!}
-                    </li>
-                    <li>
-                        {{ trans('pricing.feature.customized_support') }}
-                    </li>
-                    <li class="plan-action">
-                        <a href="{{ route('manager.business.register', ['plan' => 'premium']) }}" class="btn btn-danger btn-lg">{!! Icon::cloud_upload() !!}&nbsp;{{ trans('pricing.plan.premium.submit') }}</a>
-                    </li>
-                </ul>
-            </div>
 
         </div> <!-- /offset -->
     </div> <!-- /flat -->
@@ -228,50 +195,46 @@
 @endsection
 
 @push('footer_scripts')
-<script src="{{ asset('js/tour.min.js') }}"></script>
 <script>
-    $(document).ready(function(){
-
 // Instance the tour
 var tour = new Tour({
     duration: 6500,
     delay: 1000,
     template: "@include('tour._template')",
     steps: [
-    {
-        element: "#plan1",
-        title: "{{ trans('tour.pricing.step0.title') }}",
-        content: "{{ trans('tour.pricing.step0.content') }}",
-        placement: "left"
-    },
-    {
-        element: "#p1_appointments",
-        title: "{{ trans('tour.pricing.step1.title') }}",
-        content: "{{ trans('tour.pricing.step1.content') }}"
-    },
-    {
-        element: "#p1_contacts",
-        title: "{{ trans('tour.pricing.step2.title') }}",
-        content: "{{ trans('tour.pricing.step2.content') }}"
-    },
-    {
-        element: "#p1_services",
-        title: "{{ trans('tour.pricing.step3.title') }}",
-        content: "{{ trans('tour.pricing.step3.content') }}"
-    },
-    {
-        element: "#plan2",
-        title: "{{ trans('tour.pricing.step4.title') }}",
-        content: "{{ trans('tour.pricing.step4.content') }}"
-    }
-    ]});
-
+        {
+            element: "#plan1",
+            title: "{{ trans('tour.pricing.step0.title') }}",
+            content: "{{ trans('tour.pricing.step0.content') }}",
+            placement: "left"
+        },
+        {
+            element: "#p1_appointments",
+            title: "{{ trans('tour.pricing.step1.title') }}",
+            content: "{{ trans('tour.pricing.step1.content') }}"
+        },
+        {
+            element: "#p1_contacts",
+            title: "{{ trans('tour.pricing.step2.title') }}",
+            content: "{{ trans('tour.pricing.step2.content') }}"
+        },
+        {
+            element: "#p1_services",
+            title: "{{ trans('tour.pricing.step3.title') }}",
+            content: "{{ trans('tour.pricing.step3.content') }}"
+        },
+        {
+            element: "#plan2",
+            title: "{{ trans('tour.pricing.step4.title') }}",
+            content: "{{ trans('tour.pricing.step4.content') }}"
+        }
+    ]
+});
 // Initialize the tour
 tour.init();
-
-// Start the tour
-tour.start();
-
+$(document).ready(function() {
+    // Start the tour
+    tour.start();
 });
 </script>
 @endpush

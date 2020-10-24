@@ -52,7 +52,7 @@ var printHistory = function(){
     
     var saveHistory = function (){
         if($('#staff_id').val()=='') {
-            var txt = 'Wybierz pracownika';
+            var txt = '{{ trans('manager.humanresource.alert') }}';
             alert(txt, 'error');
             return -1;
         }

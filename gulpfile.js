@@ -87,6 +87,7 @@ gulp.task('styles',function() {
         './bower_components/adminlte/plugins/iCheck/square/purple.css',
         './node_modules/chart.js/dist/Chart.min.css',
         './resources/assets/less/app.less',
+        './bower_components/bootstrap-tour/build/css/bootstrap-tour.css',
         ])
         .pipe(less({
           paths: [ path.join(__dirname, 'less', 'includes') ]
@@ -126,11 +127,11 @@ gulp.task('styles',function() {
         .pipe(concat('forms.css'))
         .pipe(gulp.dest('public/css/'));
 
-    res = 
-    gulp.src('./bower_components/bootstrap-tour/build/css/bootstrap-tour.min.css')
-        .pipe(cleanCSS())
-        .pipe(concat('tour.min.css'))
-        .pipe(gulp.dest('public/css/'));
+    // res = 
+    // gulp.src('./bower_components/bootstrap-tour/build/css/bootstrap-tour.min.css')
+    //     .pipe(cleanCSS())
+    //     .pipe(concat('tour.min.css'))
+    //     .pipe(gulp.dest('public/css/'));
 
     res = 
     gulp.src('./bower_components/jquery-highlighttextarea/jquery.highlighttextarea.min.css')
@@ -187,6 +188,7 @@ gulp.task('script', function(){
         './bower_components/adminlte/dist/js/adminlte.min.js',
         './bower_components/tooltipster/js/jquery.tooltipster.min.js',
         './node_modules/chart.js/dist/Chart.min.js',
+        './bower_components/bootstrap-tour/build/js/bootstrap-tour.min.js',
         ])
         .pipe(uglify())
         .pipe(concat('app.min.js'))
@@ -239,13 +241,13 @@ gulp.task('script', function(){
     
     // Tour Helpers
 
-    res =
-    gulp.src( [
-        './bower_components/bootstrap-tour/build/js/bootstrap-tour.min.js',
-        ])
-        .pipe(uglify())
-        .pipe(concat('tour.min.js'))
-        .pipe(gulp.dest('public/js/'));
+    // res =
+    // gulp.src( [
+    //     './bower_components/bootstrap-tour/build/js/bootstrap-tour.min.js',
+    //     ])
+    //     .pipe(uglify())
+    //     .pipe(concat('tour.min.js'))
+    //     .pipe(gulp.dest('public/js/'));
 
     // Highlight
 
@@ -382,7 +384,7 @@ gulp.task('script', function(){
         // Rollbar
         res =
         gulp.src( [
-            './bower_components/rollbar/dist/rollbar.js',
+            // './bower_components/rollbar/dist/rollbar.js',
             'resources/assets/js/rollbar/*',
             ])
             .pipe(uglify())

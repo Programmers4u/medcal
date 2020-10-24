@@ -16,7 +16,7 @@ class SmsService {
         
         if ($business->pref('disable_outbound_mailing')) {
             $store = "disable_outbound_mailing\r\n";
-            logger()->debug($store);
+            // logger()->debug($store);
             SmsService::pushReport($store);
             return [];
         }
@@ -43,7 +43,7 @@ class SmsService {
         foreach($results as $result) {
             $store.= 'Report: '.$result."\r\n";
         }
-        logger()->debug($store);
+        // logger()->debug($store);
         SmsService::pushReport($store);
 
         return $results;

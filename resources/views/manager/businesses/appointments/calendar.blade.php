@@ -6,21 +6,15 @@
 @endsection
 
 @push('footer_scripts')
-<script type="text/javascript" src="/js/alert/alert.min.js"></script>
 <script type="text/javascript" src="/js/calendar/calendar.min.js"></script>
 <script type="text/javascript" src="/js/cookie/cookie.min.js"></script>
 <script type="text/javascript" src="/js/appointment/appointment.min.js"></script>
-<script type="text/javascript" src="/js/statistics/statistics.min.js"></script>
 
 <script type="text/javascript">
 var csrf = '{{csrf_token()}}';   
 var businessId = '{{ $business->id }}';
 var serviceId = '{{ $services[0]->id }}';
-
-var Statistics = Object.create(Statistics);
-Statistics.csrf = '{{csrf_token()}}';
-Statistics.businessId = '{{ $business->id }}';
-Statistics.endPoint = '/statistics';
+alertText = '{{ trans('appointments.alert') }}';
 
 var AppointmentSave = Object.create(Appointment);
 AppointmentSave.csrf = '{{csrf_token()}}';
@@ -94,7 +88,6 @@ var clickLink = function(obj) {
 }
 </script>
 
-<script src="{{ asset('js/tour.min.js') }}"></script>
 <script type="text/javascript">
 // Instance the tour
 var tour = new Tour({
@@ -121,49 +114,48 @@ var tour = new Tour({
     placement: "top",
   },
 ]});
-$(document).ready(function(){
-
 // Initialize the tour
 tour.init();
 
-// Start the tour
-tour.start();
+$(document).ready(function(){
+    // Start the tour
+    tour.start();
 
-$('.fc-prev-button.fc-button.fc-state-default.fc-corner-left').click(function(){
-    try{
-        AppointmentHr.get(function(data) {
-            timegrid.events = data;
-            $("#calendar").fullCalendar('removeEvents');
-            $("#calendar").fullCalendar('addEventSource',timegrid.events);
-        });        
-    }catch(e){
-        alert(e);
-    }
-});
+    $('.fc-prev-button.fc-button.fc-state-default.fc-corner-left').click(function(){
+        try{
+            AppointmentHr.get(function(data) {
+                timegrid.events = data;
+                $("#calendar").fullCalendar('removeEvents');
+                $("#calendar").fullCalendar('addEventSource',timegrid.events);
+            });        
+        }catch(e){
+            alert(e);
+        }
+    });
 
-$('.fc-next-button.fc-button.fc-state-default.fc-corner-right').click(function(){
-    try{
-        AppointmentHr.get(function(data) {
-            timegrid.events = data;
-            $("#calendar").fullCalendar('removeEvents');
-            $("#calendar").fullCalendar('addEventSource',timegrid.events);
-        });        
-    }catch(e){
-        alert(e);
-    };
-});
+    $('.fc-next-button.fc-button.fc-state-default.fc-corner-right').click(function(){
+        try{
+            AppointmentHr.get(function(data) {
+                timegrid.events = data;
+                $("#calendar").fullCalendar('removeEvents');
+                $("#calendar").fullCalendar('addEventSource',timegrid.events);
+            });        
+        }catch(e){
+            alert(e);
+        };
+    });
 
-$('.fc-today-button.fc-button.fc-state-default.fc-corner-left.fc-corner-right').click(function(){
-    try{
-        AppointmentHr.get(function(data) {
-            timegrid.events = data;
-            $("#calendar").fullCalendar('removeEvents');
-            $("#calendar").fullCalendar('addEventSource',timegrid.events);
-        });        
-    }catch(e){
-        alert(e);
-    };
-});
+    $('.fc-today-button.fc-button.fc-state-default.fc-corner-left.fc-corner-right').click(function(){
+        try{
+            AppointmentHr.get(function(data) {
+                timegrid.events = data;
+                $("#calendar").fullCalendar('removeEvents');
+                $("#calendar").fullCalendar('addEventSource',timegrid.events);
+            });        
+        }catch(e){
+            alert(e);
+        };
+    });
     
 });
 </script>
@@ -191,8 +183,7 @@ $('.fc-today-button.fc-button.fc-state-default.fc-corner-left.fc-corner-right').
 
 <div class="row fullcalendar">
     <div id="calendar" style="margin-left:3%;margin-right:3%;"></div>
-
-    <div class="well" style="margin:1%;">{{ $icalURL }}</div>
+    {{-- <div class="well" style="margin:1%;">{{ $icalURL }}</div> --}}
 </div>
 
 @endsection

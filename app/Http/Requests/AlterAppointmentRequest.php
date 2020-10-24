@@ -22,7 +22,7 @@ class AlterAppointmentRequest extends Request
 
         $authorize = (auth()->user()->isOwnerOf($businessId) || $appointment->issuer->id == auth()->id());
 
-        logger()->info("Authorize:$authorize");
+        // logger()->info("Authorize:$authorize");
 
         return $authorize;
     }

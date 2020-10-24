@@ -15,7 +15,7 @@ class PutRequest extends Request
     {
         $authorize = auth()->user();
 
-        logger()->info("Authorize:$authorize");
+        // logger()->info("Authorize:$authorize");
 
         return $authorize;
     }

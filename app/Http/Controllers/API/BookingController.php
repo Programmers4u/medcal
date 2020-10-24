@@ -77,7 +77,7 @@ class BookingController extends Controller
      */
     public function postAction(AlterAppointmentRequest $request)
     {
-        logger()->info(__METHOD__);
+        // logger()->info(__METHOD__);
         
         $isuser = auth()->user();
         $business = Business::findOrFail($request->input('business'));
@@ -92,13 +92,13 @@ class BookingController extends Controller
         // OR
         //  (B) auth()->user() is issuer of $appointment
 
-        logger()->info(sprintf(
-            'postAction.request:[issuer:%s, action:%s, business:%s, appointment:%s]',
-            $isuser->email,
-            $action,
-            $business->id,
-            $appointment->id
-        ));
+        // logger()->info(sprintf(
+        //     'postAction.request:[issuer:%s, action:%s, business:%s, appointment:%s]',
+        //     $isuser->email,
+        //     $action,
+        //     $business->id,
+        //     $appointment->id
+        // ));
 
         $this->concierge->business($business);
         
@@ -131,7 +131,7 @@ class BookingController extends Controller
         $html = view($viewKey, $contents)->render();
         $code = 'OK';
 
-        logger()->info("postAction.response:[appointment:{$appointment->toJson()}]");
+        // logger()->info("postAction.response:[appointment:{$appointment->toJson()}]");
 
         return response()->json(compact('code', 'html'));
     }
@@ -148,7 +148,7 @@ class BookingController extends Controller
     
     public function postBooking(BookingRequest $request){
         
-        logger()->info(__METHOD__);
+        // logger()->info(__METHOD__);
 
         //////////////////
         // FOR REFACTOR //
@@ -169,7 +169,7 @@ class BookingController extends Controller
             $contact = $this->getContact($business, $email);
 
             if (!$contact) {
-                logger()->info('[ADVICE] Not subscribed');
+                // logger()->info('[ADVICE] Not subscribed');
                 flash()->warning(trans('user.booking.msg.store.not-registered'));
                 return redirect()->back();
             }
@@ -200,7 +200,7 @@ class BookingController extends Controller
         $humanresource = $request->input('hr');
         $reservation = compact('issuer', 'contact', 'service', 'date_finish', 'time_finish','date_start', 'time_start', 'timezone', 'comments', 'humanresource','business');
 
-        logger()->info('Reservation:'.print_r($reservation, true));
+        // logger()->info('Reservation:'.print_r($reservation, true));
 
         $startAt = $this->makeDateTimeUTC($date_start, $time_start, $timezone);
         $finishAt = $this->makeDateTimeUTC($date_finish, $time_finish, $timezone);//$startAt->copy()->addMinutes($service->duration);
@@ -216,7 +216,7 @@ class BookingController extends Controller
 
             //$code = $this->concierge->appointment()->code;
 
-            logger()->info("DUPLICATED Appointment with CODE:{$e->getMessage()}");
+            // logger()->info("DUPLICATED Appointment with CODE:{$e->getMessage()}");
             return response()->json("DUPLICATED Appointment with CODE:{$e->getMessage()}");
             
             //flash()->warning(trans('user.booking.msg.store.sorry_duplicated', compact('code')));
@@ -229,7 +229,7 @@ class BookingController extends Controller
         }
 
         if (false === $appointment) {
-            logger()->info('[ADVICE] Unable to book');
+            // logger()->info('[ADVICE] Unable to book');
 
             //flash()->warning(trans('user.booking.msg.store.error'));
 
@@ -237,7 +237,7 @@ class BookingController extends Controller
             return response()->json(trans('user.booking.msg.store.error'));
         }
 
-        logger()->info('Appointment saved successfully');
+        // logger()->info('Appointment saved successfully');
 
         //flash()->success(trans('user.booking.msg.store.success', ['code' => $appointment->code]));
 
@@ -464,7 +464,7 @@ class BookingController extends Controller
         $fromDate = Carbon::parse($fromDate)->timezone($this->business->timezone);
         $toDate = Carbon::parse($toDate)->timezone($this->business->timezone);
         
-        logger()->debug(\GuzzleHttp\json_encode($fromDate));
+        // logger()->debug(\GuzzleHttp\json_encode($fromDate));
         
         $count = $this->business
                       ->vacancies()
@@ -472,7 +472,7 @@ class BookingController extends Controller
                       ->until($toDate)
                       ->count();
         
-        logger()->debug(\GuzzleHttp\json_encode($count));
+        // logger()->debug(\GuzzleHttp\json_encode($count));
         return $count > 0;
     }
     
@@ -482,10 +482,10 @@ class BookingController extends Controller
     public function isCollision(Carbon $startAt, Carbon $finishAt, $hr, $appointment, $seconds = 60)
     {
         $startAt = Carbon::parse($startAt);//->timezone($this->business->timezone);
-        logger()->debug(\GuzzleHttp\json_encode($startAt));
+        // logger()->debug(\GuzzleHttp\json_encode($startAt));
 
         $finishAt = Carbon::parse($finishAt);//->timezone($this->business->timezone);//$startAt->copy()->addMinutes($seconds);
-        logger()->debug(\GuzzleHttp\json_encode($finishAt));
+        // logger()->debug(\GuzzleHttp\json_encode($finishAt));
 
         $appointment = Appointment::query()
                 //->whereRaw("(start_at BETWEEN '".$startAt."' AND  '".$finishAt."')")
@@ -500,7 +500,7 @@ class BookingController extends Controller
                 ->get()
                 ->count()
                 ;
-        logger()->debug(\GuzzleHttp\json_encode($appointment));
+        // logger()->debug(\GuzzleHttp\json_encode($appointment));
 
         return $appointment;
     }
@@ -562,8 +562,8 @@ class BookingController extends Controller
         $business = Business::findOrFail($request->input('businessId',null));
         $this->business = $business;
         
-        logger()->info(__METHOD__);
-        logger()->info(sprintf('businessId:%s', $business->id));
+        // logger()->info(__METHOD__);
+        // logger()->info(sprintf('businessId:%s', $business->id));
 
         $issuer = auth()->user();
         

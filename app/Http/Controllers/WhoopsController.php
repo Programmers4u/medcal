@@ -20,7 +20,7 @@ class WhoopsController extends Controller
      */
     public function display()
     {
-        logger()->info(__METHOD__);
+        // logger()->info(__METHOD__);
 
         return view('whoops');
     }

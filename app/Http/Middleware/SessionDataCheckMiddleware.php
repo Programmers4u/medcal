@@ -19,7 +19,7 @@ class SessionDataCheckMiddleware {
         // Expire the session after the given number of seconds of inactivity
         $bag = $request->cookie('la');
         if(empty($bag)) setcookie('la',time(),null,'/');
-        logger()->info($bag);
+        // logger()->info($bag);
         $max = config('session.lifetime') * 60; // min to hours conversion
         if ($bag && $max < (time() - (int)$bag)) {
                 // Delete session data created by this app:

@@ -41,8 +41,8 @@ class BusinessVacancyController extends Controller
      */
     public function create(Business $business)
     {
-        logger()->info(__METHOD__);
-        logger()->info(sprintf('businessId:%s', $business->id));
+        // logger()->info(__METHOD__);
+        // logger()->info(sprintf('businessId:%s', $business->id));
 
         $this->authorize('manageVacancies', $business);
 
@@ -107,8 +107,8 @@ class BusinessVacancyController extends Controller
      */
     public function store(Business $business, Request $request)
     {
-        logger()->info(__METHOD__);
-        logger()->info(sprintf('businessId:%s', $business->id));
+        // logger()->info(__METHOD__);
+        // logger()->info(sprintf('businessId:%s', $business->id));
 
         $this->authorize('manageVacancies', $business);
 
@@ -141,14 +141,14 @@ class BusinessVacancyController extends Controller
         }
 
         if (!$changed) {
-            logger()->warning('Nothing to update');
+            // logger()->warning('Nothing to update');
 
             flash()->warning(trans('manager.vacancies.msg.store.nothing_changed'));
 
             return redirect()->back();
         }
 
-        logger()->info('Vacancies updated');
+        // logger()->info('Vacancies updated');
 
         flash()->success(trans('manager.vacancies.msg.store.success'));
 
@@ -165,8 +165,8 @@ class BusinessVacancyController extends Controller
      */
     public function storeBatch(Business $business, Request $request, VacancyParser $vacancyParser)
     {
-        logger()->info(__METHOD__);
-        logger()->info(sprintf('businessId:%s', $business->id));
+        // logger()->info(__METHOD__);
+        // logger()->info(sprintf('businessId:%s', $business->id));
 
         $this->authorize('manageVacancies', $business);
 
@@ -188,7 +188,7 @@ class BusinessVacancyController extends Controller
         $publishedVacancies = $vacancyParser->parseStatements($statements);
         
         if (!$this->concierge->vacancies()->updateBatch($business, $publishedVacancies)) {
-            logger()->warning('Nothing to update');
+            // logger()->warning('Nothing to update');
 
             flash()->warning(trans('manager.vacancies.msg.store.nothing_changed'));
 
@@ -199,7 +199,7 @@ class BusinessVacancyController extends Controller
             $this->rememberStatements($business->id, $statements);
         }
 
-        logger()->info('Vacancies updated');
+        // logger()->info('Vacancies updated');
 
         flash()->success(trans('manager.vacancies.msg.store.success'));
 
@@ -213,8 +213,8 @@ class BusinessVacancyController extends Controller
      */
     public function show(Business $business)
     {
-        logger()->info(__METHOD__);
-        logger()->info(sprintf('businessId:%s', $business->id));
+        // logger()->info(__METHOD__);
+        // logger()->info(sprintf('businessId:%s', $business->id));
 
         $this->authorize('manageVacancies', $business);
 
@@ -247,8 +247,8 @@ class BusinessVacancyController extends Controller
 
     public function update(Business $business, Request $request, VacancyParser $vacancyParser)
     {
-        logger()->info(__METHOD__);
-        logger()->info(sprintf('businessId:%s', $business->id));
+        // logger()->info(__METHOD__);
+        // logger()->info(sprintf('businessId:%s', $business->id));
 
         $this->authorize('manageVacancies', $business);
 
@@ -257,7 +257,7 @@ class BusinessVacancyController extends Controller
         $serviceId = $request->input('serviceId');
         $weekdays = $request->input('weekdays');
 
-        logger()->info($weekdays);
+        // logger()->info($weekdays);
 
         $service = $business->services()->find($serviceId);
         $humanResource = $business->humanresources()->first();
@@ -276,7 +276,7 @@ class BusinessVacancyController extends Controller
         }
 
         if ($this->concierge->vacancies()->updateBatch($business, $publishedVacancies)) {
-            logger()->info('Vacancies updated');
+            // logger()->info('Vacancies updated');
         }
 
         return response()->json(['status' => 'OK']);

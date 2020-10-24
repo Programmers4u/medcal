@@ -2,6 +2,7 @@
 var dc = 0;
 var hix = document.location.pathname.substring(document.location.pathname.lastIndexOf('/')+1);
 var humanresources = hix === 'calendar' ? 0 : hix;
+var alertText = '';
 
 var calendar = function() {
     
@@ -49,7 +50,7 @@ var calendar = function() {
         select: function(start, end, jsEvent) {
             if(dc==0) {
                 if(0==humanresources){ 
-                    var txt = 'Wybierz kalendarz pracownika';
+                    var txt = alertText;
                     alert(txt,'error');
                     $('#calendar').fullCalendar('unselect');
                     return -1;

@@ -12,8 +12,8 @@ class HumanresourceController extends Controller
 {
     public function index(Business $business)
     {
-        logger()->info(__METHOD__);
-        logger()->info(sprintf('businessId:%s', $business->id));
+        // logger()->info(__METHOD__);
+        // logger()->info(sprintf('businessId:%s', $business->id));
 
         $this->authorize('manageHumanresources', $business);
 
@@ -24,8 +24,8 @@ class HumanresourceController extends Controller
 
     public function create(Business $business)
     {
-        logger()->info(__METHOD__);
-        logger()->info(sprintf('businessId:%s', $business->id));
+        // logger()->info(__METHOD__);
+        // logger()->info(sprintf('businessId:%s', $business->id));
 
         if ($business->humanresources()->count() > plan('limits.specialists', $business->plan)) {
             flash()->warning(trans('app.saas.plan_limit_reached'));
@@ -43,8 +43,8 @@ class HumanresourceController extends Controller
 
     public function store(Business $business, Request $request)
     {
-        logger()->info(__METHOD__);
-        logger()->info(sprintf('businessId:%s', $business->id));
+        // logger()->info(__METHOD__);
+        // logger()->info(sprintf('businessId:%s', $business->id));
 
         $this->authorize('manageHumanresources', $business);
 
@@ -70,8 +70,8 @@ class HumanresourceController extends Controller
 
     public function show(Business $business, Humanresource $humanresource)
     {
-        logger()->info(__METHOD__);
-        logger()->info(sprintf('businessId:%s humanresourceId:%s', $business->id, $humanresource->id));
+        // logger()->info(__METHOD__);
+        // logger()->info(sprintf('businessId:%s humanresourceId:%s', $business->id, $humanresource->id));
 
         $this->authorize('manageHumanresources', $business);
 
@@ -82,8 +82,8 @@ class HumanresourceController extends Controller
 
     public function edit(Business $business, Humanresource $humanresource)
     {
-        logger()->info(__METHOD__);
-        logger()->info(sprintf('businessId:%s humanresourceId:%s', $business->id, $humanresource->id));
+        // logger()->info(__METHOD__);
+        // logger()->info(sprintf('businessId:%s humanresourceId:%s', $business->id, $humanresource->id));
 
         $this->authorize('manageHumanresources', $business);
 
@@ -94,8 +94,8 @@ class HumanresourceController extends Controller
 
     public function update(Business $business, Humanresource $humanresource, Request $request)
     {
-        logger()->info(__METHOD__);
-        logger()->info(sprintf('businessId:%s humanresourceId:%s', $business->id, $humanresource->id));
+        // logger()->info(__METHOD__);
+        // logger()->info(sprintf('businessId:%s humanresourceId:%s', $business->id, $humanresource->id));
 
         $this->authorize('manageHumanresources', $business);
 
@@ -111,8 +111,8 @@ class HumanresourceController extends Controller
 
     public function destroy(Business $business, Humanresource $humanresource)
     {
-        logger()->info(__METHOD__);
-        logger()->info(sprintf('businessId:%s humanresourceId:%s', $business->id, $humanresource->id));
+        // logger()->info(__METHOD__);
+        // logger()->info(sprintf('businessId:%s humanresourceId:%s', $business->id, $humanresource->id));
 
         $this->authorize('manageHumanresources', $business);
 

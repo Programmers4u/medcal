@@ -1,5 +1,5 @@
 var _rollbarConfig = {
-    accessToken: "f2737e5943a34dfd9bebe6c67529f0fc",
+    accessToken: "43ae99b0ce1e4f5088f20c9b34bdec2e",
     captureUncaught: true,
     captureUnhandledRejections: true,
     payload: {

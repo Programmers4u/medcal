@@ -26,7 +26,7 @@ class SendBookingNotification implements ShouldQueue
 
     public function handle(NewAppointmentWasBooked $event)
     {
-        logger()->debug(__METHOD__);
+        // logger()->debug(__METHOD__);
         
         $code = $event->appointment->code;
         $date = $event->appointment->start_at->toDateString();
@@ -34,15 +34,15 @@ class SendBookingNotification implements ShouldQueue
 
         if ($event->appointment->business->pref('disable_outbound_mailing')) {
             $store = "disable_outbound_mailing";
-            logger()->debug($store);
+            // logger()->debug($store);
             return;
         }
         
         $app_date = new Carbon($event->appointment->start_at, $event->appointment->business->timezone);
-        logger()->debug('TS:'.$app_date->toDateTimeString());
+        // logger()->debug('TS:'.$app_date->toDateTimeString());
         
         if($app_date->timestamp < Carbon::now()->setTimezone($event->appointment->business->timezone)->timestamp) {
-            logger()->debug('Data mniejsza od teraźniejszej: '.$app_date->toDateTimeString());
+            // logger()->debug('Data mniejsza od teraźniejszej: '.$app_date->toDateTimeString());
             // return;
         }
         
@@ -64,7 +64,7 @@ class SendBookingNotification implements ShouldQueue
 
     protected function sendSMSToContactUser(Event $event) {
         
-        logger()->debug('start sending sms');
+        // logger()->debug('start sending sms');
 
         $code = $event->appointment->code;
         $date = $event->appointment->start_at->toDateString();
@@ -87,16 +87,16 @@ class SendBookingNotification implements ShouldQueue
 
         $result = SmsService::sendMessage($contactsWithMessage, $event->appointment->business );
                 
-        logger()->debug('stop sending sms: ' . json_encode($result));
+        // logger()->debug('stop sending sms: ' . json_encode($result));
         
     }
     
     protected function sendEmailToContactUser(Event $event)
     {
-        logger()->debug('start sending email');
+        // logger()->debug('start sending email');
 
         if (!$user = $event->user) {
-            logger()->debug('not user');
+            // logger()->debug('not user');
             return false;
         }
 
@@ -150,7 +150,7 @@ class SendBookingNotification implements ShouldQueue
      */
     protected function sendEmail($email)
     {
-        logger()->debug('send email');
+        // logger()->debug('send email');
 
         extract($email);
 

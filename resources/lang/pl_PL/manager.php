@@ -263,25 +263,26 @@ return  [
       'update' => 'Aktualizuj',
     ],
     'create' => [
-      'title'        => 'Dodaj Pracowników',
+      'title'        => 'Dodaj Specjalistów',
       'subtitle'     => 'Kto będzie świadczył usługi',
-      'instructions' => 'Dodaj pracownika, który zapewni realizację usługi',
+      'instructions' => 'Dodaj specjalistę, który zapewni realizację usługi',
     ],
     'edit' => [
-      'title'        => 'Edycja pracowników',
+      'title'        => 'Edycja',
       'subtitle'     => 'Info',
-      'instructions' => 'Edycja informacji o pracowniku',
+      'instructions' => 'Edycja informacji o specjaliście',
     ],
     'index' => [
-      'title'        => 'Pracownicy',
+      'title'        => 'Specjaliści',
       'subtitle'     => 'Lista',
-      'instructions' => 'Lista pracowników',
+      'instructions' => 'Lista specjalistów',
     ],
     'show' => [
-      'title'        => 'Pracownicy',
+      'title'        => 'Specjaliści',
       'subtitle'     => 'Info',
-      'instructions' => 'Informacja o pracownikach',
+      'instructions' => 'Informacja o specjalistach',
     ],
+    'alert' => 'Wybierz specjalistę',
     'form' => [
       'calendar_link' => [
         'label' => 'Link kalendarza',
@@ -297,13 +298,13 @@ return  [
   'humanresources' => [
     'msg' => [
       'destroy' => [
-        'success' => 'Dane pracownika usunięte',
+        'success' => 'Dane specjalisty usunięte',
       ],
       'store' => [
-        'success' => 'Dane pracownika dodane',
+        'success' => 'Dane specjalisty dodane',
       ],
       'update' => [
-        'success' => 'Dane pracownika zaktualizowane',
+        'success' => 'Dane zaktualizowane',
       ],
     ],
   ],

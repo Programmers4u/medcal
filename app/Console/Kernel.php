@@ -10,24 +10,6 @@ use App\Services\SmsService;
 
 class Kernel extends ConsoleKernel
 {
-    /**
-     * We need to replace the ConfigureLogging bootstrappers to use the custom
-     * one. We’ll do this by overriding their respective constructors and
-     * doing an array_walk to the bootstrappers property.
-     *
-     * @param Application $app
-     * @param Router      $router
-     */
-    public function __construct(Application $app, Dispatcher $events)
-    {
-        parent::__construct($app, $events);
-
-        array_walk($this->bootstrappers, function (&$bootstrapper) {
-            if ($bootstrapper === \Illuminate\Foundation\Bootstrap\ConfigureLogging::class) {
-                $bootstrapper = \App\Bootstrap\ConfigureLogging::class;
-            }
-        });
-    }
 
     /**
      * The Artisan commands provided by your application.

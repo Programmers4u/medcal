@@ -4,7 +4,7 @@ return  [
   'manager' => [
     'appointments' => [
       'title' => 'Twój kalendarz jest pusty',
-      'hint'  => 'Udostępnij kalendarz swoim klientom, aby rozpocząć przyjmowanie rezerwacji.',
+      'hint'  => 'Udostępnij kalendarz swoim pacjentom, aby rozpocząć przyjmowanie rezerwacji.',
     ],
   ],
 ];

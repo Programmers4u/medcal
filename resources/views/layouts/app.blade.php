@@ -13,13 +13,14 @@
     <link rel="stylesheet" href="/css/ionicons.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('css/app.min.css') }}">
-    
+
     <link rel="manifest" href="/manifest.json">
 
     <script type="text/javascript" src="/js/rollbar.min.js"></script>
     <script src="{{ asset('js/lib/utils.js') }}"></script>
     <script type="text/javascript" src="/js/alert/alert.min.js"></script>
     <script type="text/javascript" src="/js/confirm/confirm.min.js"></script>
+    <script src="{{ asset('js/app.min.js') }}"></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -32,7 +33,7 @@
 
 @stack('header_scripts')
 
-{!! Analytics::render() !!}
+{{-- {!! Analytics::render() !!} --}}
 
 </head>
 
@@ -195,9 +196,6 @@
 </div>
 <!-- ./wrapper -->
 
-<!-- Scripts -->
-<script src="{{ asset('js/app.min.js') }}"></script>
-
 @stack('footer_scripts')
 
 <script type="text/javascript">
@@ -212,46 +210,8 @@ $(document).ready(function() {
 });
 </script>
 
-
-<div class="modal" id="alertModal" tabindex="1" style="z-index:90000000;" role="dialog" aria-labelledby="alertModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header" style="background-color:gainsboro;">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <h3 class="modal-title" id="alertModalLabel">Informacja</h3>
-            </div>
-            <div class="modal-body">
-                <div style="display:none;" id="mc_info_success" class="alert alert-success"></div>
-                <div style="display:none;" id="mc_info_error" class="alert alert-danger"></div>
-            </div>
-        </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal" id="confirmModal" tabindex="1" style="z-index:100000;" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header" style="background-color:gainsboro;">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <h3 class="modal-title" id="confirmModalLabel">Potwierdź</h3>
-            </div>
-            <div class="modal-body">
-                <div style="display:none;font-weight: 800" id="confirm_info_success" class="alert"></div>
-                <div style="display:none;" id="confirm_info_error" class="alert alert-danger"></div>
-            </div>
-            <div class="modal-footer">
-                <div class="btn btn-success" id="confirmYes" >OK</div>
-                <div class="btn btn-danger" id="confirmNo" >Anuluj</div>
-            </div>
-        </div>
-    </div>
-  </div>
-</div>
+@include('layouts.js_alert')
+@include('layouts.js_confirm')
 
 </body>
 </html>

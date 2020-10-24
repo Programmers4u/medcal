@@ -19,4 +19,5 @@ return  [
     'today'     => 'dzisiaj',
     'tomorrow'  => 'jutro',
   ],
+  'alert' => 'Wybierz kalendarz specjalisty',
 ];
