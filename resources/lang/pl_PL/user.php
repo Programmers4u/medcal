@@ -71,6 +71,7 @@ return  [
         'calendar'    => 'Data',
         'code'        => 'Kod',
         'contact'     => 'Pacjent',
+        'contact_phone'     => 'Telefon',
         'duration'    => 'Okres',
         'finish_time' => 'koniec',
         'remaining'   => 'Długość',

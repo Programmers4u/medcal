@@ -60,7 +60,7 @@ var saveContact = function () {
         </button>
         <h3 class="modal-title" id="addContactModalLabel">{{trans('manager.contacts.create.title')}}</h3>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" style="min-height: 23em;">
           @include('manager.contacts._miniform', [compact('$contact')])            
       </div>
       <div class="modal-footer">
@@ -73,5 +73,6 @@ var saveContact = function () {
 
 @section('css')
 @parent
-<style></style>
+<style>
+</style>
 @endsection

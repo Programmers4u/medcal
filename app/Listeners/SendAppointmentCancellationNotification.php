@@ -89,6 +89,7 @@ class SendAppointmentCancellationNotification implements ShouldQueue
         }
 
         $destinationEmail = $this->getDestinationEmail($user, $event->appointment->contact);
+        if(!$destinationEmail) return false;
 
         // Mail to User
         $params = [

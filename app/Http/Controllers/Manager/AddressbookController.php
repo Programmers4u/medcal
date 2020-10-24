@@ -93,25 +93,12 @@ class AddressbookController extends Controller
 
         return redirect()->route('manager.addressbook.show', [$business, $contact]);
     }
-    /**
-     * miniStore Contact.
-     *
-     * @param Business           $business Business that will hold the Contact
-     * @param ContactFormRequest $request  Contact form Request
-     *
-     * @return Response json
-     */
-    
+   
     public function miniStore(Business $business, ContactFormRequest $request) : JsonResponse
     {
         $response = ['status'=>'ok','error'=>null];
         
-        // logger()->info(__METHOD__);
-        // logger()->info(sprintf('businessId:%s', $business->id));
-
         $this->authorize('manageContacts', $business);
-
-        // BEGIN //
 
         $duplicate = Contact::query()
                 ->where('lastname','LIKE','%'.$request->input('lastname').'%')
@@ -127,11 +114,6 @@ class AddressbookController extends Controller
         }
 
         $contact = $business->addressbook()->register($request->all());
-        // if ($contact->wasRecentlyCreated) {
-        //     $response['status'] = 'error';
-        //     $response['error'] = trans('manager.contacts.msg.store.warning_showing_existing_contact');
-        //     return response()->json($response);
-        // }
         
         event(new NewContactWasRegistered($contact));
         

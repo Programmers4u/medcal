@@ -50,7 +50,7 @@ trans('preferences.App\Models\Business.start_at.label')
     @endif
     @if ($value['type'] == 'text')
         {!! Form::label( trans('preferences.App\Models\Business.'.$key.'.label') ) !!}
-        {!! Form::textarea($key, $business->pref($key),
+        {!! Form::textarea($key, $business->pref($key) ? $business->pref($key) : trans('preferences.App\Models\Business.'.$key.'.format') ,
             array('class'=>'form-control',
                   'placeholder'=> trans('preferences.App\Models\Business.'.$key.'.format'),
                   'title'=> trans('preferences.App\Models\Business.'.$key.'.help') )) !!}

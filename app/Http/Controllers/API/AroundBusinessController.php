@@ -24,37 +24,35 @@ class AroundBusinessController extends Controller
         $toDay = Carbon::now()->startOfDay();
         $endDay = $toDay->copy()->endOfDay();
 
-        //logger()->debug(json_encode($toDay));
-        //logger()->debug(json_encode($toMorrow));
-
-        $appoStaff = Appointment::query()
+        $appointments = Appointment::query()
                ->where('business_id','=',$business->id)
                ->where('start_at','>', $toDay) 
                ->where('start_at','<', $endDay) 
-            //    ->whereIn('status',['C','R'])
+               ->whereIn('status', ['C'])
                ->orderBy('start_at','ASC')
-               ->get();
+               ->get()
+               ;
 
         $agenda = [];
-        foreach($appoStaff as $ag){
+        foreach($appointments as $appointment ) {
             $staff = Humanresource::query()
-                    ->where('id','=',$ag->humanresource_id)
+                    ->where('id','=',$appointment->humanresource_id)
                     ->where('business_id','=',$business->id)
                     ->get();
             
             $staff->name = (empty($staff[0]->name)) ? '' : $staff[0]->name;
-            $userApp = Contact::query()->where('id','=',$ag->contact_id)->get();
+            $userApp = Contact::query()->where('id','=',$appointment->contact_id)->get();
 
             $contactName = $userApp[0]->firstname.' '.$userApp[0]->lastname;
 
-            $date = Carbon::parse($ag->start_at)->timezone($business->timezone)->format('H:i');
+            $date = Carbon::parse($appointment->start_at)->timezone($business->timezone)->format('H:i');
             //$date = $date->hour.':'.$date->minute;
             
             $rec = [
-                'id'=>$ag->id,
+                'id'=>$appointment->id,
                 'start_at'=>$date,
                 'staff'=>$staff->name,
-                'staff_id'=>$ag->humanresource_id,
+                'staff_id'=>$appointment->humanresource_id,
                 'contact_name'=>$contactName,
             ];
             array_push($agenda, $rec);

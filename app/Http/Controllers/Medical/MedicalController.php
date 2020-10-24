@@ -17,6 +17,7 @@ use App\Http\Requests\Appointments\PutNoteRequest;
 use App\Models\Notes;
 use Illuminate\Http\JsonResponse;
 use niklasravnsborg\LaravelPdf\Facades\Pdf;
+use Timegridio\Concierge\Models\Appointment;
 
 class MedicalController extends Controller
 {
@@ -376,16 +377,17 @@ class MedicalController extends Controller
             try{
                 $appointment = \Timegridio\Concierge\Models\Appointment::findOrFail($appointment_id);
                 // logger()->debug($appointment);
-
-                $business = Business::findOrFail($business_id);
-                if($appointment && $business){
-                    $this->concierge->business($business);
-                    $appointmentManager = $this->concierge->booking()->appointment($appointment->hash);
-                    //$appointment = $appointmentManager->confirm();
-                    $appointment = $appointmentManager->serve();
-                }
+                $appointment->{'status'} =  Appointment::STATUS_SERVED;
+                $appointment->save();
+                // $business = Business::findOrFail($business_id);
+                // if($appointment && $business){
+                //     $this->concierge->business($business);
+                //     $appointmentManager = $this->concierge->booking()->appointment($appointment->hash);
+                //     // $appointment = $appointmentManager->confirm();
+                //     $appointment = $appointmentManager->serve();
+                // }
             } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e){
-                // logger()->debug($e->getMessage());
+                logger()->debug($e->getMessage());
             }
 
         } else {
