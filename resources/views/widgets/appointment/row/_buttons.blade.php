@@ -9,8 +9,7 @@
             'data-code' => $appointment->code
         ]) !!}
     @endif
-
-    @if($appointment->isConfirmableBy(auth()->id()))
+    @if($appointment->toArray()['status'] === 'R' && $appointment->isConfirmableBy(auth()->id()))
         {!! Button::success()->withIcon(Icon::ok())->small()->withAttributes([
             'data-action' => 'confirm',
             'class' => 'action',
@@ -20,7 +19,7 @@
         ]) !!}
     @endif
 
-    @if($appointment->isServeableBy(auth()->id()))
+    @if($appointment->toArray()['status'] === 'C' && $appointment->isServeableBy(auth()->id()))
         {!! Button::normal()->withIcon(Icon::ok())->small()->withAttributes([
             'data-action' => 'serve',
             'class' => 'action',

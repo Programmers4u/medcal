@@ -71,6 +71,9 @@ class SendBookingNotification implements ShouldQueue
         $businessName = $event->appointment->business->name;
 
         $phone = $event->appointment->contact->mobile;
+        if(empty($phone)) {
+            return;
+        }
         $message = $event->appointment->business->pref('sms_message');
         $date = $event->appointment->start_at->setTimezone($event->appointment->business->timezone);
         $day = $date->format('Y-m-d');
@@ -87,7 +90,7 @@ class SendBookingNotification implements ShouldQueue
 
         $result = SmsService::sendMessage($contactsWithMessage, $event->appointment->business );
                 
-        // logger()->debug('stop sending sms: ' . json_encode($result));
+        logger()->debug('stop sending sms: ' . json_encode($result));
         
     }
     
@@ -101,7 +104,7 @@ class SendBookingNotification implements ShouldQueue
         }
 
         $destinationEmail = $this->getDestinationEmail($user, $event->appointment->contact);
-
+        if(!$destinationEmail) return false;
         $params = [
             'user'        => $user,
             'appointment' => $event->appointment,

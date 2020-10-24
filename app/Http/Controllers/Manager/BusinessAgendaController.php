@@ -84,6 +84,9 @@ class BusinessAgendaController extends Controller
             case 'reserv' : 
                 $appointments->whereIn('status', ['R']);
             break;
+            case 'served' : 
+                $appointments->whereIn('status', ['S']);
+            break;
             default:
                 $appointments->whereIn('status', ['A','R','C']);
         }

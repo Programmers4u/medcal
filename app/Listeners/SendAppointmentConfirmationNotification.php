@@ -54,13 +54,19 @@ class SendAppointmentConfirmationNotification implements ShouldQueue
             'name'  => $event->appointment->contact->firstname,
             'email' => $event->appointment->contact->email,
         ];
-        $this->transmail->locale($event->appointment->business->locale)
-                        ->timezone($event->user->pref('timezone'))
-                        ->template('user.appointment-confirmation.notification')
-                        ->subject('user.appointment-confirmation.subject', compact('businessName'))
-                        ->send($header, $params);
 
-        $this->sendSMSToContactUser($event);
+        if(!empty($event->appointment->contact->email)){
+            $this->transmail->locale($event->appointment->business->locale)
+            ->timezone($event->user->pref('timezone'))
+            ->template('user.appointment-confirmation.notification')
+            ->subject('user.appointment-confirmation.subject', compact('businessName'))
+            ->send($header, $params);
+        }
+
+        if(!empty($event->appointment->contact->mobile)) {
+            $this->sendSMSToContactUser($event);
+        }
+
     }
 
     protected function sendSMSToContactUser(Event $event) {

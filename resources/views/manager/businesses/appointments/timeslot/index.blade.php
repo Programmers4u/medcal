@@ -20,9 +20,10 @@
                         <th><span class="hidden-md">{!! Icon::calendar() !!}</span>&nbsp;<span class="hidden-xs hidden-sm">{{ trans('user.appointments.index.th.calendar') }}</span></th>
                         <th><span class="hidden-md">{!! Icon::time() !!}</span>&nbsp;<span class="hidden-xs hidden-sm">{{ trans('user.appointments.index.th.start_time') }}</span></th>
                         <th><span class="hidden-md">{!! Icon::time() !!}</span>&nbsp;<span class="hidden-xs hidden-sm">{{ trans('user.appointments.index.th.finish_time') }}</span></th>
-                        <th><span class="hidden-md">{!! Icon::hourglass() !!}</span>&nbsp;<span class="hidden-xs hidden-sm">{{ trans('user.appointments.index.th.duration') }}</span></th>
+                        {{-- <th><span class="hidden-md">{!! Icon::hourglass() !!}</span>&nbsp;<span class="hidden-xs hidden-sm">{{ trans('user.appointments.index.th.duration') }}</span></th> --}}
                         <th><span class="hidden-md">{!! Icon::tag() !!}</span>&nbsp;<span class="hidden-xs hidden-sm">{{ trans('user.appointments.index.th.service') }}</span></th>
                         <th><span class="hidden-md">{!! Icon::user() !!}</span>&nbsp;<span class="hidden-xs hidden-sm">{{ trans('user.appointments.index.th.contact') }}</span></th>
+                        <th><span class="hidden-md">{!! Icon::phone() !!}</span>&nbsp;<span class="hidden-xs hidden-sm">{{ trans('user.appointments.index.th.contact_phone') }}</span></th>
                         <th></th>
                     </tr>
                 </thead>
@@ -41,9 +42,10 @@
                         <td title="{{ $appointment->timezone() }}">{{ $appointment->finishTime }}</td>
 
                         
-                        <td>{{ trans_duration($appointment->duration()) }}</td>
+                        {{-- <td>{{ trans_duration($appointment->duration()) }}</td> --}}
                         <td>{{ $appointment->service ? $appointment->service->name : '' }}</td>
                         <td>{{ str_link( route('medical.document', [$business, $appointment->contact->id]), $appointment->contact->fullname) }}</td>
+                        <td>{{ $appointment->contact->mobile }}</td>
                         <td>
                         @include('widgets.appointment.row._buttons', ['appointment' => $appointment, 'user' => $appointment->contact->user])
                         </td>
