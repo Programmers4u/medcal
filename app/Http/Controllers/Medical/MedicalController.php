@@ -14,9 +14,9 @@ use App\Http\Consts\ResponseApi;
 use App\Http\Requests\Appointments\GetNoteRequest;
 use App\Http\Requests\AppointmentNoteRequest;
 use App\Http\Requests\Appointments\PutNoteRequest;
+use App\Jobs\ProcessMedicalHistoryPdf;
 use App\Models\Notes;
 use Illuminate\Http\JsonResponse;
-use niklasravnsborg\LaravelPdf\Facades\Pdf;
 use Timegridio\Concierge\Models\Appointment;
 
 class MedicalController extends Controller
@@ -329,36 +329,14 @@ class MedicalController extends Controller
         return $historyData;
     }
 
-    public function exportHistory($bussiness,$contact){
-        //$history = new MedicalHistory();
-        $historyData = MedicalHistory::query()
-                ->select('medical_history.updated_at','medical_history.created_at','json_data','contacts.nin','contacts.gender','contacts.firstname','contacts.lastname','contacts.birthdate','humanresources.name')
-                ->leftJoin('contacts','contacts.id','=','medical_history.contact_id')
-                ->leftJoin('humanresources','humanresources.id','=','humanresources_id')
-                ->where('medical_history.contact_id','=',$contact)
-                ->get()->toArray();
-        //getHistory($contact);
-        //dd($historyData);
-        $bus = Business::where('slug','=',$bussiness)->get()->toArray();
-        //dd($bus);
-        //dd($contact);
-
-        $_files = MedicalFile::getFile($contact);
-        $files = [];
-        foreach($_files as $file)
-            array_push ($files, [
-                'id'=>$file['id'],
-                'url'=>Storage::url($file['file']),
-                'description'=>$file['description'],
-                'type'=>$file['type'],
-                'medical_history_id'=>$file['medical_history_id'],
-                'original_name' =>$file['$original_name'],
-                    ]);
-        $photos = $_files->items();
-        $pdf = Pdf::loadView('medical.pdf.export', compact('historyData','bus','photos'));
-        $fileName = (is_array($historyData)) ? $historyData[0]['lastname'].'_'.$historyData[0]['firstname'].'_history_document.pdf' : 'history_document.pdf';
-	return $pdf->download($fileName);
-        
+    public function exportHistory($business, $contact) : JsonResponse
+    {
+        $business = Business::where('slug', $business)->first();
+        $contact = Contact::find($contact);
+        dispatch(new ProcessMedicalHistoryPdf($business, $contact));
+        return response()->json([
+            'status' => 'ok',
+        ]);
     }
 
     public function putHistory(Request $request){

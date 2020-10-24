@@ -18,6 +18,12 @@ return [
             'instructions' => 'Nowe spotkanie zarezerwowane',
             'title'        => 'Szczegóły spotkania',
         ],
+        'medical-document-notification' => [
+            'subject'      => 'Twoja dokumentacja medyczna',
+            'welcome'      => ':ownerName, twoja dokumentacja medyczna',
+            'instructions' => 'Dokument w załączeniu',
+            'title'        => 'Dokumentacja medyczna',
+        ],
     ],
     'user'    => [
         'welcome' => [

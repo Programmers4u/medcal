@@ -359,7 +359,7 @@ Route::group(['prefix' => '{business}'], function ($business) {
                 'as'   => 'medical.history.export',
                 'uses' => 'MedicalController@exportHistory',
             ]);
-            Route::get('history/export/{contact}',[
+            Route::post('history/export/{contact}',[
                 'as'   => 'medical.history.export.get',
                 'uses' => 'MedicalController@exportHistory',
             ]);
