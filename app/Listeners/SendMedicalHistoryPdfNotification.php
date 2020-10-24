@@ -4,9 +4,7 @@ namespace App\Listeners;
 
 use App\Events\Event;
 use App\Events\SendMedicalHistoryPdf;
-use App\Models\User;
 use App\TG\TransMail;
-use Timegridio\Concierge\Models\Contact;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
