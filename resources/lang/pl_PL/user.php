@@ -70,7 +70,7 @@ return  [
         'business'    => 'Biznes',
         'calendar'    => 'Data',
         'code'        => 'Kod',
-        'contact'     => 'Klient',
+        'contact'     => 'Pacjent',
         'duration'    => 'Okres',
         'finish_time' => 'koniec',
         'remaining'   => 'Długość',

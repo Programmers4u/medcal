@@ -87,7 +87,7 @@ gulp.task('styles',function() {
         './bower_components/adminlte/plugins/iCheck/square/purple.css',
         './node_modules/chart.js/dist/Chart.min.css',
         './resources/assets/less/app.less',
-        './bower_components/bootstrap-tour/build/css/bootstrap-tour.min.css',
+        './bower_components/bootstrap-tour/build/css/bootstrap-tour.css',
         ])
         .pipe(less({
           paths: [ path.join(__dirname, 'less', 'includes') ]
@@ -188,7 +188,7 @@ gulp.task('script', function(){
         './bower_components/adminlte/dist/js/adminlte.min.js',
         './bower_components/tooltipster/js/jquery.tooltipster.min.js',
         './node_modules/chart.js/dist/Chart.min.js',
-        'resources/assets/js/tour/tour.min.js',
+        './bower_components/bootstrap-tour/build/js/bootstrap-tour.min.js',
         ])
         .pipe(uglify())
         .pipe(concat('app.min.js'))

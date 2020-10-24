@@ -82,7 +82,7 @@ return [
         'phone'             => 'Telefon',
         'service'           => 'Usługa',
         'important'         => 'ważne',
-        'customer_notes'    => 'Uwagi klienta',
+        'customer_notes'    => 'Uwagi pacjenta',
         'there_are'         => 'Tam są',
         'registered'        => 'dotychczas zarejestrowani użytkownicy',
     ],

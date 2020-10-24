@@ -16,7 +16,7 @@ return  [
         'name' => [
             'label' => 'Nazwa grupy',
         ],
-        'title' => 'Grupy klientów',
+        'title' => 'Grupy pacjentów',
         'create' => [
             'title' => 'Utwórz Grupę',
             'subtitle' => 'zarządzaj swoimi grupami',
