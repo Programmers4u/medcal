@@ -32,21 +32,27 @@ class Dashboard
                 'icon'  => 'check',
                 'color' => 'green',
                 'title' => 'manager.businesses.dashboard.panel.title_appointments_active',
-                'link'  => route('manager.business.agenda.index', [$this->business,'status'=>'active']),
+                'link'  => route('manager.business.agenda.index', [$this->business,'status'=>'active','date'=>'today']),
                 ],
-            'appointments_canceled_today' => [
-                'icon'  => 'minus-circle',
-                'color' => 'red',
-                'title' => 'manager.businesses.dashboard.panel.title_appointments_canceled',
-                'link'  => route('manager.business.agenda.index', [$this->business,'status'=>'unserved']),
+            'appointments_reserversion' => [
+                    'icon'  => 'hourglass-o',
+                    'color' => 'silver',
+                    'title' => 'manager.businesses.dashboard.panel.title_appointments_reserversion',
+                    'link'  => route('manager.business.agenda.index', [$this->business,'status'=>'reserv']),
                 ],
             'appointments_active_tomorrow' => [
                 'icon'  => 'hourglass-o',
                 'color' => 'yellow',
                 'title' => 'manager.businesses.dashboard.panel.title_appointments_active_tomorrow',
-                'link'  => route('manager.business.agenda.index', $this->business),
+                'link'  => route('manager.business.agenda.index', [$this->business,'date'=>'tomorrow','status'=>'active']),
                 ],
-            /*'contacts_subscribed' => [
+            'appointments_canceled_today' => [
+                    'icon'  => 'minus-circle',
+                    'color' => 'red',
+                    'title' => 'manager.businesses.dashboard.panel.title_appointments_canceled',
+                    'link'  => route('manager.business.agenda.index', [$this->business,'status'=>'unserved']),
+                ],
+                /*'contacts_subscribed' => [
                 'icon'  => 'users',
                 'color' => 'green',
                 'title' => 'manager.businesses.dashboard.panel.title_contacts_subscribed',
@@ -71,6 +77,7 @@ class Dashboard
     {
         // Build Dashboard Report
         $this->counter['appointments_active_today'] = $this->business->bookings()->active()->ofDate($this->time->today())->get()->count();
+        $this->counter['appointments_reserversion'] = $this->business->bookings()->whereIn('status', ['R'])->get()->count();
         $this->counter['appointments_canceled_today'] = $this->business->bookings()->canceled()->ofDate($this->time->today())->get()->count();
         $this->counter['appointments_active_tomorrow'] = $this->business->bookings()->active()->ofDate($this->time->tomorrow())->get()->count();
 //        $this->counter['appointments_active_total'] = $this->business->bookings()->active()->get()->count();

@@ -189,7 +189,7 @@ var showResultService = function (str) {
       </div>
       <div class="modal-body">
 
-      <div class="panel panel-default">
+      <div class="panel">
             <div class="panel-heading">
                 <h3 class="panel-title">Data spotkania</h3>
             </div>
@@ -238,7 +238,7 @@ var showResultService = function (str) {
         </div>
           
           
-    <div class="panel panel-default">
+    <div class="panel">
         <div class="panel-heading">
             <table width='100%'>
                 <tr>
@@ -251,7 +251,7 @@ var showResultService = function (str) {
         <div id="livesearch" style="overflow: hidden;"></div>
     </div>          
 
-    <div class="panel panel-default">
+    <div class="panel">
         <div class="panel-heading">
             <h3 class="panel-title">{{ trans('manager.business.btn.tooltip.services') }}</h3>
         </div>
@@ -261,7 +261,7 @@ var showResultService = function (str) {
 
     </div>
 
-    <div class="panel panel-default">
+    <div class="panel">
         <div class="panel-heading">
             <h3 class="panel-title">{{ trans('medical.appointments.label.note') }}</h3>
         </div>

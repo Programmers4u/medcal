@@ -46,22 +46,50 @@ class BusinessAgendaController extends Controller
      */
     public function getIndex(Business $business)
     {
-        // logger()->info(__METHOD__);
-        // logger()->info(sprintf('businessId:%s', $business->id));
 
         $this->authorize('manage', $business);
+
+        $date = request()->input('date');
+        $status = request()->input('status');
         
-        switch (request()->input('status')) {
+        $appointments = Appointment::query()
+               ->where('business_id','=',$business->id)
+            ;
+
+        switch($date) {
+            case 'tomorrow' : $appointments
+                ->where('start_at','>', Carbon::now()->addDay()->startOfDay());
+            break; 
+            case 'today' : 
+                $appointments
+                ->where('start_at','>', Carbon::now()->startOfDay())
+                ->where('start_at','<', Carbon::now()->addDay()->startOfDay())
+                ;
+            break;
+            default : 
+                // $appointments
+                // ->where('start_at','>', Carbon::now()->startOfDay())
+                // ->where('start_at','<', Carbon::now()->addDay()->startOfDay())
+                // ;
+            break; 
+        }
+        
+        switch($status) {
             case 'active' : 
-                $appointments = $this->concierge->business($business)->getActiveAppointments();
+                $appointments->whereIn('status', ['C']);
             break;
             case 'unserved' : 
-                $appointments = $this->concierge->business($business)->getUnservedAppointments();
+                $appointments->whereIn('status', ['A']);
+            break;
+            case 'reserv' : 
+                $appointments->whereIn('status', ['R']);
             break;
             default:
-                $appointments = $this->concierge->business($business)->getUnarchivedAppointments();
+                $appointments->whereIn('status', ['A','R','C']);
         }
+        // dd($appointments->get());
 
+        $appointments = $appointments->with('contact')->orderBy('start_at','ASC')->get();
         $viewKey = count($appointments) == 0
             ? 'manager.businesses.appointments.empty'
             : "manager.businesses.appointments.{$business->strategy}.index";

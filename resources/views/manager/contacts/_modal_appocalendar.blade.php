@@ -36,7 +36,7 @@ var deleteAppointment = function() {
       </div>
       <div class="modal-body">
 
-      <div class="panel panel-default">
+      <div class="panel">
             <div class="panel-heading">
                 <h3 class="panel-title">Twoja wizyta</h3>
             </div>
