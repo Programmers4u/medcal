@@ -1,7 +1,7 @@
 <?php
 
 return [
-
+    // 'Arr' => Illuminate\Support\Arr::class,
     /*
     |--------------------------------------------------------------------------
     | Application Environment
