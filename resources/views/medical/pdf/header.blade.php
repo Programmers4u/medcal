@@ -30,9 +30,9 @@ Wydruk z dnia: {{date('Y-m-d H:i:s')}}
             @endif
         </td>
         <td width="50%" valign="top">
-            {{ $bus[0]['name'] }}<br>
-            {{ $bus[0]['postal_address'] }}<br>
-            <i>{{ $bus[0]['description'] }}</i><br>
+            {{ $business[0]['name'] }}<br>
+            {{ $business[0]['postal_address'] }}<br>
+            <i>{{ $business[0]['phone'] }}</i><br>
         </td>
     </tr>
 </table>
