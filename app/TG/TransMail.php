@@ -182,6 +182,7 @@ class TransMail
         $this->mail->send($this->getViewKey(), $params, function ($message) use ($header) {
             $message
                 ->to(array_get($header, 'email'), array_get($header, 'name'))
+                ->attach(array_get($header, 'filePathName'))
                 ->subject($this->getSubject());
         });
 
