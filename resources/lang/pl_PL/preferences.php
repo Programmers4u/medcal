@@ -45,7 +45,7 @@ return  [
     'sms_message4' => [
       'format' => 'Informujemy ze wizyta pacjenta %client% w gabinecie %name% zostala zmieniona. Nowy termin to %day% %hour% Jesli to mozliwe, prosimy o potwierdzenie',
       'help'   => 'Dodaj wiadomość od %name% .... z parametrami %day%, %hour%',
-      'label'  => 'Wiadomość sms, wysyłane w momencie anulowania',
+      'label'  => 'Wiadomość sms, wysyłane w momencie zmiany spotkania',
     ],      
     'appointment_cancellation_pre_hs' => [
       'format' => 'Liczba godzin',

@@ -111,8 +111,9 @@ class BookingController extends Controller
                 break;
             case 'confirm':
                 $appointment = $appointmentManager->confirm();
-                event(new AppointmentWasConfirmed($isuser, $appointment));
-                break;
+                // event(new AppointmentWasConfirmed($isuser, $appointment));
+                event(new NewAppointmentWasBooked($isuser, $appointment));
+            break;
             case 'serve':
                 $appointment = $appointmentManager->serve();
                 break;
@@ -585,7 +586,7 @@ class BookingController extends Controller
                 $q
                 ->where('status', \Timegridio\Concierge\Models\Appointment::STATUS_CONFIRMED)
                 ->orWhere('status', \Timegridio\Concierge\Models\Appointment::STATUS_RESERVED)
-                ->orWhere('status', \Timegridio\Concierge\Models\Appointment::STATUS_SERVED)
+                // ->orWhere('status', \Timegridio\Concierge\Models\Appointment::STATUS_SERVED)
                 ;
             })
             ->get();        
