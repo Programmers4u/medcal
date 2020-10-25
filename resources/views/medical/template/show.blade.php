@@ -37,6 +37,8 @@
         </div>
     </div>
 </div>
+
+
 @endsection
 
 @push('footer_scripts')

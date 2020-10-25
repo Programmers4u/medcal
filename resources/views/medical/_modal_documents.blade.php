@@ -701,7 +701,7 @@ var putAppointmentNoteCallBack = () => {
                                         <select style="height:300px" multiple="" class="form-control" onclick="Template($(this).val(),'A')" id="tempalate_whatdo">
                                         @foreach($template as $temp)
                                         @if($temp->type == 'A')
-                                        <option value="{{$temp->desc}}">{{$temp->name}}</option>
+                                        <option value="{{$temp->description}}">{{$temp->name}}</option>
                                         @endif
                                         @endforeach
                                       </select>          
@@ -739,7 +739,7 @@ var putAppointmentNoteCallBack = () => {
                                         <select style="height:300px"  multiple="" class="form-control" onclick="Template($(this).val(),'Q')" id="tempalate_doing">
                                         @foreach($template as $temp)
                                         @if($temp->type == 'Q')
-                                        <option value="{{$temp->desc}}">{{$temp->name}}</option>
+                                        <option value="{{$temp->description}}">{{$temp->name}}</option>
                                         @endif
                                         @endforeach
                                       </select>   
