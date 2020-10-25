@@ -17,10 +17,11 @@
     <link rel="manifest" href="/manifest.json">
 
     <script type="text/javascript" src="/js/rollbar.min.js"></script>
-    <script src="{{ asset('js/lib/utils.js') }}"></script>
-    <script type="text/javascript" src="/js/alert/alert.min.js"></script>
-    <script type="text/javascript" src="/js/confirm/confirm.min.js"></script>
-    <script src="{{ asset('js/app.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/app.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/lib/utils.js') }}"></script>
+    <script async type="text/javascript" src="/js/alert/alert.min.js"></script>
+    <script async type="text/javascript" src="/js/confirm/confirm.min.js"></script>
+    <script async type="text/javascript" src="{{ asset('js/forms.js') }}"></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>

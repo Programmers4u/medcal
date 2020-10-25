@@ -14,13 +14,11 @@ gulp.task('copy',function() {
     var res = null;
 
     // FONTS
-
     res = 
     gulp.src('resources/assets/fonts/*')
       .pipe(gulp.dest('public/fonts/'));
 
     // IMG
-
     res = gulp.src('resources/assets/img/*').pipe(gulp.dest('public/img/'));
     res = gulp.src('resources/assets/img/bootstrap-colorpicker/*').pipe(gulp.dest('public/img/bootstrap-colorpicker/'));
     res = gulp.src('resources/assets/img/icons/*').pipe(gulp.dest('public/img/icons/'));
@@ -114,7 +112,7 @@ gulp.task('styles',function() {
         .pipe(concat('styles.css'))
         .pipe(gulp.dest('public/css/'));
             
-    // bootstrap-select
+    // FORMS
     res = 
     gulp.src( [
         './bower_components/select2/dist/css/select2.min.css',
@@ -189,6 +187,7 @@ gulp.task('script', function(){
         './bower_components/tooltipster/js/jquery.tooltipster.min.js',
         './node_modules/chart.js/dist/Chart.min.js',
         './bower_components/bootstrap-tour/build/js/bootstrap-tour.min.js',
+        'resources/assets/js/lib/jquery.dataTables.min.js',
         ])
         .pipe(uglify())
         .pipe(concat('app.min.js'))

@@ -18,6 +18,7 @@ use App\Jobs\ProcessMedicalHistoryPdf;
 use App\Models\Notes;
 use Illuminate\Http\JsonResponse;
 use Timegridio\Concierge\Models\Appointment;
+use App\Models\MedicalTemplates;
 
 class MedicalController extends Controller
 {
@@ -30,16 +31,12 @@ class MedicalController extends Controller
     }
 
 
-    public function index(Business $business, Contact $contact){
+    public function index(Business $business, Contact $contact) {
         
-        // logger()->info(__METHOD__);
-        // logger()->info(sprintf('businessId:%s contactId:%s', $business->id, $contact->id));
-
         $this->authorize('manage', $business);
         
-        // BEGIN //
         $contacts = $business->addressbook()->find($contact);
-        //dd($contacts);
+
         if( null == $contacts ) {
             flash()->warning('Brak kontaktów');
              return redirect()->back();
@@ -47,11 +44,10 @@ class MedicalController extends Controller
 
         $appointments = $contacts->appointments();
         $appointments = $appointments
-                ->whereNOTIn('id',function($query){
+                ->whereNotIn('id',function($query){
                   $query->select('appointment_id')->from('medical_history');  
                 })
                 ->orderBy('start_at','asc')->ofBusiness($business->id)->Active()->get();
-
 
         $interviewData = $this->getInterview($contact); 
 
@@ -63,7 +59,7 @@ class MedicalController extends Controller
         
         $group = \App\Models\MedicalGroup::all();
         
-        $template = \App\Models\MedicalTemplate::all();
+        $template = MedicalTemplates::all();
         
         $permission_template = $this->getPermissionFile($business);
         
@@ -71,8 +67,8 @@ class MedicalController extends Controller
         $typePermission = MedicalFile::$typePermission;
         $typePermissionTemplate = MedicalFile::$typePermissionTemplate;
        
-        $typeTemplateA = \App\Models\MedicalTemplate::$typeA;
-        $typeTemplateQ = \App\Models\MedicalTemplate::$typeQ;
+        $typeTemplateA = MedicalTemplates::TYPE_ANSWER;
+        $typeTemplateQ = MedicalTemplates::TYPE_QUESTION;
        
         $staffs = $business->humanresources;
         $appoStaff = \Timegridio\Concierge\Models\Appointment::query()

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTableTemplate extends Migration
+class CreateMedicalTemplatesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,14 +14,22 @@ class CreateTableTemplate extends Migration
     public function up()
     {
         //
-        Schema::create('medical_template', function(Blueprint $table){
+        Schema::create('medical_templates', function(Blueprint $table){
             $table->timestamps();
             $table->softDeletes();
             $table->bigIncrements('id');
+            $table->bigInteger('business_id')
+                ->index()
+                ->foregin('business_id')
+                ->on('businesses')
+                ->references('id')
+                ->onUpdate('cascade')
+                ->onDelete('no action')
+                ;
             $table->string('name');
 
             $table->string('type');//A - Answer; Q - Question 
-            $table->longText('desc');
+            $table->text('description');
         });        
         
     }
@@ -34,6 +42,6 @@ class CreateTableTemplate extends Migration
     public function down()
     {
         //
-        Schema::dropIfExists('medical_template');                
+        Schema::dropIfExists('medical_templates');                
     }
 }
