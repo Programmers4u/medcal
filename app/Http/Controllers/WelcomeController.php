@@ -15,31 +15,19 @@ class WelcomeController extends Controller
     |
     */
 
-//    /**
-//     * Create a new controller instance.
-//     *
-//     * @return void
-//     */
     public function __construct()
     {
         $this->middleware('guest');
         parent::__construct();
     }
 
-    /**
-     * Show the application welcome screen to the user.
-     *
-     * @return Response
-     */
     public function index()
     {
-        // logger()->info(__METHOD__);
         $locale = preg_replace('/_[A-Z]*/is','', App::getLocale());
         return view(env('APP_FIP_THEME','welcome'), compact('locale'));
     }
     
     public function contactForm(){
-        // logger()->info(__METHOD__);
         return response()->json(['msg'=>'ok']);
     }
 }

@@ -70,7 +70,6 @@
     <!-- Jumbotron Header -->
     <header class="jumbotron hero-spacer" style="background-color: transparent;">
         <h1>
-            <img class="hidden-xs hidden-sm" src="{{ asset('img/') }}" />
             {{ trans('welcome.jumbotron.title') }}
         </h1>
         <p class="hidden-xs" id="inspire">{{ trans('welcome.jumbotron.description') }}</p>
