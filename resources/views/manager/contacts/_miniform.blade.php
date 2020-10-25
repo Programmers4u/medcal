@@ -41,6 +41,20 @@
 </div>
 
 <div class="form-group">
+    {!! Form::label( trans('manager.contacts.form.email.label'), null, ['class' => 'control-label col-sm-3'] ) !!}
+    <div class="col-sm-9">
+    {!! Form::text('email', null, [
+        'onkeydown' => 'capitalize(this)',    
+        'id' => 'email',
+        'class' => 'form-control',
+        'placeholder'=> old('email'),
+        'oninvalid' => 'this.setCustomValidity( "'.trans('manager.contacts.form.email.validation').'" )',
+        'oninput' => 'this.setCustomValidity("")' ]) !!}
+        <div class="help-block with-errors"></div>
+    </div>
+</div>
+
+<div class="form-group">
     {!! Form::label( trans('manager.contacts.form.birthdate.label'), null, ['class' => 'control-label col-sm-3'] ) !!}
     <div class="col-sm-9">
     {!! Form::text('birthdate', null, [
