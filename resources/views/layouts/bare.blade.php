@@ -17,10 +17,10 @@
     <link rel="manifest" href="/manifest.json">
 
     <script type="text/javascript" src="/js/rollbar.min.js"></script>
-    <script src="{{ asset('js/lib/utils.js') }}"></script>
-    <script type="text/javascript" src="/js/alert/alert.min.js"></script>
-    <script type="text/javascript" src="/js/confirm/confirm.min.js"></script>
     <script src="{{ asset('js/app.min.js') }}"></script>
+    <script src="{{ asset('js/lib/utils.js') }}"></script>
+    <script async type="text/javascript" src="/js/alert/alert.min.js"></script>
+    <script async type="text/javascript" src="/js/confirm/confirm.min.js"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

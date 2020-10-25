@@ -561,9 +561,6 @@ class BookingController extends Controller
 
         $business = Business::findOrFail($request->input('businessId',null));
         $this->business = $business;
-        
-        // logger()->info(__METHOD__);
-        // logger()->info(sprintf('businessId:%s', $business->id));
 
         $issuer = auth()->user();
         
@@ -581,16 +578,27 @@ class BookingController extends Controller
             ->where('business_id','=',$business->id)
             ->where('start_at','>=', $where_at)
             ->where('start_at','<=',$where_to)
-            ->where(function($q) {
-                $q
-                ->where('status', \Timegridio\Concierge\Models\Appointment::STATUS_CONFIRMED)
-                ->orWhere('status', \Timegridio\Concierge\Models\Appointment::STATUS_RESERVED)
-                // ->orWhere('status', \Timegridio\Concierge\Models\Appointment::STATUS_SERVED)
-                ;
-            })
-            ->get();        
-
-        //logger()->debug($appointments);
+            // ->get()
+            ;        
+        
+        if($request->input('status')) {
+            $appointments
+                ->where(function($q) use ($request) {
+                    $q
+                    ->where('status', $request->input('status'))
+                    ;
+                });
+        } else {
+            $appointments
+                ->where(function($q) {
+                    $q
+                    ->where('status', Appointment::STATUS_CONFIRMED)
+                    ->orWhere('status', Appointment::STATUS_RESERVED)
+                    ;
+                });
+        }
+        
+        $appointments = $appointments->get();
 
         $jsAppointments = [];
 

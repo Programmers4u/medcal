@@ -60,10 +60,6 @@ class BusinessController extends Controller
      */
     public function index()
     {
-        // logger()->info(__METHOD__);
-
-        // BEGIN
-        
         
         $businesses = auth()->user()->businesses;
 
