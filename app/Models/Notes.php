@@ -17,17 +17,20 @@ class Notes extends Model
     const ID = 'id';
     const APPOINTMENT_ID = 'appointment_id';
     const NOTE = 'note';
+    const BUSINESS_ID = 'business_id';
 
     protected $table = self::TABLE;
     protected $fillable = [
         self::APPOINTMENT_ID,
-        self::NOTE
+        self::NOTE,
+        self::BUSINESS_ID,
     ];
     
-    public static function setNote($note, $appointment_id) {
+    public static function setNote($note, $appointment_id, $businessId) {
         return Notes::updateOrCreate([
             self::APPOINTMENT_ID => $appointment_id,
             self::NOTE => $note,
+            self::BUSINESS_ID => $businessId,
         ]);
     }
 
@@ -46,5 +49,10 @@ class Notes extends Model
         return $this->belongsTo('appointments.id', self::APPOINTMENT_ID);
     }
 
+    const RELATION_BUSINESS = 'business';
+
+    public function business() {
+        return $this->belongsTo('businesses.id', self::BUSINESS_ID);
+    }
 
 }

@@ -309,13 +309,14 @@ var ePuap = function(){
 <script type="text/javascript">
 var urlAppointmentNote = '{{ route('medical.note.put',[$business]) }}';
 var putAppointmentNoteCallBack = () => {
-    if(appointment_id < 1) {
-        alert('Wybierz datę wizyty');
-        return;
-    }
+    // if(appointment_id < 1) {
+    //     alert('Wybierz datę wizyty');
+    //     return;
+    // }
     return {
         appointmentId : appointment_id,
         note : $('#note')[0].value,
+        businessId: '{{ $business->id }}',
         csrf : '{{csrf_token()}}',
         success : function (data) {
             setTimeout( () => {
@@ -379,7 +380,7 @@ var putAppointmentNoteCallBack = () => {
         {{ trans('medical.document.clients.desc') }}:<br>
         <textarea class="form-control"></textarea><br>
         -->
-        <br>
+        {{-- <br>
         Grupy do jakich należy pacjent:<br>
         <b>
         @foreach($group as $gr)
@@ -388,7 +389,7 @@ var putAppointmentNoteCallBack = () => {
         @endif
         @endforeach
         </b>
-        <hr>
+        <hr> --}}
         {!! Button::withIcon(Icon::edit())
             ->primary('edytuj dane')
             ->small()

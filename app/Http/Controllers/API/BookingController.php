@@ -259,7 +259,7 @@ class BookingController extends Controller
          * Save note for appointment
          */
         if($appointment && $request->input('note',null)) {
-            Notes::setNote($request->input('note'),$appointment->id);
+            Notes::setNote($request->input('note'),$appointment->id, $business->id);
         };
 
         return response()->json('Wizyta zapisana.');

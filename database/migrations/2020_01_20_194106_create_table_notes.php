@@ -24,8 +24,16 @@ class CreateTableNotes extends Migration
                 ->foregin('appointment_id')
                 ->references('id')
                 ->on('appointments')
+                ->onDelete('no action')
+                ->nullable();
+            
+            $table->bigInteger('business_id')
+                ->index()
+                ->foregin('business_id')
+                ->references('id')
+                ->on('businesses')
                 ->onDelete('no action');
-                
+
             $table->string('note',960);
         });        
         

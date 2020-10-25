@@ -57,9 +57,9 @@ class MedicalController extends Controller
 
         $files = $this->getFiles($business, $contact);
         
-        $group = \App\Models\MedicalGroup::all();
+        // $group = MedicalGroup::getAll($business);
         
-        $template = MedicalTemplates::all();
+        $template = MedicalTemplates::getAll($business);
         
         $permission_template = $this->getPermissionFile($business);
         
@@ -71,7 +71,7 @@ class MedicalController extends Controller
         $typeTemplateQ = MedicalTemplates::TYPE_QUESTION;
        
         $staffs = $business->humanresources;
-        $appoStaff = \Timegridio\Concierge\Models\Appointment::query()
+        $appoStaff = Appointment::query()
                ->where('business_id','=',$business->id)
                //->where('humanresources_id','=',1)
                ->where('start_at','>', \Carbon\Carbon::today()->timezone($business->timezone)) 
@@ -95,7 +95,7 @@ class MedicalController extends Controller
         //dd($cookie);
         $agenda = [];
         foreach($appoStaff as $ag){
-            $staff = \Timegridio\Concierge\Models\Humanresource::query()
+            $staff = Humanresource::query()
                     ->where('id','=',$ag->humanresource_id)
                     ->where('business_id','=',$business->id)
                     ->get();
@@ -452,13 +452,12 @@ class MedicalController extends Controller
         return response()->json($response);
     }
 
-    public function ajaxPutNote(PutNoteRequest $request) : JsonResponse {
-
-        // logger()->info(__METHOD__);
-
+    public function ajaxPutNote(PutNoteRequest $request) : JsonResponse 
+    {
         $app_id = $request->input('appointmentId',null);
         $note = $request->input('note',null);
-        $notes = Notes::setNote($note, $app_id);
+        $businessId = $request->input('$businessId',null);
+        $notes = Notes::setNote($note, $app_id, $businessId);
         $response = [
             ResponseApi::MEDICAL_NOTE => [
                 'note' => $notes ? $notes->note : null,

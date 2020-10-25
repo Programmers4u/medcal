@@ -41,5 +41,9 @@ class MedicalTemplates extends Model
     public function business() {
         return $this->belongsTo(Business::class, self::BUSINESS_ID);
     }
+
+    public static function getAll(Business $business) {
+        return self::where(self::BUSINESS_ID, $business->id)->get();
+    }
     
 }
