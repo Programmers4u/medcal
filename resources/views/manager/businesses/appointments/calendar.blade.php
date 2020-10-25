@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('css')
+<link rel="stylesheet" href="{{ asset('css/datetime.css') }}">
 @parent
 @endsection
 
@@ -8,6 +9,7 @@
 <script type="text/javascript" src="/js/calendar/calendar.min.js"></script>
 <script type="text/javascript" src="/js/cookie/cookie.min.js"></script>
 <script type="text/javascript" src="/js/appointment/appointment.min.js"></script>
+<script src="{{ asset('js/datetime.js') }}"></script>
 
 <script type="text/javascript">
 var csrf = '{{csrf_token()}}';   
@@ -89,32 +91,32 @@ var clickLink = function(obj) {
 
 <script type="text/javascript">
 // Instance the tour
-// var tour = new Tour({
-//   duration: 10000,
-//   delay: 100,
-//   template: "@include('tour._template')",
-//   onEnd: function(tourDashboard){
+var tour = new Tour({
+  duration: 10000,
+  delay: 100,
+  template: "@include('tour._template')",
+  onEnd: function(tourDashboard){
 
-//     $('#btnVacancies').tooltipster({
-//           animation: 'fade',
-//           delay: 200,
-//           theme: 'tooltipster-timegrid',
-//           touchDevices: true,
-//           content: $('<strong>{!! trans('manager.business.hint.set_services') !!}</strong>')
-//     }).tooltipster('show');
+    $('#btnVacancies').tooltipster({
+          animation: 'fade',
+          delay: 200,
+          theme: 'tooltipster-timegrid',
+          touchDevices: true,
+          content: $('<strong>{!! trans('manager.business.hint.set_services') !!}</strong>')
+    }).tooltipster('show');
 
-//   },
-//   steps: [
-//   {
-//     element: "#activecal",
-//     title: "{{ trans('tour.dashboard.panel.title') }}",
-//     content: "{{ trans('tour.dashboard.panel.content') }}",
-//     duration: 18000,
-//     placement: "top",
-//   },
-// ]});
-// // Initialize the tour
-// tour.init();
+  },
+  steps: [
+  {
+    element: "#activecal",
+    title: "{{ trans('tour.dashboard.panel.title') }}",
+    content: "{{ trans('tour.dashboard.panel.content') }}",
+    duration: 18000,
+    placement: "top",
+  },
+]});
+// Initialize the tour
+tour.init();
 
 $(document).ready(function(){
     // Start the tour
