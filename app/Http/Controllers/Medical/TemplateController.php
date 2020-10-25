@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Medical;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\MedicalTemplate\DefaultResources;
 use Timegridio\Concierge\Models\Business;
 use \App\Models\MedicalTemplates;
 use Illuminate\Http\JsonResponse;
@@ -13,7 +14,7 @@ class TemplateController extends Controller
     
     public function show(Business $business){
 
-        $templates = MedicalTemplates::all();
+        $templates = MedicalTemplates::where(MedicalTemplates::BUSINESS_ID, $business->id)->get()->all();
         $template_type[] = trans('medical.template.type.choose');
         $template_type[MedicalTemplates::TYPE_ANSWER] = trans('medical.template.type.a');
         $template_type[MedicalTemplates::TYPE_QUESTION] = trans('medical.template.type.q');
@@ -36,8 +37,8 @@ class TemplateController extends Controller
         return view('medical.template.edit', compact('template','template_type','business'));
     }
     
-    public function delete(Business $business,$tmp_id){
-        $template = MedicalTemplates::destroy($tmp_id);
+    public function delete(Business $business, $templateId){
+        $template = MedicalTemplates::destroy($templateId);
         return redirect()->route('medical.template.index', [$business]);
     }
 
@@ -55,9 +56,8 @@ class TemplateController extends Controller
         
         $result = MedicalTemplates::updateOrCreate($query,$update);
         
-        return response()->json([
-            'ststus' => 'ok',
-            'result' => $result,
-        ]);
+        return response()->json(
+            new DefaultResources($result)
+        );
     }
 }
