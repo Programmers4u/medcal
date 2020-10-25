@@ -13,7 +13,6 @@
 @push('footer_scripts')
 <script>
 var destroy  = function(id) {
-    
     var r = confirm("Czy chcesz usunąć wpis?", function(result){
         if(!result) return false;
         var url = "{!! route('medical.template.delete', [$business,'0']) !!}";

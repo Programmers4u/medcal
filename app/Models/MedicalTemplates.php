@@ -19,6 +19,7 @@ class MedicalTemplates extends Model
     const TYPE = 'type';
     const DESCRIPTION = 'description';
     const BUSINESS_ID = 'business_id';
+    const DEPENDS = 'depends';
 
     const TYPE_QUESTION = 'Q';
     const TYPE_ANSWER = 'A';
@@ -32,6 +33,7 @@ class MedicalTemplates extends Model
         self::TYPE,
         self::DESCRIPTION,
         self::BUSINESS_ID,
+        self::DEPENDS,
     ];
 
     const RELATION_BUSINESS = 'business';

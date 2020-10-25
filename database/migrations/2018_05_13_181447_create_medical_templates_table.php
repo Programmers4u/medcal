@@ -30,6 +30,7 @@ class CreateMedicalTemplatesTable extends Migration
 
             $table->string('type');//A - Answer; Q - Question 
             $table->text('description');
+            $table->bigInteger('depends')->nullable();
         });        
         
     }

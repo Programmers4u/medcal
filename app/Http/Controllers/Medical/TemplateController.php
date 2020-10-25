@@ -50,6 +50,7 @@ class TemplateController extends Controller
             MedicalTemplates::DESCRIPTION => $request->input('post.description'),
             MedicalTemplates::TYPE => $request->input('post.type'),
             MedicalTemplates::BUSINESS_ID => $request->input('post.businessId'),
+            MedicalTemplates::DEPENDS => $request->input('post.depends'),
         ];
         
         $result = MedicalTemplates::updateOrCreate($query,$update);
