@@ -13,7 +13,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('css/app.min.css') }}">
-    
+
+    <link rel="stylesheet" href="{{ asset('css/forms.css') }}">
+
     <link rel="manifest" href="/manifest.json">
 
     <script type="text/javascript" src="/js/rollbar.min.js"></script>
@@ -21,6 +23,7 @@
     <script src="{{ asset('js/lib/utils.js') }}"></script>
     <script async type="text/javascript" src="/js/alert/alert.min.js"></script>
     <script async type="text/javascript" src="/js/confirm/confirm.min.js"></script>
+    <script src="{{ asset('js/datetime.js') }}"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

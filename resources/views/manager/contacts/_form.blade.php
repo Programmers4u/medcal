@@ -1,5 +1,4 @@
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/forms.css') }}">
 {{-- <link rel="stylesheet" href="{{ asset('css/datetime.css') }}"> --}}
 {{-- <link rel="stylesheet" href="{{ asset('css/ionicons.min.css') }}"> --}}
 <link rel="stylesheet" href="{{ asset('css/intlTelInput/intlTelInput.css') }}">
@@ -137,7 +136,6 @@
 
 @push('footer_scripts')
 {{-- <script src="{{ asset('js/forms.js') }}"></script> --}}
-<script src="{{ asset('js/datetime.js') }}"></script>
 <script src="{{ asset('js/gender/gender.min.js') }}"></script>
 {{-- <script src="{{ asset('js/lib/utils.js') }}"></script> --}}
 <script src="{{ asset('js/intlTelInput/intlTelInput.min.js') }}"></script>
