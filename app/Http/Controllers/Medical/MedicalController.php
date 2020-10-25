@@ -30,14 +30,13 @@ class MedicalController extends Controller
         parent::__construct();
     }
 
-
     public function index(Business $business, Contact $contact) {
         
         $this->authorize('manage', $business);
         
         $contacts = $business->addressbook()->find($contact);
 
-        if( null == $contacts ) {
+        if( null === $contacts ) {
             flash()->warning('Brak kontaktów');
              return redirect()->back();
         }
@@ -127,8 +126,8 @@ class MedicalController extends Controller
         
     public function putGroup(Request $request){
         $response = ['status'=>'ok','error'=>''];
-        $result = \App\Models\MedicalGroup::putGroup($request->input('name'),$request->input('id'));
-        $response['error'] = $result;
+        // $result = MedicalGroup::putGroup($request->input('name'),$request->input('id'));
+        // $response['error'] = $result;
         return response()->json($response);
     }
 
@@ -137,7 +136,7 @@ class MedicalController extends Controller
     }
 
     public function groupEdit(Business $business, $group_id){
-        $name = \App\Models\MedicalGroup::query()
+        $name = MedicalGroup::query()
                 ->select(['name'])
                 ->where('id','=',$group_id)
                 ->get()
@@ -186,7 +185,6 @@ class MedicalController extends Controller
 
         return response()->json(['status'=>$result]);
     }
-
     
     public function getPermissionFile(Business $business){
         $_files = MedicalFile::getFile(0);
@@ -412,9 +410,6 @@ class MedicalController extends Controller
         
         $business = Business::findOrFail($request->input('business_id'));
         
-        // logger()->info(__METHOD__);
-        // logger()->info(sprintf('businessId:%s', $business->id));
-
         $issuer = auth()->user();
         
         //$this->authorize('manage', $business);
@@ -435,14 +430,15 @@ class MedicalController extends Controller
     
     public function ajaxGetNote(GetNoteRequest $request) : JsonResponse {
 
-        // logger()->info(__METHOD__);
+        $appointmentId = $request->input('appointmentId',null);
+        $businessId = $request->input('businessId',null);
+        $contactId = $request->input('contactId',null);
 
-        $app_id = $request->input('appointmentId',null);
-        $note = Notes::getNote($app_id);
+        $note = Notes::getNote($appointmentId, $businessId, $contactId);
         $notes = null;
-        $note->map(function($item) use (&$notes) {
-            $notes.= $item . "\n"; 
-        });
+        // $note->map(function($item) use (&$notes) {
+        //     $notes.= $item . "\n"; 
+        // });
         $response = [
             ResponseApi::MEDICAL_NOTE => [
                 'note' => $notes,
@@ -456,8 +452,9 @@ class MedicalController extends Controller
     {
         $app_id = $request->input('appointmentId',null);
         $note = $request->input('note',null);
-        $businessId = $request->input('$businessId',null);
-        $notes = Notes::setNote($note, $app_id, $businessId);
+        $businessId = $request->input('businessId',null);
+        $contactId = $request->input('contactId',null);
+        $notes = Notes::setNote($note, $app_id, $businessId, $contactId);
         $response = [
             ResponseApi::MEDICAL_NOTE => [
                 'note' => $notes ? $notes->note : null,

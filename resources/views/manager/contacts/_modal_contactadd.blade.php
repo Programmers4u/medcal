@@ -15,9 +15,10 @@ var saveContact = function () {
     data.append('lastname',$('#lastname').val());
     data.append('mobile',$('#mobile-input').val());
     data.append('birthdate',$('#birthdate').val());
-    data.append('email','');
+    data.append('email',$('#email').val());
     data.append('gender',$('#gender').val());
     data.append('nin',$('#nin').val());
+    data.append('businessId','{{ $business->id }}');
 
     $.ajax({
         headers: {

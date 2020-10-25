@@ -28,7 +28,9 @@ class GetNoteRequest extends Request
     public function rules()
     {
         return [
-            'appointmentId'    => 'required|integer',
+            'appointmentId'    => 'nullable|integer',
+            'businessId' => 'required|integer',
+            'contactId' => 'required|integer'
         ];
     }
 }

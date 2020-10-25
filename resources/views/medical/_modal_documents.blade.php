@@ -328,7 +328,18 @@ var putAppointmentNoteCallBack = () => {
     }
 };    
 </script>
-
+<script>
+ getAppointmentNote('{{ route('medical.note.get', [$business]) }}', {
+    csrf: '{{csrf_token()}}',
+    appointmentId: appointment_id,
+    businessId: '{{ $business->id }}',
+    contactId: '{{ $contacts->id }}',
+    success: function(data) { 
+        if(data)
+            $('#note_text')[0].innerText = data.medicalNote.note ? data.medicalNote.note : '';
+    },
+});    
+</script>
 @endpush
 
 @section('content')

@@ -146,10 +146,8 @@ class BookingController extends Controller
     }
     
     
-    public function postBooking(BookingRequest $request){
+    public function postBooking(BookingRequest $request) {
         
-        // logger()->info(__METHOD__);
-
         //////////////////
         // FOR REFACTOR //
         //////////////////
@@ -177,9 +175,6 @@ class BookingController extends Controller
             auth()->once(compact('email'));
         }
         
-        // Authorize contact is subscribed to Business
-        // ...
-
         $serviceId = $request->input('service_id');
         $service = $business->services()->find($serviceId);
         
@@ -200,66 +195,49 @@ class BookingController extends Controller
         $humanresource = $request->input('hr');
         $reservation = compact('issuer', 'contact', 'service', 'date_finish', 'time_finish','date_start', 'time_start', 'timezone', 'comments', 'humanresource','business');
 
-        // logger()->info('Reservation:'.print_r($reservation, true));
-
         $startAt = $this->makeDateTimeUTC($date_start, $time_start, $timezone);
-        $finishAt = $this->makeDateTimeUTC($date_finish, $time_finish, $timezone);//$startAt->copy()->addMinutes($service->duration);
+        $finishAt = $this->makeDateTimeUTC($date_finish, $time_finish, $timezone);
+        //$startAt->copy()->addMinutes($service->duration);
         
         //if($this->isBookable($startAt,$finishAt) > 0) return response()->json("Nakładające się terminy!");
         if($this->isCollision($startAt,$finishAt,$humanresource,$service->duration)) return response()->json("Nakładające się terminy!");
             
         try {
-            
             $appointment = $this->takeReservation($reservation);
 
         } catch (DuplicatedAppointmentException $e) {
-
             //$code = $this->concierge->appointment()->code;
-
             // logger()->info("DUPLICATED Appointment with CODE:{$e->getMessage()}");
             return response()->json("DUPLICATED Appointment with CODE:{$e->getMessage()}");
-            
             //flash()->warning(trans('user.booking.msg.store.sorry_duplicated', compact('code')));
-
             if ($isOwner) {
                 //return redirect()->route('manager.business.agenda.index', compact('business'));
             }
-
             //return redirect()->route('user.agenda');
         }
 
         if (false === $appointment) {
-            // logger()->info('[ADVICE] Unable to book');
-
             //flash()->warning(trans('user.booking.msg.store.error'));
-
             //return redirect()->back();
             return response()->json(trans('user.booking.msg.store.error'));
         }
-
-        // logger()->info('Appointment saved successfully');
 
         //flash()->success(trans('user.booking.msg.store.success', ['code' => $appointment->code]));
 
         if (!$issuer) {
             event(new NewSoftAppointmentWasBooked($appointment));
-
             //return view('guest.appointment.show', compact('appointment'));
         }
         
         event(new NewAppointmentWasBooked(auth()->user(), $appointment));
-
         if ($isOwner) {
             //return redirect()->route('manager.business.agenda.index', compact('business'));
         }
 
         //return redirect()->route('user.agenda', '#'.$appointment->code);
 
-        /**
-         * Save note for appointment
-         */
         if($appointment && $request->input('note',null)) {
-            Notes::setNote($request->input('note'),$appointment->id, $business->id);
+            Notes::setNote($request->input('note'), $appointment->id, $business->id);
         };
 
         return response()->json('Wizyta zapisana.');

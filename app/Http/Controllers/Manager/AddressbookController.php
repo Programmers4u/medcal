@@ -141,11 +141,11 @@ class AddressbookController extends Controller
         $contact = $business->addressbook()->find($contact);
         
         $tab = [];
-        $groups = \App\Models\MedicalGroup::getGroups();
+        // $groups = MedicalGroup::getGroups();
         $groupsList = [];
-        foreach($groups as $g){
-            $groupsList[$g['id']]=$g['name'];
-        }
+        // foreach($groups as $g){
+        //     $groupsList[$g['id']]=$g['name'];
+        // }
 
         $existingContact = User::where('email','=',$contact->email)->first();
 
