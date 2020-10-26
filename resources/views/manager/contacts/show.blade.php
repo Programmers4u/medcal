@@ -3,7 +3,7 @@
 @section('title', $contact->fullname)
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/forms.css') }}">
+{{-- <link rel="stylesheet" href="{{ asset('css/forms.css') }}"> --}}
 <style>
 .user-row {
     margin-bottom: 14px;
@@ -48,7 +48,6 @@
             </div>
 
             <div class="panel-body">
-
                 <div class="row">
                     <div class="col-md-3 col-lg-3 " align="center">
                         @if($contact->email)
@@ -133,67 +132,64 @@
                 </div>
             </div>
 
-        <div class="panel-footer">
-            {!! $contact->quality == 100 ? ProgressBar::success($contact->quality)->animated()->striped()->visible() : ProgressBar::normal($contact->quality)->animated()->striped()->visible() !!}
+            <div class="panel-footer" style="min-height:8em;">
+                {!! $contact->quality == 100 ? ProgressBar::success($contact->quality)->animated()->striped()->visible() : ProgressBar::normal($contact->quality)->animated()->striped()->visible() !!}
 
-            {{-- @if ($contact->user) --}}
-            {{-- {!! Button::success($contact->user->username)->withIcon(Icon::ok_circle()) !!} --}}
-            {{-- @else --}}
-            {{-- {!! Button::warning()->withIcon(Icon::remove_circle()) !!} --}}
-            {{-- @endif --}}
+                {{-- @if ($contact->user) --}}
+                {{-- {!! Button::success($contact->user->username)->withIcon(Icon::ok_circle()) !!} --}}
+                {{-- @else --}}
+                {{-- {!! Button::warning()->withIcon(Icon::remove_circle()) !!} --}}
+                {{-- @endif --}}
 
-            <span class="pull-right">
-            @if (!isset($existingContact))
-            {!! Button::withIcon(Icon::ok_circle())->primary(trans('user.contacts.btn.createprofil'), [$business,$contact])
-                ->asLinkTo('javascript:addContactToUser()')
-            !!}
-            @endif
-                
-            {!! Button::withIcon(Icon::book())->primary(trans('medical.btn.history'), [$business,$contact])
-                ->asLinkTo( route('medical.document', [$business, $contact]) )
-                ->withAttributes([
-                    'id' => 'medhis-btn',
-                    'type' => 'button',
-                    'data-for' => 'get',
-                    'data-toggle' => 'tooltip',
-                    'data-method' => 'GET',
-                    'data-original-title' => trans('medical.btn.history'),
-                    'data-confirm'=> trans('medical.btn.history')])
-                !!}
-                
-            {!! Button::warning()
-                ->withIcon(Icon::edit())
-                ->asLinkTo( route('manager.addressbook.edit', [$business, $contact]) )
-                ->withAttributes([
-                    'data-for' => 'edit',
-                    'data-toggle' => 'tooltip',
-                    'data-original-title' => trans('manager.contacts.btn.edit')])
-                !!}
+                <span class="pull-right">
+                    @if (!isset($existingContact))
+                    {!! Button::withIcon(Icon::ok_circle())->primary(trans('user.contacts.btn.createprofil'), [$business,$contact])
+                        ->asLinkTo('javascript:addContactToUser()')
+                    !!}
+                    @endif
+                    {!! Button::withIcon(Icon::book())->primary(trans('medical.btn.history'), [$business,$contact])
+                        ->asLinkTo( route('medical.document', [$business, $contact]) )
+                        ->withAttributes([
+                            'id' => 'medhis-btn',
+                            'type' => 'button',
+                            'data-for' => 'get',
+                            'data-toggle' => 'tooltip',
+                            'data-method' => 'GET',
+                            'data-original-title' => trans('medical.btn.history'),
+                            'data-confirm'=> trans('medical.btn.history')])
+                        !!}
+                        
+                    {!! Button::warning()
+                        ->withIcon(Icon::edit())
+                        ->asLinkTo( route('manager.addressbook.edit', [$business, $contact]) )
+                        ->withAttributes([
+                            'data-for' => 'edit',
+                            'data-toggle' => 'tooltip',
+                            'data-original-title' => trans('manager.contacts.btn.edit')])
+                        !!}
 
-                
-            {!! Button::danger()
-                ->withIcon(Icon::trash())
-                ->asLinkTo( "javascript:remove()" )
-                ->withAttributes([
-                    'id' => 'delete-btn',
-                    'type' => 'button',
-                    'data-for' => 'delete',
-                    'data-toggle' => 'tooltip',
-                    'data-method' => 'DELETE',
-                    'data-original-title' => trans('manager.contacts.btn.delete'),
-                    'data-confirm'=> trans('manager.contacts.btn.confirm_delete')])
-                !!}
-                
-            </span>
-            <br><br>
-            {!! Form::label( trans('medical.groups.title') ) !!}<br>
-            {!! Form::select('groups', $groupsList, null, ['multiple', 'id' => 'groups', 'class' => 'form-control select2']) !!}
-        </div>
-            
+                        
+                    {!! Button::danger()
+                        ->withIcon(Icon::trash())
+                        ->asLinkTo( "javascript:remove()" )
+                        ->withAttributes([
+                            'id' => 'delete-btn',
+                            'type' => 'button',
+                            'data-for' => 'delete',
+                            'data-toggle' => 'tooltip',
+                            'data-method' => 'DELETE',
+                            'data-original-title' => trans('manager.contacts.btn.delete'),
+                            'data-confirm'=> trans('manager.contacts.btn.confirm_delete')])
+                        !!}
+                        
+                </span>
+            </div>
         </div>
 
     @if($contact->hasAppointment())
-    @include('manager.contacts._appointment', ['appointments' => $contact->appointments()->orderBy('start_at')->ofBusiness($business->id)->Active()->limit(5)->get()] )
+    <div>
+        @include('manager.contacts._appointment', ['appointments' => $contact->appointments()->orderBy('start_at')->ofBusiness($business->id)->Active()->limit(5)->get()] )
+    </div>
     @endif
 
     @if(auth()->user()->isOwnerOf($business->id))
@@ -203,14 +199,11 @@
                        ->withIcon(Icon::calendar())->block() !!}
     -->
     @endif
-
-    </div>
-
 </div>
 @endsection
 
 @push('footer_scripts')
-<script src="{{ asset('js/forms.js') }}"></script>
+{{-- <script src="{{ asset('js/forms.js') }}"></script> --}}
 <script type="text/javascript">
 var addContactToUser = function() {
 
@@ -223,75 +216,16 @@ var addContactToUser = function() {
         //data      : formData,
         //dataType  : 'json',
         encode    : false
-        }).done(function(data) {
-            console.log(JSON.stringify(data));
-            console.log(data.status); 
-            alert(data.data);
-        }).error(function(data) {
-            console.log(JSON.stringify(data));
-            console.log('could not be updated '+data.status); 
-            alert('could not be updated '+data.data);
-        });
-    
+    }).done(function(data) {
+        console.log(JSON.stringify(data));
+        console.log(data.status); 
+        alert(data.data);
+    }).error(function(data) {
+        console.log(JSON.stringify(data));
+        console.log('could not be updated '+data.status); 
+        alert('could not be updated '+data.data);
+    });
 }
-</script>
-<script type="text/javascript">
-$('#groups').on('select2:select', function (e) { 
-
-    var data = e.params.data;
-    console.log(data);
-    
-    var formData = {
-        'group_id' : data.id,
-        'contact_id' : '{{$contact->id}}',
-    }
-    $.ajax({
-        headers: {
-            'X-CSRF-TOKEN': '{{csrf_token()}}'
-        },                    
-        type      : 'POST',
-        url       : '{{ route("medical.group.add",[$business])}}',
-        data      : formData,
-        dataType  : 'json',
-        encode    : true
-        }).done(function(data) {
-            console.log(JSON.stringify(data));
-            console.log('updated OK'); 
-        }).error(function(data) {
-            console.log(JSON.stringify(data));
-            console.log('could not be updated'); 
-            alert('could not be updated');
-        });
-})
-</script>
-<script type="text/javascript">
-$('#groups').on('select2:unselect', function (e) { 
-
-    var data = e.params.data;
-    console.log(data);
-    
-    var formData = {
-        'group_id' : data.id,
-        'contact_id' : '{{$contact->id}}',
-    }
-    $.ajax({
-        headers: {
-            'X-CSRF-TOKEN': '{{csrf_token()}}'
-        },                    
-        type      : 'POST',
-        url       : '{{ route("medical.group.del",[$business])}}',
-        data      : formData,
-        dataType  : 'json',
-        encode    : true
-        }).done(function(data) {
-            console.log(JSON.stringify(data));
-            console.log('updated OK'); 
-        }).error(function(data) {
-            console.log(JSON.stringify(data));
-            console.log('could not be updated'); 
-            alert('could not be updated');
-        });
-})
 </script>
 <script>
 $(document).ready(function() {
@@ -320,101 +254,12 @@ $(document).ready(function() {
         })
     });
 
-    $('[data-toggle="tooltip"]').tooltip();
-    
-    $('#groups').select2({
-        theme: "bootstrap"
-    });
-    @foreach($groups as $gr)
-    @if(TRUE==in_array($contact->id,explode(',',$gr['contacts'])))
-    {!! array_push($tab,$gr['id']) !!}
-    @endif
-    @endforeach
-    var tab = [{{ implode(",",$tab) }}];
-    $('#groups').val(tab); // Select the option with a value of '1'
-    $('#groups').trigger('change'); // Notify any JS components that the value changed
-    
+    $('[data-toggle="tooltip"]').tooltip();    
 });
 
 var remove = () => {
-    
     removeService("{{ trans('manager.contacts.btn.confirm_delete').'?' }}", "{{ route('manager.addressbook.destroy', [$business, $contact]) }}");
 }
-
-// (function() {
- 
-//     var laravel = {
-//         initialize: function() {
-//             this.methodLinks = $('a[data-method]');
- 
-//             this.registerEvents();
-//         },
- 
-//         registerEvents: function() {
-//             this.methodLinks.on('click', this.handleMethod);
-//         },
- 
-//         handleMethod: function(e) {
-//             var link = $(this);
-//             var httpMethod = link.data('method').toUpperCase();
-//             var form;
- 
-//             // If the data-method attribute is not PUT or DELETE,
-//             // then we don't know what to do. Just ignore.
-//             if ( $.inArray(httpMethod, ['PUT', 'DELETE']) === - 1 ) {
-//                 return;
-//             }
- 
-//             // Allow user to optionally provide data-confirm="Are you sure?"
-//             if ( link.data('confirm') ) {
-//                 if ( ! laravel.verifyConfirm(link) ) {
-//                     return false;
-//                 }
-//             }
- 
-//             form = laravel.createForm(link);
-//             form.submit();
- 
-//             e.preventDefault();
-//         },
- 
-//         verifyConfirm: function(link) {
-//             return confirm(link.data('confirm'));
-//         },
- 
-//         createForm: function(link) {
-//             var form =
-//             $('<form>', {
-//                 'method': 'POST',
-//                 'action': link.attr('href')
-//             });
- 
-//             var token =
-//             $('<input>', {
-//                 'type': 'hidden',
-//                 'name': '_token',
-//                 'value': '{{ csrf_token() }}'
-//                 });
- 
-//             var hiddenInput =
-//             $('<input>', {
-//                 'name': '_method',
-//                 'type': 'hidden',
-//                 'value': link.data('method')
-//             });
- 
-//             return form.append(token, hiddenInput).appendTo('body');
-//         }
-//     };
- 
-//     laravel.initialize();
-
-//     $("img").error(function(){
-//         $(this).hide();
-//     });
-
-// })();
-
 </script>
 <script type="text/javascript" src="/js/service/services.min.js"></script>
 @endpush

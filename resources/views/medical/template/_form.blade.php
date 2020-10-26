@@ -20,7 +20,7 @@
             'required',
             'id' => 'description',
             'class' => 'form-control',
-            'placeholder' => old('name'),
+            'placeholder' => old('description'),
             ]) !!}
         <div class="help-block with-errors"></div>
     </div>
@@ -31,7 +31,7 @@
             'required',
             'id' => 'template_type',
             'class' => 'form-control',
-            'placeholder' => old('name'),
+            'placeholder' => old('template_type'),
             ]) !!}
         <div class="help-block with-errors"></div>
     </div>

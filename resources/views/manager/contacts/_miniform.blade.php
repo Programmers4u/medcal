@@ -1,6 +1,5 @@
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/forms.css') }}">
-<link rel="stylesheet" href="{{ asset('css/datetime.css') }}">
+{{-- <link rel="stylesheet" href="{{ asset('css/datetime.css') }}"> --}}
 <link rel="stylesheet" href="{{ asset('css/ionicons.min.css') }}">
 <link rel="stylesheet" href="{{ asset('css/intlTelInput/intlTelInput.css') }}">
 <style type="text/css">
@@ -36,6 +35,20 @@
         'class' => 'form-control',
         'placeholder'=> old('lastname'),
         'oninvalid' => 'this.setCustomValidity( "'.trans('manager.contacts.form.lastname.validation').'" )',
+        'oninput' => 'this.setCustomValidity("")' ]) !!}
+        <div class="help-block with-errors"></div>
+    </div>
+</div>
+
+<div class="form-group">
+    {!! Form::label( trans('manager.contacts.form.email.label'), null, ['class' => 'control-label col-sm-3'] ) !!}
+    <div class="col-sm-9">
+    {!! Form::text('email', null, [
+        'onkeydown' => 'capitalize(this)',    
+        'id' => 'email',
+        'class' => 'form-control',
+        'placeholder'=> old('email'),
+        'oninvalid' => 'this.setCustomValidity( "'.trans('manager.contacts.form.email.validation').'" )',
         'oninput' => 'this.setCustomValidity("")' ]) !!}
         <div class="help-block with-errors"></div>
     </div>
@@ -96,10 +109,7 @@
 </div>
 
 @push('footer_scripts')
-<script src="{{ asset('js/forms.js') }}"></script>
-<script src="{{ asset('js/datetime.js') }}"></script>
 <script src="{{ asset('js/gender/gender.min.js') }}"></script>
-<script src="{{ asset('js/lib/utils.js') }}"></script>
 <script src="{{ asset('js/intlTelInput/intlTelInput.min.js') }}"></script>
 
 <script type="text/javascript">
@@ -109,26 +119,30 @@ function capitalize(field)
 }    
 $(document).ready(function(){
 
-    // $('input#firstname').focusout(function(){
-    //     $(this).genderApi({key: '{{ env('GENDERAPI_KEY') }}'}).on('gender-found', function(e, result) {
-    //         if (result.accuracy >= 55) {
-    //             if (result.gender == 'female') {  $('#gender').selectpicker('val', 'F'); };
-    //             console.log('Gender:' + result.gender +
-    //                         ' Accuracy:' + result.accuracy +
-    //                         ' Duration:' + result.duration);
-    //         }
-    //     });
-    // });
+    $('input#firstname').focusin(function(){
+        $(this).genderApi({key: '{{ env('GENDERAPI_KEY') }}'}).on('gender-found', function(e, result) {
+            if (result.accuracy >= 55) {
+                switch(result.gender) {
+                    case 'female' : $('#gender').val('F'); break;
+                    case 'male' : $('#gender').val('M'); break;
+                }
+                console.log('Gender:' + result.gender +
+                            ' Accuracy:' + result.accuracy +
+                            ' Duration:' + result.duration);
+            }
+        });
+    });
+    $('input#firstname').focus();
 
    $("#birthdate").datetimepicker( {
        viewMode: 'years',
        locale: '{{ Session::get('language') }}',
-       format: '{!! trans('app.dateformat.datetimepicker') !!}' }
-       );
+       format: '{!! trans('app.dateformat.datetimepicker') !!}' 
+    });
 
 //    Select2 Icons disabled for now
 
-//    $('.select2').select2({
+//    $('#gender').select2({
 //        theme: 'bootstrap'
 //    });
 //    $('option[value="M"]').data("icon", "ion-male");

@@ -19,15 +19,15 @@ class CreateTableMedicines extends Migration
             $table->softDeletes();
 
             $table->bigIncrements('id');
-            $table->string('name');
-            $table->string('shortname');
-            $table->string('power');
-            $table->string('shape');
-            $table->string('no_permission');
-            $table->string('permission_expaired');
-            $table->string('company');
-            $table->string('type');
-            $table->string('code');
+            $table->string('name')->nullable();
+            $table->string('shortname')->nullable();
+            $table->string('power')->nullable();
+            $table->string('shape')->nullable();
+            $table->string('no_permission')->nullable();
+            $table->string('permission_expaired')->nullable();
+            $table->string('company')->nullable();
+            $table->string('type')->nullable();
+            $table->string('code')->nullable();
         });        
         
     }

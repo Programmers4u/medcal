@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
         //$this->call('ContactTableSeeder');
         //$this->command->info('Seeded the Param Contact from csv file!');
 
-        //$this->call('MedicinesTableSeeder');
-        //$this->command->info('Seeded the Medicines from csv file!');        
+        $this->call('MedicinesTableSeeder');
+        $this->command->info('Seeded the Medicines from csv file!');        
     }
 }

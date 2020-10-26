@@ -60,10 +60,6 @@ class BusinessController extends Controller
      */
     public function index()
     {
-        // logger()->info(__METHOD__);
-
-        // BEGIN
-        
         
         $businesses = auth()->user()->businesses;
 
@@ -89,10 +85,6 @@ class BusinessController extends Controller
      */
     public function create($plan = 'free')
     {
-        // logger()->info(__METHOD__);
-        // logger()->info("plan:$plan");
-
-        // BEGIN
 
         $timezone = $this->guessTimezone(null);
 

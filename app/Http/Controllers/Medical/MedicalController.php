@@ -14,11 +14,15 @@ use App\Http\Consts\ResponseApi;
 use App\Http\Requests\Appointments\GetNoteRequest;
 use App\Http\Requests\AppointmentNoteRequest;
 use App\Http\Requests\Appointments\PutNoteRequest;
+use App\Http\Resources\Medicines\DefaultResources;
 use App\Jobs\ProcessMedicalHistoryPdf;
+use App\Models\MedicalMedicines;
 use App\Models\Notes;
 use Illuminate\Http\JsonResponse;
 use Timegridio\Concierge\Models\Appointment;
 use App\Models\MedicalTemplates;
+use GuzzleHttp\Psr7\Response;
+use Timegridio\Concierge\Models\Humanresource;
 
 class MedicalController extends Controller
 {
@@ -30,14 +34,13 @@ class MedicalController extends Controller
         parent::__construct();
     }
 
-
     public function index(Business $business, Contact $contact) {
         
         $this->authorize('manage', $business);
         
         $contacts = $business->addressbook()->find($contact);
 
-        if( null == $contacts ) {
+        if( null === $contacts ) {
             flash()->warning('Brak kontaktów');
              return redirect()->back();
         }
@@ -57,9 +60,9 @@ class MedicalController extends Controller
 
         $files = $this->getFiles($business, $contact);
         
-        $group = \App\Models\MedicalGroup::all();
+        // $group = MedicalGroup::getAll($business);
         
-        $template = MedicalTemplates::all();
+        $template = MedicalTemplates::getAll($business);
         
         $permission_template = $this->getPermissionFile($business);
         
@@ -71,38 +74,24 @@ class MedicalController extends Controller
         $typeTemplateQ = MedicalTemplates::TYPE_QUESTION;
        
         $staffs = $business->humanresources;
-        $appoStaff = \Timegridio\Concierge\Models\Appointment::query()
+        $appoStaff = Appointment::query()
                ->where('business_id','=',$business->id)
-               //->where('humanresources_id','=',1)
                ->where('start_at','>', \Carbon\Carbon::today()->timezone($business->timezone)) 
                ->where('start_at','<', \Carbon\Carbon::tomorrow()->timezone($business->timezone)) 
                ->whereIn('status',['C','R'])
                ->orderBy('start_at','ASC')
                ->get();
-       //dd($appoStaff);
-        /*$status = '';
-        switch ($status){
-            case 'active' : 
-                $agenda = $this->concierge->business($business)->getActiveAppointments();
-            break;
-            case 'unserved' : 
-                $agenda = $this->concierge->business($business)->getUnservedAppointments();
-            break;
-            default:
-                $agenda = $this->concierge->business($business)->getUnarchivedAppointments();
-        }*/
+
         $cookie = cookie('medcallaststaff')->getValue();
-        //dd($cookie);
+
         $agenda = [];
         foreach($appoStaff as $ag){
-            $staff = \Timegridio\Concierge\Models\Humanresource::query()
+            $staff = Humanresource::query()
                     ->where('id','=',$ag->humanresource_id)
                     ->where('business_id','=',$business->id)
                     ->get();
-            //dd($staff);
             $staff->name = (empty($staff[0]->name)) ? '' : $staff[0]->name;
             $userApp = Contact::query()->where('id','=',$ag->contact_id)->get();
-            //dd($userApp);
             $contactName = $userApp[0]->firstname.' '.$userApp[0]->lastname;
             $rec = [
                 'id'=>$ag->id,
@@ -113,10 +102,6 @@ class MedicalController extends Controller
                     ];
             array_push($agenda, $rec);
         };
-        //dd($historyPagin);
-        //$agenda = $agenda[2]->id;
-        //dd($agenda->links());
-        //dd($appointments);
         return view('medical._modal_documents',compact('agenda','staffs','typeTemplateQ','typeTemplateA','typeHistory','typePermission','typePermissionTemplate','permission_template','template','group','files','historyPagin','permission','interviewData','appointments','contacts','business'));
     }
     
@@ -127,8 +112,8 @@ class MedicalController extends Controller
         
     public function putGroup(Request $request){
         $response = ['status'=>'ok','error'=>''];
-        $result = \App\Models\MedicalGroup::putGroup($request->input('name'),$request->input('id'));
-        $response['error'] = $result;
+        // $result = MedicalGroup::putGroup($request->input('name'),$request->input('id'));
+        // $response['error'] = $result;
         return response()->json($response);
     }
 
@@ -137,7 +122,7 @@ class MedicalController extends Controller
     }
 
     public function groupEdit(Business $business, $group_id){
-        $name = \App\Models\MedicalGroup::query()
+        $name = MedicalGroup::query()
                 ->select(['name'])
                 ->where('id','=',$group_id)
                 ->get()
@@ -186,7 +171,6 @@ class MedicalController extends Controller
 
         return response()->json(['status'=>$result]);
     }
-
     
     public function getPermissionFile(Business $business){
         $_files = MedicalFile::getFile(0);
@@ -412,9 +396,6 @@ class MedicalController extends Controller
         
         $business = Business::findOrFail($request->input('business_id'));
         
-        // logger()->info(__METHOD__);
-        // logger()->info(sprintf('businessId:%s', $business->id));
-
         $issuer = auth()->user();
         
         //$this->authorize('manage', $business);
@@ -435,10 +416,11 @@ class MedicalController extends Controller
     
     public function ajaxGetNote(GetNoteRequest $request) : JsonResponse {
 
-        // logger()->info(__METHOD__);
+        $appointmentId = $request->input('appointmentId',null);
+        $businessId = $request->input('businessId',null);
+        $contactId = $request->input('contactId',null);
 
-        $app_id = $request->input('appointmentId',null);
-        $note = Notes::getNote($app_id);
+        $note = Notes::getNote($appointmentId, $businessId, $contactId);
         $notes = null;
         $note->map(function($item) use (&$notes) {
             $notes.= $item . "\n"; 
@@ -452,13 +434,13 @@ class MedicalController extends Controller
         return response()->json($response);
     }
 
-    public function ajaxPutNote(PutNoteRequest $request) : JsonResponse {
-
-        // logger()->info(__METHOD__);
-
+    public function ajaxPutNote(PutNoteRequest $request) : JsonResponse 
+    {
         $app_id = $request->input('appointmentId',null);
         $note = $request->input('note',null);
-        $notes = Notes::setNote($note, $app_id);
+        $businessId = $request->input('businessId',null);
+        $contactId = $request->input('contactId',null);
+        $notes = Notes::setNote($note, $app_id, $businessId, $contactId);
         $response = [
             ResponseApi::MEDICAL_NOTE => [
                 'note' => $notes ? $notes->note : null,
@@ -473,5 +455,20 @@ class MedicalController extends Controller
         $app = \Timegridio\Concierge\Models\Appointment::query()->find($link->id);
         $contact = Contact::query()->find($app->contact_id) ;
         return $this->index($business, $contact);
+    }
+
+    public function ajaxGetMedicines(Request $request) : JsonResponse 
+    {
+        $medicine = $request->input('medicine');
+
+        $medicines = MedicalMedicines::query()
+            ->where(MedicalMedicines::NAME, 'like', '%' . $medicine . '%')
+            ->limit(10)
+            ->get()
+            ;
+        
+        return response()->json(
+            new DefaultResources($medicines)
+        );
     }
 }
