@@ -9,7 +9,7 @@
 * [Step 6: Configure Cron](#step6)
 * [Optional: demosandbox](#demosandbox)
 * [Optional: Docker](#docker)
-* [Optional: Artisan command](#command)
+* [Optional: Command](#command)
 
 <a name="requirements"></a>
 ## Requirements
@@ -165,10 +165,18 @@ if you use redis
 Medcal should be available http://localhost
 
 <a name="command"></a>
-## Artisan command 
+## Command 
 
 **Type** on console
+
+Artisan command 
 
     php artisan view:clear
     php artisan config:clear
     php artisan cache:clear
+
+pm2 command
+
+    yarn pm2 list
+    yarn pm2 delete {id}
+    yarn pm2 monit
