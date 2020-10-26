@@ -36,7 +36,7 @@ Medcal has some server requirements for web hosting:
 <a name="step2"></a>
 ## Step 2: Install dependencies with Composer
 
-    composer install
+    php -d memory_limit=-1 composer.phar install
 
 -----
 <a name="step3"></a>
@@ -76,10 +76,13 @@ Back to your console, **migrate** database schema
 
     php artisan db:seed
 
-**Permissions** for development
+**Permissions** 
+    
+    chmod -R 777 ./storage
+
+for development
 
     chmod -R 777 ./bootstrap/cache
-    chmod -R 777 ./storage
     chmod 777 ./public
 
 **Update** [geoip](https://github.com/Torann/laravel-geoip) database:
@@ -124,7 +127,6 @@ To start you will need first install
 **Type** on web browser:
 
     http://localhost:1234/
-
 
 To stop
 
