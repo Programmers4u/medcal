@@ -134,7 +134,7 @@ class MedInterview extends Model
         return ['aid' => $aid, 'diseases' => $diseases,'desc' => $desc];
     }
     
-    public function getJsonData($contactId){
+    public function getJsonData($contactId) {
         $back = $this->query()->select('json_data')->where('contact_id','=',$contactId)->first();
         if($back != null){
             $back = $back->toArray();

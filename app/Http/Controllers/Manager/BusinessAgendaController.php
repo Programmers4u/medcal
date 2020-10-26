@@ -14,6 +14,7 @@ use \Timegridio\Concierge\Models\Humanresource;
 use \App\Models\MedicalHistory;
 use \App\Http\Controllers\API\BookingController;
 use App\Http\Requests\Request;
+use App\Models\MedicalTemplates;
 use App\Models\Notes;
 
 class BusinessAgendaController extends Controller
@@ -103,12 +104,25 @@ class BusinessAgendaController extends Controller
 
     public function getCalendar(Business $business, $hr=null)
     {
-        // logger()->info(__METHOD__);
-        // logger()->info(sprintf('businessId:%s', $business->id));
-        
-        // $hr = json_encode($hr);
         
         $this->authorize('manage', $business);
+
+        $preferences = $business->preferences;
+
+        if(count($preferences)===0){
+            flash()->warning('Brak ustawień, zapisz swoje ustawienia!');
+            return redirect()->route('manager.business.preferences', $business);
+        };
+
+        if(Humanresource::where('business_id', $business->id)->get()->count() === 0){
+            flash()->warning('Brak specjalistów');
+            return redirect()->route('manager.business.humanresource.index', $business);
+        };
+
+        // if(MedicalTemplates::where('business_id', $business->id)->get()->count() === 0){
+        //     flash()->warning('Brak specjalistów');
+        //     return redirect()->route('medical.template.index', $business);
+        // };
 
         //$appointments = $this->concierge->business($business)->getActiveAppointments();
         //$appointments = $this->concierge->business($business)->getUnarchivedAppointments();
@@ -121,16 +135,13 @@ class BusinessAgendaController extends Controller
             ->where('start_at','<=',$where_to)
             ->where(function($q) {
                 $q
-                ->where('status', \Timegridio\Concierge\Models\Appointment::STATUS_CONFIRMED)
-                ->orWhere('status', \Timegridio\Concierge\Models\Appointment::STATUS_RESERVED)
-                // ->orWhere('status', \Timegridio\Concierge\Models\Appointment::STATUS_SERVED)
+                ->where('status', Appointment::STATUS_CONFIRMED)
+                ->orWhere('status', Appointment::STATUS_RESERVED)
                 ;
             })
             ->limit(150)
             ->get();        
         
-        // logger()->debug($appointments);
-
         $jsAppointments = [];
 
         foreach ($appointments as $appointment) {
@@ -143,7 +154,7 @@ class BusinessAgendaController extends Controller
 
             //if(!isset($staff->color)) return redirect()->route('manager.business.humanresource.index',[$business]);
 
-            $note = Notes::getNote($appointment->id);
+            $note = Notes::getNote($appointment->id, $business->id, $appointment->contact_id);
             $notes = '';
             if($note) {
                 $notes = null;
@@ -177,14 +188,7 @@ class BusinessAgendaController extends Controller
         $icalURL = $this->generateICalURL($business);
 
         unset($appointments);
-        
-        $preferences = $business->preferences;
-
-        if(count($preferences)===0){
-            flash()->warning('Brak ustawień, zapisz swoje ustawienia!');
-            return redirect()->route('manager.business.preferences', $business);
-        };
-        
+                
         JavaScript::put([
             'minTime'      => $business->pref('start_at'),
             'maxTime'      => $business->pref('finish_at'),

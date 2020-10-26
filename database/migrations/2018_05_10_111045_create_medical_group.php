@@ -19,7 +19,8 @@ class CreateMedicalGroup extends Migration
             $table->softDeletes();
             $table->bigIncrements('id');
 
-            $table->Text('contacts');
+            $table->bigInteger('contact_id');
+            $table->bigInteger('business_id');
             $table->string('name');
         });        
         

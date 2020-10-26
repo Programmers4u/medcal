@@ -132,8 +132,6 @@ class AddressbookController extends Controller
      */
     public function show(Business $business, Contact $contact)
     {
-        // logger()->info(__METHOD__);
-        // logger()->info(sprintf('businessId:%s contactId:%s', $business->id, $contact->id));
 
         $this->authorize('manageContacts', $business);
 
@@ -141,11 +139,11 @@ class AddressbookController extends Controller
         $contact = $business->addressbook()->find($contact);
         
         $tab = [];
-        $groups = \App\Models\MedicalGroup::getGroups();
+        // $groups = MedicalGroup::getGroups();
         $groupsList = [];
-        foreach($groups as $g){
-            $groupsList[$g['id']]=$g['name'];
-        }
+        // foreach($groups as $g){
+        //     $groupsList[$g['id']]=$g['name'];
+        // }
 
         $existingContact = User::where('email','=',$contact->email)->first();
 
@@ -162,8 +160,6 @@ class AddressbookController extends Controller
      */
     public function edit(Business $business, Contact $contact)
     {
-        // logger()->info(__METHOD__);
-        // logger()->info(sprintf('businessId:%s contactId:%s', $business->id, $contact->id));
 
         $this->authorize('manageContacts', $business);
 
@@ -174,7 +170,7 @@ class AddressbookController extends Controller
         $notes = $contact->pivot->notes;
 
         $tab = [];
-        $groups = \App\Models\MedicalGroup::getGroups();
+        $groups = MedicalGroup::getGroups();
         $groupsList = [];
         foreach($groups as $g){
             $groupsList[$g['id']]=$g['name'];

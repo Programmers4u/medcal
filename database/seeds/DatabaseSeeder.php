@@ -23,13 +23,13 @@ class DatabaseSeeder extends Seeder
         $this->call('RolesTableSeeder');
         $this->command->info('Seeded the Param Roles!');
 
-        $this->call('MedicalTemplateSeeder');
-        $this->command->info('Seeded the Template Medical doc.');
+        // $this->call('MedicalTemplateSeeder');
+        // $this->command->info('Seeded the Template Medical doc.');
 
         //$this->call('ContactTableSeeder');
         //$this->command->info('Seeded the Param Contact from csv file!');
 
-        //$this->call('MedicinesTableSeeder');
-        //$this->command->info('Seeded the Medicines from csv file!');        
+        $this->call('MedicinesTableSeeder');
+        $this->command->info('Seeded the Medicines from csv file!');        
     }
 }

@@ -309,14 +309,16 @@ var ePuap = function(){
 <script type="text/javascript">
 var urlAppointmentNote = '{{ route('medical.note.put',[$business]) }}';
 var putAppointmentNoteCallBack = () => {
-    if(appointment_id < 1) {
-        alert('Wybierz datę wizyty');
-        return;
-    }
+    // if(appointment_id < 1) {
+    //     alert('Wybierz datę wizyty');
+    //     return;
+    // }
     return {
         appointmentId : appointment_id,
         note : $('#note')[0].value,
+        businessId: '{{ $business->id }}',
         csrf : '{{csrf_token()}}',
+        contactId: '{{ $contacts->id }}',
         success : function (data) {
             setTimeout( () => {
                 console.log(data);
@@ -327,7 +329,18 @@ var putAppointmentNoteCallBack = () => {
     }
 };    
 </script>
-
+<script>
+ getAppointmentNote('{{ route('medical.note.get', [$business]) }}', {
+    csrf: '{{csrf_token()}}',
+    appointmentId: appointment_id,
+    businessId: '{{ $business->id }}',
+    contactId: '{{ $contacts->id }}',
+    success: function(data) { 
+        if(data)
+            $('#note_text')[0].innerText = data.medicalNote.note ? data.medicalNote.note : '';
+    },
+});    
+</script>
 @endpush
 
 @section('content')
@@ -379,7 +392,7 @@ var putAppointmentNoteCallBack = () => {
         {{ trans('medical.document.clients.desc') }}:<br>
         <textarea class="form-control"></textarea><br>
         -->
-        <br>
+        {{-- <br>
         Grupy do jakich należy pacjent:<br>
         <b>
         @foreach($group as $gr)
@@ -388,7 +401,7 @@ var putAppointmentNoteCallBack = () => {
         @endif
         @endforeach
         </b>
-        <hr>
+        <hr> --}}
         {!! Button::withIcon(Icon::edit())
             ->primary('edytuj dane')
             ->small()
@@ -549,6 +562,7 @@ var putAppointmentNoteCallBack = () => {
                                   <td style="font-weight:bold;">{{ trans('medical.appointments.label.note') }}</td>
                                   <td>
                                     <div id="note_text"></div>
+                                    <br>
                                     <textarea id="note" class="form-control md-textarea"></textarea>
                                     <div style="padding-top:1em;" >
                                       {!! 
@@ -631,7 +645,7 @@ var putAppointmentNoteCallBack = () => {
                       <td><a class="fa fa-file fa-2x" href="javascript:historyId='{{$page->history}}';openFiles();"></a></td>
                       <td>
                           {{$page->name}}<br>
-                          @if($json->note!='' || $json->price!='')
+                          {{-- @if($json->note!='' || $json->price!='')
                           <i class="fa fa-info-circle fa-1x" onmouseover="$('#idinfo{{$page->history}}').toggle();"></i>
                           <div id='idinfo{{$page->history}}' style='min-width: 200px;padding: 0.9rem;display:none;background-color: #f1f6ff;font-size: 1.2rem;'>
                               ---<br>
@@ -643,14 +657,14 @@ var putAppointmentNoteCallBack = () => {
                               ---<br>
                               -->
                           </div>
-                          @endif
-                          <i class="fa fa-comment-o fa-1x" onclick="addNote('{{ route('medical.history.note.add',[$business]) }}',{
+                          @endif --}}
+                          {{-- <i class="fa fa-comment-o fa-1x" onclick="addNote('{{ route('medical.history.note.add',[$business]) }}',{
                             business_id : '{{$business->id}}',
                             contact_id : '{{$contacts->id}}',
                             history_id : historyId,
                             note : '',
                             csrf : '{{csrf_token()}}',
-                          });"></i>
+                          });"></i> --}}
 
                       </td>
                   </tr>
@@ -701,7 +715,7 @@ var putAppointmentNoteCallBack = () => {
                                         <select style="height:300px" multiple="" class="form-control" onclick="Template($(this).val(),'A')" id="tempalate_whatdo">
                                         @foreach($template as $temp)
                                         @if($temp->type == 'A')
-                                        <option value="{{$temp->desc}}">{{$temp->name}}</option>
+                                        <option value="{{$temp->description}}">{{$temp->name}}</option>
                                         @endif
                                         @endforeach
                                       </select>          
@@ -739,7 +753,7 @@ var putAppointmentNoteCallBack = () => {
                                         <select style="height:300px"  multiple="" class="form-control" onclick="Template($(this).val(),'Q')" id="tempalate_doing">
                                         @foreach($template as $temp)
                                         @if($temp->type == 'Q')
-                                        <option value="{{$temp->desc}}">{{$temp->name}}</option>
+                                        <option value="{{$temp->description}}">{{$temp->name}}</option>
                                         @endif
                                         @endforeach
                                       </select>   

@@ -18,8 +18,23 @@ class MedicalGroup extends EloquentModel
     protected $softDelete = true;
     protected $dates = ['deleted_at'];
     protected $table = 'medical_group';
-    protected $fillable = ['name','contacts'];
     
+    const TABLE = 'medical_group';
+    const NAME = 'name';
+    const CONTACT_ID = 'contact_id';
+    const BUSINESS_ID = 'business_id';
+
+    const NAME_NEW = 'new';
+    const NAMES = [
+        self::NAME_NEW,
+    ];
+
+    protected $fillable = [
+        self::NAME,
+        self::CONTACT_ID,
+        self::BUSINESS_ID,
+    ];
+
     public static function getGroup($contact_id){
         
         $paginate = MedicalGroup::query()
@@ -30,14 +45,13 @@ class MedicalGroup extends EloquentModel
         return $paginate;
     }
 
-    public static function getGroups(){
-        return MedicalGroup::all();
+    public static function getGroups($businessId){
+        return self::where(self::BUSINESS_ID, $businessId)->get();
     }
 
-    public static function putGroup($name, $id){
-        $update = ['name'=> $name];
+    public static function putGroup($name, $businessId, $id) {
+        $update = ['name'=> $name, 'business_id' => $businessId];
         $query = ['id' => $id];
-        //$result = MedicalGroup::create($update);
         $result = MedicalGroup::updateOrCreate($query,$update);
         return $result;
     }    

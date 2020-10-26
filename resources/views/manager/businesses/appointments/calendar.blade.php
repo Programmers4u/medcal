@@ -1,14 +1,15 @@
 @extends('layouts.app')
 
 @section('css')
-@parent
 <link rel="stylesheet" href="{{ asset('css/datetime.css') }}">
+@parent
 @endsection
 
 @push('footer_scripts')
 <script type="text/javascript" src="/js/calendar/calendar.min.js"></script>
 <script type="text/javascript" src="/js/cookie/cookie.min.js"></script>
 <script type="text/javascript" src="/js/appointment/appointment.min.js"></script>
+<script src="{{ asset('js/datetime.js') }}"></script>
 
 <script type="text/javascript">
 var csrf = '{{csrf_token()}}';   
@@ -119,7 +120,7 @@ tour.init();
 
 $(document).ready(function(){
     // Start the tour
-    tour.start();
+    // tour.start();
 
     $('.fc-prev-button.fc-button.fc-state-default.fc-corner-left').click(function(){
         try{

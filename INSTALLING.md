@@ -84,6 +84,7 @@ chmod 777 ./public
 
 **Update** [geoip](https://github.com/Torann/laravel-geoip) database:
 
+    php artisan vendor:publish --provider="Torann\GeoIP\GeoIPServiceProvider" --tag=config
     php artisan geoip:update
 
 And we are ready to go. **Run** the server:

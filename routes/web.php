@@ -347,6 +347,7 @@ Route::group(['prefix' => '{business}'], function ($business) {
                 'as'   => 'medical.interview.update',
                 'uses' => 'MedicalController@putInterview',
             ]);
+
             Route::post('permission/update',[
                 'as'   => 'medical.permission.update',
                 'uses' => 'MedicalController@putPermission',
@@ -391,6 +392,11 @@ Route::group(['prefix' => '{business}'], function ($business) {
             Route::post('note/put',[
                 'as'   => 'medical.note.put',
                 'uses' => 'MedicalController@ajaxPutNote',
+            ]);
+
+            Route::get('medicines',[
+                'as' => 'medicines.list',
+                'uses' => 'MedicalController@ajaxGetMedicines',
             ]);
     });
     

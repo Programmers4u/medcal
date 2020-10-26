@@ -77,7 +77,6 @@ class BookingController extends Controller
      */
     public function postAction(AlterAppointmentRequest $request)
     {
-        // logger()->info(__METHOD__);
         
         $isuser = auth()->user();
         $business = Business::findOrFail($request->input('business'));
@@ -146,10 +145,8 @@ class BookingController extends Controller
     }
     
     
-    public function postBooking(BookingRequest $request){
+    public function postBooking(BookingRequest $request) {
         
-        // logger()->info(__METHOD__);
-
         //////////////////
         // FOR REFACTOR //
         //////////////////
@@ -169,7 +166,6 @@ class BookingController extends Controller
             $contact = $this->getContact($business, $email);
 
             if (!$contact) {
-                // logger()->info('[ADVICE] Not subscribed');
                 flash()->warning(trans('user.booking.msg.store.not-registered'));
                 return redirect()->back();
             }
@@ -177,9 +173,6 @@ class BookingController extends Controller
             auth()->once(compact('email'));
         }
         
-        // Authorize contact is subscribed to Business
-        // ...
-
         $serviceId = $request->input('service_id');
         $service = $business->services()->find($serviceId);
         
@@ -200,66 +193,44 @@ class BookingController extends Controller
         $humanresource = $request->input('hr');
         $reservation = compact('issuer', 'contact', 'service', 'date_finish', 'time_finish','date_start', 'time_start', 'timezone', 'comments', 'humanresource','business');
 
-        // logger()->info('Reservation:'.print_r($reservation, true));
-
         $startAt = $this->makeDateTimeUTC($date_start, $time_start, $timezone);
-        $finishAt = $this->makeDateTimeUTC($date_finish, $time_finish, $timezone);//$startAt->copy()->addMinutes($service->duration);
-        
-        //if($this->isBookable($startAt,$finishAt) > 0) return response()->json("Nakładające się terminy!");
+        $finishAt = $this->makeDateTimeUTC($date_finish, $time_finish, $timezone);
+
         if($this->isCollision($startAt,$finishAt,$humanresource,$service->duration)) return response()->json("Nakładające się terminy!");
             
         try {
-            
             $appointment = $this->takeReservation($reservation);
-
         } catch (DuplicatedAppointmentException $e) {
-
             //$code = $this->concierge->appointment()->code;
-
             // logger()->info("DUPLICATED Appointment with CODE:{$e->getMessage()}");
             return response()->json("DUPLICATED Appointment with CODE:{$e->getMessage()}");
-            
-            //flash()->warning(trans('user.booking.msg.store.sorry_duplicated', compact('code')));
-
             if ($isOwner) {
                 //return redirect()->route('manager.business.agenda.index', compact('business'));
             }
-
             //return redirect()->route('user.agenda');
         }
 
         if (false === $appointment) {
-            // logger()->info('[ADVICE] Unable to book');
-
-            //flash()->warning(trans('user.booking.msg.store.error'));
-
             //return redirect()->back();
             return response()->json(trans('user.booking.msg.store.error'));
         }
-
-        // logger()->info('Appointment saved successfully');
 
         //flash()->success(trans('user.booking.msg.store.success', ['code' => $appointment->code]));
 
         if (!$issuer) {
             event(new NewSoftAppointmentWasBooked($appointment));
-
             //return view('guest.appointment.show', compact('appointment'));
         }
         
         event(new NewAppointmentWasBooked(auth()->user(), $appointment));
-
         if ($isOwner) {
             //return redirect()->route('manager.business.agenda.index', compact('business'));
         }
 
         //return redirect()->route('user.agenda', '#'.$appointment->code);
 
-        /**
-         * Save note for appointment
-         */
         if($appointment && $request->input('note',null)) {
-            Notes::setNote($request->input('note'),$appointment->id);
+            Notes::setNote($request->input('note'), $appointment->id, $business->id, $contactId);
         };
 
         return response()->json('Wizyta zapisana.');
@@ -561,9 +532,6 @@ class BookingController extends Controller
 
         $business = Business::findOrFail($request->input('businessId',null));
         $this->business = $business;
-        
-        // logger()->info(__METHOD__);
-        // logger()->info(sprintf('businessId:%s', $business->id));
 
         $issuer = auth()->user();
         
@@ -581,16 +549,27 @@ class BookingController extends Controller
             ->where('business_id','=',$business->id)
             ->where('start_at','>=', $where_at)
             ->where('start_at','<=',$where_to)
-            ->where(function($q) {
-                $q
-                ->where('status', \Timegridio\Concierge\Models\Appointment::STATUS_CONFIRMED)
-                ->orWhere('status', \Timegridio\Concierge\Models\Appointment::STATUS_RESERVED)
-                // ->orWhere('status', \Timegridio\Concierge\Models\Appointment::STATUS_SERVED)
-                ;
-            })
-            ->get();        
-
-        //logger()->debug($appointments);
+            // ->get()
+            ;        
+        
+        if($request->input('status')) {
+            $appointments
+                ->where(function($q) use ($request) {
+                    $q
+                    ->where('status', $request->input('status'))
+                    ;
+                });
+        } else {
+            $appointments
+                ->where(function($q) {
+                    $q
+                    ->where('status', Appointment::STATUS_CONFIRMED)
+                    ->orWhere('status', Appointment::STATUS_RESERVED)
+                    ;
+                });
+        }
+        
+        $appointments = $appointments->get();
 
         $jsAppointments = [];
 
@@ -619,7 +598,7 @@ class BookingController extends Controller
             }
             */
 
-            $note = Notes::getNote($appointment->id);
+            $note = Notes::getNote($appointment->id, $business->id,  $appointment->contact_id);
             $notes = '';
             if($note) {
                 $notes = null;

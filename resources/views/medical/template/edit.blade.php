@@ -10,7 +10,11 @@
             <div class="panel-heading">{{ trans('medical.template.create.title') }}</div>
 
             <div class="panel-body">
-                    @include('medical.template._form', ['submitLabel' => trans('manager.humanresource.btn.update'),'template_type'=>$template_type, 'business' => $business])
+                    @include('medical.template._form', [
+                        'submitLabel' => trans('manager.humanresource.btn.update'),
+                        'template_type'=>$template_type, 
+                        'business' => $business
+                    ])
             </div>
 
         </div>
@@ -18,36 +22,30 @@
 </div>
 @endsection
 @push('footer_scripts')
+<script>
+    var submit = function() {
+        webApi("{{ route('medical.template.store',[$business]) }}", {
+            csrf: '{{csrf_token()}}',
+            post: {
+                name: $('#name').val().replace(/\r\n/gi,' '),
+                description: $('#description').val().replace(/\r\n/gi,' '),
+                type: $('[name=template_type]').val(),
+                id : '',
+                businessId: '{{ $business->id }}',
+                success: function(data) {
+                    document.location.href='{{ route('medical.template.index',[$business]) }}';
+                },
+            }
+        });
+    }
+</script>
+
 <script>    
 $(document).ready(function(){
     $('#name').val('{{$template->name}}');
-    $('#template').val('{{str_replace(["\r","\n"]," ",$template->desc)}}');
+    $('#description').val('{{str_replace(["\r","\n"]," ",$template->description)}}');
     $('[name=template_type]').val('{{$template->type}}');
 });    
     
-var submit = function(){
-        
-    var post = {
-        name: $('#name').val().replace(/\r\n/gi,' '),
-        template: $('#template').val().replace(/\r\n/gi,' '),
-        type: $('[name=template_type]').val(),
-        id : '{{$template->id}}',
-    };
-        
-    $.ajax({
-        headers: {
-            'X-CSRF-TOKEN': '{{csrf_token()}}'
-        },            
-        url: "{{ route('medical.template.store',[$business]) }}",
-        data: post,            
-        dataType: "json",
-        type: "POST",
-        success: function (data) {
-            //alert(JSON.stringify(data));
-            alert('zaktualizowane');
-            document.location.href='{{ route('medical.template.index',[$business]) }}';
-        }
-    });
-}
 </script>
 @endpush

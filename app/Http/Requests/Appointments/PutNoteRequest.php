@@ -28,8 +28,9 @@ class PutNoteRequest extends Request
     public function rules()
     {
         return [
-            'appointmentId'    => 'required|integer',
+            'appointmentId'    => 'nullable|integer',
             'note' => 'required|string',
+            'businessId' => 'required',
         ];
     }
 }

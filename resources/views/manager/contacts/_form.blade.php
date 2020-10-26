@@ -1,5 +1,4 @@
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/forms.css') }}">
 <link rel="stylesheet" href="{{ asset('css/datetime.css') }}">
 <link rel="stylesheet" href="{{ asset('css/ionicons.min.css') }}">
 <link rel="stylesheet" href="{{ asset('css/intlTelInput/intlTelInput.css') }}">
@@ -136,35 +135,37 @@
 </div>
 
 @push('footer_scripts')
-<script src="{{ asset('js/forms.js') }}"></script>
-<script src="{{ asset('js/datetime.js') }}"></script>
 <script src="{{ asset('js/gender/gender.min.js') }}"></script>
-<script src="{{ asset('js/lib/utils.js') }}"></script>
 <script src="{{ asset('js/intlTelInput/intlTelInput.min.js') }}"></script>
+<script src="{{ asset('js/datetime.js') }}"></script>
 
 <script type="text/javascript">
 $(document).ready(function(){
 
-    $('input#firstname').focusout(function(){
+    $('input#firstname').focusin(function(){
         $(this).genderApi({key: '{{ env('GENDERAPI_KEY') }}'}).on('gender-found', function(e, result) {
             if (result.accuracy >= 55) {
-                if (result.gender == 'female') {  $('#gender').selectpicker('val', 'F'); };
+                switch(result.gender) {
+                    case 'female' : $('#gender').val('F'); break;
+                    case 'male' : $('#gender').val('M'); break;
+                }
                 console.log('Gender:' + result.gender +
                             ' Accuracy:' + result.accuracy +
                             ' Duration:' + result.duration);
             }
         });
     });
+    $('input#firstname').focus();
 
-//    $("#birthdate").datetimepicker( {
-//        viewMode: 'years',
-//        locale: '{{ Session::get('language') }}',
-//        format: '{!! trans('app.dateformat.datetimepicker') !!}' }
-//        );
+   $("#birthdate").datetimepicker( {
+       viewMode: 'years',
+       locale: '{{ Session::get('language') }}',
+       format: '{!! trans('app.dateformat.datetimepicker') !!}' 
+    });
 
 //    Select2 Icons disabled for now
 
-//    $('.select2').select2({
+//    $('#gender').select2({
 //        theme: 'bootstrap'
 //    });
 //    $('option[value="M"]').data("icon", "ion-male");
