@@ -207,7 +207,15 @@ class BusinessAgendaController extends Controller
         
         $contact = new Contact();
 
-        return view('manager.businesses.appointments.calendar', compact('contact','AktCalendarHr','business', 'icalURL', 'contacts','humanresources','requestst', 'services'));
+        return view('manager.businesses.appointments.calendar', compact(
+            'contact',
+            'AktCalendarHr',
+            'business',
+            'icalURL',
+            'contacts',
+            'humanresources',
+            'services'
+        ));
     }
 
     protected function getActiveLanguage($locale)
