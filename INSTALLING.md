@@ -143,7 +143,7 @@ Now you have two demo credentials to log in and play around.
     cd docker/mysql
     docker-compose up
 
-if you useing redis 
+if you using redis 
 
     cd docker/redis
     docker-compose up
