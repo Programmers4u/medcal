@@ -1,5 +1,6 @@
 MedCal
 ============
+Version: 1.0
 
 > **MedCal** helps doctors better and smarter working
 *online medcal calendar, appointment, medical records*.
