@@ -655,22 +655,22 @@ class BookingController extends Controller
     public static function freeDays() {
         $fdRows = [];
         $fdOut = [];
-        $fdRows = file(resource_path().'/files/holidays.csv');
-        foreach ($fdRows as $row) {
-            $comma = explode(";", $row);
-            $date = explode("-", $comma[0]);
-            $year = $date[2];
-            $month = $date[1];
-            $day = $date[0];
-            $start_at = Carbon::create($year, $month, $day)->toIso8601String();
-            $fdOut[] = [
-                'id'    => -1,
-                'title' => $comma[2],
-                'color' => "#cc0000",
-                'start' => $start_at,
-                'allDay' => TRUE,
-            ];
-        }
+        // $fdRows = file(resource_path().'/files/holidays.csv');
+        // foreach ($fdRows as $row) {
+        //     $comma = explode(";", $row);
+        //     $date = explode("-", $comma[0]);
+        //     $year = $date[2];
+        //     $month = $date[1];
+        //     $day = $date[0];
+        //     $start_at = Carbon::create($year, $month, $day)->toIso8601String();
+        //     $fdOut[] = [
+        //         'id'    => -1,
+        //         'title' => $comma[2],
+        //         'color' => "#cc0000",
+        //         'start' => $start_at,
+        //         'allDay' => TRUE,
+        //     ];
+        // }
         return $fdOut;
     }
 }
