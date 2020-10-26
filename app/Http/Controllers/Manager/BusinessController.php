@@ -144,9 +144,6 @@ class BusinessController extends Controller
      */
     public function show(Business $business)
     {
-        // logger()->info(__METHOD__);
-        // logger()->info(sprintf('businessId:%s', $business->id));
-
         $this->authorize('manage', $business);
 
         // BEGIN
@@ -161,7 +158,11 @@ class BusinessController extends Controller
 
         $time = $this->time->toTimeString();
 
-        return view('manager.businesses.show', compact('business', 'notifications', 'boxes', 'time'));
+        return view('manager.businesses.show', compact(
+            'business', 
+            'boxes', 
+            'time'
+        ));
     }
 
     /**
