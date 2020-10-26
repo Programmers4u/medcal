@@ -113,11 +113,14 @@ runs with the permissions of your web server. In this case it's called `nginx`.
 ### PM2 advisor
 
 To start you will need first install
-   ` yarn 
-    node pm2start`
+
+    yarn 
+    node pm2start
 
 To stop
-    node pm2stop
+
+    node 
+    pm2stop
 
 <a name="demosandbox"></a>
 ## Demo Sandbox Fixture
