@@ -117,6 +117,11 @@ To start you will need first install
     yarn 
     node pm2start
 
+**Type** on web browser:
+
+    http://localhost:1234/
+
+
 To stop
 
     node 
@@ -147,6 +152,11 @@ if you use redis
 
     cd docker/redis
     docker-compose up
+
+***type in console
+
+    php artisan serve --port 1234
+    php artisan queue:work
 
 * Run tests 
 `docker-compose run app /var/www/vendor/phpunit/phpunit/phpunit --configuration /var/www/phpunit.xml`
