@@ -19,7 +19,7 @@ class CreateTableMedicines extends Migration
             $table->softDeletes();
 
             $table->bigIncrements('id');
-            $table->string('name');
+            $table->string('name')->nullable();
             $table->string('shortname')->nullable();
             $table->string('power')->nullable();
             $table->string('shape')->nullable();

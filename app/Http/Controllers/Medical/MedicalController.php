@@ -14,11 +14,14 @@ use App\Http\Consts\ResponseApi;
 use App\Http\Requests\Appointments\GetNoteRequest;
 use App\Http\Requests\AppointmentNoteRequest;
 use App\Http\Requests\Appointments\PutNoteRequest;
+use App\Http\Resources\Medicines\DefaultResources;
 use App\Jobs\ProcessMedicalHistoryPdf;
+use App\Models\MedicalMedicines;
 use App\Models\Notes;
 use Illuminate\Http\JsonResponse;
 use Timegridio\Concierge\Models\Appointment;
 use App\Models\MedicalTemplates;
+use GuzzleHttp\Psr7\Response;
 
 class MedicalController extends Controller
 {
@@ -469,5 +472,20 @@ class MedicalController extends Controller
         $app = \Timegridio\Concierge\Models\Appointment::query()->find($link->id);
         $contact = Contact::query()->find($app->contact_id) ;
         return $this->index($business, $contact);
+    }
+
+    public function ajaxGetMedicines(Request $request) : JsonResponse 
+    {
+        $medicine = $request->input('medicine');
+
+        $medicines = MedicalMedicines::query()
+            ->where(MedicalMedicines::NAME, 'like', '%' . $medicine . '%')
+            ->limit(10)
+            ->get()
+            ;
+        
+        return response()->json(
+            new DefaultResources($medicines)
+        );
     }
 }

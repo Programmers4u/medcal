@@ -14,6 +14,7 @@ class MedicalMedicines extends Model
     protected $table = 'medical_medicines';
 
     const TABLE = 'medical_medicines';
+    const ID = 'id';
     const NAME = 'name';
     const SHORT_NAME = 'shortname';
     const POWER = 'power';

@@ -3,20 +3,15 @@
 {!! Form::select('sick', $interviewData['diseases_data'], null, ['multiple', 'style' =>'width:100%', 'id' => 'sick', 'class' => 'form-control select2']) !!}
 <br>
 {!! Form::label( trans('medical.interview.index.aid') ) !!}<br>
-{!! Form::select('aid', $interviewData['aid_data'], null, ['multiple', 'style' =>'width:100%', 'id' => 'aid', 'class' => 'form-control select2']) !!}
+{!! Form::select('medicine', [], null, ['multiple', 'style' =>'width:100%', 'id' => 'medicine', 'class' => 'form-control select2']) !!}
 <br>
 {!! Form::label( trans('medical.interview.index.desc') ) !!}<br>
 {!! Form::textarea('desc') !!}<br>
 
 @push('footer_scripts')
-<script src="{{ asset('js/forms.js') }}"></script>
 
 <script type="text/javascript">
 $('#sick').on('select2:select', function (e) { 
-
-    var data = e.params.data;
-    console.log(data);
-    
     var formData = {
         'action' : 'sick',
         'contact_id' : '{{$contacts->id}}',
@@ -46,10 +41,6 @@ $('#sick').on('select2:select', function (e) {
 </script>
 <script type="text/javascript">
 $('#sick').on('select2:unselect', function (e) { 
-
-    var data = e.params.data;
-    console.log(data);
-    
     var formData = {
         'action' : 'sick',
         'contact_id' : '{{$contacts->id}}',
@@ -78,10 +69,7 @@ $('#sick').on('select2:unselect', function (e) {
 })
 </script>
 <script type="text/javascript">
-$('#aid').on('select2:select', function (e) { 
-
-    var data = e.params.data;
-    console.log(data);
+$('#medicine').on('select2:select', function (e) { 
     
     var formData = {
         'action' : 'aid',
@@ -111,10 +99,7 @@ $('#aid').on('select2:select', function (e) {
 })
 </script>
 <script type="text/javascript">
-$('#aid').on('select2:unselect', function (e) { 
-
-    var data = e.params.data;
-    console.log(data);
+$('#medicine').on('select2:unselect', function (e) { 
 
     var formData = {
         'action' : 'aid',
@@ -145,9 +130,6 @@ $('#aid').on('select2:unselect', function (e) {
 </script>
 <script type="text/javascript">
 $('[name=desc]').on('change', function (e) { 
-    
-    console.log(e);
-    
     var formData = {
         'action' : 'desc',
         'contact_id' : '{{$contacts->id}}',
@@ -185,27 +167,52 @@ $(document).ready(function(){
         }, 3000);
     });
     
-    $('.select2').select2({
+    $('#sick').select2({
         theme: "bootstrap"
     });
+
     var tab = [];
     @foreach($interviewData['model']['diseases'] as $id)
-    @if($id['value']=='true')
-        tab.push({{$id['id']}});
-    @endif
+        @if($id['value']=='true')
+            tab.push({{$id['id']}});
+        @endif
     @endforeach
-    $('#sick').val(tab); // Select the option with a value of '1'
-    $('#sick').trigger('change'); // Notify any JS components that the value changed
+    $('#sick').val(tab);
+    $('#sick').trigger('change');
 
     tab = [];
     @foreach($interviewData['model']['aid'] as $id)
-    @if($id['value']=='true')
-        tab.push({{$id['id']}});
-    @endif
+        @if($id['value']=='true')
+            tab.push({{$id['id']}});
+        @endif
     @endforeach
     
-    $('#aid').val(tab); // Select the option with a value of '1'
-    $('#aid').trigger('change'); // Notify any JS components that the value changed
+    $('#medicine').select2({
+        theme: "bootstrap",
+        ajax: {
+            headers: {
+                'X-CSRF-TOKEN': '{{csrf_token()}}'
+            },                    
+            url: '{{ route("medicines.list",[$business])}}',
+            type: "get",
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    medicine: params.term // search term
+                };
+            },
+            processResults: function (response) {
+                return {
+                    results: response
+                };
+            },
+            cache: true,
+       },
+    });
+
+    $('#medicine').val(tab);
+    $('#medicine').trigger('change');
 
     $('[name=desc]').val('{{str_replace(["\r","\n"]," ",$interviewData['model']['desc'])}}');
 });
