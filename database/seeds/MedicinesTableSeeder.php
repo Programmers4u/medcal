@@ -13,10 +13,8 @@ class MedicinesTableSeeder extends Seeder
     {
         $records = $this->getFromFile();
         foreach ($records as $inx=>$record) {
-            //if($inx>0)return;
             try{
             $rec = explode(";", $record);
-            //dd($rec);
             if(empty($rec[0]) || empty($rec[1]) || !$rec[0] || !$rec[1]) continue;
             $query = [
                 'name' => $rec[0],
@@ -44,7 +42,7 @@ class MedicinesTableSeeder extends Seeder
     }
     
     private function getFromFile(){
-        $filename = dirname(__FILE__).'/seed_file/Produkty_lecznicze2.csv';
+        $filename = dirname(__FILE__).'/seed_file/medicines.csv';
         $fb = file_get_contents($filename); 
         return explode("\n", $fb);
     }

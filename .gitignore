@@ -1,4 +1,3 @@
-/database/seeds/seed_file/Produkty_lecznicze2.ods
 /public/vendor/
 /docker/mysql/dbdata/
 vendor
@@ -7,6 +6,7 @@ bower_components
 .vscode
 .DS_Store
 .env
-delete.this
-!.gitignore
 resources/medcal-front
+pm2start.js
+pm2stop.js
+!.gitignore

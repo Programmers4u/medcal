@@ -1,6 +1,6 @@
 const { exec } = require("child_process");
 
-const server = 'yarn pm2 stop "php artisan serve --port 8080"';
+const server = 'yarn pm2 stop "php artisan serve --port 1234"';
 const worker = 'yarn pm2 stop "php artisan queue:work"';
 
 const commands = [
