@@ -9,6 +9,7 @@
 * [Step 6: Configure Cron](#step6)
 * [Optional: demosandbox](#demosandbox)
 * [Optional: Docker](#docker)
+* [Optional: Artisan command](#command)
 
 <a name="requirements"></a>
 ## Requirements
@@ -153,7 +154,7 @@ if you use redis
     cd docker/redis
     docker-compose up
 
-***type in console
+**Type** on console
 
     php artisan serve --port 1234
     php artisan queue:work
@@ -162,3 +163,12 @@ if you use redis
 `docker-compose run app /var/www/vendor/phpunit/phpunit/phpunit --configuration /var/www/phpunit.xml`
 
 Medcal should be available http://localhost
+
+<a name="command"></a>
+## Artisan command 
+
+**Type** on console
+
+    php artisan view:clear
+    php artisan config:clear
+    php artisan cache:clear
