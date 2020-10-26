@@ -29,9 +29,6 @@ class ProfileController extends Controller
      */
     public function edit(Business $business)
     {
-        logger()->info(__METHOD__);
-        //logger()->info(sprintf('businessId:%s contactId:%s', $business->id, $contact->id));
-
         //$this->authorize('manage', $contact);
 
         // BEGIN
@@ -67,9 +64,6 @@ class ProfileController extends Controller
      */
     public function update(Business $business, Contact $contact, AlterProfileRequest $request)
     {
-        logger()->info(__METHOD__);
-        logger()->info(sprintf('businessId:%s contactId:%s', $business->id, $contact->id));
-
         $this->authorize('manage', $contact);
 
         // BEGIN
