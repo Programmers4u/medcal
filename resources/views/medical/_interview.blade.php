@@ -3,7 +3,7 @@
 {!! Form::select('sick', $interviewData['diseases_data'], null, ['multiple', 'style' =>'width:100%', 'id' => 'sick', 'class' => 'form-control select2']) !!}
 <br>
 {!! Form::label( trans('medical.interview.index.aid') ) !!}<br>
-{!! Form::select('medicine', [], null, ['multiple', 'style' =>'width:100%', 'id' => 'medicine', 'class' => 'form-control select2']) !!}
+{!! Form::select('medicine', $interviewData['aid_data'], null, ['multiple', 'style' =>'width:100%', 'id' => 'medicine', 'class' => 'form-control select2']) !!}
 <br>
 {!! Form::label( trans('medical.interview.index.desc') ) !!}<br>
 {!! Form::textarea('desc') !!}<br>
@@ -12,94 +12,56 @@
 
 <script type="text/javascript">
 $('#sick').on('select2:select', function (e) { 
+
+    var data = e.params.data;
+
     var formData = {
         'action' : 'sick',
         'contact_id' : '{{$contacts->id}}',
         'pair' : {
             'id' : data.id,
             'value' : data.selected.toString(),
-        }
+        },
+        'csrf' : '{{csrf_token()}}',
+        'type' : 'POST',
+        'success' : function(data) {
+            alert('zapisane');
+        },
+        'error' : function(data) {
+            alert('could not be updated','error');
+        },
     }
-    $.ajax({
-        headers: {
-            'X-CSRF-TOKEN': '{{csrf_token()}}'
-        },                    
-        type      : 'POST',
-        url       : '{{ route("medical.interview.update",[$business])}}',
-        data      : formData,
-        dataType  : 'json',
-        encode    : true
-        }).done(function(data) {
-            console.log(JSON.stringify(data));
-            console.log('updated OK'); 
-        }).error(function(data) {
-            console.log(JSON.stringify(data));
-            console.log('could not be updated'); 
-            alert('could not be updated');
-        });
+    webApi('{{ route("medical.interview.update",[$business])}}', formData);
 })
 </script>
 <script type="text/javascript">
 $('#sick').on('select2:unselect', function (e) { 
+
+    var data = e.params.data;
+
     var formData = {
         'action' : 'sick',
         'contact_id' : '{{$contacts->id}}',
         'pair' : {
             'id' : data.id,
             'value' : data.selected.toString(),
-        }
+        },
+        'csrf' : '{{csrf_token()}}',
+        'type' : 'POST',
+        'success' : function(data) {
+            alert('zapisane');
+        },
+        'error' : function(data) {
+            alert('could not be updated','error');
+        },
     }
-    $.ajax({
-        headers: {
-            'X-CSRF-TOKEN': '{{csrf_token()}}'
-        },                    
-        type      : 'POST',
-        url       : '{{ route("medical.interview.update",[$business])}}',
-        data      : formData,
-        dataType  : 'json',
-        encode    : true
-        }).done(function(data) {
-            console.log(JSON.stringify(data));
-            console.log('updated OK'); 
-        }).error(function(data) {
-            console.log(JSON.stringify(data));
-            console.log('could not be updated'); 
-            alert('could not be updated');
-        });
-})
+    webApi('{{ route("medical.interview.update",[$business])}}', formData);
+});
 </script>
 <script type="text/javascript">
 $('#medicine').on('select2:select', function (e) { 
     
-    var formData = {
-        'action' : 'aid',
-        'contact_id' : '{{$contacts->id}}',
-        'pair' : {
-            'id' : data.id,
-            'value' : data.selected.toString(),
-        }
-    }
-    $.ajax({
-        headers: {
-            'X-CSRF-TOKEN': '{{csrf_token()}}'
-        },                    
-        type      : 'POST',
-        url       : '{{ route("medical.interview.update",[$business])}}',
-        data      : formData,
-        dataType  : 'json',
-        encode    : true
-        }).done(function(data) {
-            console.log(JSON.stringify(data));
-            console.log('updated OK'); 
-        }).error(function(data) {
-            console.log(JSON.stringify(data));
-            console.log('could not be updated'); 
-            alert('could not be updated');
-        });
-})
-</script>
-<script type="text/javascript">
-$('#medicine').on('select2:unselect', function (e) { 
+    var data = e.params.data;
 
     var formData = {
         'action' : 'aid',
@@ -107,54 +69,63 @@ $('#medicine').on('select2:unselect', function (e) {
         'pair' : {
             'id' : data.id,
             'value' : data.selected.toString(),
-        }
+        },
+        'csrf' : '{{csrf_token()}}',
+        'type' : 'POST',
+        'success' : function(data) {
+            alert('zapisane');
+        },
+        'error' : function(data) {
+            alert('could not be updated','error');
+        },
     }
-    $.ajax({
-        headers: {
-            'X-CSRF-TOKEN': '{{csrf_token()}}'
-        },                    
-        type      : 'POST',
-        url       : '{{ route("medical.interview.update",[$business])}}',
-        data      : formData,
-        dataType  : 'json',
-        encode    : true
-        }).done(function(data) {
-            console.log(JSON.stringify(data));
-            console.log('updated OK'); 
-        }).error(function(data) {
-            console.log(JSON.stringify(data));
-            console.log('could not be updated'); 
-            alert('could not be updated');
-        });
+    webApi('{{ route("medical.interview.update",[$business])}}', formData);
+})
+</script>
+<script type="text/javascript">
+$('#medicine').on('select2:unselect', function (e) { 
+
+    var data = e.params.data;
+
+    var formData = {
+        'action' : 'aid',
+        'contact_id' : '{{$contacts->id}}',
+        'pair' : {
+            'id' : data.id,
+            'value' : data.selected.toString(),
+        },
+        'csrf' : '{{csrf_token()}}',
+        'type' : 'POST',
+        'success' : function(data) {
+            alert('zapisane');
+        },
+        'error' : function(data) {
+            alert('could not be updated','error');
+        },
+    }
+    webApi('{{ route("medical.interview.update",[$business])}}', formData);
 })
 </script>
 <script type="text/javascript">
 $('[name=desc]').on('change', function (e) { 
+    
     var formData = {
         'action' : 'desc',
         'contact_id' : '{{$contacts->id}}',
         'pair' : {
             'id' : -1,
             'value' : $('[name=desc]').val().replace(/\r\n/g, ' ').toString(),
-        }
+        },
+        'csrf' : '{{csrf_token()}}',
+        'type' : 'POST',
+        'success' : function(data) {
+            alert('zapisane');
+        },
+        'error' : function(data) {
+            alert('could not be updated','error');
+        },
     }
-    $.ajax({
-        headers: {
-            'X-CSRF-TOKEN': '{{csrf_token()}}'
-        },                    
-        type      : 'POST',
-        url       : '{{ route("medical.interview.update",[$business])}}',
-        data      : formData,
-        dataType  : 'json',
-        encode    : true
-        }).done(function(data) {
-            console.log(JSON.stringify(data));
-            console.log('updated OK'); 
-        }).error(function(data) {
-            console.log(JSON.stringify(data));
-            console.log('could not be updated'); 
-            alert('could not be updated');
-        });
+    webApi('{{ route("medical.interview.update",[$business])}}', formData);
 })
 </script>
 <script type="text/javascript">
