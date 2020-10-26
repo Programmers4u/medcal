@@ -318,6 +318,7 @@ var putAppointmentNoteCallBack = () => {
         note : $('#note')[0].value,
         businessId: '{{ $business->id }}',
         csrf : '{{csrf_token()}}',
+        contactId: '{{ $contacts->id }}',
         success : function (data) {
             setTimeout( () => {
                 console.log(data);
@@ -561,6 +562,7 @@ var putAppointmentNoteCallBack = () => {
                                   <td style="font-weight:bold;">{{ trans('medical.appointments.label.note') }}</td>
                                   <td>
                                     <div id="note_text"></div>
+                                    <br>
                                     <textarea id="note" class="form-control md-textarea"></textarea>
                                     <div style="padding-top:1em;" >
                                       {!! 
@@ -643,7 +645,7 @@ var putAppointmentNoteCallBack = () => {
                       <td><a class="fa fa-file fa-2x" href="javascript:historyId='{{$page->history}}';openFiles();"></a></td>
                       <td>
                           {{$page->name}}<br>
-                          @if($json->note!='' || $json->price!='')
+                          {{-- @if($json->note!='' || $json->price!='')
                           <i class="fa fa-info-circle fa-1x" onmouseover="$('#idinfo{{$page->history}}').toggle();"></i>
                           <div id='idinfo{{$page->history}}' style='min-width: 200px;padding: 0.9rem;display:none;background-color: #f1f6ff;font-size: 1.2rem;'>
                               ---<br>
@@ -655,14 +657,14 @@ var putAppointmentNoteCallBack = () => {
                               ---<br>
                               -->
                           </div>
-                          @endif
-                          <i class="fa fa-comment-o fa-1x" onclick="addNote('{{ route('medical.history.note.add',[$business]) }}',{
+                          @endif --}}
+                          {{-- <i class="fa fa-comment-o fa-1x" onclick="addNote('{{ route('medical.history.note.add',[$business]) }}',{
                             business_id : '{{$business->id}}',
                             contact_id : '{{$contacts->id}}',
                             history_id : historyId,
                             note : '',
                             csrf : '{{csrf_token()}}',
-                          });"></i>
+                          });"></i> --}}
 
                       </td>
                   </tr>

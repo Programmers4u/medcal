@@ -160,8 +160,6 @@ class AddressbookController extends Controller
      */
     public function edit(Business $business, Contact $contact)
     {
-        // logger()->info(__METHOD__);
-        // logger()->info(sprintf('businessId:%s contactId:%s', $business->id, $contact->id));
 
         $this->authorize('manageContacts', $business);
 
@@ -172,7 +170,7 @@ class AddressbookController extends Controller
         $notes = $contact->pivot->notes;
 
         $tab = [];
-        $groups = \App\Models\MedicalGroup::getGroups();
+        $groups = MedicalGroup::getGroups();
         $groupsList = [];
         foreach($groups as $g){
             $groupsList[$g['id']]=$g['name'];

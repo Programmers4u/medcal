@@ -77,7 +77,6 @@ class BookingController extends Controller
      */
     public function postAction(AlterAppointmentRequest $request)
     {
-        // logger()->info(__METHOD__);
         
         $isuser = auth()->user();
         $business = Business::findOrFail($request->input('business'));
@@ -167,7 +166,6 @@ class BookingController extends Controller
             $contact = $this->getContact($business, $email);
 
             if (!$contact) {
-                // logger()->info('[ADVICE] Not subscribed');
                 flash()->warning(trans('user.booking.msg.store.not-registered'));
                 return redirect()->back();
             }
@@ -197,19 +195,15 @@ class BookingController extends Controller
 
         $startAt = $this->makeDateTimeUTC($date_start, $time_start, $timezone);
         $finishAt = $this->makeDateTimeUTC($date_finish, $time_finish, $timezone);
-        //$startAt->copy()->addMinutes($service->duration);
-        
-        //if($this->isBookable($startAt,$finishAt) > 0) return response()->json("Nakładające się terminy!");
+
         if($this->isCollision($startAt,$finishAt,$humanresource,$service->duration)) return response()->json("Nakładające się terminy!");
             
         try {
             $appointment = $this->takeReservation($reservation);
-
         } catch (DuplicatedAppointmentException $e) {
             //$code = $this->concierge->appointment()->code;
             // logger()->info("DUPLICATED Appointment with CODE:{$e->getMessage()}");
             return response()->json("DUPLICATED Appointment with CODE:{$e->getMessage()}");
-            //flash()->warning(trans('user.booking.msg.store.sorry_duplicated', compact('code')));
             if ($isOwner) {
                 //return redirect()->route('manager.business.agenda.index', compact('business'));
             }
@@ -217,7 +211,6 @@ class BookingController extends Controller
         }
 
         if (false === $appointment) {
-            //flash()->warning(trans('user.booking.msg.store.error'));
             //return redirect()->back();
             return response()->json(trans('user.booking.msg.store.error'));
         }
@@ -237,7 +230,7 @@ class BookingController extends Controller
         //return redirect()->route('user.agenda', '#'.$appointment->code);
 
         if($appointment && $request->input('note',null)) {
-            Notes::setNote($request->input('note'), $appointment->id, $business->id);
+            Notes::setNote($request->input('note'), $appointment->id, $business->id, $contactId);
         };
 
         return response()->json('Wizyta zapisana.');
@@ -605,7 +598,7 @@ class BookingController extends Controller
             }
             */
 
-            $note = Notes::getNote($appointment->id);
+            $note = Notes::getNote($appointment->id, $business->id,  $appointment->contact_id);
             $notes = '';
             if($note) {
                 $notes = null;

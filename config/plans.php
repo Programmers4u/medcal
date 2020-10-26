@@ -52,7 +52,7 @@ return [
         'standard' => [
             'title'       => 'STANDARD',
             'description' => 'Partners use only',
-            'price'       => '40',
+            'price'       => '52',
             'currency'    => 'PLN',
             'limits'      => [
                 'contacts'    => 25000,

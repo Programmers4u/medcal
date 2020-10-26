@@ -22,6 +22,7 @@ use Illuminate\Http\JsonResponse;
 use Timegridio\Concierge\Models\Appointment;
 use App\Models\MedicalTemplates;
 use GuzzleHttp\Psr7\Response;
+use Timegridio\Concierge\Models\Humanresource;
 
 class MedicalController extends Controller
 {
@@ -75,36 +76,22 @@ class MedicalController extends Controller
         $staffs = $business->humanresources;
         $appoStaff = Appointment::query()
                ->where('business_id','=',$business->id)
-               //->where('humanresources_id','=',1)
                ->where('start_at','>', \Carbon\Carbon::today()->timezone($business->timezone)) 
                ->where('start_at','<', \Carbon\Carbon::tomorrow()->timezone($business->timezone)) 
                ->whereIn('status',['C','R'])
                ->orderBy('start_at','ASC')
                ->get();
-       //dd($appoStaff);
-        /*$status = '';
-        switch ($status){
-            case 'active' : 
-                $agenda = $this->concierge->business($business)->getActiveAppointments();
-            break;
-            case 'unserved' : 
-                $agenda = $this->concierge->business($business)->getUnservedAppointments();
-            break;
-            default:
-                $agenda = $this->concierge->business($business)->getUnarchivedAppointments();
-        }*/
+
         $cookie = cookie('medcallaststaff')->getValue();
-        //dd($cookie);
+
         $agenda = [];
         foreach($appoStaff as $ag){
             $staff = Humanresource::query()
                     ->where('id','=',$ag->humanresource_id)
                     ->where('business_id','=',$business->id)
                     ->get();
-            //dd($staff);
             $staff->name = (empty($staff[0]->name)) ? '' : $staff[0]->name;
             $userApp = Contact::query()->where('id','=',$ag->contact_id)->get();
-            //dd($userApp);
             $contactName = $userApp[0]->firstname.' '.$userApp[0]->lastname;
             $rec = [
                 'id'=>$ag->id,
@@ -115,10 +102,6 @@ class MedicalController extends Controller
                     ];
             array_push($agenda, $rec);
         };
-        //dd($historyPagin);
-        //$agenda = $agenda[2]->id;
-        //dd($agenda->links());
-        //dd($appointments);
         return view('medical._modal_documents',compact('agenda','staffs','typeTemplateQ','typeTemplateA','typeHistory','typePermission','typePermissionTemplate','permission_template','template','group','files','historyPagin','permission','interviewData','appointments','contacts','business'));
     }
     
@@ -439,9 +422,9 @@ class MedicalController extends Controller
 
         $note = Notes::getNote($appointmentId, $businessId, $contactId);
         $notes = null;
-        // $note->map(function($item) use (&$notes) {
-        //     $notes.= $item . "\n"; 
-        // });
+        $note->map(function($item) use (&$notes) {
+            $notes.= $item . "\n"; 
+        });
         $response = [
             ResponseApi::MEDICAL_NOTE => [
                 'note' => $notes,

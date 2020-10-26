@@ -37,7 +37,7 @@ var Appointment = {
                 if(error) {
                     error(data);
                 } else {
-                    alert('Błąd: '+textStatus);
+                    error(textStatus);
                 }
             }            
         })   
@@ -134,8 +134,4 @@ var openAddContact = function(){
         keyboard: false,
         backdrop: false,
     })     
-}
-
-var saveNote = function() {
-    
 }
