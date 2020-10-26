@@ -7,6 +7,7 @@ bower_components
 .vscode
 .DS_Store
 .env
-delete.this
-!.gitignore
 resources/medcal-front
+pm2start.js
+pm2stop.js
+!.gitignore
