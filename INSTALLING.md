@@ -115,6 +115,9 @@ runs with the permissions of your web server. In this case it's called `nginx`.
 
 To start you will need first install
 
+    cp pm2start.js.example pm2start.js
+    cp pm2stop.js.example pm2stop.js
+    
     yarn 
     node pm2start
 
