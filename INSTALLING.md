@@ -10,11 +10,10 @@
 * [Optional: demosandbox](#demosandbox)
 * [Optional: Docker](#docker)
 
-
 <a name="requirements"></a>
 ## Requirements
 
-Medical has some server requirements for web hosting:
+Medcal has some server requirements for web hosting:
 
   * PHP 7.1
   * OpenSSL PHP Extension
@@ -30,7 +29,7 @@ Medical has some server requirements for web hosting:
 
     git clone ...
 
-    cd medical
+    cd medcal
 
 -----
 <a name="step2"></a>
@@ -111,6 +110,14 @@ runs with the permissions of your web server. In this case it's called `nginx`.
 
 `* * * * * nginx php /var/www/artisan schedule:run >> /dev/null 2>&1`
 
+# PM2 advisor
+
+To start you will need first install
+    yarn 
+    node pm2start
+
+To stop
+    node pm2stop
 
 <a name="demosandbox"></a>
 ## Demo Sandbox Fixture
@@ -131,9 +138,15 @@ Now you have two demo credentials to log in and play around.
 
 ## Start
 
+cd docker/mysql
+
+docker-compose up
+
+cd docker/redis
+
 docker-compose up
 
 * Run tests 
 `docker-compose run app /var/www/vendor/phpunit/phpunit/phpunit --configuration /var/www/phpunit.xml`
 
-Medical should be available http://localhost
+Medcal should be available http://localhost
