@@ -138,16 +138,15 @@ Now you have two demo credentials to log in and play around.
     PASS: demoguest
 
 <a name="docker"></a>
+## Start docker 
 
-## Start
+    cd docker/mysql
+    docker-compose up
 
-cd docker/mysql
+if you useing redis 
 
-docker-compose up
-
-cd docker/redis
-
-docker-compose up
+    cd docker/redis
+    docker-compose up
 
 * Run tests 
 `docker-compose run app /var/www/vendor/phpunit/phpunit/phpunit --configuration /var/www/phpunit.xml`
