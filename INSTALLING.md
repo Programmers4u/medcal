@@ -110,11 +110,11 @@ runs with the permissions of your web server. In this case it's called `nginx`.
 
 `* * * * * nginx php /var/www/artisan schedule:run >> /dev/null 2>&1`
 
-# PM2 advisor
+### PM2 advisor
 
 To start you will need first install
-    yarn 
-    node pm2start
+   ` yarn 
+    node pm2start`
 
 To stop
     node pm2stop
