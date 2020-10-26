@@ -79,11 +79,11 @@ Back to your console, **migrate** database schema
 **Permissions** 
     
     chmod -R 777 ./storage
+    chmod 777 ./public
 
 for development
 
     chmod -R 777 ./bootstrap/cache
-    chmod 777 ./public
 
 **Update** [geoip](https://github.com/Torann/laravel-geoip) database:
 
