@@ -154,7 +154,7 @@ class BusinessAgendaController extends Controller
 
             //if(!isset($staff->color)) return redirect()->route('manager.business.humanresource.index',[$business]);
 
-            $note = Notes::getNote($appointment->id);
+            $note = Notes::getNote($appointment->id, $business->id, $appointment->contact_id);
             $notes = '';
             if($note) {
                 $notes = null;

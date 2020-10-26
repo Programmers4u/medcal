@@ -38,7 +38,7 @@ class Notes extends Model
     }
 
     public static function getNote($appointmentId, $businessId, $contactId) {
-        return $businessId ?? null;
+        if(!$businessId) return null;
         return Notes::where(Notes::BUSINESS_ID, $businessId)
             ->where(Notes::CONTACT_ID, $contactId)
             // ->where('appointment_id', $appointmentId)
