@@ -1,7 +1,9 @@
-MediCal
+MedCal
 ============
+Version: 1.0
 
-> **MediCal** helps contractors and customers to find the perfect meeting time through *online medical appointments*.
+> **MedCal** helps doctors better and smarter working
+*online medcal calendar, appointment, medical records*.
 
 ## Features
 
@@ -31,7 +33,7 @@ MediCal
 
 ## Live Demo
 
-[Test drive the *beta live demo*](http://medcal.pl)
+[Test drive the *beta live demo*](https://medcal.pl)
 
 ## Installing
 
@@ -53,7 +55,7 @@ Feel free to contribute with your preferred translation!
 
 ## Author
 
-MediCal is developed and maintained by [Marcin Kania](http://programmers4u.com).
+MedCal is developed and maintained by [Marcin Kania](http://programmers4u.com).
 
 ## Contributing
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Manager;
 use App\Events\NewContactWasRegistered;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ContactFormRequest;
+use App\Models\MedicalGroup;
 use App\Models\User;
 use CreateUser;
 use Illuminate\Http\JsonResponse;
@@ -170,7 +171,8 @@ class AddressbookController extends Controller
         $notes = $contact->pivot->notes;
 
         $tab = [];
-        $groups = MedicalGroup::getGroups();
+        $groups = [];
+        // MedicalGroup::getGroups();
         $groupsList = [];
         foreach($groups as $g){
             $groupsList[$g['id']]=$g['name'];

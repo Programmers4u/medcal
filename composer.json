@@ -49,7 +49,8 @@
         "timegridio/icalreader": "dev-master",
         "niklasravnsborg/laravel-pdf": "^4.0",
         "rollbar/rollbar-laravel": "^2.0",
-        "seanstewart/plan-config": "dev-master"        
+        "seanstewart/plan-config": "dev-master",
+        "fzaninotto/faker": "^1.9"        
      },
     "require-dev": {
         "phpunit/phpunit": "^6.0.0",
