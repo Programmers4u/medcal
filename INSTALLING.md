@@ -77,9 +77,9 @@ Back to your console, **migrate** database schema
 
 **Permissions** for development
 
-chmod -R 777 ./bootstrap/cache
-chmod -R 777 ./storage
-chmod 777 ./public
+    chmod -R 777 ./bootstrap/cache
+    chmod -R 777 ./storage
+    chmod 777 ./public
 
 **Update** [geoip](https://github.com/Torann/laravel-geoip) database:
 
