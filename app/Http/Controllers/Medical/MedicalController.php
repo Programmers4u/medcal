@@ -141,7 +141,7 @@ class MedicalController extends Controller
     }
 
     public function groupIndex(Business $business){
-        $groups = \App\Models\MedicalGroup::all(['id','name']);
+        $groups = []; //\App\Models\MedicalGroup::all(['id','name']);
         return view('medical.groups.index',compact('business','groups'));
     }
     
