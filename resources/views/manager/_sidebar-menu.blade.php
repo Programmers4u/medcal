@@ -36,12 +36,13 @@
             </li>    
             
             
-            <li class="{{ $route == 'medical.group.index' ? 'active' : '' }}" title="{{ trans('nav.manager.left.medical.group') }}" >
+            {{-- <li class="{{ $route == 'medical.group.index' ? 'active' : '' }}" title="{{ trans('nav.manager.left.medical.group') }}" >
                 <a href="{{ route('medical.group.index', $business) }}">
                     <i class="fa fa-users"></i>
                     <span>{{ trans('nav.manager.left.medical.group') }}</span>
                 </a>
-            </li>
+            </li> --}}
+
         </ul>
     </li>
 

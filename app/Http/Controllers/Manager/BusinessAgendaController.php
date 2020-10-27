@@ -16,6 +16,7 @@ use \App\Http\Controllers\API\BookingController;
 use App\Http\Requests\Request;
 use App\Models\MedicalTemplates;
 use App\Models\Notes;
+use Timegridio\Concierge\Models\Service;
 
 class BusinessAgendaController extends Controller
 {
@@ -103,20 +104,24 @@ class BusinessAgendaController extends Controller
     }
 
     public function getCalendar(Business $business, $hr=null)
-    {
-        
+    {    
         $this->authorize('manage', $business);
 
         $preferences = $business->preferences;
 
         if(count($preferences)===0){
-            flash()->warning('Brak ustawień, zapisz swoje ustawienia!');
+            // flash()->warning('Brak ustawień, zapisz swoje ustawienia!');
             return redirect()->route('manager.business.preferences', $business);
         };
 
         if(Humanresource::where('business_id', $business->id)->get()->count() === 0){
-            flash()->warning('Brak specjalistów');
+            // flash()->warning('Brak specjalistów');
             return redirect()->route('manager.business.humanresource.index', $business);
+        };
+
+        if(Service::where('business_id', $business->id)->get()->count() === 0){
+            // flash()->warning(trans('manager.dashboard.alert.no_services_set'));
+            return redirect()->route('manager.business.service.index', $business);
         };
 
         // if(MedicalTemplates::where('business_id', $business->id)->get()->count() === 0){
