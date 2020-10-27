@@ -120,7 +120,7 @@ tour.init();
 
 $(document).ready(function(){
     // Start the tour
-    // tour.start();
+    tour.start();
 
     $('.fc-prev-button.fc-button.fc-state-default.fc-corner-left').click(function(){
         try{

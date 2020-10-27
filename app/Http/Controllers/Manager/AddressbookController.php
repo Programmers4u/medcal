@@ -140,7 +140,7 @@ class AddressbookController extends Controller
         $contact = $business->addressbook()->find($contact);
         
         $tab = [];
-        // $groups = MedicalGroup::getGroups();
+        $groups = [];//MedicalGroup::getGroups();
         $groupsList = [];
         // foreach($groups as $g){
         //     $groupsList[$g['id']]=$g['name'];
@@ -148,7 +148,14 @@ class AddressbookController extends Controller
 
         $existingContact = User::where('email','=',$contact->email)->first();
 
-        return view('manager.contacts.show', compact('existingContact','tab','business', 'contact', 'groupsList','groups'));
+        return view('manager.contacts.show', compact(
+            'existingContact',
+            'tab',
+            'business',
+            'contact',
+            'groupsList',
+            'groups'
+        ));
     }
 
     /**
@@ -178,7 +185,14 @@ class AddressbookController extends Controller
             $groupsList[$g['id']]=$g['name'];
         }
         
-        return view('manager.contacts.edit', compact('tab','groups','groupsList','business', 'contact', 'notes'));
+        return view('manager.contacts.edit', compact(
+            'tab',
+            'groups',
+            'groupsList',
+            'business',
+            'contact',
+            'notes'
+        ));
     }
 
     /**

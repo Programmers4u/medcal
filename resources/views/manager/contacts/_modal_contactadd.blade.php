@@ -62,7 +62,7 @@ var saveContact = function () {
         <h3 class="modal-title" id="addContactModalLabel">{{trans('manager.contacts.create.title')}}</h3>
       </div>
       <div class="modal-body" style="min-height: 23em;">
-          @include('manager.contacts._miniform', [compact('$contact')])            
+          @include('manager.contacts._miniform', [compact('contact')])            
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ trans('manager.contacts.btn.close') }}</button>
