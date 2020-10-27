@@ -99,7 +99,7 @@ class MedicalController extends Controller
                 'staff'=>$staff->name,
                 'staff_id'=>$ag->humanresource_id,
                 'contact_name' => $contactName,
-                    ];
+            ];
             array_push($agenda, $rec);
         };
         return view('medical._modal_documents',compact(
