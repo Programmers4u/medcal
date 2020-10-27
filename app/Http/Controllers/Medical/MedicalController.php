@@ -60,7 +60,7 @@ class MedicalController extends Controller
 
         $files = $this->getFiles($business, $contact);
         
-        // $group = MedicalGroup::getAll($business);
+        $group = []; //MedicalGroup::getAll($business);
         
         $template = MedicalTemplates::getAll($business);
         
@@ -102,7 +102,25 @@ class MedicalController extends Controller
                     ];
             array_push($agenda, $rec);
         };
-        return view('medical._modal_documents',compact('agenda','staffs','typeTemplateQ','typeTemplateA','typeHistory','typePermission','typePermissionTemplate','permission_template','template','group','files','historyPagin','permission','interviewData','appointments','contacts','business'));
+        return view('medical._modal_documents',compact(
+            'agenda',
+            'staffs',
+            'typeTemplateQ',
+            'typeTemplateA',
+            'typeHistory',
+            'typePermission',
+            'typePermissionTemplate',
+            'permission_template',
+            'template',
+            'group',
+            'files',
+            'historyPagin',
+            'permission',
+            'interviewData',
+            'appointments',
+            'contacts',
+            'business'
+        ));
     }
     
     /**
