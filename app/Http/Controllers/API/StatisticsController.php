@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Consts\ResponseApi;
-use App\Http\Controllers\Controller;
 use Timegridio\Concierge\Models\Business;
-use \Carbon\Carbon;
-use App\Http\Requests\Statistics\GetRequest;
-use App\Http\Resources\Statistics\DefaultResources;
-use App\Models\Datasets;
-use App\Models\MedicalHistory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Cache;
-use Timegridio\Concierge\Models\Contact;
+use Illuminate\Support\Facades\Hash;
+
+use App\Http\Consts\ResponseApi;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Statistics\GetRequest;
+use App\Jobs\ProcessDatasetImport;
+use App\Models\Datasets;
 
 class StatisticsController extends Controller
 {
@@ -28,61 +27,60 @@ class StatisticsController extends Controller
 
     public function getIndex(GetRequest $request, Business $business) : JsonResponse
     {
-        $model = MedicalHistory::query();
-        $dataset = null;
-        
-        $this->setRecords($model);
+        $dataset = null;        
+        $this->setRecords();
 
         switch($request->input('type')) {
+
             case self::DIAGNOSIS: 
-                $dataset = [ 
-                    Datasets::query()
-                    ->selectRaw('Count(1) as data, concat(substring(diagnosis,1,20),"...") as label, created_at as labels')
-                    ->groupBy(Datasets::DIAGNOSIS)
-                    // ->groupBy(Datasets::DATE_OF_EXAMINATION)
-                    ->havingRaw('data < 100')
-                    ->orderBy('data', 'DESC')
-                    ->limit(20)
-                    ->get()->toArray()
-                ];
+                $model = Datasets::query()
+                        ->selectRaw('Count(1) as data, concat(substring(diagnosis,1,20),"...") as label, created_at as labels')
+                        ->groupBy(Datasets::DIAGNOSIS)
+                        ->havingRaw('data < 100')
+                        ->orderBy('data', 'DESC')
+                        ->limit(20)
+                        // ->get()
+                        // ->toArray()
+                ;
+                $model = Cache::remember(hash::make($model->toSql()), 1, function () use($model) {
+                    return $model->get()->toArray();                    
+                });
+                $dataset = [$model];
             break;
+            
             case self::DIAGNOSIS_PATIENT: 
             
-                $modelTwo = Datasets::query()
+                $model = Datasets::query()
                     ->selectRaw('Count(1) as data, concat(substring(diagnosis,1,20),"...") as label, created_at as labels')
                     ->groupBy(Datasets::DIAGNOSIS)
-                    // ->groupBy(Datasets::DATE_OF_EXAMINATION)
                     ->havingRaw('data < 100')
                     ->orderBy('data', 'DESC')
                     ->limit(10)
-                    ;
-                $modelTwo = Cache::remember(md5($modelTwo->toSql()), 5, function () use($modelTwo) {
+                ;
+                
+                $modelTwo = $model;
+                
+                $model = Cache::remember(hash::make($model->toSql()), 1, function () use($model) {
+                    return $model->get()->toArray();                    
+                });
+
+                if($request->input('contactId')) {
+                    $modelTwo->where(Datasets::UUID, $request->input('contactId'));
+                };
+
+                $modelTwo = Cache::remember(hash::make($modelTwo->toSql()), 1, function () use($modelTwo) {
                     return $modelTwo->get()->toArray();                    
                 });
 
-                $modelOne = Datasets::query()
-                    ->selectRaw('Count(1) as data, concat(substring(diagnosis,1,20),"...") as label, created_at as labels')
-                    ->groupBy(Datasets::DIAGNOSIS)
-                    // ->groupBy(Datasets::DATE_OF_EXAMINATION)
-                    ->havingRaw('data < 100')
-                    ->orderBy('data', 'DESC')
-                    ->limit(10)
-                    ;
+                // Cache::flush();
 
-                if($request->input('contactId')) {
-                    $modelOne->where(Datasets::UUID, md5($request->input('contactId')));
-                    // $model->where(MedicalHistory::CONTACT_ID,$request->input('contactId'));
-                };
-                
-                $modelOne = Cache::remember(md5($modelOne->toSql()), 5, function () use($modelOne) {
-                        return $modelOne->get()->toArray();                    
-                });
-                array_push($modelOne,['data'=>0,'label'=>'','labels'=>'']);
+                array_push($model,['data'=>0,'label'=>'','labels'=>'']);
                 array_push($modelTwo,['data'=>0,'label'=>'','labels'=>'']);
-                $dataset = [$modelOne, $modelTwo];
+                
+                $dataset = [$modelTwo, $model];
+
             break;
             case self::DIAGNOSIS_SEX: 
-                $this->setRecords($model);
                 $datasetFemale = Datasets::query()
                         ->selectRaw('Count(1) as data, concat(substring(diagnosis,1,20),"...") as label, created_at as labels')
                         ->where(Datasets::SEX, Datasets::SEX_FEMALE)
@@ -91,8 +89,13 @@ class StatisticsController extends Controller
                         ->havingRaw('data < 100')
                         ->orderBy('data', 'DESC')
                         ->limit(10)
-                        ->get()->toArray()
+                        // ->get()
+                        // ->toArray()
                     ;
+                $datasetFemale = Cache::remember(Hash::make($datasetFemale->toSql()), 1, function () use ($datasetFemale) {
+                    return $datasetFemale->get()->toArray();
+                });   
+
                 $datasetMale = Datasets::query()
                     ->selectRaw('Count(1) as data, concat(substring(diagnosis,1,20),"...") as label, created_at as labels')
                     ->where(Datasets::SEX, Datasets::SEX_MALE)
@@ -101,24 +104,28 @@ class StatisticsController extends Controller
                     ->havingRaw('data < 100')
                     ->orderBy('data', 'DESC')
                     ->limit(10)
-                    ->get()->toArray()
+                    // ->get()->toArray()
                 ;
+                $datasetMale = Cache::remember(Hash::make($datasetMale->toSql()), 1, function () use ($datasetMale) {
+                    return $datasetMale->get()->toArray();
+                });    
 
                 array_push($datasetMale,['data'=>0,'label'=>'','labels'=>'']);
                 array_push($datasetFemale,['data'=>0,'label'=>'','labels'=>'']);
 
                 $dataset = [$datasetFemale, $datasetMale];
+
             break;
             default: 
-                $this->setRecords($model);
-                $dataset = [Datasets::query()
+                $dataset = [
+                    Datasets::query()
                     ->selectRaw('Count(1) as data, concat(substring(diagnosis,1,20),"...") as label, created_at as labels')
                     ->groupBy(Datasets::DIAGNOSIS)
-                    // ->groupBy(Datasets::DATE_OF_EXAMINATION)
                     ->havingRaw('data < 100')
                     ->orderBy('data', 'DESC')
                     ->limit(10)
-                    ->get()->toArray()
+                    ->get()
+                    ->toArray()
             ];
             break;
         }
@@ -132,7 +139,8 @@ class StatisticsController extends Controller
         ]);
     }
 
-    private function make($dataset) {
+    private function make($dataset) : array 
+    {
         $singleFormat = [
             'data' => [],
             'labels' => [],
@@ -146,25 +154,8 @@ class StatisticsController extends Controller
         return $singleFormat;
     }
 
-    private function setRecords($model) : void 
+    private function setRecords() : void 
     {
-        if(!is_array($model))
-            $model = $model->get()->toArray();
-        if(Datasets::all()->count() >= count($model)) return;
-        foreach($model as $m) {
-            $edm = json_decode($m['json_data']);
-            $contact = Contact::find($m['contact_id']);
-            $birthdate = $contact ? $contact->birthday : '';
-            $sex = $contact? $contact->gender : '';
-            Datasets::create([
-                Datasets::DATE_OF_EXAMINATION  => Carbon::parse($m['created_at']),
-                Datasets::BIRTHDAY => Carbon::parse($birthdate),
-                Datasets::SEX => $sex === 'M' ? Datasets::SEX_MALE : Datasets::SEX_FEMALE,
-                Datasets::DIAGNOSIS => $edm->diagnosis,
-                Datasets::PROCEDURES => $edm->procedures,  
-                Datasets::UUID => md5($contact->id),      
-            ]);    
-        }
-
+        dispatch(new ProcessDatasetImport());
     }
 }
