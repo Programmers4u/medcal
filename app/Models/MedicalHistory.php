@@ -28,7 +28,7 @@ class MedicalHistory extends EloquentModel
         self::HUMANRESOURCES_ID,
     ];
     
-    public static function getHistory($contact_id){
+    public static function getHistory($contact_id) {
         $paginate = MedicalHistory::query()
                 ->select('json_data','medical_history.id as history','appointment_id','medical_history.created_at','medical_history.updated_at','humanresources.name','appointments.start_at')//,'start_at'
                 ->where('medical_history.contact_id','=',$contact_id)
