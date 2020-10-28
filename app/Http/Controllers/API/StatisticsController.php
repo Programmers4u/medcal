@@ -74,7 +74,6 @@ class StatisticsController extends Controller
                 });
 
                 $dataset = [$model, $modelTwo];
-                // dd($dataset);
             break;
             case self::DIAGNOSIS_SEX: 
                 $datasetFemale = Datasets::query()
