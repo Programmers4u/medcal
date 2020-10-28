@@ -53,7 +53,7 @@ class ProcessDatasetImport implements ShouldQueue
                 ->get()
                 ->count()
                 ;
-            if( $check > 0 ) continue;
+            if( $check === 0 ) {
             $edm = json_decode($m['json_data']);
             $contact = Contact::find($m['contact_id']);
             $birthdate = $contact ? $contact->birthday : '';
@@ -65,7 +65,8 @@ class ProcessDatasetImport implements ShouldQueue
                 Datasets::DIAGNOSIS => $edm->diagnosis,
                 Datasets::PROCEDURES => $edm->procedures,  
                 Datasets::UUID => $contact->id,      
-            ]);    
+            ]);   
+            }; 
         }
 
     }
