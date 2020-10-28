@@ -16,6 +16,8 @@ use \App\Http\Controllers\API\BookingController;
 use App\Http\Requests\Request;
 use App\Models\MedicalTemplates;
 use App\Models\Notes;
+use Timegridio\Concierge\Models\Service;
+use Illuminate\Support\Facades\Cache;
 
 class BusinessAgendaController extends Controller
 {
@@ -93,7 +95,10 @@ class BusinessAgendaController extends Controller
         }
         // dd($appointments->get());
 
-        $appointments = $appointments->with('contact')->orderBy('start_at','ASC')->get();
+        $appointments = Cache::remember('appointments-agenda-index-' . $status, env('CACHE_DEFAULT_TIMEOUT_MIN',1), function () use($appointments) {
+            return $appointments->with('contact')->orderBy('start_at','ASC')->get();
+        });
+        
         $viewKey = count($appointments) == 0
             ? 'manager.businesses.appointments.empty'
             : "manager.businesses.appointments.{$business->strategy}.index";
@@ -103,20 +108,24 @@ class BusinessAgendaController extends Controller
     }
 
     public function getCalendar(Business $business, $hr=null)
-    {
-        
+    {    
         $this->authorize('manage', $business);
 
         $preferences = $business->preferences;
 
         if(count($preferences)===0){
-            flash()->warning('Brak ustawień, zapisz swoje ustawienia!');
+            // flash()->warning('Brak ustawień, zapisz swoje ustawienia!');
             return redirect()->route('manager.business.preferences', $business);
         };
 
         if(Humanresource::where('business_id', $business->id)->get()->count() === 0){
-            flash()->warning('Brak specjalistów');
+            // flash()->warning('Brak specjalistów');
             return redirect()->route('manager.business.humanresource.index', $business);
+        };
+
+        if(Service::where('business_id', $business->id)->get()->count() === 0){
+            // flash()->warning(trans('manager.dashboard.alert.no_services_set'));
+            return redirect()->route('manager.business.service.index', $business);
         };
 
         // if(MedicalTemplates::where('business_id', $business->id)->get()->count() === 0){
@@ -129,19 +138,21 @@ class BusinessAgendaController extends Controller
         $start_at = Carbon::createFromTimestamp(time());
         $where_at = Carbon::parse($start_at,$business->timezone)->addDays(-7);
         $where_to = Carbon::parse($start_at,$business->timezone)->addDays(7);
-        $appointments = Appointment::query()
-            ->where('business_id','=',$business->id)
-            ->where('start_at','>=', $where_at)
-            ->where('start_at','<=',$where_to)
-            ->where(function($q) {
-                $q
-                ->where('status', Appointment::STATUS_CONFIRMED)
-                ->orWhere('status', Appointment::STATUS_RESERVED)
-                ;
-            })
-            ->limit(150)
-            ->get();        
-        
+        $appointments = Cache::remember('appointments-get-calendar', env('CACHE_DEFAULT_TIMEOUT_MIN',1), function () use($business,$where_at,$where_to) {            
+            return Appointment::query()
+                ->where('business_id','=',$business->id)
+                ->where('start_at','>=', $where_at)
+                ->where('start_at','<=',$where_to)
+                ->where(function($q) {
+                    $q
+                    ->where('status', Appointment::STATUS_CONFIRMED)
+                    ->orWhere('status', Appointment::STATUS_RESERVED)
+                    ;
+                })
+                ->limit(150)
+                ->get();        
+        });
+
         $jsAppointments = [];
 
         foreach ($appointments as $appointment) {

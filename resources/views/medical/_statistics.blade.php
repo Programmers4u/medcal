@@ -34,35 +34,17 @@ Statistics.get(function(data) {
             labels : data.statistics[1].labels,
             datasets: [{
                 label: 'Rozpoznania u pacjenta',
-                data: data.statistics[0].data,
-                backgroundColor: [
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                ],
-                borderColor: [
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(54, 162, 235, 1)',
-                ],
+                data: data.statistics[1].data,
+                backgroundColor: data.statistics[0].data.map(item=>{
+                    return 'rgba(54, 162, 235, 0.2)';
+                }),
+                borderColor: data.statistics[0].data.map(item=>{
+                    return 'rgba(255, 99, 132, 1)';
+                }),                
                 borderWidth: 1            
             }, {
                 label: 'Rozpoznania wszyscy pacjenci',
-                data: data.statistics[1].data,
+                data: data.statistics[0].data,
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(255, 99, 132, 0.2)',

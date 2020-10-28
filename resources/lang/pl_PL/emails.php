@@ -3,14 +3,14 @@
 return [
     'root'    => [
         'report' => [
-            'subject' => 'Root Report',
+            'subject' => 'Root Raport',
         ],
     ],
     'manager' => [
         'business-report' => [
-            'subject'      => 'Schedule report of :date at :businessName',
-            'welcome'      => 'Hi :ownerName',
-            'button'       => 'View Calendar',
+            'subject'      => 'Raport spotkań :date at :businessName',
+            'welcome'      => 'Cześć :ownerName',
+            'button'       => 'Zobacz kalendarz',
         ],
         'appointment-notification' => [
             'subject'      => 'Masz nowe spotkanie',
@@ -29,14 +29,14 @@ return [
         'welcome' => [
             'subject'              => 'Witamy w MedCal.pl',
             'hello-title'          => 'Cześć :userName',
-            'hello-paragraph'      => 'MedCal pomaga optymalnie zaplanować czas abyś mógł(a) skupić się na swojej profesji.',
+            'hello-paragraph'      => 'MedCal pomaga optymalnie zaplanować czas i analizować dane medyczne abyś mógł(a) lepiej leczyć. Skup się na swojej profesji, a resztą zajmie się MedCal.',
             'quickstart-title'     => 'Jesteś gotowy/a do pracy?',
             'quickstart-paragraph' => 'Wystarczy wejść do programu w dowolnym momencie i dokonać rezerwacji.',
             'button' => 'Miłej pracy :)',
         ],
         'appointment-notification' => [
             'subject'              => 'Szczegóły Twojego nowego spotkania',
-            'hello-title'          => ':userName, umówiłeś się na nowy termin',
+            'hello-title'          => ':userName, umówił(a)eś się na nowy termin',
             'hello-paragraph'      => 'Twoja rezerwacja spotkania została podjęta.',
             'appointment-title'    => 'Oto szczegóły twojego spotkania',
             'button'               => 'Zobacz agendę',

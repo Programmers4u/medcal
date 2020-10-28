@@ -27,6 +27,7 @@ use App\Http\Requests\Appointments\BookingRequest;
 use App\Models\Notes;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Cache;
 use Timegridio\Concierge\Exceptions\DuplicatedAppointmentException;
 
 use Timegridio\Concierge\Booking\BookingManager;
@@ -569,7 +570,9 @@ class BookingController extends Controller
                 });
         }
         
-        $appointments = $appointments->get();
+        $appointments = Cache::remember(md5($appointments->toSql()), env('CACHE_DEFAULT_TIMEOUT_MIN',1), function () use ($appointments) {
+            return $appointments->get();
+        }); 
 
         $jsAppointments = [];
 

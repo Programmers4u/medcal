@@ -10,6 +10,7 @@ use \Timegridio\Concierge\Models\Appointment;
 use \Timegridio\Concierge\Models\Humanresource;
 use \Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Cache;
 
 class AroundBusinessController extends Controller
 {
@@ -24,7 +25,8 @@ class AroundBusinessController extends Controller
         $toDay = Carbon::now()->startOfDay();
         $endDay = $toDay->copy()->endOfDay();
 
-        $appointments = Appointment::query()
+        $appointments = Cache::remember('appointments-around-business', env('CACHE_DEFAULT_TIMEOUT_MIN',1), function () use ($business,$toDay,$endDay) {
+            return Appointment::query()
                ->where('business_id','=',$business->id)
                ->where('start_at','>', $toDay) 
                ->where('start_at','<', $endDay) 
@@ -32,6 +34,7 @@ class AroundBusinessController extends Controller
                ->orderBy('start_at','ASC')
                ->get()
                ;
+        });
 
         $agenda = [];
         foreach($appointments as $appointment ) {

@@ -17,9 +17,9 @@ class Kernel extends HttpKernel
      */
     protected $middleware = [
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
-        //\App\Http\Middleware\Language::class,
+        \App\Http\Middleware\Language::class,
         //\App\Http\Middleware\SessionDataCheckMiddleware::class,
-        //\App\Http\Middleware\SessionTimeout::class,
+        \App\Http\Middleware\SessionTimeout::class,
     ];
 
     /**

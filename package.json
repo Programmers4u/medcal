@@ -13,11 +13,11 @@
     "webpack-cli": "^3.3.10"
   },
   "dependencies": {
-    "adminlte": "~2.4",
-    "chart.js": "^2.9.3",
-    "jquery": "^3.5.1",
     "nvm": "0.0.4",
     "pm2": "^4.5.0",
-    "webpack": "^4.41.5"
+    "webpack": "^4.41.5",
+    "adminlte": "~2.4",
+    "chart.js": "^2.9.3",
+    "jquery": "^3.5.1"
   }
 }

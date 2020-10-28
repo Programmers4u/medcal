@@ -54,12 +54,12 @@
                 <!-- /.col -->
             </div>
         </form>
-        <!--
-        <div class="social-auth-links text-center">
+        
+        {{-- <div class="social-auth-links text-center">
             <p>- {{ trans('auth.label.oauth_direct_access') }} -</p>
             @include('auth/social')
-        </div>
-        -->
+        </div> --}}
+        
         <!-- /.social-auth-links -->
 
         <a class="btn btn-link" href="{{ url('/password/reset') }}">{{ trans('auth.login.forgot') }}</a><br>

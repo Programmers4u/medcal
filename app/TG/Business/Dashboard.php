@@ -3,6 +3,7 @@
 namespace App\TG\Business;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 
 class Dashboard
 {
@@ -76,15 +77,30 @@ class Dashboard
     protected function loadCounters()
     {
         // Build Dashboard Report
-        $this->counter['appointments_active_today'] = $this->business->bookings()->whereIn('status', ['C'])->ofDate($this->time->today())->get()->count();
-        $this->counter['appointments_reserversion'] = $this->business->bookings()->whereIn('status', ['R'])->get()->count();
-        $this->counter['appointments_canceled_today'] = $this->business->bookings()->canceled()->get()->count();
-        $this->counter['appointments_active_tomorrow'] = $this->business->bookings()->active()->ofDate($this->time->tomorrow())->get()->count();
+        // $this->counter['appointments_active_today'] = $this->business->bookings()->whereIn('status', ['C'])->ofDate($this->time->today())->get()->count();
+        $this->counter['appointments_active_today'] = Cache::remember('appointments_active_today', env('CACHE_DEFAULT_TIMEOUT_MIN',1), function () {
+            return $this->business->bookings()->whereIn('status', ['C'])->ofDate($this->time->today())->get()->count();
+        });
+        $this->counter['appointments_reserversion'] = Cache::remember('appointments_reserversion', env('CACHE_DEFAULT_TIMEOUT_MIN',1), function () {
+            return $this->business->bookings()->whereIn('status', ['R'])->get()->count();
+        });
+        $this->counter['appointments_canceled_today'] = Cache::remember('appointments_canceled_today', env('CACHE_DEFAULT_TIMEOUT_MIN',1), function () {
+            return $this->business->bookings()->canceled()->get()->count();
+        });
+        $this->counter['appointments_active_tomorrow'] = Cache::remember('appointments_active_tomorrow', env('CACHE_DEFAULT_TIMEOUT_MIN',1), function () {
+            return $this->business->bookings()->active()->ofDate($this->time->tomorrow())->get()->count();
+        });
 //        $this->counter['appointments_active_total'] = $this->business->bookings()->active()->get()->count();
 //        $this->counter['appointments_served_total'] = $this->business->bookings()->served()->get()->count();
-        $this->counter['appointments_total'] = $this->business->bookings()->get()->count();
-        $this->counter['contacts_registered'] = $this->business->contacts()->count();
-        $this->counter['contacts_subscribed'] = $this->business->contacts()->whereNotNull('user_id')->count();
+        $this->counter['appointments_total'] = Cache::remember('appointments_total', env('CACHE_DEFAULT_TIMEOUT_MIN',1), function () {
+            return $this->business->bookings()->get()->count();
+        });
+        $this->counter['contacts_registered'] = Cache::remember('contacts_registered', env('CACHE_DEFAULT_TIMEOUT_MIN',1), function () {
+           return $this->business->contacts()->count();
+        });
+        $this->counter['contacts_subscribed'] = Cache::remember('contacts_subscribed', env('CACHE_DEFAULT_TIMEOUT_MIN',1), function () {
+            return $this->business->contacts()->whereNotNull('user_id')->count();
+        });
     }
 
     public function getBoxes()

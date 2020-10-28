@@ -276,6 +276,8 @@ var getAppoIdFromLink = function(){
             getAppointmentNote('{{ route('medical.note.get', [$business]) }}', {
                 csrf: '{{csrf_token()}}',
                 appointmentId: appointment_id,
+                businessId: '{{ $business->id }}',
+                contactId: '{{ $contacts->id }}',
                 success: function(data) { 
                     setTimeout( () => {
                         console.log(data)
@@ -498,6 +500,8 @@ var putAppointmentNoteCallBack = () => {
                                         getAppointmentNote('{{ route('medical.note.get', [$business]) }}', {
                                             csrf: '{{csrf_token()}}',
                                             appointmentId: appointment_id,
+                                            businessId: '{{ $business->id }}',
+                                            contactId: '{{ $contacts->id }}',
                                             success: function(data) { 
                                                 setTimeout( () => {
                                                     console.log(data)
@@ -659,8 +663,8 @@ var putAppointmentNoteCallBack = () => {
                           </div>
                           @endif --}}
                           {{-- <i class="fa fa-comment-o fa-1x" onclick="addNote('{{ route('medical.history.note.add',[$business]) }}',{
-                            business_id : '{{$business->id}}',
-                            contact_id : '{{$contacts->id}}',
+                            businessId : '{{$business->id}}',
+                            contactId : '{{$contacts->id}}',
                             history_id : historyId,
                             note : '',
                             csrf : '{{csrf_token()}}',

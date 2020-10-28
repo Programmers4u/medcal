@@ -16,7 +16,6 @@
 
     <link rel="stylesheet" href="{{ asset('css/forms.css') }}">
 
-
     <link rel="manifest" href="/manifest.json">
 
     <script type="text/javascript" src="/js/rollbar.min.js"></script>

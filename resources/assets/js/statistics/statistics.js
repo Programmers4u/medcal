@@ -18,18 +18,16 @@ var Statistics = {
             dataType: "json",
             type: "GET",
             success: function (data) {
-                // console.log('successLog: ', data);
                 if(success) {
                     success(data);
                 }
             },
             error: function(jqXHR, textStatus, errorThrown)
             {
-                // console.log('errorLog: ' + textStatus);
                 if(error) {
-                    error(data);
+                    error(textStatus);
                 } else {
-                    alert('Błąd: '+textStatus);
+                    alert(errorThrown);
                 }
             }            
         })   

@@ -38,6 +38,7 @@ return  [
       'reset'     => 'Skasuj hasło',
       'send_link' => 'Wyślij link resetujący hasło',
     ],
+    'text' => 'Naciśnij tutaj aby zresetować swoje hasło',
     'title' => 'Reset hasła',
   ],
   'social' => [
