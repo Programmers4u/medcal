@@ -35,9 +35,12 @@ class StatisticsController extends Controller
             case self::DIAGNOSIS: 
                 $this->setRecords($model);
                 $dataset =[ Datasets::query()
-                    ->selectRaw('Count(1) as data, diagnosis as label, created_at as labels')
+                    ->selectRaw('Count(1) as data, concat(substring(diagnosis,1,20),"...") as label, created_at as labels')
                     ->groupBy(Datasets::DIAGNOSIS)
                     // ->groupBy(Datasets::DATE_OF_EXAMINATION)
+                    ->havingRaw('data < 100')
+                    ->orderBy('data', 'DESC')
+                    ->limit(20)
                     ->get()->toArray()
                 ];
                 // array_push($dataset,['data'=>0,'label'=>'','labels'=>'']);
@@ -48,9 +51,12 @@ class StatisticsController extends Controller
                 $this->setRecords($model);
             
                 $modelTwo = Datasets::query()
-                    ->selectRaw('Count(1) as data, diagnosis as label, created_at as labels')
+                    ->selectRaw('Count(1) as data, concat(substring(diagnosis,1,20),"...") as label, created_at as labels')
                     ->groupBy(Datasets::DIAGNOSIS)
                     // ->groupBy(Datasets::DATE_OF_EXAMINATION)
+                    ->havingRaw('data < 100')
+                    ->orderBy('data', 'DESC')
+                    ->limit(20)
                     ->get()->toArray();
 
                 if($request->input('contactId')) {
@@ -61,9 +67,12 @@ class StatisticsController extends Controller
                 $this->setRecords($model);
         
                 $modelOne = Datasets::query()
-                    ->selectRaw('Count(1) as data, diagnosis as label, created_at as labels')
+                    ->selectRaw('Count(1) as data, concat(substring(diagnosis,1,20),"...") as label, created_at as labels')
                     ->groupBy(Datasets::DIAGNOSIS)
                     // ->groupBy(Datasets::DATE_OF_EXAMINATION)
+                    ->havingRaw('data < 100')
+                    ->orderBy('data', 'DESC')
+                    ->limit(10)
                     ->get()->toArray()
                     ;
                 array_push($modelOne,['data'=>0,'label'=>'','labels'=>'']);
@@ -73,17 +82,23 @@ class StatisticsController extends Controller
             case self::DIAGNOSIS_SEX: 
                 $this->setRecords($model);
                 $datasetFemale = Datasets::query()
-                        ->selectRaw('Count(1) as data, diagnosis as label, created_at as labels')
+                        ->selectRaw('Count(1) as data, concat(substring(diagnosis,1,20),"...") as label, created_at as labels')
                         ->where(Datasets::SEX, Datasets::SEX_FEMALE)
                         ->groupBy(Datasets::DIAGNOSIS)
                         // ->groupBy(Datasets::DATE_OF_EXAMINATION)
+                        ->havingRaw('data < 100')
+                        ->orderBy('data', 'DESC')
+                        ->limit(10)
                         ->get()->toArray()
                     ;
                 $datasetMale = Datasets::query()
-                    ->selectRaw('Count(1) as data, diagnosis as label, created_at as labels')
+                    ->selectRaw('Count(1) as data, concat(substring(diagnosis,1,20),"...") as label, created_at as labels')
                     ->where(Datasets::SEX, Datasets::SEX_MALE)
                     ->groupBy(Datasets::DIAGNOSIS)
                     // ->groupBy(Datasets::DATE_OF_EXAMINATION)
+                    ->havingRaw('data < 100')
+                    ->orderBy('data', 'DESC')
+                    ->limit(10)
                     ->get()->toArray()
                 ;
 
@@ -95,9 +110,12 @@ class StatisticsController extends Controller
             default: 
                 $this->setRecords($model);
                 $dataset = [Datasets::query()
-                    ->selectRaw('Count(1) as data, diagnosis as label, created_at as labels')
+                    ->selectRaw('Count(1) as data, concat(substring(diagnosis,1,20),"...") as label, created_at as labels')
                     ->groupBy(Datasets::DIAGNOSIS)
                     // ->groupBy(Datasets::DATE_OF_EXAMINATION)
+                    ->havingRaw('data < 100')
+                    ->orderBy('data', 'DESC')
+                    ->limit(10)
                     ->get()->toArray()
             ];
             break;
@@ -126,9 +144,11 @@ class StatisticsController extends Controller
         return $singleFormat;
     }
 
-    private function setRecords($model) {
+    private function setRecords($model) : void 
+    {
         if(!is_array($model))
             $model = $model->get()->toArray();
+        if(Datasets::all()->count() >= count($model)) return;
         foreach($model as $m) {
             $edm = json_decode($m['json_data']);
             $contact = Contact::find($m['contact_id']);
