@@ -22,6 +22,7 @@ class Datasets extends Model
     const PROCEDURES = 'procedures';
     const SEX_MALE = 'male';
     const SEX_FEMALE = 'female';
+    const UUID = 'uuid';
 
     const SEXS = [
         self::SEX_MALE,
@@ -34,7 +35,8 @@ class Datasets extends Model
         self::DIAGNOSIS,
         self::PROCEDURES,
         self::SEX,
-        self::BIRTHDAY
+        self::BIRTHDAY,
+        self::UUID,
     ];
     
     // RELATION
