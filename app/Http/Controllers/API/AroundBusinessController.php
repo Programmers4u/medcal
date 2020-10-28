@@ -25,7 +25,7 @@ class AroundBusinessController extends Controller
         $toDay = Carbon::now()->startOfDay();
         $endDay = $toDay->copy()->endOfDay();
 
-        $appointments = Cache::remember('appointments-around-business', 30, function () use ($business,$toDay,$endDay) {
+        $appointments = Cache::remember('appointments-around-business', env('CACHE_DEFAULT_TIMEOUT_MIN',1), function () use ($business,$toDay,$endDay) {
             return Appointment::query()
                ->where('business_id','=',$business->id)
                ->where('start_at','>', $toDay) 

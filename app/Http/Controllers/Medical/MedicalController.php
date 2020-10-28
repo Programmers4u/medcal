@@ -57,7 +57,7 @@ class MedicalController extends Controller
 
         $permission = $this->getPermission($contact);
 
-        $historyPagin = Cache::remember(md5($contact->id), 1, function () use ($contact) {
+        $historyPagin = Cache::remember(md5($contact->id), env('CACHE_DEFAULT_TIMEOUT_MIN',1), function () use ($contact) {
            return $this->getHistory($contact); 
         });
 

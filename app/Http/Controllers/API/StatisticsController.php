@@ -42,14 +42,15 @@ class StatisticsController extends Controller
                         // ->get()
                         // ->toArray()
                 ;
-                $model = Cache::remember(hash::make($model->toSql()), 1, function () use($model) {
+                $model = Cache::remember(hash::make($model->toSql()), env('CACHE_DEFAULT_TIMEOUT_MIN',1), function () use($model) {
                     return $model->get()->toArray();                    
                 });
                 $dataset = [$model];
             break;
             
             case self::DIAGNOSIS_PATIENT: 
-            
+                Cache::flush();
+                
                 $model = Datasets::query()
                     ->selectRaw('Count(1) as data, concat(substring(diagnosis,1,20),"...") as label, created_at as labels')
                     ->groupBy(Datasets::DIAGNOSIS)
@@ -59,8 +60,8 @@ class StatisticsController extends Controller
                 ;
                 
                 $modelTwo = $model;
-                
-                $model = Cache::remember(hash::make($model->toSql()), 1, function () use($model) {
+
+                $model = Cache::remember('patient-diagnosis-all', env('CACHE_DEFAULT_TIMEOUT_MIN',1), function () use($model) {
                     return $model->get()->toArray();                    
                 });
 
@@ -68,17 +69,12 @@ class StatisticsController extends Controller
                     $modelTwo->where(Datasets::UUID, $request->input('contactId'));
                 };
 
-                $modelTwo = Cache::remember(hash::make($modelTwo->toSql()), 1, function () use($modelTwo) {
+                $modelTwo = Cache::remember(Hash::make($modelTwo->toSql()), env('CACHE_DEFAULT_TIMEOUT_MIN',1), function () use($modelTwo) {
                     return $modelTwo->get()->toArray();                    
                 });
 
-                // Cache::flush();
-
-                array_push($model,['data'=>0,'label'=>'','labels'=>'']);
-                array_push($modelTwo,['data'=>0,'label'=>'','labels'=>'']);
-                
-                $dataset = [$modelTwo, $model];
-
+                $dataset = [$model, $modelTwo];
+                // dd($dataset);
             break;
             case self::DIAGNOSIS_SEX: 
                 $datasetFemale = Datasets::query()
@@ -92,7 +88,7 @@ class StatisticsController extends Controller
                         // ->get()
                         // ->toArray()
                     ;
-                $datasetFemale = Cache::remember(Hash::make($datasetFemale->toSql()), 1, function () use ($datasetFemale) {
+                $datasetFemale = Cache::remember(Hash::make($datasetFemale->toSql()), env('CACHE_DEFAULT_TIMEOUT_MIN',1), function () use ($datasetFemale) {
                     return $datasetFemale->get()->toArray();
                 });   
 
@@ -106,7 +102,7 @@ class StatisticsController extends Controller
                     ->limit(10)
                     // ->get()->toArray()
                 ;
-                $datasetMale = Cache::remember(Hash::make($datasetMale->toSql()), 1, function () use ($datasetMale) {
+                $datasetMale = Cache::remember(Hash::make($datasetMale->toSql()), env('CACHE_DEFAULT_TIMEOUT_MIN',1), function () use ($datasetMale) {
                     return $datasetMale->get()->toArray();
                 });    
 
@@ -147,9 +143,11 @@ class StatisticsController extends Controller
             'label' => [],
         ];
         foreach($dataset as $data) {
+            if(isset($data['data'])) {
             array_push($singleFormat['data'], $data['data']);
             array_push($singleFormat['labels'], $data['label']);
             array_push($singleFormat['label'], $data['label']);
+            }
         }
         return $singleFormat;
     }

@@ -570,7 +570,7 @@ class BookingController extends Controller
                 });
         }
         
-        $appointments = Cache::remember(md5($appointments->toSql()), 5, function () use ($appointments) {
+        $appointments = Cache::remember(md5($appointments->toSql()), env('CACHE_DEFAULT_TIMEOUT_MIN',1), function () use ($appointments) {
             return $appointments->get();
         }); 
 
