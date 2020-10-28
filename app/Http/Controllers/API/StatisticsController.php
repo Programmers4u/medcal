@@ -11,6 +11,7 @@ use App\Http\Resources\Statistics\DefaultResources;
 use App\Models\Datasets;
 use App\Models\MedicalHistory;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Cache;
 use Timegridio\Concierge\Models\Contact;
 
 class StatisticsController extends Controller
@@ -27,14 +28,15 @@ class StatisticsController extends Controller
 
     public function getIndex(GetRequest $request, Business $business) : JsonResponse
     {
-
         $model = MedicalHistory::query();
         $dataset = null;
+        
+        $this->setRecords($model);
 
         switch($request->input('type')) {
             case self::DIAGNOSIS: 
-                $this->setRecords($model);
-                $dataset =[ Datasets::query()
+                $dataset = [ 
+                    Datasets::query()
                     ->selectRaw('Count(1) as data, concat(substring(diagnosis,1,20),"...") as label, created_at as labels')
                     ->groupBy(Datasets::DIAGNOSIS)
                     // ->groupBy(Datasets::DATE_OF_EXAMINATION)
@@ -43,12 +45,8 @@ class StatisticsController extends Controller
                     ->limit(20)
                     ->get()->toArray()
                 ];
-                // array_push($dataset,['data'=>0,'label'=>'','labels'=>'']);
             break;
             case self::DIAGNOSIS_PATIENT: 
-
-                Datasets::truncate();                    
-                $this->setRecords($model);
             
                 $modelTwo = Datasets::query()
                     ->selectRaw('Count(1) as data, concat(substring(diagnosis,1,20),"...") as label, created_at as labels')
@@ -56,16 +54,12 @@ class StatisticsController extends Controller
                     // ->groupBy(Datasets::DATE_OF_EXAMINATION)
                     ->havingRaw('data < 100')
                     ->orderBy('data', 'DESC')
-                    ->limit(20)
-                    ->get()->toArray();
+                    ->limit(10)
+                    ;
+                $modelTwo = Cache::remember(md5($modelTwo->toSql()), 5, function () use($modelTwo) {
+                    return $modelTwo->get()->toArray();                    
+                });
 
-                if($request->input('contactId')) {
-                    $model->where(MedicalHistory::CONTACT_ID,$request->input('contactId'));
-                };
-        
-                Datasets::truncate();
-                $this->setRecords($model);
-        
                 $modelOne = Datasets::query()
                     ->selectRaw('Count(1) as data, concat(substring(diagnosis,1,20),"...") as label, created_at as labels')
                     ->groupBy(Datasets::DIAGNOSIS)
@@ -73,8 +67,16 @@ class StatisticsController extends Controller
                     ->havingRaw('data < 100')
                     ->orderBy('data', 'DESC')
                     ->limit(10)
-                    ->get()->toArray()
                     ;
+
+                if($request->input('contactId')) {
+                    $modelOne->where(Datasets::UUID, md5($request->input('contactId')));
+                    // $model->where(MedicalHistory::CONTACT_ID,$request->input('contactId'));
+                };
+                
+                $modelOne = Cache::remember(md5($modelOne->toSql()), 5, function () use($modelOne) {
+                        return $modelOne->get()->toArray();                    
+                });
                 array_push($modelOne,['data'=>0,'label'=>'','labels'=>'']);
                 array_push($modelTwo,['data'=>0,'label'=>'','labels'=>'']);
                 $dataset = [$modelOne, $modelTwo];
@@ -159,7 +161,8 @@ class StatisticsController extends Controller
                 Datasets::BIRTHDAY => Carbon::parse($birthdate),
                 Datasets::SEX => $sex === 'M' ? Datasets::SEX_MALE : Datasets::SEX_FEMALE,
                 Datasets::DIAGNOSIS => $edm->diagnosis,
-                Datasets::PROCEDURES => $edm->procedures,        
+                Datasets::PROCEDURES => $edm->procedures,  
+                Datasets::UUID => md5($contact->id),      
             ]);    
         }
 

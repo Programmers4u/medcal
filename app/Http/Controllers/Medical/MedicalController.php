@@ -22,6 +22,7 @@ use Illuminate\Http\JsonResponse;
 use Timegridio\Concierge\Models\Appointment;
 use App\Models\MedicalTemplates;
 use GuzzleHttp\Psr7\Response;
+use Illuminate\Support\Facades\Cache;
 use Timegridio\Concierge\Models\Humanresource;
 
 class MedicalController extends Controller
@@ -56,7 +57,9 @@ class MedicalController extends Controller
 
         $permission = $this->getPermission($contact);
 
-        $historyPagin = $this->getHistory($contact);
+        $historyPagin = Cache::remember(md5($contact->id), 1, function () use ($contact) {
+           return $this->getHistory($contact); 
+        });
 
         $files = $this->getFiles($business, $contact);
         
