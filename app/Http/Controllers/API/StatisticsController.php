@@ -11,18 +11,25 @@ use App\Http\Consts\ResponseApi;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Statistics\GetRequest;
 use App\Jobs\ProcessDatasetImport;
-use App\Models\Datasets;
+use App\Models\{
+    Datasets,
+    MedicalHistory
+};
+use Carbon\Carbon;
 
 class StatisticsController extends Controller
 {
     const DIAGNOSIS = 'diagnosis';
     const DIAGNOSIS_SEX = 'diagnosis_sex';
     const DIAGNOSIS_PATIENT = 'diagnosis_patient';
+    
+    const BUSINESS_PRICE = 'business_price';
 
     const STATISTICS = [
         self::DIAGNOSIS,
         self::DIAGNOSIS_SEX,
         self::DIAGNOSIS_PATIENT,
+        self::BUSINESS_PRICE,
     ];
 
     public function getIndex(GetRequest $request, Business $business) : JsonResponse
@@ -39,8 +46,6 @@ class StatisticsController extends Controller
                         ->havingRaw('data < 100')
                         ->orderBy('data', 'DESC')
                         ->limit(20)
-                        // ->get()
-                        // ->toArray()
                 ;
                 $model = Cache::remember(hash::make($model->toSql()), env('CACHE_DEFAULT_TIMEOUT_MIN',1), function () use($model) {
                     return $model->get()->toArray();                    
@@ -80,12 +85,9 @@ class StatisticsController extends Controller
                         ->selectRaw('Count(1) as data, concat(substring(diagnosis,1,20),"...") as label, created_at as labels')
                         ->where(Datasets::SEX, Datasets::SEX_FEMALE)
                         ->groupBy(Datasets::DIAGNOSIS)
-                        // ->groupBy(Datasets::DATE_OF_EXAMINATION)
                         ->havingRaw('data < 100')
                         ->orderBy('data', 'DESC')
                         ->limit(10)
-                        // ->get()
-                        // ->toArray()
                     ;
                 $datasetFemale = Cache::remember(Hash::make($datasetFemale->toSql()), env('CACHE_DEFAULT_TIMEOUT_MIN',1), function () use ($datasetFemale) {
                     return $datasetFemale->get()->toArray();
@@ -95,11 +97,9 @@ class StatisticsController extends Controller
                     ->selectRaw('Count(1) as data, concat(substring(diagnosis,1,20),"...") as label, created_at as labels')
                     ->where(Datasets::SEX, Datasets::SEX_MALE)
                     ->groupBy(Datasets::DIAGNOSIS)
-                    // ->groupBy(Datasets::DATE_OF_EXAMINATION)
                     ->havingRaw('data < 100')
                     ->orderBy('data', 'DESC')
                     ->limit(10)
-                    // ->get()->toArray()
                 ;
                 $datasetMale = Cache::remember(Hash::make($datasetMale->toSql()), env('CACHE_DEFAULT_TIMEOUT_MIN',1), function () use ($datasetMale) {
                     return $datasetMale->get()->toArray();
@@ -111,6 +111,69 @@ class StatisticsController extends Controller
                 $dataset = [$datasetFemale, $datasetMale];
 
             break;
+            case self::BUSINESS_PRICE: 
+                Cache::flush();
+
+                $model = MedicalHistory::query()
+                    ->where(MedicalHistory::CREATED_AT,'>=',Carbon::now()->startOfYear())
+                    ->where(MedicalHistory::BUSINESS_ID,$request->input('businessId'))
+                ;
+                $process = [];
+                $process = Cache::remember($request->input('type') . '-model', env('CACHE_DEFAULT_TIMEOUT_MIN',1), function () use($model) {
+                    $process = [];
+                    $model = $model->get();                    
+
+                    foreach($model as $index => $oneSet) {
+                        $mh = json_decode($oneSet->json_data);
+                        if(isset($mh->price) && !empty($mh->price))  {
+                            $findLabel = array_intersect_key($process, 
+                                array_intersect(array_column($process, "label"), 
+                                    [substr($oneSet->{MedicalHistory::CREATED_AT},0,7)]
+                                )
+                            );
+                            if(!$findLabel) {
+                                array_push($process, [ 
+                                    'data' => $mh->price, 
+                                    'label' => substr($oneSet->{MedicalHistory::CREATED_AT},0,7),
+                                    'times' => 1,
+                                ]);    
+                            } else {
+                                $process[key($findLabel)]['data'] += $mh->price;
+                                $process[key($findLabel)]['times'] += 1;
+                            }
+                        }
+                    };
+                    return $process;
+                });
+
+                $modelTwo = $process;
+                $modelThree = $process;
+
+                // format price
+                for($indx=0;$indx<count($process);$indx++) 
+                    $process[$indx]['data'] = round($process[$indx]['data'],2);
+                $model = $process;
+
+                $process = [];
+                foreach($modelTwo as $mt) {
+                    array_push($process, [ 
+                        'data' => round( array_sum(array_map(function($item) {return $item['data'];},$modelTwo))/count($modelTwo), 2), 
+                        'label' => $mt['label'],
+                    ]);    
+                };
+                $modelTwo = $process;
+
+                $process = [];
+                foreach($modelThree as $mt) {
+                    array_push($process, [ 
+                        'data' => $mt['data'] / count($modelThree), 
+                        'label' => $mt['label'],
+                    ]);    
+                };
+                $modelThree = $process;
+
+                $dataset = [ array_slice($model,0,20), array_slice($modelTwo,0,20), array_slice($modelThree,0,20)];
+            break;
             default: 
                 $dataset = [
                     Datasets::query()
@@ -121,7 +184,7 @@ class StatisticsController extends Controller
                     ->limit(10)
                     ->get()
                     ->toArray()
-            ];
+                ];
             break;
         }
 
