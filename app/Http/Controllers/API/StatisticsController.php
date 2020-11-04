@@ -46,8 +46,6 @@ class StatisticsController extends Controller
                         ->havingRaw('data < 100')
                         ->orderBy('data', 'DESC')
                         ->limit(20)
-                        // ->get()
-                        // ->toArray()
                 ;
                 $model = Cache::remember(hash::make($model->toSql()), env('CACHE_DEFAULT_TIMEOUT_MIN',1), function () use($model) {
                     return $model->get()->toArray();                    
@@ -87,12 +85,9 @@ class StatisticsController extends Controller
                         ->selectRaw('Count(1) as data, concat(substring(diagnosis,1,20),"...") as label, created_at as labels')
                         ->where(Datasets::SEX, Datasets::SEX_FEMALE)
                         ->groupBy(Datasets::DIAGNOSIS)
-                        // ->groupBy(Datasets::DATE_OF_EXAMINATION)
                         ->havingRaw('data < 100')
                         ->orderBy('data', 'DESC')
                         ->limit(10)
-                        // ->get()
-                        // ->toArray()
                     ;
                 $datasetFemale = Cache::remember(Hash::make($datasetFemale->toSql()), env('CACHE_DEFAULT_TIMEOUT_MIN',1), function () use ($datasetFemale) {
                     return $datasetFemale->get()->toArray();
@@ -102,11 +97,9 @@ class StatisticsController extends Controller
                     ->selectRaw('Count(1) as data, concat(substring(diagnosis,1,20),"...") as label, created_at as labels')
                     ->where(Datasets::SEX, Datasets::SEX_MALE)
                     ->groupBy(Datasets::DIAGNOSIS)
-                    // ->groupBy(Datasets::DATE_OF_EXAMINATION)
                     ->havingRaw('data < 100')
                     ->orderBy('data', 'DESC')
                     ->limit(10)
-                    // ->get()->toArray()
                 ;
                 $datasetMale = Cache::remember(Hash::make($datasetMale->toSql()), env('CACHE_DEFAULT_TIMEOUT_MIN',1), function () use ($datasetMale) {
                     return $datasetMale->get()->toArray();
@@ -125,37 +118,41 @@ class StatisticsController extends Controller
                     // ->where(MedicalHistory::BUSINESS_ID,$business_id)
                     ->where(MedicalHistory::CREATED_AT,'>=',Carbon::now()->startOfYear())
                     ->get()
-                    // ->toArray()
                 ;
                 $process = [];
                 foreach($medicalHistory as $index => $oneSet) {
                     $mh = json_decode($oneSet->json_data);
                     if(isset($mh->price) && !empty($mh->price))  {
-                        $findLabel = array_intersect_key($process, array_intersect(array_column($process, "label"), [substr($oneSet->{MedicalHistory::CREATED_AT},0,7)]));
+                        $findLabel = array_intersect_key($process, 
+                            array_intersect(array_column($process, "label"), 
+                                [substr($oneSet->{MedicalHistory::CREATED_AT},0,7)]
+                            )
+                        );
                         if(!$findLabel) {
                             array_push($process, [ 
                                 'data' => $mh->price, 
                                 'label' => substr($oneSet->{MedicalHistory::CREATED_AT},0,7),
                                 'times' => 1,
-                                // 'income' => $mh->price / count($medicalHistory),
                             ]);    
                         } else {
                             $process[key($findLabel)]['data'] += $mh->price;
                             $process[key($findLabel)]['times'] += 1;
-                            // $process[key($findLabel)]['income'] = ($process[key($findLabel)]['income']+$process[key($findLabel)]['data']) / count($medicalHistory);
                         }
                     }
                 };
 
+                $modelTwo = $process;
+                $modelThree = $process;
+
+                // format price
+                for($indx=0;$indx<count($process);$indx++) 
+                    $process[$indx]['data'] = round($process[$indx]['data'],2);
                 $model = $process;
-                    
-                $modelTwo = $model;
-                $modelThree = $model;
 
                 $process = [];
                 foreach($modelTwo as $mt) {
                     array_push($process, [ 
-                        'data' => array_sum(array_map(function($item) {return $item['data'];},$modelTwo))/count($modelTwo), 
+                        'data' => round( array_sum(array_map(function($item) {return $item['data'];},$modelTwo))/count($modelTwo), 2), 
                         'label' => $mt['label'],
                     ]);    
                 };

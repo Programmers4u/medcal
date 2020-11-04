@@ -37,11 +37,11 @@ Statistics.get(function(data) {
                     return 'rgba(54, 162, 235, 0.2)';
                 }),
                 borderColor: data.statistics[0].data.map(item=>{
-                    return 'rgba(255, 99, 132, 1)';
+                    return 'rgba(0, 99, 132, 1)';
                 }),                
                 borderWidth: 1            
             }, {
-                label: 'Średni obrót z okresu',
+                label: 'Średni obrót z całego okresu',
                 data: data.statistics[1].data,
                 backgroundColor: data.statistics[1].data.map(item=>{
                     return 'rgba(255, 255, 255, 0)';
