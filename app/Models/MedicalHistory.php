@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Timegridio\Concierge\Models\Appointment;
+use Timegridio\Concierge\Models\Business;
 use Timegridio\Concierge\Models\Humanresource;
 
 class MedicalHistory extends EloquentModel
@@ -20,12 +21,14 @@ class MedicalHistory extends EloquentModel
     const CONTACT_ID = 'contact_id';
     const APPOINTMENT_ID = 'appointment_id';
     const HUMANRESOURCES_ID = 'humanresources_id';
+    const BUSINESS_ID = 'business_id';
 
     protected $fillable = [
         self::JSON_DATA,
         self::CONTACT_ID,
         self::APPOINTMENT_ID,
         self::HUMANRESOURCES_ID,
+        self::BUSINESS_ID,
     ];
     
     public static function getHistory($contact_id) {
@@ -40,9 +43,9 @@ class MedicalHistory extends EloquentModel
         return $paginate;
     }
 
-    public static function putHistory($data, $contact_id, $appointment_id, $staff){
-        if(!$contact_id || !$staff) return 'error parametres';
-        $create = ['humanresources_id'=>$staff,'json_data'=> json_encode($data,JSON_HEX_QUOT),'appointment_id'=>$appointment_id,'contact_id'=>$contact_id];
+    public static function putHistory($data, $contact_id, $appointment_id, $staff, $business_id){
+        if(!$business_id || !$contact_id || !$staff) return 'error parametres';
+        $create = ['business_id'=>$business_id,'humanresources_id'=>$staff,'json_data'=> json_encode($data,JSON_HEX_QUOT),'appointment_id'=>$appointment_id,'contact_id'=>$contact_id];
         $result = MedicalHistory::create($create);
         if(isset($data['files'])){
             foreach ($data['files'] as $j){
@@ -52,9 +55,9 @@ class MedicalHistory extends EloquentModel
         return $result;
     }
 
-    public static function updateHistory($data, $contact_id, $appointment_id, $staff){
-        if(!$appointment_id || !$contact_id || !$staff) return 'error parametres';
-        $query = ['contact_id'=>$contact_id,'medical_history.id'=>$appointment_id];
+    public static function updateHistory($data, $contact_id, $appointment_id, $staff, $business_id){
+        if(!$appointment_id || !$contact_id || !$staff || !$business_id) return 'error parametres';
+        $query = ['business_id' => $business_id,'contact_id'=>$contact_id,'medical_history.id'=>$appointment_id];
         $update = ['humanresources_id'=>$staff,'json_data'=> json_encode($data,JSON_HEX_QUOT),'contact_id'=>$contact_id];
         $result = MedicalHistory::updateOrCreate($query,$update);
         if(isset($data['files'])){
@@ -91,6 +94,13 @@ class MedicalHistory extends EloquentModel
         return $this->contacts->count() > 0;
     }    
     
+    const RELATION_BUSINESS = 'business';
+
+    public function business()
+    {
+        return $this->belongsTo(Business::class, self::BUSINESS_ID);
+    }
+
     public static function json_data_schem(){
         return [
             'procedures' => '',
