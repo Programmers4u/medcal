@@ -5,7 +5,8 @@ var ModelStatistics = {
     businessPriceType: 'business_price',
     diagnosisType: 'diagnosis',
     diagnosisSexType: 'diagnosis_sex',
-    types : [this.businessPriceType,this.diagnosisType,this.diagnosisSexType],
+    diagnosisPatientType : 'diagnosis_patient',
+    types : [this.businessPriceType,this.diagnosisType,this.diagnosisSexType,this.diagnosisPatientType],
     post : {
         businessId : this.businessId || '',
         hr : '',

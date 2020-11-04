@@ -13,16 +13,12 @@
 <script type="text/javascript" src="/js/statistics/statistics.min.js"></script>
 
 <script type="text/javascript">
-    var csrf = '{{csrf_token()}}';   
-    var businessId = '{{ $business->id }}';
-    var contactId = '{{ $contacts->id }}';
-
-    var Statistics = Object.create(Statistics);
+    var Statistics = Object.create(ModelStatistics);
     Statistics.csrf = '{{csrf_token()}}';
-    Statistics.businessId = '{{ $business->id }}';
     Statistics.endPoint = '/statistics';
-    Statistics.post.type = 'diagnosis_patient';
-    Statistics.post.contactId = contactId;
+    Statistics.post.type = Statistics.diagnosisPatientType;
+    Statistics.post.businessId = '{{ $business->id }}';
+    Statistics.post.contactId = '{{ $contacts->id }}';
 </script>
 
 <script>

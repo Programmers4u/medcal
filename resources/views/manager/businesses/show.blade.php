@@ -119,7 +119,7 @@ Statistics.get(function(data) {
     });
 });
 
-Statistics.post.type = Statistics.diagnosisType;
+Statistics.post.type = Statistics.diagnosisSexType;
 Statistics.get(function(data) {
     var chart2 = new Chart(ctx2, {
         type: 'bar',
