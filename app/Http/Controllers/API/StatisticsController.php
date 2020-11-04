@@ -114,32 +114,37 @@ class StatisticsController extends Controller
             case self::BUSINESS_PRICE: 
                 Cache::flush();
 
-                $medicalHistory = MedicalHistory::query()
-                    // ->where(MedicalHistory::BUSINESS_ID,$business_id)
+                $model = MedicalHistory::query()
                     ->where(MedicalHistory::CREATED_AT,'>=',Carbon::now()->startOfYear())
-                    ->get()
+                    // ->where(MedicalHistory::BUSINESS_ID,$business_id)
                 ;
                 $process = [];
-                foreach($medicalHistory as $index => $oneSet) {
-                    $mh = json_decode($oneSet->json_data);
-                    if(isset($mh->price) && !empty($mh->price))  {
-                        $findLabel = array_intersect_key($process, 
-                            array_intersect(array_column($process, "label"), 
-                                [substr($oneSet->{MedicalHistory::CREATED_AT},0,7)]
-                            )
-                        );
-                        if(!$findLabel) {
-                            array_push($process, [ 
-                                'data' => $mh->price, 
-                                'label' => substr($oneSet->{MedicalHistory::CREATED_AT},0,7),
-                                'times' => 1,
-                            ]);    
-                        } else {
-                            $process[key($findLabel)]['data'] += $mh->price;
-                            $process[key($findLabel)]['times'] += 1;
+                $process = Cache::remember($request->input('type') . '-model', env('CACHE_DEFAULT_TIMEOUT_MIN',1), function () use($model) {
+                    $process = [];
+                    $model = $model->get();                    
+
+                    foreach($model as $index => $oneSet) {
+                        $mh = json_decode($oneSet->json_data);
+                        if(isset($mh->price) && !empty($mh->price))  {
+                            $findLabel = array_intersect_key($process, 
+                                array_intersect(array_column($process, "label"), 
+                                    [substr($oneSet->{MedicalHistory::CREATED_AT},0,7)]
+                                )
+                            );
+                            if(!$findLabel) {
+                                array_push($process, [ 
+                                    'data' => $mh->price, 
+                                    'label' => substr($oneSet->{MedicalHistory::CREATED_AT},0,7),
+                                    'times' => 1,
+                                ]);    
+                            } else {
+                                $process[key($findLabel)]['data'] += $mh->price;
+                                $process[key($findLabel)]['times'] += 1;
+                            }
                         }
-                    }
-                };
+                    };
+                    return $process;
+                });
 
                 $modelTwo = $process;
                 $modelThree = $process;
@@ -167,13 +172,6 @@ class StatisticsController extends Controller
                 };
                 $modelThree = $process;
 
-                // $model = Cache::remember($request->input('type') . '-model', env('CACHE_DEFAULT_TIMEOUT_MIN',1), function () use($model) {
-                //     return $model->get()->toArray();                    
-                // });
-
-                // $modelTwo = Cache::remember($request->input('type') . '-modelTwo', env('CACHE_DEFAULT_TIMEOUT_MIN',1), function () use($modelTwo) {
-                //     return $modelTwo->get()->toArray();                    
-                // });
                 $dataset = [ array_slice($model,0,20), array_slice($modelTwo,0,20), array_slice($modelThree,0,20)];
             break;
             default: 
