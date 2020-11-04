@@ -6,8 +6,6 @@
         <div class="panel panel-default">
         <div class="panel-heading">
             {{ trans('manager.businesses.edit.title') }}
-             ID: {{$business->id}} Magazyn: {{ $storageSize }}
-             | WW: @php echo $finance['sum'] @endphp SWW: @php echo $finance['avg'] @endphp
         </div>
 
             <div class="panel-body">
@@ -24,11 +22,10 @@
         <div class="panel-heading">
             {{ trans('manager.businesses.edit.title') }}
              ID: {{$business->id}} Magazyn: {{ $storageSize }}
-             | WW: @php echo $finance['sum'] @endphp SWW: @php echo $finance['avg'] @endphp
         </div>
 
             <div class="panel-body">
-                @include('manager.businesses._statistics', compact('business','finance'))
+                @include('manager.businesses._statistics', compact('business'))
             </div>
 
         </div>

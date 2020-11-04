@@ -120,15 +120,43 @@ class StatisticsController extends Controller
             break;
             case self::BUSINESS_PRICE: 
                 Cache::flush();
-                $model = MedicalHistory::query()
-                    ->selectRaw('Count(1) as data, concat(substring(created_at,1,10),"...") as label, created_at as labels')    
-                    ->where(
-                        MedicalHistory::CREATED_AT, '>=', Carbon::now()->startOfYear()
-                    )
-                    ->groupBy('label') 
-                    ->orderBy(MedicalHistory::CREATED_AT, 'ASC')
-                    ->limit(10)
+
+                $medicalHistory = MedicalHistory::query()
+                // ->where(MedicalHistory::BUSINESS_ID,$business_id)
+                ->get()
+                // ->toArray()
                 ;
+                $proces = [];
+                foreach($medicalHistory as $index => $oneSet){
+                    $mh = json_decode($oneSet->json_data);
+                    if(isset($mh->price) && !empty($mh->price))  {
+                        $filter = array_filter($proces,function($item) use($oneSet) {
+                            if($item['label'] === substr($oneSet->{MedicalHistory::CREATED_AT},0,10))
+                                return $item;
+                        });
+                        if(!$filter) {
+                            array_push($proces, [ 
+                                'data' => $mh->price, 
+                                'label' => substr($oneSet->{MedicalHistory::CREATED_AT},0,10),
+                            ]);    
+                        } else {
+                            // dd($filter, $proces);
+                            // $proces[0]['data'] += $mh->price;
+                        }
+                    }
+                };
+
+                $model = $proces;
+    
+                // $model = MedicalHistory::query()
+                //     ->selectRaw('Count(1) as data, concat(substring(created_at,1,10),"...") as label, created_at as labels')    
+                //     ->where(
+                //         MedicalHistory::CREATED_AT, '>=', Carbon::now()->startOfYear()
+                //     )
+                //     ->groupBy('label') 
+                //     ->orderBy(MedicalHistory::CREATED_AT, 'ASC')
+                //     ->limit(10)
+                // ;
                 // $model = Datasets::query()
                 //     ->selectRaw('Count(1) as data, concat(substring(diagnosis,1,20),"...") as label, created_at as labels')
                 //     ->groupBy(Datasets::DIAGNOSIS)
@@ -139,13 +167,13 @@ class StatisticsController extends Controller
                 
                 $modelTwo = $model;
 
-                $model = Cache::remember('business-all', env('CACHE_DEFAULT_TIMEOUT_MIN',1), function () use($model) {
-                    return $model->get()->toArray();                    
-                });
+                // $model = Cache::remember('business-all', env('CACHE_DEFAULT_TIMEOUT_MIN',1), function () use($model) {
+                //     return $model->get()->toArray();                    
+                // });
 
-                $modelTwo = Cache::remember(Hash::make($modelTwo->toSql()), env('CACHE_DEFAULT_TIMEOUT_MIN',1), function () use($modelTwo) {
-                    return $modelTwo->get()->toArray();                    
-                });
+                // $modelTwo = Cache::remember(Hash::make($modelTwo->toSql()), env('CACHE_DEFAULT_TIMEOUT_MIN',1), function () use($modelTwo) {
+                //     return $modelTwo->get()->toArray();                    
+                // });
 
                 $dataset = [$model, $modelTwo];
             break;
