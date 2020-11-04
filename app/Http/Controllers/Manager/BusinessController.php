@@ -174,9 +174,6 @@ class BusinessController extends Controller
      */
     public function edit(Business $business)
     {
-        // logger()->info(__METHOD__);
-        // logger()->info(sprintf('businessId:%s', $business->id));
-
         $this->authorize('update', $business);
 
         // BEGIN
@@ -202,20 +199,40 @@ class BusinessController extends Controller
          * Finansowe info 
          */
 
-        $medicalHistory = MedicalHistory::all();
+        $medicalHistory = MedicalHistory::query()
+            // ->where(MedicalHistory::C)
+            ;
         $finance = [
             'sum' => 0,
             'avg' => 0,
         ];
         $proces = [];
-        foreach($medicalHistory as $mh){
-            $mh = json_decode($mh->json_data);
-            if(isset($mh->price)) array_push($proces,$mh->price);
+        foreach($medicalHistory as $index => $oneSet){
+            // dd($oneSet);
+            $mh = json_decode($oneSet->json_data);
+            if(isset($mh->price) && !empty($mh->price))  {
+                $filter = array_filter($proces,function($item) use($oneSet) {
+                    // dd($item);
+                    if($item['label'] === substr($oneSet->{MedicalHistory::CREATED_AT},0,10))
+                        return $item;
+                });
+                // dd($filter);
+                if(!$filter) {
+                    array_push($proces, [ 
+                        'data' => $mh->price, 
+                        'label' => substr($oneSet->{MedicalHistory::CREATED_AT},0,10),
+                    ]);    
+                } else {
+                    // dd($filter, $proces);
+                    // $proces[0]['data'] += $mh->price;
+                }
+            }
         }
-        if(count($proces)>0) {
-            $finance['sum'] = array_sum($proces);
-            $finance['avg'] = $finance['sum']/count($proces);
-        }
+        // dd($proces);
+        // if(count($proces)>0) {
+        //     $finance['sum'] = array_sum($proces);
+        //     $finance['avg'] = $finance['sum']/count($proces);
+        // }
 
         // logger()->info(sprintf('businessId:%s timezone:%s category:%s', $business->id, $timezone, $category));
 

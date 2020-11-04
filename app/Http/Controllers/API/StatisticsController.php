@@ -11,18 +11,25 @@ use App\Http\Consts\ResponseApi;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Statistics\GetRequest;
 use App\Jobs\ProcessDatasetImport;
-use App\Models\Datasets;
+use App\Models\{
+    Datasets,
+    MedicalHistory
+};
+use Carbon\Carbon;
 
 class StatisticsController extends Controller
 {
     const DIAGNOSIS = 'diagnosis';
     const DIAGNOSIS_SEX = 'diagnosis_sex';
     const DIAGNOSIS_PATIENT = 'diagnosis_patient';
+    
+    const BUSINESS_PRICE = 'business_price';
 
     const STATISTICS = [
         self::DIAGNOSIS,
         self::DIAGNOSIS_SEX,
         self::DIAGNOSIS_PATIENT,
+        self::BUSINESS_PRICE,
     ];
 
     public function getIndex(GetRequest $request, Business $business) : JsonResponse
@@ -110,6 +117,37 @@ class StatisticsController extends Controller
 
                 $dataset = [$datasetFemale, $datasetMale];
 
+            break;
+            case self::BUSINESS_PRICE: 
+                Cache::flush();
+                $model = MedicalHistory::query()
+                    ->selectRaw('Count(1) as data, concat(substring(created_at,1,10),"...") as label, created_at as labels')    
+                    ->where(
+                        MedicalHistory::CREATED_AT, '>=', Carbon::now()->startOfYear()
+                    )
+                    ->groupBy('label') 
+                    ->orderBy(MedicalHistory::CREATED_AT, 'ASC')
+                    ->limit(10)
+                ;
+                // $model = Datasets::query()
+                //     ->selectRaw('Count(1) as data, concat(substring(diagnosis,1,20),"...") as label, created_at as labels')
+                //     ->groupBy(Datasets::DIAGNOSIS)
+                //     ->havingRaw('data < 100')
+                //     ->orderBy('data', 'DESC')
+                //     ->limit(10)
+                // ;
+                
+                $modelTwo = $model;
+
+                $model = Cache::remember('business-all', env('CACHE_DEFAULT_TIMEOUT_MIN',1), function () use($model) {
+                    return $model->get()->toArray();                    
+                });
+
+                $modelTwo = Cache::remember(Hash::make($modelTwo->toSql()), env('CACHE_DEFAULT_TIMEOUT_MIN',1), function () use($modelTwo) {
+                    return $modelTwo->get()->toArray();                    
+                });
+
+                $dataset = [$model, $modelTwo];
             break;
             default: 
                 $dataset = [
