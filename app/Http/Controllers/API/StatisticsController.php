@@ -123,6 +123,7 @@ class StatisticsController extends Controller
 
                 $medicalHistory = MedicalHistory::query()
                     // ->where(MedicalHistory::BUSINESS_ID,$business_id)
+                    ->where(MedicalHistory::CREATED_AT,'>=',Carbon::now()->startOfYear())
                     ->get()
                     // ->toArray()
                 ;
@@ -130,17 +131,18 @@ class StatisticsController extends Controller
                 foreach($medicalHistory as $index => $oneSet) {
                     $mh = json_decode($oneSet->json_data);
                     if(isset($mh->price) && !empty($mh->price))  {
-                        $register = array_intersect_key($process, array_intersect(array_column($process, "label"), [substr($oneSet->{MedicalHistory::CREATED_AT},0,7)]));
-                        if(!$register) {
+                        $findLabel = array_intersect_key($process, array_intersect(array_column($process, "label"), [substr($oneSet->{MedicalHistory::CREATED_AT},0,7)]));
+                        if(!$findLabel) {
                             array_push($process, [ 
                                 'data' => $mh->price, 
                                 'label' => substr($oneSet->{MedicalHistory::CREATED_AT},0,7),
                                 'times' => 1,
+                                // 'income' => $mh->price / count($medicalHistory),
                             ]);    
                         } else {
-                            // dd($register, $process);
-                            $process[key($register)]['data'] += $mh->price;
-                            $process[key($register)]['times'] += 1;
+                            $process[key($findLabel)]['data'] += $mh->price;
+                            $process[key($findLabel)]['times'] += 1;
+                            // $process[key($findLabel)]['income'] = ($process[key($findLabel)]['income']+$process[key($findLabel)]['data']) / count($medicalHistory);
                         }
                     }
                 };
@@ -148,24 +150,34 @@ class StatisticsController extends Controller
                 $model = $process;
                     
                 $modelTwo = $model;
+                $modelThree = $model;
+
                 $process = [];
                 foreach($modelTwo as $mt) {
-                    // dd($mt);
                     array_push($process, [ 
-                        'data' => $mt['data']/$mt['times'], 
+                        'data' => array_sum(array_map(function($item) {return $item['data'];},$modelTwo))/count($modelTwo), 
                         'label' => $mt['label'],
                     ]);    
                 };
+                $modelTwo = $process;
 
-                // $model = Cache::remember('business-all', env('CACHE_DEFAULT_TIMEOUT_MIN',1), function () use($model) {
+                $process = [];
+                foreach($modelThree as $mt) {
+                    array_push($process, [ 
+                        'data' => $mt['data'] / count($modelThree), 
+                        'label' => $mt['label'],
+                    ]);    
+                };
+                $modelThree = $process;
+
+                // $model = Cache::remember($request->input('type') . '-model', env('CACHE_DEFAULT_TIMEOUT_MIN',1), function () use($model) {
                 //     return $model->get()->toArray();                    
                 // });
 
-                // $modelTwo = Cache::remember(Hash::make($modelTwo->toSql()), env('CACHE_DEFAULT_TIMEOUT_MIN',1), function () use($modelTwo) {
+                // $modelTwo = Cache::remember($request->input('type') . '-modelTwo', env('CACHE_DEFAULT_TIMEOUT_MIN',1), function () use($modelTwo) {
                 //     return $modelTwo->get()->toArray();                    
                 // });
-                $modelTwo = $process;
-                $dataset = [ array_slice($model,0,10), array_slice($modelTwo,0,10)];
+                $dataset = [ array_slice($model,0,20), array_slice($modelTwo,0,20), array_slice($modelThree,0,20)];
             break;
             default: 
                 $dataset = [

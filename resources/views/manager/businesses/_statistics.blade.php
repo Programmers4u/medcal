@@ -27,9 +27,9 @@
 var ctx = document.getElementById('myChart');
 Statistics.get(function(data) {
     var chart = new Chart(ctx, {
-        type: 'bar',
+        type: 'line',
         data: {
-            labels : data.statistics[1].labels,
+            labels : data.statistics[0].labels,
             datasets: [{
                 label: 'Obrót w danym okresie',
                 data: data.statistics[0].data,
@@ -44,13 +44,25 @@ Statistics.get(function(data) {
                 label: 'Średni obrót z okresu',
                 data: data.statistics[1].data,
                 backgroundColor: data.statistics[1].data.map(item=>{
-                    return 'rgba(54, 162, 235, 1)';
+                    return 'rgba(255, 255, 255, 0)';
                 }),
                 borderColor: data.statistics[1].data.map(item=>{
-                    return 'rgba(54, 162, 235, 1)';
+                    return 'rgba(255, 99, 132, 1)';
                 }),
                 borderWidth: 1            
-            }],
+            }, 
+            // {
+            //     label: 'Ilość wizyt z okresu',
+            //     data: data.statistics[2].data,
+            //     backgroundColor: data.statistics[2].data.map(item=>{
+            //         return 'rgba(154, 162, 35, 1)';
+            //     }),
+            //     borderColor: data.statistics[2].data.map(item=>{
+            //         return 'rgba(154, 162, 35, 1)';
+            //     }),
+            //     borderWidth: 1            
+            // }
+            ],
             options: {
                 scales: {
                     yAxes: [{

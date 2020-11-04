@@ -20,7 +20,6 @@
     <div class="row">
         <div class="panel panel-default">
         <div class="panel-heading">
-            {{ trans('manager.businesses.edit.title') }}
              ID: {{$business->id}} Magazyn: {{ $storageSize }}
         </div>
 
