@@ -13,19 +13,17 @@
 <script type="text/javascript" src="/js/statistics/statistics.min.js"></script> --}}
 
 <script type="text/javascript">
-    var csrf = '{{csrf_token()}}';   
-    var businessId = '{{ $business->id }}';
-
-    var Statistics = Object.create(Statistics);
-    Statistics.csrf = '{{csrf_token()}}';
-    Statistics.businessId = '{{ $business->id }}';
+var csrf = '{{csrf_token()}}';   
+var businessId = '{{ $business->id }}'
+    var Statistics = Object.create(ModelStatistics);
+    Statistics.csrf = csrf;
+    Statistics.businessId = businessId;
     Statistics.endPoint = '/statistics';
-    Statistics.post.type = 'business_price';
-</script>
+    Statistics.post.type = Statistics.businessPriceType;
 
-<script>
-var ctx = document.getElementById('myChart');
-Statistics.get(function(data) {
+$(document).ready(function(){
+    var ctx = document.getElementById('myChart');
+    Statistics.get(function(data) {
     var chart = new Chart(ctx, {
         type: 'line',
         data: {
@@ -77,6 +75,8 @@ Statistics.get(function(data) {
             }
         }
     });
+});
+
 });
 </script>
 @endpush

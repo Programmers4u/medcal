@@ -76,7 +76,7 @@
 var csrf = '{{csrf_token()}}';   
 var businessId = '{{ $business->id }}';
 
-var Statistics = Object.create(Statistics);
+var Statistics = Object.create(ModelStatistics);
 Statistics.csrf = '{{csrf_token()}}';
 Statistics.businessId = '{{ $business->id }}';
 Statistics.endPoint = '/statistics';

@@ -1,7 +1,9 @@
-var Statistics = {
+var ModelStatistics = {
     csrf : '',
     businessId : '',
     endPoint : '',
+    businessPriceType: 'business_price',
+    types : [this.businessPriceType],
     post : {
         businessId : this.businessId || '',
         hr : '',
