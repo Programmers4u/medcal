@@ -10,9 +10,6 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
-use Timegridio\Concierge\Models\Business;
 use Timegridio\Concierge\Models\Contact;
 
 class ProcessDatasetImport implements ShouldQueue
@@ -23,9 +20,6 @@ class ProcessDatasetImport implements ShouldQueue
     public $tries = 1;
     public $maxExceptions = 1;
     
-    // private $business;
-    // private $pathToContactFile;
-
     /**
      * Create a new job instance.
      *
@@ -33,9 +27,6 @@ class ProcessDatasetImport implements ShouldQueue
      */
     public function __construct()
     {
-        //
-        // $this->business = $business;
-        // $this->pathToContactFile = $pathToContactFile;
     }
 
     /**
@@ -69,18 +60,6 @@ class ProcessDatasetImport implements ShouldQueue
             }; 
         }
 
-    }
-
-    private function duplicate($register) : bool {
-        
-        $model = $this->business->contacts()
-            ->where('firstname',$register['firstname'])
-            ->where('lastname',$register['lastname'])
-            ->where('mobile',$register['mobile'])
-            ->get()
-            ->toArray()
-            ;
-        return count($model) > 0 ? true : false;
     }
 
     public function failed(Exception $exception)

@@ -263,6 +263,10 @@ Route::group(['prefix' => '{business}'], function ($business) {
             'uses' => 'ContactsController@importFromFile',
         ]);    
 
+        Route::post('import-datasets',[
+            'as'   => 'datasets.import.file',
+            'uses' => 'DatasetsController@import',
+        ]);    
     });
 
     
