@@ -54,7 +54,6 @@ class StatisticsController extends Controller
             break;
             
             case self::DIAGNOSIS_PATIENT: 
-                Cache::flush();
                 
                 $model = Datasets::query()
                     ->selectRaw('Count(1) as data, concat(substring(diagnosis,1,20),"...") as label, created_at as labels')
@@ -112,7 +111,6 @@ class StatisticsController extends Controller
 
             break;
             case self::BUSINESS_PRICE: 
-                Cache::flush();
 
                 $model = MedicalHistory::query()
                     ->where(MedicalHistory::CREATED_AT,'>=',Carbon::now()->startOfYear())
