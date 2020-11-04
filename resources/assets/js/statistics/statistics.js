@@ -3,17 +3,21 @@ var ModelStatistics = {
     businessId : '',
     endPoint : '',
     businessPriceType: 'business_price',
-    types : [this.businessPriceType],
+    diagnosisType: 'diagnosis',
+    diagnosisSexType: 'diagnosis_sex',
+    types : [this.businessPriceType,this.diagnosisType,this.diagnosisSexType],
     post : {
         businessId : this.businessId || '',
         hr : '',
         start_at : '',
-        csrf : this.csrf || '',
     },
+    init : function () {
+        return this.csrf;
+    }, 
     get : function(success, error) { 
         $.ajax({
             headers: {
-                'X-CSRF-TOKEN': this.post.csrf || null
+                'X-CSRF-TOKEN': this.csrf || null
             },            
             url: this.endPoint,
             data: this.post,            

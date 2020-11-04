@@ -116,7 +116,7 @@ class StatisticsController extends Controller
 
                 $model = MedicalHistory::query()
                     ->where(MedicalHistory::CREATED_AT,'>=',Carbon::now()->startOfYear())
-                    ->where(MedicalHistory::BUSINESS_ID,$business->id)
+                    ->where(MedicalHistory::BUSINESS_ID,$request->input('businessId'))
                 ;
                 $process = [];
                 $process = Cache::remember($request->input('type') . '-model', env('CACHE_DEFAULT_TIMEOUT_MIN',1), function () use($model) {

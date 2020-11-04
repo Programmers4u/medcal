@@ -73,14 +73,14 @@
 <script type="text/javascript" src="/js/statistics/statistics.min.js"></script>
 
 <script type="text/javascript">
-var csrf = '{{csrf_token()}}';   
-var businessId = '{{ $business->id }}';
 
 var Statistics = Object.create(ModelStatistics);
 Statistics.csrf = '{{csrf_token()}}';
-Statistics.businessId = '{{ $business->id }}';
 Statistics.endPoint = '/statistics';
-Statistics.post.type = 'diagnosis';
+Statistics.post.businessId = '{{ $business->id }}';
+Statistics.post.type = Statistics.diagnosisType;
+
+
 </script>
 
 <script>
@@ -119,7 +119,7 @@ Statistics.get(function(data) {
     });
 });
 
-Statistics.post.type = 'diagnosis_sex';
+Statistics.post.type = Statistics.diagnosisType;
 Statistics.get(function(data) {
     var chart2 = new Chart(ctx2, {
         type: 'bar',

@@ -13,16 +13,15 @@
 <script type="text/javascript" src="/js/statistics/statistics.min.js"></script> --}}
 
 <script type="text/javascript">
-var csrf = '{{csrf_token()}}';   
-var businessId = '{{ $business->id }}'
+
     var Statistics = Object.create(ModelStatistics);
-    Statistics.csrf = csrf;
-    Statistics.businessId = businessId;
+    Statistics.csrf = '{{csrf_token()}}';
     Statistics.endPoint = '/statistics';
+    Statistics.post.businessId = '{{ $business->id }}';
     Statistics.post.type = Statistics.businessPriceType;
 
-$(document).ready(function(){
     var ctx = document.getElementById('myChart');
+    
     Statistics.get(function(data) {
     var chart = new Chart(ctx, {
         type: 'line',
@@ -77,6 +76,5 @@ $(document).ready(function(){
     });
 });
 
-});
 </script>
 @endpush
