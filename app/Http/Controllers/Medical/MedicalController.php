@@ -324,8 +324,7 @@ class MedicalController extends Controller
         return $permissionData;
     }
 
-    public function getHistory(Contact $contact){
-        //$history = new MedicalHistory();
+    public function getHistory(Contact $contact) {
         $historyData = MedicalHistory::getHistory($contact->id);
         return $historyData;
     }
@@ -341,7 +340,6 @@ class MedicalController extends Controller
     }
 
     public function putHistory(Request $request){
-        // logger()->info(__METHOD__);
         
         $contact_id = $request->input('contact_id');
         $business_id = $request->input('business_id');
@@ -352,7 +350,7 @@ class MedicalController extends Controller
         $type = $request->input('type');
         if($history_id == -1 || $history_id == 0) {
             $description = 'Wpis został dodany';
-            $result = MedicalHistory::putHistory($json_data, $contact_id, $appointment_id, $staff);
+            $result = MedicalHistory::putHistory($json_data, $contact_id, $appointment_id, $staff, $business_id);
             try{
                 $appointment = \Timegridio\Concierge\Models\Appointment::findOrFail($appointment_id);
                 // logger()->debug($appointment);
@@ -371,7 +369,7 @@ class MedicalController extends Controller
 
         } else {
             $description = 'Wpis został zaktualizowany';
-            $result = MedicalHistory::updateHistory($json_data, $contact_id, $history_id, $staff);        
+            $result = MedicalHistory::updateHistory($json_data, $contact_id, $history_id, $staff, $business_id);        
         }
         $result = ($result) ? TRUE : FALSE; 
         $result = ($result) ? $description : 'Nastąpił wyjątek, proszę spróbuj za chwilę.'; 
