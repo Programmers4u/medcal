@@ -122,50 +122,40 @@ class StatisticsController extends Controller
                 Cache::flush();
 
                 $medicalHistory = MedicalHistory::query()
-                // ->where(MedicalHistory::BUSINESS_ID,$business_id)
-                ->get()
-                // ->toArray()
+                    // ->where(MedicalHistory::BUSINESS_ID,$business_id)
+                    ->get()
+                    // ->toArray()
                 ;
-                $proces = [];
-                foreach($medicalHistory as $index => $oneSet){
+                $process = [];
+                foreach($medicalHistory as $index => $oneSet) {
                     $mh = json_decode($oneSet->json_data);
                     if(isset($mh->price) && !empty($mh->price))  {
-                        $filter = array_filter($proces,function($item) use($oneSet) {
-                            if($item['label'] === substr($oneSet->{MedicalHistory::CREATED_AT},0,10))
-                                return $item;
-                        });
-                        if(!$filter) {
-                            array_push($proces, [ 
+                        $register = array_intersect_key($process, array_intersect(array_column($process, "label"), [substr($oneSet->{MedicalHistory::CREATED_AT},0,7)]));
+                        if(!$register) {
+                            array_push($process, [ 
                                 'data' => $mh->price, 
-                                'label' => substr($oneSet->{MedicalHistory::CREATED_AT},0,10),
+                                'label' => substr($oneSet->{MedicalHistory::CREATED_AT},0,7),
+                                'times' => 1,
                             ]);    
                         } else {
-                            // dd($filter, $proces);
-                            // $proces[0]['data'] += $mh->price;
+                            // dd($register, $process);
+                            $process[key($register)]['data'] += $mh->price;
+                            $process[key($register)]['times'] += 1;
                         }
                     }
                 };
 
-                $model = $proces;
-    
-                // $model = MedicalHistory::query()
-                //     ->selectRaw('Count(1) as data, concat(substring(created_at,1,10),"...") as label, created_at as labels')    
-                //     ->where(
-                //         MedicalHistory::CREATED_AT, '>=', Carbon::now()->startOfYear()
-                //     )
-                //     ->groupBy('label') 
-                //     ->orderBy(MedicalHistory::CREATED_AT, 'ASC')
-                //     ->limit(10)
-                // ;
-                // $model = Datasets::query()
-                //     ->selectRaw('Count(1) as data, concat(substring(diagnosis,1,20),"...") as label, created_at as labels')
-                //     ->groupBy(Datasets::DIAGNOSIS)
-                //     ->havingRaw('data < 100')
-                //     ->orderBy('data', 'DESC')
-                //     ->limit(10)
-                // ;
-                
+                $model = $process;
+                    
                 $modelTwo = $model;
+                $process = [];
+                foreach($modelTwo as $mt) {
+                    // dd($mt);
+                    array_push($process, [ 
+                        'data' => $mt['data']/$mt['times'], 
+                        'label' => $mt['label'],
+                    ]);    
+                };
 
                 // $model = Cache::remember('business-all', env('CACHE_DEFAULT_TIMEOUT_MIN',1), function () use($model) {
                 //     return $model->get()->toArray();                    
@@ -174,8 +164,8 @@ class StatisticsController extends Controller
                 // $modelTwo = Cache::remember(Hash::make($modelTwo->toSql()), env('CACHE_DEFAULT_TIMEOUT_MIN',1), function () use($modelTwo) {
                 //     return $modelTwo->get()->toArray();                    
                 // });
-
-                $dataset = [$model, $modelTwo];
+                $modelTwo = $process;
+                $dataset = [ array_slice($model,0,10), array_slice($modelTwo,0,10)];
             break;
             default: 
                 $dataset = [
@@ -187,7 +177,7 @@ class StatisticsController extends Controller
                     ->limit(10)
                     ->get()
                     ->toArray()
-            ];
+                ];
             break;
         }
 

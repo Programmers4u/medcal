@@ -195,49 +195,6 @@ class BusinessController extends Controller
         $res = exec($command,$diskAvail);
         $storageSize.= ' Avail: '.$diskAvail[1]; 
         
-        /**
-         * Finansowe info 
-         */
-
-        // $medicalHistory = MedicalHistory::query()
-            // ->where(MedicalHistory::BUSINESS_ID,$business_id)
-            // ->get()
-            // ->toArray()
-            ;
-        // $finance = [
-        //     'sum' => 0,
-        //     'avg' => 0,
-        // ];
-        // $proces = [];
-        // foreach($medicalHistory as $index => $oneSet){
-        //     // dd($oneSet);
-        //     $mh = json_decode($oneSet->json_data);
-        //     if(isset($mh->price) && !empty($mh->price))  {
-        //         $filter = array_map(function($item) use($oneSet) {
-        //             // dd($item);
-        //             if($item['label'] === substr($oneSet->{MedicalHistory::CREATED_AT},0,7))
-        //                 return $item;
-        //         },$proces);
-        //         // dd($filter);
-        //         if(!$filter) {
-        //             array_push($proces, [ 
-        //                 'data' => $mh->price, 
-        //                 'label' => substr($oneSet->{MedicalHistory::CREATED_AT},0,7),
-        //             ]);    
-        //         } else {
-        //             // dd($filter, $proces);
-        //             // $proces[0]['data'] += $mh->price;
-        //         }
-        //     }
-        // }
-        // dd($proces);
-        // if(count($proces)>0) {
-        //     $finance['sum'] = array_sum($proces);
-        //     $finance['avg'] = $finance['sum']/count($proces);
-        // }
-
-        // logger()->info(sprintf('businessId:%s timezone:%s category:%s', $business->id, $timezone, $category));
-
         return view('manager.businesses.edit', compact('business', 'category', 'categories', 'timezone', 'storageSize'));
     }
 

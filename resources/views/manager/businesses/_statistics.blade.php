@@ -2,7 +2,7 @@
 <div class="row">
     <div class="col-md-1"></div>
         <div class="col-md-11">
-      <b>Statystyka - obrót</b>
+      <b>Statystyka - finanse</b>
       <div style="position: relative; height:80vh; width:80vw">
         <canvas id="myChart"></canvas>
       </div>
@@ -32,7 +32,7 @@ Statistics.get(function(data) {
             labels : data.statistics[1].labels,
             datasets: [{
                 label: 'Obrót w danym okresie',
-                data: data.statistics[1].data,
+                data: data.statistics[0].data,
                 backgroundColor: data.statistics[0].data.map(item=>{
                     return 'rgba(54, 162, 235, 0.2)';
                 }),
@@ -41,32 +41,14 @@ Statistics.get(function(data) {
                 }),                
                 borderWidth: 1            
             }, {
-                label: 'Średni dochód',
-                data: data.statistics[0].data,
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(255, 99, 132, 0.2)',
-                ],
-                borderColor: [
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(54, 162, 235, 1)',
-                ],
+                label: 'Średni obrót z okresu',
+                data: data.statistics[1].data,
+                backgroundColor: data.statistics[1].data.map(item=>{
+                    return 'rgba(54, 162, 235, 1)';
+                }),
+                borderColor: data.statistics[1].data.map(item=>{
+                    return 'rgba(54, 162, 235, 1)';
+                }),
                 borderWidth: 1            
             }],
             options: {
