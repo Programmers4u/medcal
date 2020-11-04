@@ -324,8 +324,7 @@ class MedicalController extends Controller
         return $permissionData;
     }
 
-    public function getHistory(Contact $contact){
-        //$history = new MedicalHistory();
+    public function getHistory(Contact $contact) {
         $historyData = MedicalHistory::getHistory($contact->id);
         return $historyData;
     }
