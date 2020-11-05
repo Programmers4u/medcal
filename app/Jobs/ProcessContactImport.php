@@ -44,21 +44,21 @@ class ProcessContactImport implements ShouldQueue
     {
         if(!is_file($this->pathToContactFile)) return;
 
-        $contacts = file($this->pathToContactFile);
-        for($indx=0;$indx<count($contacts);$indx++) {
-            if($indx>200) break;
-            $item = explode(";",str_replace("\"","",$contacts[$indx]));
+        $contacts = fopen($this->pathToContactFile,'r');
+        while ( ($item = fgetcsv($contacts,0,';') ) !== FALSE ) {
 
             $name = explode(" ",$item[2]);
-            
+            $gnr = '';
+            if(isset($name[1]))
+                $gnr = substr($name[1],strlen($name[1])-1,1) !== 'a' ? 'M' : 'F';
+
             $gender = $item[4] ? $item[4] : '';
-            $gnr = substr($name[1],strlen($name[1])-1,1) !== 'a' ? 'M' : 'F';
             $gender = $gender!=='' ? $gender : $gnr;
             
             $register = [
                 'foregin_user_id' => $item[0],
-                'firstname' => $name[1],
-                'lastname' => $name[0],
+                'firstname' => isset($name[1]) ? $name[1] : $item[1],
+                'lastname' => isset($name[0]) ? $name[0] : $item[2],
                 'nin' => $item[3],
                 'gender' => $gender,
                 'birthdate' => $item[5] ? Carbon::parse($item[5]) : Carbon::now(),
@@ -66,13 +66,10 @@ class ProcessContactImport implements ShouldQueue
                 'email' => $item[7],
                 'postal_address' => $item[8] . ', ' .$item[9],
                 'mobile_country' => 'PL',
+                // 'user_id' => ,
             ];
-            // try {
             if(!$this->duplicate($register))
                 $this->business->addressbook()->register($register);
-            // } catch(Exception $e) {
-                // echo $e->getMessage();
-            // };
         };
         unlink($this->pathToContactFile);
     }
@@ -92,6 +89,6 @@ class ProcessContactImport implements ShouldQueue
     public function failed(Exception $exception)
     {
         // Send user notification of failure, etc...
-
+        unlink($this->pathToContactFile);
     }    
 }

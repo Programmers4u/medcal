@@ -32,8 +32,11 @@ class StatisticsController extends Controller
         self::BUSINESS_PRICE,
     ];
 
-    public function getIndex(GetRequest $request, Business $business) : JsonResponse
+    public function getIndex(GetRequest $request) : JsonResponse
     {
+        $this->validate($request, $request->rules());
+
+        $business = Business::where('id',$request->input('businessId'))->first(); 
         $dataset = null;        
         $this->setRecords($business);
 

@@ -36,7 +36,6 @@ class CreateRequest extends Request
     {
         if ($validator->fails()) {
             $this->errors = $validator->errors();
-
         }
     }
 
