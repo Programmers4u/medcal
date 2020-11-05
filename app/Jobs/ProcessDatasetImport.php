@@ -53,7 +53,7 @@ class ProcessDatasetImport implements ShouldQueue
                 Datasets::SEX => $sex === 'M' ? Datasets::SEX_MALE : Datasets::SEX_FEMALE,
                 Datasets::DIAGNOSIS => $edm->diagnosis,
                 Datasets::PROCEDURES => $edm->procedures,  
-                Datasets::UUID => $contact->id,   
+                Datasets::UUID => $contact ? $contact->id : null,   
                 Datasets::BUSINESS_ID => $this->business->id,   
             ]);   
             }; 

@@ -2,13 +2,13 @@
 
 namespace App\Jobs;
 
+use App\Models\User;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Support\Facades\Storage;
 use Timegridio\Concierge\Models\Business;
 use Timegridio\Concierge\Models\Contact;
 
@@ -21,6 +21,8 @@ class ProcessContactImport implements ShouldQueue
     public $maxExceptions = 1;
     
     private $business;
+    private $user;
+    private $limit;
     private $pathToContactFile;
 
     /**
@@ -28,10 +30,12 @@ class ProcessContactImport implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(Business $business, $pathToContactFile)
+    public function __construct(Business $business, User $user, $limit, $pathToContactFile)
     {
         //
         $this->business = $business;
+        $this->user = $user;
+        $this->limit = $limit;
         $this->pathToContactFile = $pathToContactFile;
     }
 
@@ -45,7 +49,12 @@ class ProcessContactImport implements ShouldQueue
         if(!is_file($this->pathToContactFile)) return;
 
         $contacts = fopen($this->pathToContactFile,'r');
+        $counter = 0;
+        $allContacts = Contact::all()->count();
         while ( ($item = fgetcsv($contacts,0,';') ) !== FALSE ) {
+            
+            if($counter + $allContacts > $this->limit) break;
+            $counter++;
 
             $name = explode(" ",$item[2]);
             $gnr = '';
@@ -66,7 +75,7 @@ class ProcessContactImport implements ShouldQueue
                 'email' => $item[7],
                 'postal_address' => $item[8] . ', ' .$item[9],
                 'mobile_country' => 'PL',
-                // 'user_id' => ,
+                'user_id' => $this->user,
             ];
             if(!$this->duplicate($register))
                 $this->business->addressbook()->register($register);

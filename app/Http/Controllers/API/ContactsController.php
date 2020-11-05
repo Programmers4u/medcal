@@ -17,7 +17,8 @@ class ContactsController extends Controller
         $this->validate($request, $request->rules());
 
         $business = Business::findOrFail($request->input('businessId'));
-        
+        $user = auth()->user();
+
         $response = ['status'=>'ok','data'=>0,'error'=>''];
 
         $uploadedFile = $request->file()[0];
@@ -35,12 +36,9 @@ class ContactsController extends Controller
 
         $count = count( file(base_path().DIRECTORY_SEPARATOR.$path.DIRECTORY_SEPARATOR.$fileName) );
         $response['data'] = 'Kontakty są importowane (' . $count . ')';
-        // if (count($contacts) > plan('limits.contacts', $business->plan)) {
-        //     $response['error'] = trans('app.saas.plan_limit_reached');
-        //     $response['status'] = 'error';
-        // } else {
-            dispatch(new ProcessContactImport($business, base_path().DIRECTORY_SEPARATOR.$path.DIRECTORY_SEPARATOR.$fileName));
-        // }
+        $limit = plan('limits.contacts', $business->plan);
+        dispatch(new ProcessContactImport($business, $user, $limit, base_path().DIRECTORY_SEPARATOR.$path.DIRECTORY_SEPARATOR.$fileName));
+
         return response()->json(
             $response
         );
