@@ -79,12 +79,12 @@ var uploadFiles = function () {
                 Format pliku: <b>CSV</b><br>
                 kolejność kolumn:<br>
                 <b>
-                data badania,<br>
-                data urodzin (RRR-MM-DD)<br>,
-                pleć (F/M),<br>
-                diagnoza,<br>
-                leczenie,<br>
-                unikalne id,<br>
+                data badania<br>
+                data urodzin (RRR-MM-DD)<br>
+                pleć (female/male)<br>
+                diagnoza<br>
+                leczenie<br>
+                unikalne id<br>
                 {{-- leki zastosowane do leczenie,<br> --}}
                 {{-- notatki,<br> --}}
                 <br>

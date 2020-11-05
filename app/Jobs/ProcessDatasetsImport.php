@@ -47,7 +47,7 @@ class ProcessDatasetsImport implements ShouldQueue
         $datasets = file($this->pathToDatasetsFile);
         for($indx=0;$indx<count($datasets);$indx++) {
             
-            if($indx>200) break;
+            if($indx>20000) break;
 
             Datasets::create([
                 Datasets::DATE_OF_EXAMINATION  => Carbon::parse($datasets[$indx][0]),
