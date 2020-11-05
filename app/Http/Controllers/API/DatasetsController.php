@@ -19,13 +19,16 @@ class DatasetsController extends Controller
 
     public function create(CreateRequest $request, Business $business) : JsonResponse
     {
-        // $DefaultResources = new DefaultResources($model2);
+        $this->validate($request, $request->rules());
+
         return response()->json([
         ]);
     }
 
     public function import(ImportRequest $request, Business $business) : JsonResponse
     {
+        $this->validate($request, $request->rules());
+
         $response = ['status'=>'ok','data'=>'','error'=>''];
         $uploadedFile = $request->file()[0];
 

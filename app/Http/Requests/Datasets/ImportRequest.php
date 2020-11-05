@@ -4,9 +4,10 @@ namespace App\Http\Requests\Datasets;
 
 use App\Http\Requests\Request;
 use Illuminate\Validation\Rule;
-
+use Illuminate\Contracts\Validation\Validator;
 class ImportRequest extends Request
 {
+    public $error;
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -28,5 +29,13 @@ class ImportRequest extends Request
             0  => 'required',
         ];
 
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        if ($validator->fails()) {
+            $this->errors = $validator->errors();
+
+        }
     }
 }

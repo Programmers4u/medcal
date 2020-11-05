@@ -2,10 +2,8 @@
 
 namespace App\Http\Requests\Statistics;
 
-use App\Http\Controllers\API\StatisticsController;
 use App\Http\Requests\Request;
 use Illuminate\Validation\Rule;
-use Timegridio\Concierge\Models\Business;
 
 class GetRequest extends Request
 {
@@ -32,11 +30,6 @@ class GetRequest extends Request
                 'integer',
                 Rule::exists('businesses','id'),
             ],
-            // 'type' => [
-            //     'string,',
-            //     'nullable',
-                // Rule::in(StatisticsController::STATISTICS),
-            // ],
         ];
     }
 }
