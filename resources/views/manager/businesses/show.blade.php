@@ -5,6 +5,12 @@
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/tour.css') }}">
+<style>
+    .pd2 {
+        padding-top: 2em;        
+    }
+
+</style>
 @endsection
 
 @section('content')
@@ -67,7 +73,7 @@
         </div>
     </div>
 
-    <div class="row" style="padding-top:2em;">
+    <div class="row pt2">
         <div class="col-md-1"></div>
         <div class="col-md-11">
             <b>Rozpoznania - choroby kobiety/męzczyźni</b>

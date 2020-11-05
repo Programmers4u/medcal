@@ -21,15 +21,6 @@ class ProcessDatasetImport implements ShouldQueue
     public $maxExceptions = 1;
     
     /**
-     * Create a new job instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-    }
-
-    /**
      * Execute the job.
      *
      * @return void
