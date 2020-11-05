@@ -43,19 +43,22 @@ class ProcessDatasetsImport implements ShouldQueue
     {
         if(!is_file($this->pathToDatasetsFile)) return;
 
-        $datasets = file($this->pathToDatasetsFile);
-        for($indx=0;$indx<count($datasets);$indx++) {
-            
-            if($indx>20000) break;
+        $datasets = fopen($this->pathToDatasetsFile, 'r');
+        while ( ($item = fgetcsv($datasets,0,';') ) !== FALSE ) {
+
+            if(!preg_match('/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/', $item[0])) 
+                $item[0] = Carbon::now()->format('Y-m-d H:i:s');
+            if(!preg_match('/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/', $item[1])) 
+                $item[1] = Carbon::now()->format('Y-m-d H:i:s');
 
             Datasets::create([
-                Datasets::DATE_OF_EXAMINATION  => Carbon::parse($datasets[$indx][0]),
-                Datasets::BIRTHDAY => Carbon::parse($datasets[$indx][1]),
-                Datasets::SEX => $datasets[$indx][2],
-                Datasets::DIAGNOSIS => $datasets[$indx][3],
-                Datasets::PROCEDURES => $datasets[$indx][4],  
-                Datasets::UUID => $datasets[$indx][5],      
-            ]);   
+                Datasets::DATE_OF_EXAMINATION  => $item[0],
+                Datasets::BIRTHDAY => $item[1],
+                Datasets::SEX => $item[2],
+                Datasets::DIAGNOSIS => $item[3],
+                Datasets::PROCEDURES => $item[4],  
+                Datasets::UUID => $item[5],      
+            ]);  
         };
         unlink($this->pathToDatasetsFile);
     }
@@ -63,6 +66,6 @@ class ProcessDatasetsImport implements ShouldQueue
     public function failed(Exception $exception)
     {
         // Send user notification of failure, etc...
-
+        unlink($this->pathToDatasetsFile);
     }    
 }
