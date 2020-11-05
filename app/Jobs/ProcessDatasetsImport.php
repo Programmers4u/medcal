@@ -57,7 +57,8 @@ class ProcessDatasetsImport implements ShouldQueue
                 Datasets::SEX => $item[2],
                 Datasets::DIAGNOSIS => $item[3],
                 Datasets::PROCEDURES => $item[4],  
-                Datasets::UUID => $item[5],      
+                Datasets::UUID => $item[5],
+                Datasets::BUSINESS_ID => $this->business->id,      
             ]);  
         };
         unlink($this->pathToDatasetsFile);

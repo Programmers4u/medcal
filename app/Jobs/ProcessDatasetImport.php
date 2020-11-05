@@ -10,6 +10,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Timegridio\Concierge\Models\Business;
 use Timegridio\Concierge\Models\Contact;
 
 class ProcessDatasetImport implements ShouldQueue
@@ -20,6 +21,12 @@ class ProcessDatasetImport implements ShouldQueue
     public $tries = 1;
     public $maxExceptions = 1;
     
+    private $business;
+
+    public function __construct(Business $business)
+    {
+        $this->business = $business;
+    }
     /**
      * Execute the job.
      *
@@ -46,7 +53,8 @@ class ProcessDatasetImport implements ShouldQueue
                 Datasets::SEX => $sex === 'M' ? Datasets::SEX_MALE : Datasets::SEX_FEMALE,
                 Datasets::DIAGNOSIS => $edm->diagnosis,
                 Datasets::PROCEDURES => $edm->procedures,  
-                Datasets::UUID => $contact->id,      
+                Datasets::UUID => $contact->id,   
+                Datasets::BUSINESS_ID => $this->business->id,   
             ]);   
             }; 
         }

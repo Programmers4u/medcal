@@ -35,7 +35,7 @@ class StatisticsController extends Controller
     public function getIndex(GetRequest $request, Business $business) : JsonResponse
     {
         $dataset = null;        
-        $this->setRecords();
+        $this->setRecords($business);
 
         switch($request->input('type')) {
 
@@ -212,8 +212,8 @@ class StatisticsController extends Controller
         return $singleFormat;
     }
 
-    private function setRecords() : void 
+    private function setRecords($business) : void 
     {
-        dispatch(new ProcessDatasetImport());
+        dispatch(new ProcessDatasetImport($business));
     }
 }
