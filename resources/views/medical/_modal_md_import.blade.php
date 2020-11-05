@@ -83,7 +83,7 @@ var uploadFiles = function () {
                 data urodzin (RRR-MM-DD)<br>
                 pleć (female/male)<br>
                 diagnoza<br>
-                leczenie<br>
+                zastosowane leczenie<br>
                 unikalne id<br>
                 {{-- leki zastosowane do leczenie,<br> --}}
                 {{-- notatki,<br> --}}
