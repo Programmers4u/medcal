@@ -20,11 +20,12 @@ class Datasets extends Model
     const DATE_OF_EXAMINATION = 'date_of_examination';
     const DIAGNOSIS = 'diagnosis';
     const PROCEDURES = 'procedures';
+    const UUID = 'uuid';
+    const BUSINESS_ID = 'business_id';
+
     const SEX_MALE = 'male';
     const SEX_FEMALE = 'female';
-    const UUID = 'uuid';
-
-    const SEXS = [
+    const SEXES = [
         self::SEX_MALE,
         self::SEX_FEMALE,
     ];
@@ -37,10 +38,15 @@ class Datasets extends Model
         self::SEX,
         self::BIRTHDAY,
         self::UUID,
+        self::BUSINESS_ID,
     ];
     
     // RELATION
+    const RELATION_BUSINESS = 'business';
 
+    public function business() {
+        return $this->belongsTo('businesses', self::BUSINESS_ID);
+    }
     
 
 }
