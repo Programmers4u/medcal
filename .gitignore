@@ -9,4 +9,4 @@ bower_components
 /resources/medcal-front
 pm2start.js
 pm2stop.js
-!.gitignore
+docker/redis/redis_data
