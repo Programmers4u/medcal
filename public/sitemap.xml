@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset 
+	  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<url>
+  <loc>http://www.medcal.pl/</loc>
+  <lastmod>2020-11-08T23:08:22+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>http://www.medcal.pl/for-doctors</loc>
+  <lastmod>2020-11-08T23:08:22+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>http://www.medcal.pl/for-investors</loc>
+  <lastmod>2020-11-08T23:08:22+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://medcal.pl/login</loc>
+  <lastmod>2020-11-08T23:08:22+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>http://medcal.pl/login</loc>
+  <lastmod>2020-11-08T23:08:22+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>http://medcal.pl/register</loc>
+  <lastmod>2020-11-08T23:08:22+00:00</lastmod>
+  <priority>0.90</priority>
+</url>
+<url>
+  <loc>https://medcal.pl/register</loc>
+  <lastmod>2020-11-08T23:08:22+00:00</lastmod>
+  <priority>0.90</priority>
+</url>
+</urlset>
