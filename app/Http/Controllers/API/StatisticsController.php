@@ -32,10 +32,13 @@ class StatisticsController extends Controller
         self::BUSINESS_PRICE,
     ];
 
-    public function getIndex(GetRequest $request, Business $business) : JsonResponse
+    public function getIndex(GetRequest $request) : JsonResponse
     {
+        $this->validate($request, $request->rules());
+
+        $business = Business::where('id',$request->input('businessId'))->first(); 
         $dataset = null;        
-        $this->setRecords();
+        $this->setRecords($business);
 
         switch($request->input('type')) {
 
@@ -212,8 +215,8 @@ class StatisticsController extends Controller
         return $singleFormat;
     }
 
-    private function setRecords() : void 
+    private function setRecords($business) : void 
     {
-        dispatch(new ProcessDatasetImport());
+        dispatch(new ProcessDatasetImport($business));
     }
 }

@@ -14,6 +14,12 @@ class DefaultResources extends Resource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return $this->map(function($item){
+                return [
+                    'status'=> $item->status,
+                    'data'=> $item->data,
+                    'error'=> $item->error,
+                ];
+            });
     }
 }

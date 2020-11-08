@@ -25,6 +25,7 @@ var uploadFiles = function () {
         data.append(key, value);
         filesName.push(value.name);
     });
+    data.append('businessId', '{{ $business->id }}');
     var url = "{{ route('contacts.import.file',[$business]) }}";
 
     $.ajax({

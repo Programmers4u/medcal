@@ -1,5 +1,6 @@
 /public/vendor/
 /docker/mysql/dbdata/
+/docker/redis/redis_data
 vendor
 node_modules
 bower_components

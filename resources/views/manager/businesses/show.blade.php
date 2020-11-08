@@ -5,9 +5,16 @@
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/tour.css') }}">
+<style>
+    .pd2 {
+        padding-top: 2em;        
+    }
+
+</style>
 @endsection
 
 @section('content')
+
 <div class="container-fluid">
 
     @if ($business->services()->count() == 0)
@@ -45,6 +52,18 @@
     @endforeach
 
     <div class="row">
+            <div class="col-md-4">
+                {!! 
+                    Button::success('importuj anonimowe dane medyczne')
+                        ->large()
+                        ->block()
+                        ->asLinkTo('javascript:openImport()') 
+                !!}
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="padding-top:2em;">
         <div class="col-md-1"></div>
             <div class="col-md-11">
           <b>Rozpoznania - choroby</b>
@@ -54,7 +73,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row pt2">
         <div class="col-md-1"></div>
         <div class="col-md-11">
             <b>Rozpoznania - choroby kobiety/męzczyźni</b>
@@ -65,10 +84,11 @@
     </div>
 
 </div>
+
+@include('medical._modal_md_import')
 @endsection
 
 @push('footer_scripts')
-{{-- <script src="{{ asset('js/tour.js') }}"></script> --}}
 
 <script type="text/javascript" src="/js/statistics/statistics.min.js"></script>
 
@@ -160,9 +180,5 @@ Statistics.get(function(data) {
         }
     });
 });
-
 </script>
-
-
-
 @endpush

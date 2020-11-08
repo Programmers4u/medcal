@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Statistics;
+namespace App\Http\Requests\Datasets;
 
 use Illuminate\Contracts\Validation\Validator;
 use App\Http\Requests\Request;
 use Illuminate\Validation\Rule;
 
-class GetRequest extends Request
+class CreateRequest extends Request
 {
     public $error;
     
@@ -28,11 +28,7 @@ class GetRequest extends Request
     public function rules()
     {
         return [
-            'businessId' => [
-                'required',
-                'integer',
-                Rule::exists('businesses','id'),
-            ],
+
         ];
     }
 
@@ -40,7 +36,6 @@ class GetRequest extends Request
     {
         if ($validator->fails()) {
             $this->errors = $validator->errors();
-
         }
     }
 
