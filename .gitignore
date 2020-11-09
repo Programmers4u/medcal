@@ -7,6 +7,5 @@ bower_components
 .vscode
 .DS_Store
 .env
-/resources/medcal-front
 docker/redis/redis_dat
 yarn-error.log
