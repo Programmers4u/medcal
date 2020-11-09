@@ -126,7 +126,6 @@ starting web serwer and queue worker
 
     yarn start
 
-
     yarn start-prod
     yarn stop
     yarn stop-prod
