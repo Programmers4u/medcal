@@ -7,8 +7,6 @@ bower_components
 .vscode
 .DS_Store
 .env
-/resources/medcal-front
-pm2start.js
-pm2stop.js
-docker/redis/redis_data
+docker/redis/redis_dat
+yarn-error.log
 pm2-cron.log

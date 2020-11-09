@@ -118,20 +118,31 @@ runs with the permissions of your web server. In this case it's called `nginx`.
 
 To start you will need first install
 
-    cp pm2start.js.example pm2start.js
-    cp pm2stop.js.example pm2stop.js
-    
     yarn 
-    node pm2start
+or
+    npm install
+
+starting web serwer and queue worker
+
+    yarn start
+
+    yarn start-prod
+    yarn stop
+    yarn stop-prod
+    yarn delete
+    yarn delete-prod
+
+To start cron
+
+    yarn cron
+
+    yarn cron-prod
+    yarn cron-delete
+    yarn-cron-prod-delete
 
 **Type** on web browser:
 
     http://localhost:1234/
-
-To stop
-
-    node 
-    pm2stop
 
 <a name="demosandbox"></a>
 ## Demo Sandbox Fixture
