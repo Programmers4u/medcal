@@ -15,6 +15,7 @@ class MedicalTemplates extends Model
     protected $table = 'medical_templates';
 
     const TABLE = 'medical_templates';
+    const ID = 'id';
     const NAME = 'name';
     const TYPE = 'type';
     const DESCRIPTION = 'description';
