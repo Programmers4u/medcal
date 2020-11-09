@@ -51,8 +51,24 @@ class ProcessContactImport implements ShouldQueue
         $contacts = fopen($this->pathToContactFile,'r');
         $counter = 0;
         $allContacts = Contact::all()->count();
+
+        $validateImportColumns = [
+            0 => '/\w+|/isU',
+            1 => '/\w+|/isU',
+            2 => '/\w+|/isU',
+        ];
+    
         while ( ($item = fgetcsv($contacts,0,';') ) !== FALSE ) {
             
+            $valid = TRUE;
+            foreach($validateImportColumns as $key=>$value) {
+                if(!preg_match($value,$item[$key])) {
+                    $valid = FALSE;
+                    break;
+                }
+            };
+            if(!$valid) continue;
+
             if($counter + $allContacts > $this->limit) break;
             $counter++;
 
