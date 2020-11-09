@@ -2,8 +2,11 @@
   "private": true,
   "scripts": {
     "start": "yarn pm2 start 'php artisan serve --port 1234', 'php artisan queue:work'",
+    "start-prod": "npx pm2 start 'php artisan serve --port 1234', 'php artisan queue:work'",
     "stop": "yarn pm2 stop 'php artisan serve --port 1234', 'php artisan queue:work'",
-    "delete": "yarn pm2 delete 'php artisan serve --port 1234', 'php artisan queue:work'"
+    "stop-prod": "npx pm2 stop 'php artisan serve --port 1234', 'php artisan queue:work'",
+    "delete": "yarn pm2 delete 'php artisan serve --port 1234', 'php artisan queue:work'",
+    "delete-prod": "npx pm2 delete 'php artisan serve --port 1234', 'php artisan queue:work'"
   },
   "devDependencies": {
     "gulp": "^4.0.2",
