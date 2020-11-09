@@ -11,3 +11,4 @@ bower_components
 pm2start.js
 pm2stop.js
 docker/redis/redis_data
+pm2-cron.log

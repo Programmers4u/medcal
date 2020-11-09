@@ -24,9 +24,7 @@ class SendAppointmentCancellationNotification implements ShouldQueue
     }
 
     public function handle(AppointmentWasCanceled $event)
-    {
-        // logger()->info(__METHOD__);
-        
+    {        
         $code = $event->appointment->code;
         $date = $event->appointment->start_at->toDateString();
         $businessName = $event->appointment->business->name;

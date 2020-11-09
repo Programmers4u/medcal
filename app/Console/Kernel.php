@@ -2,11 +2,9 @@
 
 namespace App\Console;
 
+use App\Jobs\ProcessSmsNotification;
 use Illuminate\Console\Scheduling\Schedule;
-use Illuminate\Contracts\Events\Dispatcher;
-use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use App\Services\SmsService;
 
 class Kernel extends ConsoleKernel
 {
@@ -37,29 +35,13 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         //$schedule->command('root:report')->dailyAt(config('root.report.time'));
-
         //$schedule->command('business:report')->dailyAt('21:00');
-
         //$schedule->command('business:vacancies')->weekly()->sundays()->at('00:00');
+        // $schedule->command('ical:sync')->twiceDaily(0, 12);
 
         $schedule->command('backup')->dailyAt('23:00');
-        
-        $schedule->command('ical:sync')->twiceDaily(0, 12);
-
         $schedule->command('storage:public_clear')->hourly();
-        
-        $schedule->call(function () {
-            //$job = SmsService::getNow();
-            //$job = SmsService::getTomorrow();
-            //$job = SmsService::getSixMonth();
-        })->everyMinute();
-
-        $schedule->call(function () {
-            
-            $job[0] = SmsService::getTomorrow();
-            $job[1] = SmsService::getSixMonth();
-
-        })->dailyAt('9:00'); 
+        $schedule->job(new ProcessSmsNotification())->dailyAt('9:00');
     }
 
     /**
