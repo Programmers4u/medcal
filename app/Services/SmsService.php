@@ -57,7 +57,7 @@ class SmsService {
         return 'Zaslepka: getMessage()';
     }
     
-    private static function getBody($rows = null, $messageId = null){
+    private static function getBody($rows = null, $messageId = null) {
         
         if($rows === null || $messageId === null) {return [];}
         $response = [];
