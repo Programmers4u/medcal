@@ -2,28 +2,18 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Consts\ResponseApi;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Datasets\CreateRequest;
-use App\Http\Requests\Datasets\ImportRequest;
+use App\Http\Requests\MedicalTemplate\DefaultRequest;
+use App\Http\Requests\MedicalTemplate\DeleteRequest;
+use App\Http\Requests\MedicalTemplate\ImportRequest;
 use Timegridio\Concierge\Models\Business;
-use \Carbon\Carbon;
-use App\Http\Requests\Statistics\GetRequest;
-use App\Http\Resources\Statistics\DefaultResources;
 use App\Jobs\ProcessDatasetsImport;
-use App\Models\MedicalHistory;
+use App\Jobs\ProcessMedicalTemplateImport;
+use App\Models\MedicalTemplates;
 use Illuminate\Http\JsonResponse;
 
-class DatasetsController extends Controller
+class MedicalTemplateController extends Controller
 {
-
-    public function create(CreateRequest $request, Business $business) : JsonResponse
-    {
-        $this->validate($request, $request->rules());
-
-        return response()->json([
-        ]);
-    }
 
     public function import(ImportRequest $request, Business $business) : JsonResponse
     {
@@ -44,9 +34,20 @@ class DatasetsController extends Controller
         system($command);
 
         $datasets = file(base_path().DIRECTORY_SEPARATOR.$path.DIRECTORY_SEPARATOR.$fileName);
-        $response['data'] = 'Ilość rekordów: ' . count($datasets);
+        $response['data'] = __('medicaltemplate.alert.import') . count($datasets);
 
-        dispatch(new ProcessDatasetsImport($business, base_path().DIRECTORY_SEPARATOR.$path.DIRECTORY_SEPARATOR.$fileName));
+        dispatch(new ProcessMedicalTemplateImport($business, base_path().DIRECTORY_SEPARATOR.$path.DIRECTORY_SEPARATOR.$fileName));
+
+        return response()->json($response);
+    }
+
+    public function delete(DeleteRequest $request) : JsonResponse
+    {
+        $this->validate($request, $request->rules());
+
+        $response = ['status'=>'ok','data'=>'','error'=>''];
+
+        $response['data'] = MedicalTemplates::where(MedicalTemplates::ID, $request->id)->delete();
 
         return response()->json($response);
     }

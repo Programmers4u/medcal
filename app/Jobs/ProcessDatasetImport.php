@@ -10,8 +10,6 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
 use Timegridio\Concierge\Models\Business;
 use Timegridio\Concierge\Models\Contact;
 
@@ -23,21 +21,12 @@ class ProcessDatasetImport implements ShouldQueue
     public $tries = 1;
     public $maxExceptions = 1;
     
-    // private $business;
-    // private $pathToContactFile;
+    private $business;
 
-    /**
-     * Create a new job instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function __construct(Business $business)
     {
-        //
-        // $this->business = $business;
-        // $this->pathToContactFile = $pathToContactFile;
+        $this->business = $business;
     }
-
     /**
      * Execute the job.
      *
@@ -64,23 +53,12 @@ class ProcessDatasetImport implements ShouldQueue
                 Datasets::SEX => $sex === 'M' ? Datasets::SEX_MALE : Datasets::SEX_FEMALE,
                 Datasets::DIAGNOSIS => $edm->diagnosis,
                 Datasets::PROCEDURES => $edm->procedures,  
-                Datasets::UUID => $contact->id,      
+                Datasets::UUID => $contact ? $contact->id : null,   
+                Datasets::BUSINESS_ID => $this->business->id,   
             ]);   
             }; 
         }
 
-    }
-
-    private function duplicate($register) : bool {
-        
-        $model = $this->business->contacts()
-            ->where('firstname',$register['firstname'])
-            ->where('lastname',$register['lastname'])
-            ->where('mobile',$register['mobile'])
-            ->get()
-            ->toArray()
-            ;
-        return count($model) > 0 ? true : false;
     }
 
     public function failed(Exception $exception)

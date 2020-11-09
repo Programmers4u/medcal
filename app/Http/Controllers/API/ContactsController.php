@@ -6,18 +6,21 @@ use App\Http\Consts\ResponseApi;
 use App\Http\Controllers\Controller;
 use Timegridio\Concierge\Models\Business;
 use App\Http\Requests\Contacts\PutRequest;
+use App\Http\Resources\DefaultResources;
 use App\Jobs\ProcessContactImport;
-use Illuminate\Http\File;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Storage;
-use Symfony\Component\Translation\Loader\CsvFileLoader;
-use Timegridio\Concierge\Models\Contact;
 
 class ContactsController extends Controller
 {
-    public function importFromFile(PutRequest $request, Business $business) : JsonResponse
+    public function importFromFile(PutRequest $request) : JsonResponse
     {
-        $response = ['status'=>'ok','data'=>'','error'=>''];
+        $this->validate($request, $request->rules());
+
+        $business = Business::findOrFail($request->input('businessId'));
+        $user = auth()->user();
+
+        $response = ['status'=>'ok','data'=>0,'error'=>''];
+
         $uploadedFile = $request->file()[0];
 
         $path = env('STORAGE_PATH','').DIRECTORY_SEPARATOR.'temp'.DIRECTORY_SEPARATOR;
@@ -31,14 +34,13 @@ class ContactsController extends Controller
         $command = "cp ".$tmpFile.' '.base_path().DIRECTORY_SEPARATOR.$path.DIRECTORY_SEPARATOR.$fileName;
         system($command);
 
-        $contacts = file(base_path().DIRECTORY_SEPARATOR.$path.DIRECTORY_SEPARATOR.$fileName);
-        $response['data'] = 'Ilość rekordów: ' . count($contacts);
-        // if (count($contacts) > plan('limits.contacts', $business->plan)) {
-        //     $response['error'] = trans('app.saas.plan_limit_reached');
-        //     $response['status'] = 'error';
-        // } else {
-            dispatch(new ProcessContactImport($business, base_path().DIRECTORY_SEPARATOR.$path.DIRECTORY_SEPARATOR.$fileName));
-        // }
-        return response()->json($response);
+        $count = count( file(base_path().DIRECTORY_SEPARATOR.$path.DIRECTORY_SEPARATOR.$fileName) );
+        $response['data'] = 'Kontakty są importowane (' . $count . ')';
+        $limit = plan('limits.contacts', $business->plan);
+        dispatch(new ProcessContactImport($business, $user, $limit, base_path().DIRECTORY_SEPARATOR.$path.DIRECTORY_SEPARATOR.$fileName));
+
+        return response()->json(
+            $response
+        );
     }
 }

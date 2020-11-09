@@ -263,6 +263,18 @@ Route::group(['prefix' => '{business}'], function ($business) {
             'uses' => 'ContactsController@importFromFile',
         ]);    
 
+        Route::post('import-datasets',[
+            'as'   => 'datasets.import.file',
+            'uses' => 'DatasetsController@import',
+        ]);    
+        Route::post('import-medical-template',[
+            'as'   => 'medicaltemplate.import.file',
+            'uses' => 'MedicalTemplateController@import',
+        ]);    
+        Route::post('delete-medical-template',[
+            'as'   => 'medicaltemplate.delete',
+            'uses' => 'MedicalTemplateController@delete',
+        ]);    
     });
 
     

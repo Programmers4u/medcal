@@ -25,7 +25,7 @@ var uploadFiles = function () {
         data.append(key, value);
         filesName.push(value.name);
     });
-    var url = "{{ route('contacts.import.file',[$business]) }}";
+    var url = "{{ route('datasets.import.file',[$business]) }}";
 
     $.ajax({
         headers: {
@@ -79,12 +79,14 @@ var uploadFiles = function () {
                 Format pliku: <b>CSV</b><br>
                 kolejność kolumn:<br>
                 <b>
-                unikalne id,<br>
-                diagnoza,<br>
-                leczenie,<br>
-                data,<br>
-                leki zastosowana,<br>
-                notatka,<br>
+                data badania<br>
+                data urodzin (RRR-MM-DD)<br>
+                pleć (female/male)<br>
+                diagnoza<br>
+                zastosowane leczenie<br>
+                unikalne id<br>
+                {{-- leki zastosowane do leczenie,<br> --}}
+                {{-- notatki,<br> --}}
                 <br>
                 Ważne!<br>
                 Kolumny muszą wystąpić dokładnie w takiej kolejności jak podano powyżej.<br>

@@ -5,16 +5,17 @@ namespace App\Http\Controllers\Manager;
 use App\Exceptions\BusinessAlreadyRegistered;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BusinessFormRequest;
-use App\Models\MedicalHistory;
-use App\TG\Business\Dashboard;
-use App\TG\BusinessService;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\File as FacadesFile;
-use Illuminate\Support\Facades\Request;
-use Illuminate\Support\Facades\Storage;
-use League\Flysystem\File;
-use Timegridio\Concierge\Models\Business;
-use Timegridio\Concierge\Models\Category;
+use App\TG\Business\{
+    Dashboard,
+};
+use App\TG\{
+    BusinessService,
+};
+use Timegridio\Concierge\Models\{
+    Business,
+    Category
+};
 
 class BusinessController extends Controller
 {
@@ -174,12 +175,7 @@ class BusinessController extends Controller
      */
     public function edit(Business $business)
     {
-        // logger()->info(__METHOD__);
-        // logger()->info(sprintf('businessId:%s', $business->id));
-
         $this->authorize('update', $business);
-
-        // BEGIN
 
         $timezone = $this->guessTimezone($business->timezone);
 
@@ -198,28 +194,7 @@ class BusinessController extends Controller
         $res = exec($command,$diskAvail);
         $storageSize.= ' Avail: '.$diskAvail[1]; 
         
-        /**
-         * Finansowe info 
-         */
-
-        $medicalHistory = MedicalHistory::all();
-        $finance = [
-            'sum' => 0,
-            'avg' => 0,
-        ];
-        $proces = [];
-        foreach($medicalHistory as $mh){
-            $mh = json_decode($mh->json_data);
-            if(isset($mh->price)) array_push($proces,$mh->price);
-        }
-        if(count($proces)>0) {
-            $finance['sum'] = array_sum($proces);
-            $finance['avg'] = $finance['sum']/count($proces);
-        }
-
-        // logger()->info(sprintf('businessId:%s timezone:%s category:%s', $business->id, $timezone, $category));
-
-        return view('manager.businesses.edit', compact('finance' ,'business', 'category', 'categories', 'timezone', 'storageSize'));
+        return view('manager.businesses.edit', compact('business', 'category', 'categories', 'timezone', 'storageSize'));
     }
 
     /**
@@ -232,12 +207,8 @@ class BusinessController extends Controller
      */
     public function update(Business $business, BusinessFormRequest $request)
     {
-        // logger()->info(__METHOD__);
-        // logger()->info(sprintf('businessId:%s', $business->id));
-
         $this->authorize('update', $business);
 
-        // BEGIN
         $category = $request->get('category');
 
         $data = $request->only([
@@ -267,12 +238,7 @@ class BusinessController extends Controller
      */
     public function destroy(Business $business)
     {
-        // logger()->info(__METHOD__);
-
         $this->authorize('destroy', $business);
-
-        // logger()->info(sprintf('Deactivating: businessId:%s', $business->id));
-        // BEGIN
 
         $this->businessService->deactivate($business);
 
@@ -316,8 +282,6 @@ class BusinessController extends Controller
 
         $this->getLocation();
 
-        // logger()->info(sprintf('TIMEZONE FALLBACK="%s" GUESSED="%s"', $timezone, $this->location['timezone']));
-
         $identifiers = timezone_identifiers_list();
 
         return in_array($this->location['timezone'], $identifiers) ? $this->location['timezone'] : $timezone;
@@ -333,15 +297,9 @@ class BusinessController extends Controller
     protected function getLocation()
     {
         if ($this->location === null) {
-            // logger()->info('Getting location');
-
             $geoip = app('geoip');
-
             $this->location = $geoip->getLocation();
-
-            // logger()->info(serialize($this->location));
         }
-
         return $this->location;
     }
 }

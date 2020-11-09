@@ -1,17 +1,24 @@
-var Statistics = {
+var ModelStatistics = {
     csrf : '',
     businessId : '',
     endPoint : '',
+    businessPriceType: 'business_price',
+    diagnosisType: 'diagnosis',
+    diagnosisSexType: 'diagnosis_sex',
+    diagnosisPatientType : 'diagnosis_patient',
+    types : [this.businessPriceType,this.diagnosisType,this.diagnosisSexType,this.diagnosisPatientType],
     post : {
         businessId : this.businessId || '',
         hr : '',
         start_at : '',
-        csrf : this.csrf || '',
     },
+    init : function () {
+        return this.csrf;
+    }, 
     get : function(success, error) { 
         $.ajax({
             headers: {
-                'X-CSRF-TOKEN': this.post.csrf || null
+                'X-CSRF-TOKEN': this.csrf || null
             },            
             url: this.endPoint,
             data: this.post,            

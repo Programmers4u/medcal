@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Requests\Statistics;
+namespace App\Http\Requests\MedicalTemplate;
 
-use Illuminate\Contracts\Validation\Validator;
 use App\Http\Requests\Request;
+use App\Models\MedicalTemplates;
 use Illuminate\Validation\Rule;
+use Illuminate\Contracts\Validation\Validator;
 
-class GetRequest extends Request
+class DefaultRequest extends Request
 {
     public $error;
-    
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -28,12 +28,8 @@ class GetRequest extends Request
     public function rules()
     {
         return [
-            'businessId' => [
-                'required',
-                'integer',
-                Rule::exists('businesses','id'),
-            ],
         ];
+
     }
 
     protected function failedValidation(Validator $validator)
@@ -43,5 +39,4 @@ class GetRequest extends Request
 
         }
     }
-
 }

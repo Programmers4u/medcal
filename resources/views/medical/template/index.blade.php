@@ -6,9 +6,17 @@
 @section('content')
 <div class="container-fluid">
     {!! Alert::info(trans('medical.template.index.instructions')) !!}
+    <p>
+        {!! Button::primary(trans('manager.humanresource.btn.create'))
+        ->withIcon(Icon::plus())
+        ->asLinkTo(route('medical.template.create', [$business]) ) !!}
+        {!! Button::primary(trans('medicaltemplate.btn.import'))
+            ->withIcon(Icon::plus())
+            ->asLinkTo('javascript:openImport()') !!}
+    </p>    
     @include('medical.template.table', compact('templates', 'business', 'template_type'))
 </div>
-
+@include('medical.template._modal_mt_import')
 @endsection
 @push('footer_scripts')
 <script>

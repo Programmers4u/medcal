@@ -3,9 +3,13 @@
 namespace App\Http\Requests\Contacts;
 
 use App\Http\Requests\Request;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Validation\Rule;
 
 class PutRequest extends Request
 {
+    public $error;
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -13,11 +17,9 @@ class PutRequest extends Request
      */
     public function authorize()
     {
-        $authorize = auth()->user();
-
-        // logger()->info("Authorize:$authorize");
-
-        return $authorize;
+        // $authorize = auth()->user();
+        // return $authorize;
+        return true;
     }
 
     /**
@@ -29,6 +31,18 @@ class PutRequest extends Request
     {
         return [
             0  => 'required',
+            'businessId' => [
+                'required',
+                Rule::exists('businesses','id'),
+            ],
         ];
     }
+
+    protected function failedValidation(Validator $validator)
+    {
+        if ($validator->fails()) {
+            $this->errors = $validator->errors();
+        }
+    }
+
 }

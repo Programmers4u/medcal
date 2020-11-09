@@ -1,12 +1,11 @@
 /public/vendor/
 /docker/mysql/dbdata/
+/docker/redis/redis_data
 vendor
 node_modules
 bower_components
 .vscode
 .DS_Store
 .env
-/resources/medcal-front
-pm2start.js
-pm2stop.js
-!.gitignore
+yarn-error.log
+pm2-cron.log

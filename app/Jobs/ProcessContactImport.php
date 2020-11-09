@@ -2,13 +2,13 @@
 
 namespace App\Jobs;
 
+use App\Models\User;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Support\Facades\Storage;
 use Timegridio\Concierge\Models\Business;
 use Timegridio\Concierge\Models\Contact;
 
@@ -21,6 +21,8 @@ class ProcessContactImport implements ShouldQueue
     public $maxExceptions = 1;
     
     private $business;
+    private $user;
+    private $limit;
     private $pathToContactFile;
 
     /**
@@ -28,10 +30,12 @@ class ProcessContactImport implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(Business $business, $pathToContactFile)
+    public function __construct(Business $business, User $user, $limit, $pathToContactFile)
     {
         //
         $this->business = $business;
+        $this->user = $user;
+        $this->limit = $limit;
         $this->pathToContactFile = $pathToContactFile;
     }
 
@@ -44,21 +48,42 @@ class ProcessContactImport implements ShouldQueue
     {
         if(!is_file($this->pathToContactFile)) return;
 
-        $contacts = file($this->pathToContactFile);
-        for($indx=0;$indx<count($contacts);$indx++) {
-            if($indx>200) break;
-            $item = explode(";",str_replace("\"","",$contacts[$indx]));
+        $contacts = fopen($this->pathToContactFile,'r');
+        $counter = 0;
+        $allContacts = Contact::all()->count();
+
+        $validateImportColumns = [
+            0 => '/\w+|/isU',
+            1 => '/\w+|/isU',
+            2 => '/\w+|/isU',
+        ];
+    
+        while ( ($item = fgetcsv($contacts,0,';') ) !== FALSE ) {
+            
+            $valid = TRUE;
+            foreach($validateImportColumns as $key=>$value) {
+                if(!preg_match($value,$item[$key])) {
+                    $valid = FALSE;
+                    break;
+                }
+            };
+            if(!$valid) continue;
+
+            if($counter + $allContacts > $this->limit) break;
+            $counter++;
 
             $name = explode(" ",$item[2]);
-            
+            $gnr = '';
+            if(isset($name[1]))
+                $gnr = substr($name[1],strlen($name[1])-1,1) !== 'a' ? 'M' : 'F';
+
             $gender = $item[4] ? $item[4] : '';
-            $gnr = substr($name[1],strlen($name[1])-1,1) !== 'a' ? 'M' : 'F';
             $gender = $gender!=='' ? $gender : $gnr;
             
             $register = [
                 'foregin_user_id' => $item[0],
-                'firstname' => $name[1],
-                'lastname' => $name[0],
+                'firstname' => isset($name[1]) ? $name[1] : $item[1],
+                'lastname' => isset($name[0]) ? $name[0] : $item[2],
                 'nin' => $item[3],
                 'gender' => $gender,
                 'birthdate' => $item[5] ? Carbon::parse($item[5]) : Carbon::now(),
@@ -66,13 +91,10 @@ class ProcessContactImport implements ShouldQueue
                 'email' => $item[7],
                 'postal_address' => $item[8] . ', ' .$item[9],
                 'mobile_country' => 'PL',
+                'user_id' => $this->user,
             ];
-            // try {
             if(!$this->duplicate($register))
                 $this->business->addressbook()->register($register);
-            // } catch(Exception $e) {
-                // echo $e->getMessage();
-            // };
         };
         unlink($this->pathToContactFile);
     }
@@ -92,6 +114,6 @@ class ProcessContactImport implements ShouldQueue
     public function failed(Exception $exception)
     {
         // Send user notification of failure, etc...
-
+        unlink($this->pathToContactFile);
     }    
 }

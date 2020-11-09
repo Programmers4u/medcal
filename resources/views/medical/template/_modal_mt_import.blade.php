@@ -1,7 +1,7 @@
 @push('footer_scripts')
 <script type="text/javascript">
 var openImport = () => {
-    $('#importContactModal').modal({
+    $('#importMTModal').modal({
         keyboard: false,
         backdrop: false,
     }) 
@@ -25,8 +25,7 @@ var uploadFiles = function () {
         data.append(key, value);
         filesName.push(value.name);
     });
-    data.append('businessId', '{{ $business->id }}');
-    var url = "{{ route('contacts.import.file',[$business]) }}";
+    var url = "{{ route('medicaltemplate.import.file',[$business]) }}";
 
     $.ajax({
         headers: {
@@ -48,12 +47,12 @@ var uploadFiles = function () {
                 },5000);
             } else {
                 console.log('ERRORS: ' + data.error);
-                alert('Błąd: '+data.error, 'error');
+                alert('{{ trans('medicaltemplate.alert.error') }}: '+data.error, 'error');
             }
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.log('ERRORS: ' + textStatus);
-            alert('Błąd globalny komunikacji: '+textStatus, 'error');
+            alert('{{ trans('medicaltemplate.alert.error') }}: '+textStatus, 'error');
         }
     });        
 }
@@ -61,14 +60,14 @@ var uploadFiles = function () {
 @endpush
 
 <!-- Modal -->
-<div class="modal" id="importContactModal" tabindex="-5" role="dialog" aria-labelledby="importContactModal" aria-hidden="true">
+<div class="modal" id="importMTModal" tabindex="-5" role="dialog" aria-labelledby="importMTModal" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
-                <h3 class="modal-title" id="importContactModal">{{trans('medical.document.file.title')}}</h3>
+                <h3 class="modal-title" id="importMTModal">{{trans('medicaltemplate.title')}}</h3>
             </div>
             <div class="modal-body">
                 <div class="file-loading"> 
@@ -76,32 +75,19 @@ var uploadFiles = function () {
                 </div>
                 <br><br>
                 <div class="container">
-                <div class="row col-sm-8">
-                Format pliku: <b>CSV</b><br>
-                kolejność kolumn:<br>
-                <b>
-                unikalne id,<br>
-                imię,<br>
-                nazwisko,<br>
-                pesel,<br>
-                płeć,<br>
-                data urodzenia,<br>
-                numer komórkowy,<br>
-                adres e-mail,<br>
-                adres (ulica numer domu),<br>
-                miasto,<br>
-                <br>
-                Ważne!<br>
-                Kolumny muszą wystąpić dokładnie w takiej kolejności jak podano powyżej.<br>
-                W pierwszym wierszu nie ma nazw kolumn. Od razu są dane.
-                </b>
-            </div>
+                    <div class="row col-sm-8">
+                        <b>{{trans('medicaltemplate.instruction.title')}}</b><br>
+                        {{trans('medicaltemplate.instruction.columns.name')}}<br>
+                        {{trans('medicaltemplate.instruction.columns.type')}}<br><br>
+                        <b>{{trans('medicaltemplate.instruction.columns.description')}}</b><br>
+                        <i>{{trans('medicaltemplate.instruction.info')}}</i>
+                    </div>
             </div>
         </div>
                     
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ trans('medical.btn.close') }}</button>
-            <button type="button" class="btn btn-primary" id="savebtn" onclick="uploadFiles()">{{ trans('medical.btn.savefiles') }}</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ trans('medicaltemplate.btn.close') }}</button>
+            <button type="button" class="btn btn-primary" id="savebtn" onclick="uploadFiles()">{{ trans('medicaltemplate.btn.savefiles') }}</button>
         </div>
     </div>
 </div>
