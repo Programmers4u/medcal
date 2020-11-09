@@ -7,6 +7,5 @@ bower_components
 .vscode
 .DS_Store
 .env
-docker/redis/redis_data
 yarn-error.log
 pm2-cron.log
