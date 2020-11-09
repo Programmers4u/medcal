@@ -9,3 +9,4 @@ bower_components
 .env
 docker/redis/redis_dat
 yarn-error.log
+pm2-cron.log

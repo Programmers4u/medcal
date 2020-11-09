@@ -44,7 +44,7 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('backup')->dailyAt('23:00');
         
-        $schedule->command('ical:sync')->twiceDaily(0, 12);
+        // $schedule->command('ical:sync')->twiceDaily(0, 12);
 
         $schedule->command('storage:public_clear')->hourly();
         
@@ -56,8 +56,8 @@ class Kernel extends ConsoleKernel
 
         $schedule->call(function () {
             
-            $job[0] = SmsService::getTomorrow();
-            $job[1] = SmsService::getSixMonth();
+            // $job[0] = SmsService::getTomorrow();
+            // $job[1] = SmsService::getSixMonth();
 
         })->dailyAt('9:00'); 
     }

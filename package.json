@@ -1,12 +1,16 @@
 {
   "private": true,
   "scripts": {
+    "cron": "yarn pm2 start 'node cron'",
+    "cron-delete": "yarn pm2 delete 'node cron'",
+    "cron-prod": "npx pm2 start 'node cron'",
+    "cron-prod-delete": "npx pm2 delete 'node cron'",
     "start": "yarn pm2 start 'php artisan serve --port 1234', 'php artisan queue:work'",
-    "start-prod": "npx pm2 start 'php artisan serve --port 1234', 'php artisan queue:work'",
+    "start-prod": "npx pm2 start 'php artisan queue:work'",
     "stop": "yarn pm2 stop 'php artisan serve --port 1234', 'php artisan queue:work'",
-    "stop-prod": "npx pm2 stop 'php artisan serve --port 1234', 'php artisan queue:work'",
+    "stop-prod": "npx pm2 stop 'php artisan queue:work'",
     "delete": "yarn pm2 delete 'php artisan serve --port 1234', 'php artisan queue:work'",
-    "delete-prod": "npx pm2 delete 'php artisan serve --port 1234', 'php artisan queue:work'"
+    "delete-prod": "npx pm2 delete 'php artisan queue:work'"
   },
   "devDependencies": {
     "gulp": "^4.0.2",
@@ -21,11 +25,13 @@
     "webpack-cli": "^3.3.10"
   },
   "dependencies": {
-    "nvm": "0.0.4",
-    "pm2": "^4.5.0",
-    "webpack": "^4.41.5",
     "adminlte": "~2.4",
     "chart.js": "^2.9.3",
-    "jquery": "^3.5.1"
+    "jquery": "^3.5.1",
+    "node-cron": "^2.0.3",
+    "nvm": "0.0.4",
+    "pm2": "^4.5.0",
+    "simple-node-logger": "^18.12.24",
+    "webpack": "^4.41.5"
   }
 }
