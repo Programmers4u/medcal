@@ -37,17 +37,17 @@ class ProcessDatasetImport implements ShouldQueue
         $model = MedicalHistory::query()->get()->toArray();
         if(Datasets::all()->count() >= count($model)) return;
         foreach($model as $m) {
-            $check = Datasets::where(Datasets::DATE_OF_EXAMINATION, $m['created_at'])
-                ->where(Datasets::UUID, $m['contact_id'])
-                ->get()
-                ->count()
-                ;
-            if( $check === 0 ) {
+            // $check = Datasets::where(Datasets::DATE_OF_EXAMINATION, $m['created_at'])
+            //     ->where(Datasets::UUID, $m['contact_id'])
+            //     ->get()
+            //     ->count()
+            //     ;
+            // if( $check === 0 ) {
             $edm = json_decode($m['json_data']);
             $contact = Contact::find($m['contact_id']);
             $birthdate = $contact ? $contact->birthday : '';
             $sex = $contact? $contact->gender : '';
-            Datasets::create([
+            Datasets::updateOrCreate([
                 Datasets::DATE_OF_EXAMINATION  => Carbon::parse($m['created_at']),
                 Datasets::BIRTHDAY => Carbon::parse($birthdate),
                 Datasets::SEX => $sex === 'M' ? Datasets::SEX_MALE : Datasets::SEX_FEMALE,
@@ -56,7 +56,7 @@ class ProcessDatasetImport implements ShouldQueue
                 Datasets::UUID => $contact ? $contact->id : null,   
                 Datasets::BUSINESS_ID => $this->business->id,   
             ]);   
-            }; 
+            // }; 
         }
 
     }
