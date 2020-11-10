@@ -34,15 +34,13 @@ class ProcessDatasetImport implements ShouldQueue
      */
     public function handle()
     {
-        $model = MedicalHistory::query()->get()->toArray();
+        $model = MedicalHistory::query()
+            ->where(MedicalHistory::BUSINESS_ID,$this->business->id)
+            ->get()
+            ->toArray()
+        ;
         if(Datasets::all()->count() >= count($model)) return;
         foreach($model as $m) {
-            // $check = Datasets::where(Datasets::DATE_OF_EXAMINATION, $m['created_at'])
-            //     ->where(Datasets::UUID, $m['contact_id'])
-            //     ->get()
-            //     ->count()
-            //     ;
-            // if( $check === 0 ) {
             $edm = json_decode($m['json_data']);
             $contact = Contact::find($m['contact_id']);
             $birthdate = $contact ? $contact->birthday : '';
@@ -56,7 +54,6 @@ class ProcessDatasetImport implements ShouldQueue
                 Datasets::UUID => $contact ? $contact->id : null,   
                 Datasets::BUSINESS_ID => $this->business->id,   
             ]);   
-            // }; 
         }
 
     }

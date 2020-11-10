@@ -44,7 +44,7 @@ class ProcessDatasetsImport implements ShouldQueue
         if(!is_file($this->pathToDatasetsFile)) return;
 
         $validateImportColumns = [
-            0 => '/"\d{4}-\d{2}-\d{2}|/isU',
+            0 => '/\d{4}-\d{2}-\d{2}/is',
         ];
 
         $datasets = fopen($this->pathToDatasetsFile, 'r');
