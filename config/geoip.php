@@ -31,7 +31,7 @@ return [
     | Supported: "maxmind_database", "maxmind_api", "ipapi"
     |
     */
-    'service' => 'maxmind_database',
+    'service' => 'freegeoip',
     /*
     |--------------------------------------------------------------------------
     | Storage Specific Configuration
@@ -57,6 +57,10 @@ return [
             'class' => \Torann\GeoIP\Services\IPApi::class,
             'secure' => true,
             'key' => env('IPAPI_KEY'),
+            'continent_path' => storage_path('app/continents.json'),
+        ],
+        'freegeoip' => [
+            'class' => App\Services\FreeGeoIpService::class,
             'continent_path' => storage_path('app/continents.json'),
         ],
     ],
@@ -113,7 +117,7 @@ return [
         'postal_code' => '06510',
         'lat' => 41.31,
         'lon' => -72.92,
-        'timezone' => 'America/New_York',
+        'timezone' => 'Europe/Warsaw',
         'continent' => 'NA',
         'default' => true,
         'currency' => 'USD',
