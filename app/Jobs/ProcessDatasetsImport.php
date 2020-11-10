@@ -44,7 +44,7 @@ class ProcessDatasetsImport implements ShouldQueue
         if(!is_file($this->pathToDatasetsFile)) return;
 
         $validateImportColumns = [
-            0 => '/\w+|/isU',
+            0 => '/\d{4}-\d{2}-\d{2}/is',
         ];
 
         $datasets = fopen($this->pathToDatasetsFile, 'r');
@@ -64,7 +64,7 @@ class ProcessDatasetsImport implements ShouldQueue
             if(!preg_match('/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/', $item[1])) 
                 $item[1] = Carbon::now()->format('Y-m-d H:i:s');
 
-            Datasets::create([
+            Datasets::updateOrCreate([
                 Datasets::DATE_OF_EXAMINATION  => $item[0],
                 Datasets::BIRTHDAY => $item[1],
                 Datasets::SEX => $item[2],
