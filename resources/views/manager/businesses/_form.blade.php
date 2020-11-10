@@ -134,7 +134,7 @@ $(document).ready(function(){
     $('.select2').select2({ theme: 'boostrap' });
 
     $("#phone-input").intlTelInput({
-        preferredCountries:["us", "gb", "es", "fr", "it", "ar", "br"],
+        preferredCountries:["pl","us", "gb", "es", "fr", "it", "ar", "br"],
         defaultCountry: "auto",
         geoIpLookup: function(callback) {
             $.get('http://ipinfo.io', function() {}, "jsonp").always(function(resp) {
