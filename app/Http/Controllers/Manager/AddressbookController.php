@@ -97,7 +97,7 @@ class AddressbookController extends Controller
    
     public function miniStore(Business $business, ContactFormRequest $request) : JsonResponse
     {
-        $response = ['status'=>'ok','error'=>null];
+        $response = ['status'=>'ok','error'=>null, 'info'=>'Kontakt został zapisany'];
         
         $this->authorize('manageContacts', $business);
 
@@ -111,6 +111,7 @@ class AddressbookController extends Controller
         if($duplicate > 0){
             $response['status'] = 'error';
             $response['error'] = trans('manager.contacts.msg.store.warning_showing_existing_contact');
+            $response['info'] = trans('manager.contacts.msg.store.warning_showing_existing_contact');
             return response()->json($response);
         }
 
@@ -118,7 +119,7 @@ class AddressbookController extends Controller
         
         event(new NewContactWasRegistered($contact));
         
-        $response['data']=$contact->id;
+        $response['data']= $contact->id;
         return response()->json($response);
     }
     
