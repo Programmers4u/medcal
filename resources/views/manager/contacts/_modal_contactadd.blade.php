@@ -41,11 +41,11 @@ var saveContact = function () {
                 alert(data.error, 'error');
                 console.log('ERRORS: ' + data.error, 'error');
             } else {
-                alert(data.data);
+                alert(data.info);
                 contactId = data.data;
                 $('#ac_savebtn').attr('disabled',false);
                 document.getElementById("searchfield").value = $('#firstname').val()+' '+$('#lastname').val()+', '+$('#mobile-input').val();
-                $('#addContactModal button').click();
+                $('#addContactModal .btn-secondary').click();
             }
         },
         error: function(jqXHR, textStatus, errorThrown) {
