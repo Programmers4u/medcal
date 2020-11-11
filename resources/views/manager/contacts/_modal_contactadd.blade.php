@@ -1,6 +1,8 @@
 @push('footer_scripts')
 <script type="text/javascript">
+var preventDoubleSave = false;
 var saveContact = function () {
+    if(preventDoubleSave) return -1;
     if($('#firstname').val().length < 2 || $('#lastname').val().length < 2){
         alert('Wpisz imię i nazwisko, minimum 2 znaki.', 'error');
         return -1;
@@ -9,6 +11,8 @@ var saveContact = function () {
         alert('Wpisz datę urodzin', 'error');
         return -1;
     }
+    preventDoubleSave = true;
+    $('#ac_savebtn').attr('disabled',true);
 
     var data = new FormData();
     data.append('firstname',$('#firstname').val());
@@ -32,18 +36,20 @@ var saveContact = function () {
         processData: false, 
         contentType: false, 
         success: function(data, textStatus, jqXHR) {
+          preventDoubleSave = false;
             if(data.status === 'error') {
                 alert(data.error, 'error');
                 console.log('ERRORS: ' + data.error, 'error');
             } else {
                 alert(data.data);
                 contactId = data.data;
-                $('#savebtn').attr('disabled',false);
+                $('#ac_savebtn').attr('disabled',false);
                 document.getElementById("searchfield").value = $('#firstname').val()+' '+$('#lastname').val()+', '+$('#mobile-input').val();
                 $('#addContactModal button').click();
             }
         },
         error: function(jqXHR, textStatus, errorThrown) {
+            preventDoubleSave = false;
             console.log('ERRORS: ' + textStatus, 'error');
         }
     });        
