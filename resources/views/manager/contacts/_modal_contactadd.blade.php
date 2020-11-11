@@ -4,11 +4,15 @@ var preventDoubleSave = false;
 var saveContact = function () {
     if(preventDoubleSave) return -1;
     if($('#firstname').val().length < 2 || $('#lastname').val().length < 2){
-        alert('Wpisz imię i nazwisko, minimum 2 znaki.', 'error');
+        alert('{{trans('manager.contacts.validate.miniform.alert.name')}}', 'error');
         return -1;
     }
     if($('#birthdate').val().length < 2){
-        alert('Wpisz datę urodzin', 'error');
+        alert('{{trans('manager.contacts.validate.miniform.alert.birthdate')}}', 'error');
+        return -1;
+    }
+    if($('#mobile-input').val().length < 2){
+        alert('{{trans('manager.contacts.validate.miniform.alert.mobile')}}', 'error');
         return -1;
     }
     preventDoubleSave = true;
