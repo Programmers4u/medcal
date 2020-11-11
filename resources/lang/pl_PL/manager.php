@@ -154,6 +154,15 @@ return  [
     ],
   ],
   'contacts' => [
+    'validate' => [
+      'miniform' => [
+        'alert' => [
+          'name' => 'Wpisz imię i nazwisko, minimum 2 znaki.',
+          'birthdate' => 'Wpisz datę urodzin',
+          'mobile' => 'Wpisz numer telefonu',
+        ],
+      ],
+    ],
     'btn' => [
       'confirm_delete' => 'Jesteś pewnien, że chcesz usunąć kontakt?',
       'delete'         => 'Usuń',
@@ -162,12 +171,9 @@ return  [
       'update'         => 'Aktualizuj',
       'close'          => 'Wyjdź',
       'delete_appo'    => 'Usuń Spotkanie',
-      'progress' => 'trwa zapis...',          
-        
+      'progress' => 'trwa zapis...',                  
     ],
-      
     'search' => 'Wyszukaj kontakty',
-      
     'create' => [
       'title' => 'Kontakty',
     ],
