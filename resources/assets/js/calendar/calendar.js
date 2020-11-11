@@ -103,7 +103,7 @@ var calendar = function() {
             //     return -1;
             // }
 
-            confirm("Jesteś pewny(a) zmiany?", function(result) {
+            confirm("Jesteś pewny(a) zmiany?", function(result, revertFunc) {
                 if(!result) {
                     revertFunc();
                     return false;
@@ -137,11 +137,11 @@ var calendar = function() {
                 });
 
                 return true; 
-            })
+            },revertFunc)
         },        
         eventResize: function(event, dayDelta, revertFunc) {
 
-            confirm("Jesteś pewny(a) zmiany?", function(result) {                               
+            confirm("Jesteś pewny(a) zmiany?", function(result, revertFunc) {                               
                 if(!result) {
                     revertFunc();
                     return false;
@@ -169,7 +169,7 @@ var calendar = function() {
                     // document.location.reload();
                 });
                 return true; 
-            });
+            }, revertFunc);
         },
         eventRender: function(event, element) {
             if(event.icon){          
