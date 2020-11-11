@@ -1,4 +1,4 @@
-var confirm = function(message, resultFunc) {
+var confirm = function(message, resultFunc, otherFunc) {
     // console.log('CONFIRM:',message);
     $('#confirm_info_success').text(message);
     $('#confirm_info_success').show();
@@ -9,7 +9,7 @@ var confirm = function(message, resultFunc) {
     $("#confirmYes").on("click", function () {
         $('#confirmModal button').click(); 
         if(resultFunc) {
-            resultFunc(true);
+            resultFunc(true, otherFunc);
         }
         $('#confirm_info_success').text('');
         return true;
@@ -17,7 +17,7 @@ var confirm = function(message, resultFunc) {
     $("#confirmNo").on("click", function () {
         $('#confirmModal button').click(); 
         if(resultFunc) {
-            resultFunc(false);
+            resultFunc(false, otherFunc);
         }
         $('#confirm_info_success').text('');        
         return false;
