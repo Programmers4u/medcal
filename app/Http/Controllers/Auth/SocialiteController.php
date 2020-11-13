@@ -8,6 +8,14 @@ use Illuminate\Http\Request;
 
 class SocialiteController extends Controller
 {
+    public function handleProviderDeletingCheck(Request $request, $code) : JsonResponse
+    {
+        return response()->json([
+            'status' => 'ok',
+            'info' => 'Twoje konto zostało usunięte! Kod: ' . $code,
+        ]);
+    }
+
     public function handleProviderDeletingCallback(Request $request) : JsonResponse
     {
         $data = [];
@@ -21,8 +29,8 @@ class SocialiteController extends Controller
         // $user_id = $data['user_id'];
         
         // // Start data deletion
-        $status_url = 'https://www.medcal.pl/deletion?id=abc123'; // URL to track the deletion
         $confirmation_code = 'abc123'; // unique code for the deletion request
+        $status_url = 'https://www.medcal.pl/social/deletion/' . $confirmation_code; // URL to track the deletion
         
         $data = [
           'url' => $status_url,

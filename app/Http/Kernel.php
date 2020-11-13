@@ -19,7 +19,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
         \App\Http\Middleware\Language::class,
         // \App\Http\Middleware\SessionDataCheckMiddleware::class,
-        // \App\Http\Middleware\SessionTimeout::class,
+        \App\Http\Middleware\SessionTimeout::class,
     ];
 
     /**
@@ -37,8 +37,7 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             // \App\Http\Middleware\Language::class,
             // \App\Http\Middleware\SessionTimeout::class,
-    ],
-
+        ],
         'api' => [
             'throttle:60,1',
             'bindings',

@@ -169,6 +169,12 @@ Route::group([], function () {
         'uses' => 'Auth\SocialiteController@handleProviderDeletingCallback',
     ]);
 
+    // facebook deletion check
+    Route::get('social/deletion/{code}', [
+        'as'   => 'social.deleting.check',
+        'uses' => 'Auth\SocialiteController@handleProviderDeletingCheck',
+    ]);
+
     /////////////////
     // PUBLIC HOME //
     /////////////////
