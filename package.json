@@ -4,7 +4,7 @@
     "cron": "yarn pm2 start 'node cron'",
     "cron-delete": "yarn pm2 delete 'node cron'",
     "start": "yarn pm2 start 'php artisan serve --port 1234', 'php artisan queue:work'",
-    "start-prod": "npx pm2 start 'php artisan queue:work'",
+    "start-prod": "yarn pm2 start 'php artisan queue:work'",
     "stop": "yarn pm2 stop 'php artisan serve --port 1234', 'php artisan queue:work'",
     "stop-prod": "yarn pm2 stop 'php artisan queue:work'",
     "delete": "yarn pm2 delete 'php artisan serve --port 1234', 'php artisan queue:work'",
