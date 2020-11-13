@@ -25,12 +25,12 @@ class SocialiteController extends Controller
         ]);
 
         $signed_request = $request->signed_request;
-        // $data = $this->parse_signed_request($signed_request);
-        // $user_id = $data['user_id'];
+        $data = $this->parse_signed_request($signed_request);
+        $user_id = $data['user_id'];
         
         // // Start data deletion
-        $confirmation_code = 'abc123'; // unique code for the deletion request
-        $status_url = 'https://www.medcal.pl/social/deletion/' . $confirmation_code; // URL to track the deletion
+        $confirmation_code = hash_hmac('sha256', $user_id, 'secret', $raw = false);
+        $status_url = 'https://www.medcal.pl/social/deletion/' . $confirmation_code;
         
         $data = [
           'url' => $status_url,
