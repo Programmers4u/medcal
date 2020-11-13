@@ -125,10 +125,8 @@ Route::group(['namespace' => 'API'], function () {
 
     Route::get('statistics/ill-sex', [
         'uses' => 'StatisticsController@getIllSex',
-    ]);    
-
+    ]);
 });
-
 
 ///////////////////
 // GUEST CONTEXT //
@@ -140,13 +138,19 @@ Route::group([], function () {
     // PRIVATE HOME / WIZARD //
     ///////////////////////////
 
-    Route::get('home', ['as' => 'home', 'uses' => 'User\WizardController@getWizard'])->middleware('auth');
+    Route::get('home', [
+        'as' => 'home', 
+        'uses' => 'User\WizardController@getWizard'
+    ])->middleware('auth');
 
     ///////////////////////
     // LANGUAGE SWITCHER //
     ///////////////////////
 
-    Route::get('lang/{lang}', ['as' => 'lang.switch', 'uses' => 'LanguageController@switchLang']);
+    Route::get('lang/{lang}', [
+        'as' => 'lang.switch', 
+        'uses' => 'LanguageController@switchLang'
+    ]);
 
     /////////////////
     // SOCIAL AUTH //
@@ -158,6 +162,12 @@ Route::group([], function () {
     ]);
 
     Route::get('social/login/{provider}', 'Auth\OAuthController@handleProviderCallback');
+
+    // facebook deletions callbak
+    Route::post('social/callback/deleting/{provider}', [
+        'as'   => 'social.deleting.callback',
+        'uses' => 'Auth\SocialiteController@handleProviderDeletingCallback',
+    ]);
 
     /////////////////
     // PUBLIC HOME //
