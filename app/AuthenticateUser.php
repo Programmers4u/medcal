@@ -2,9 +2,11 @@
 
 namespace App;
 
+use App\Models\User;
 use App\TG\Repositories\UserRepository;
 use Illuminate\Contracts\Auth\Guard;
 use Laravel\Socialite\Contracts\Factory as Socialite;
+use Illuminate\Support\Facades\Log;
 
 class AuthenticateUser
 {
@@ -48,34 +50,10 @@ class AuthenticateUser
         }
 
         $providerUser = $this->getUser($provider);
-
-        // logger()->info('PROVIDER USER:'.serialize($providerUser));
-        // dd(serialize($providerUser));
-
-        // switch($provider){
-        //     case 'facebook':
-        //        $first_name = $providerUser->offsetGet('first_name');
-        //        $last_name = $providerUser->offsetGet('last_name');
-        //        break;
-         
-        //     case 'google':
-        //        $first_name = $providerUser->offsetGet('given_name');
-        //        $last_name = $providerUser->offsetGet('family_name');
-        //        break;
-         
-        //     case 'linkedin':
-        //        $first_name = $providerUser->offsetGet('given_name');
-        //        $last_name = $providerUser->offsetGet('family_name');
-        //        break;
-
-        //        // You can also add more provider option e.g. linkedin, twitter etc.
-         
-        //     default:
-        //        $first_name = $providerUser->getName();
-        //        $last_name = $providerUser->getName();
-        //  }
         
-        $user = $this->users->findOrCreate($providerUser);
+        $unifyData = $this->unifyProvider($providerUser, $provider);
+
+        $user = $this->users->findOrCreate($unifyData);
         if ($user === null) {
             return $this->getAuthorizationFirst($provider);
         }
@@ -99,5 +77,74 @@ class AuthenticateUser
     private function getUser($provider)
     {
         return $this->socialite->driver($provider)->user();
+    }
+
+    private function unifyProvider($providerUser, $provider) : array 
+    {
+        Log::info('PROVIDER USER:'.serialize($providerUser));
+
+        // dd(serialize($providerUser));
+        // OAuth Two Providers
+        $token = $providerUser->token;
+        // $refreshToken = $providerUser->refreshToken; // not always provided
+        // $expiresIn = $providerUser->expiresIn;
+
+        // OAuth One Providers
+        // $token = $providerUser->token;
+        // $tokenSecret = $providerUser->tokenSecret;
+
+        // All Providers
+        // $providerUser->getId();
+        // $providerUser->getNickname();
+        // $providerUser->getName();
+        // $providerUser->getEmail();
+        // $providerUser->getAvatar();
+        switch($provider){
+            case 'facebook':
+               $first_name = $providerUser->offsetGet('first_name');
+               $last_name = $providerUser->offsetGet('last_name');
+               $email = $providerUser->getEmail();
+               $name = $providerUser->getName();
+               $avatar = $providerUser->getAvatar();
+               $nickname = $providerUser->getNickname();
+            //    $username = $providerUser->getNickname();
+               break;
+         
+            case 'google':
+               $first_name = $providerUser->offsetGet('given_name');
+               $last_name = $providerUser->offsetGet('family_name');
+               $email = $providerUser->getEmail();
+               $name = $providerUser->getName();
+               $avatar = $providerUser->getAvatar();
+               $nickname = $providerUser->getNickname();
+               break;
+         
+            case 'linkedin':
+               $first_name = $providerUser->offsetGet('given_name');
+               $last_name = $providerUser->offsetGet('family_name');
+               $email = $providerUser->getEmail();
+               $name = $providerUser->getName();
+               $avatar = $providerUser->getAvatar();
+               $nickname = $providerUser->getNickname();
+               break;
+
+               // You can also add more provider option e.g. linkedin, twitter etc.
+         
+            default:
+               $first_name = $providerUser->getName();
+               $last_name = $providerUser->getName();
+               $email = $providerUser->getEmail();
+               $name = $providerUser->getName();
+               $avatar = $providerUser->getAvatar();
+               $nickname = $providerUser->getNickname();
+         }
+        return [
+            User::FIRST_NAME => $first_name,
+            User::LAST_NAME => $last_name,
+            User::EMAIL => $email,
+            User::NAME => $name,
+            User::AVATAR => $avatar,
+            User::USERNAME => $nickname,
+        ];
     }
 }
