@@ -18,11 +18,5 @@ class UserRepository
             return $user;
         }
         return User::create($userData);
-
-        // return User::create([
-        //     'username' => $userData->nickname,
-        //     'name'     => $userData->nickname,
-        //     'email'    => $userData->email,
-        // ]);
     }
 }

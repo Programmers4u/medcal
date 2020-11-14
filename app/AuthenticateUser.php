@@ -84,21 +84,8 @@ class AuthenticateUser
         Log::info('PROVIDER USER:'.serialize($providerUser));
 
         // dd(serialize($providerUser));
-        // OAuth Two Providers
         $token = $providerUser->token;
-        // $refreshToken = $providerUser->refreshToken; // not always provided
-        // $expiresIn = $providerUser->expiresIn;
 
-        // OAuth One Providers
-        // $token = $providerUser->token;
-        // $tokenSecret = $providerUser->tokenSecret;
-
-        // All Providers
-        // $providerUser->getId();
-        // $providerUser->getNickname();
-        // $providerUser->getName();
-        // $providerUser->getEmail();
-        // $providerUser->getAvatar();
         switch($provider){
             case 'facebook':
                $first_name = $providerUser->offsetGet('first_name');
@@ -108,8 +95,7 @@ class AuthenticateUser
                $avatar = $providerUser->getAvatar();
                $nickname = $providerUser->getNickname();
             //    $username = $providerUser->getNickname();
-               break;
-         
+            break;
             case 'google':
                $first_name = $providerUser->offsetGet('given_name');
                $last_name = $providerUser->offsetGet('family_name');
@@ -117,8 +103,7 @@ class AuthenticateUser
                $name = $providerUser->getName();
                $avatar = $providerUser->getAvatar();
                $nickname = $providerUser->getNickname();
-               break;
-         
+            break;
             case 'linkedin':
                $first_name = $providerUser->offsetGet('given_name');
                $last_name = $providerUser->offsetGet('family_name');
@@ -126,10 +111,7 @@ class AuthenticateUser
                $name = $providerUser->getName();
                $avatar = $providerUser->getAvatar();
                $nickname = $providerUser->getNickname();
-               break;
-
-               // You can also add more provider option e.g. linkedin, twitter etc.
-         
+            break;         
             default:
                $first_name = $providerUser->getName();
                $last_name = $providerUser->getName();
@@ -137,7 +119,8 @@ class AuthenticateUser
                $name = $providerUser->getName();
                $avatar = $providerUser->getAvatar();
                $nickname = $providerUser->getNickname();
-         }
+        };
+        
         return [
             User::FIRST_NAME => $first_name,
             User::LAST_NAME => $last_name,
