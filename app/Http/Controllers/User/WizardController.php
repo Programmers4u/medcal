@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 /*******************************************************************************
  * The Wizard will present either a guided step-by-step configuration for
@@ -65,10 +66,9 @@ class WizardController extends Controller
         return view('manager.pricing');
     }
 
-    public function getTerms()
+    public function getTerms(Request $request)
     {
-        // logger()->info(__METHOD__);
-
-        return view('manager.terms');
+        $plan = $request->plan;
+        return view('manager.terms', compact('plan'));
     }
 }

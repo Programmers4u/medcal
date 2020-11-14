@@ -140,10 +140,10 @@
                 @yield('content')
 
                 @if(!session()->has('selected.business'))
-                    <center>
+                    {{-- <center>
                     {!! Button::success(trans('app.btn.get_to_dashboard'))
                                 ->asLinkTo( route('manager.business.index') ) !!}
-                    </center>
+                    </center> --}}
                 @endif
 
             </section>

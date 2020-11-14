@@ -121,41 +121,10 @@
 <div class="container-fluid">
 
     <div class="row flat">
-        <div class="col-lg-offset-1 col-md-offset-1 col-xs-offset-1">
-            <div class="col-lg-6 col-md-5 col-xs-3">
-                <ul class="plan plan1 featured" id="plan1">
-                    <li class="plan-name noZoom">
-                        {{trans('pricing.plan.free.name')}}
-                    </li>
-                    <li class="plan-hint noZoom">
-                        {{trans('pricing.plan.free.hint')}}
-                    </li>
-                    <li class="plan-price">
-                        <span class="label label-success"><strong>{{trans('pricing.free')}}</strong></span>
-                    </li>
-                    <li id="p1_appointments">
-                        {!! trans('pricing.feature.unlimited_appointments') !!}
-                    </li>
-                    <li id="p1_contacts">
-                        {!! trans('pricing.feature.up_to_contacts', ['limit' => config('plans.plans.free.limits.contacts')]) !!}
-                    </li>
-                    <li id="p1_services">
-                        {!! trans('pricing.feature.up_to_services', ['limit' => config('plans.plans.free.limits.services')]) !!}
-                    </li>
-                    <li id="p1_specialists">
-                        {!! trans('pricing.feature.one_specialist') !!}
-                    </li>
-                    <li class="noZoom">
-						<strike>{{ trans('pricing.feature.customized_support') }}</strike>
-                    </li>
-                    <li class="plan-action">
-                        <a href="{{ route('manager.business.register', ['plan' => 'free']) }}" class="btn btn-danger btn-lg">{!! Icon::cloud_upload() !!}&nbsp;{{ trans('pricing.plan.free.submit') }}</a>
-                    </li>
-                </ul>
-            </div>
+        <div class="col-lg-offset-1 col-md-offset-1 col-xs-offset-0">
 
-            <div class="col-lg-6 col-md-6 col-xs-3">
-                <ul class="plan plan2" id="plan2">
+            <div class="col-lg-6 col-md-6">
+                <ul class="plan plan2 featured" id="plan2">
                     <li class="plan-name">
                         {{config('plans.plans.standard.title')}}
                     </li>
@@ -178,15 +147,53 @@
                     <li id="p2_specialists">
                         {!! trans('pricing.feature.up_to_specialists', ['limit' => config('plans.plans.standard.limits.specialists')]) !!}
                     </li>
+                    <li id="p2_sms">
+                        {!! trans('pricing.feature.up_to_sms', ['limit' => config('plans.plans.standard.limits.notification')]) !!}
+                    </li>
                     <li>
                         {{ trans('pricing.feature.customized_support') }}
                     </li>
                     <li class="plan-action">
-                        <a href="{{ route('manager.business.register', ['plan' => 'premium']) }}" class="btn btn-danger btn-lg">{!! Icon::cloud_upload() !!}&nbsp;{{ trans('pricing.plan.premium.submit') }}</a>
+                        {{-- <a href="{{ route('manager.business.register', ['plan' => 'premium']) }}" class="btn btn-danger btn-lg">{!! Icon::cloud_upload() !!}&nbsp;{{ trans('pricing.plan.premium.submit') }}</a> --}}
+                        <a href="{{ route('wizard.terms', ['plan' => 'premium']) }}" class="btn btn-danger btn-lg">{!! Icon::cloud_upload() !!}&nbsp;{{ trans('pricing.plan.premium.submit') }}</a>
                     </li>
                 </ul>
             </div>
 
+            <div class="col-lg-6 col-md-5">
+                <ul class="plan plan1 featured" id="plan1">
+                    <li class="plan-name noZoom">
+                        {{trans('pricing.plan.free.name')}}
+                    </li>
+                    <li class="plan-hint noZoom">
+                        {{trans('pricing.plan.free.hint')}}
+                    </li>
+                    <li class="plan-price">
+                        <span class="label label-success"><strong>{{trans('pricing.free')}}</strong></span>
+                    </li>
+                    <li id="p1_appointments">
+                        {!! trans('pricing.feature.unlimited_appointments') !!}
+                    </li>
+                    <li id="p1_contacts">
+                        {!! trans('pricing.feature.up_to_contacts', ['limit' => config('plans.plans.free.limits.contacts')]) !!}
+                    </li>
+                    <li id="p1_services">
+                        {!! trans('pricing.feature.up_to_services', ['limit' => config('plans.plans.free.limits.services')]) !!}
+                    </li>
+                    <li id="p1_specialists">
+                        {!! trans('pricing.feature.one_specialist') !!}
+                    </li>
+                    <li id="p1_sms">
+                        {!! trans('pricing.feature.up_to_sms', ['limit' => config('plans.plans.free.limits.notification')]) !!}
+                    </li>
+                    <li class="noZoom">
+						<strike>{{ trans('pricing.feature.customized_support') }}</strike>
+                    </li>
+                    <li class="plan-action">
+                        <a href="{{ route('manager.business.register', ['plan' => 'free']) }}" class="btn btn-danger btn-lg">{!! Icon::cloud_upload() !!}&nbsp;{{ trans('pricing.plan.free.submit') }}</a>
+                    </li>
+                </ul>
+            </div>
 
         </div> <!-- /offset -->
     </div> <!-- /flat -->
