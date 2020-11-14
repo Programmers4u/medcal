@@ -50,11 +50,36 @@ class AuthenticateUser
         $providerUser = $this->getUser($provider);
 
         // logger()->info('PROVIDER USER:'.serialize($providerUser));
+        // dd(serialize($providerUser));
 
+        // switch($provider){
+        //     case 'facebook':
+        //        $first_name = $providerUser->offsetGet('first_name');
+        //        $last_name = $providerUser->offsetGet('last_name');
+        //        break;
+         
+        //     case 'google':
+        //        $first_name = $providerUser->offsetGet('given_name');
+        //        $last_name = $providerUser->offsetGet('family_name');
+        //        break;
+         
+        //     case 'linkedin':
+        //        $first_name = $providerUser->offsetGet('given_name');
+        //        $last_name = $providerUser->offsetGet('family_name');
+        //        break;
+
+        //        // You can also add more provider option e.g. linkedin, twitter etc.
+         
+        //     default:
+        //        $first_name = $providerUser->getName();
+        //        $last_name = $providerUser->getName();
+        //  }
+        
         $user = $this->users->findOrCreate($providerUser);
         if ($user === null) {
             return $this->getAuthorizationFirst($provider);
         }
+        
         $this->auth->login($user, true);
 
         return $listener->userHasLoggedIn($user);
