@@ -88,8 +88,8 @@ class AuthenticateUser
 
         switch($provider){
             case 'facebook':
-               $first_name = $providerUser->offsetGet('first_name');
-               $last_name = $providerUser->offsetGet('last_name');
+               $first_name = null; //$providerUser->offsetGet('first_name');
+               $last_name = null; //$providerUser->offsetGet('last_name');
                $email = $providerUser->getEmail();
                $name = $providerUser->getName();
                $avatar = $providerUser->getAvatar();
@@ -105,8 +105,8 @@ class AuthenticateUser
                $nickname = $providerUser->getNickname();
             break;
             case 'linkedin':
-               $first_name = $providerUser->offsetGet('given_name');
-               $last_name = $providerUser->offsetGet('family_name');
+               $first_name = null; //$providerUser->offsetGet('given_name');
+               $last_name = null; //$providerUser->offsetGet('family_name');
                $email = $providerUser->getEmail();
                $name = $providerUser->getName();
                $avatar = $providerUser->getAvatar();
