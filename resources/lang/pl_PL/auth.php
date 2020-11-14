@@ -8,7 +8,7 @@ return  [
     'not_registered'     => 'Nie masz konta ? Zarejestruj',
   ],
   'label' => [
-    'oauth_direct_access' => 'lub uzyskaj bezpośredni dostęp do swojej ulubionej sieci społecznościowej',
+    'oauth_direct_access' => 'lub uzyskaj bezpośredni dostęp przez swoją ulubioną sieć społecznościową.',
   ],
   'login' => [
     'alert' => [
