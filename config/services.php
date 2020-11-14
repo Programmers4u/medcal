@@ -52,6 +52,12 @@ return [
         'redirect'      => env('APP_URL').'/social/login/google',
     ],
 
+    'linkedin' => [
+        'client_id'     => env('LINKEDIN_CLIENT_ID'),
+        'client_secret' => env('LINKEDIN_CLIENT_SECRET'),
+        'redirect'      => env('APP_URL').'/social/login/linkedin',
+    ],
+
     'rollbar' => [
         'access_token' => env('ROLLBAR_TOKEN', false),
         'level'        => env('ROLLBAR_LEVEL', 'error'),

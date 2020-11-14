@@ -45,6 +45,7 @@ return  [
     'facebook' => 'Zaloguj przez Facebook',
     'github'   => 'Zaloguj przez Github',
     'google'   => 'Zaloguj przez Google',
+    'linkedin'   => 'Zaloguj przez Linkedin',
   ],
   'failed' => 'Nie znaleźliśmy w bazie Twoich danych',
 ];
