@@ -149,7 +149,7 @@ class BookingController extends Controller
     public function postBooking(BookingRequest $request) {
         
         $this->validate($request, $request->rules());
-        
+
         //////////////////
         // FOR REFACTOR //
         //////////////////
@@ -531,7 +531,8 @@ class BookingController extends Controller
         return response()->json($response);
     }
     
-    public function ajaxGetCalendar(Request $request) : JsonResponse {
+    public function ajaxGetCalendar(Request $request) : JsonResponse 
+    {
 
         $business = Business::findOrFail($request->input('businessId',null));
         $this->business = $business;
@@ -590,27 +591,7 @@ class BookingController extends Controller
             $file = MedicalFile::query()->where('contact_id', '=',$appointment->contact->id)->get()->count();
             $file = ($file==0) ? '' : 'file';
 
-            /*
-            $note = MedicalHistory::query()->where('appointment_id', '=',$appointment->id)->get()->toArray();
-            if(count($note)>0){
-                logger()->debug($note[0]['json_data']);
-                $note = json_decode($note[0]['json_data']);
-                if(isset($note->note)){
-                    $note = ($note->note=='') ? '' : 'comment-o';
-                } else {
-                    $note = '';
-                }
-            }
-            */
-
-            $note = Notes::getNote($appointment->id, $business->id,  $appointment->contact_id);
-            $notes = '';
-            if($note) {
-                $notes = null;
-                $note->map(function($item) use (&$notes) {
-                    $notes.= $item . "\n"; 
-                });        
-            };
+            $notes = Notes::getNote($appointment->id, $business->id,  $appointment->contact_id);
             
             if( $hr!=null ){
                 if($appointment->humanresource_id != $hr) continue;
@@ -622,13 +603,13 @@ class BookingController extends Controller
                     'end'   => $appointment->finish_at->timezone($business->timezone)->toIso8601String(),
                     'service' => $appointment->service->name,
                     'staff' => $staff->name,
+                    'contactId' => $appointment->contact->id,
                     'icon'  => $leaf,  
                     'icon2' => $sun,
                     'icon3' => $file,
-                    'icon4' => $note,
+                    'note' => $notes,
                     ];
-            } else {
-                
+            } else {                
                 $jsAppointments[] = [
                     'id'    => $appointment->id,
                     'title' => $appointment->contact->lastname.' '.$appointment->contact->firstname.' '.$appointment->contact->mobile,//.' / '.$appointment->service->name.' / '.$staff->name,
@@ -637,10 +618,11 @@ class BookingController extends Controller
                     'end'   => $appointment->finish_at->timezone($business->timezone)->toIso8601String(),
                     'service' => $appointment->service->name,
                     'staff' => $staff->name,
+                    'contactId' => $appointment->contact->id,
                     'icon'  => $leaf,  
                     'icon2' => $sun,
                     'icon3' => $file,
-                    'icon4' => $note,
+                    'note' => $notes,
                 ];
             }
         }

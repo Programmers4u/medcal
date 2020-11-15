@@ -22,11 +22,10 @@ var webApi = function (endPoint, post) {
             }
         },
         error: function(jqXHR, textStatus, errorThrown) {
+            // console.log(jqXHR,textStatus,errorThrown);
             if(error) {
-                error(textStatus);
-            } else {
-                error(errorThrown);
-            }
+                error(jqXHR);
+            };
         }            
     })   
 }
