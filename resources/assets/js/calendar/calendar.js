@@ -7,13 +7,15 @@ var contactId = null;
 
 var calendar = function() {
     
-    /*$('#mini_cal').datepicker({
-        language: timegrid.lang,
-        clearButton: false,
-        todayButton: false,        
-    });
-    */
+    // $('#mini_cal').datepicker({
+    //     language: timegrid.lang,
+    //     clearButton: false,
+    //     todayButton: false,        
+    // });
+    
     $('#calendar').fullCalendar({
+        theme: true,    
+        themeSystem:'bootstrap3',  
         defaultDate: moment(),
         locale: timegrid.lang,
         editable: true,
