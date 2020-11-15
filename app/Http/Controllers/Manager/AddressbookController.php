@@ -303,12 +303,7 @@ class AddressbookController extends Controller
      */
     public function destroy(Business $business, Contact $contact)
     {
-        // logger()->info(__METHOD__);
-        // logger()->info(sprintf('businessId:%s contactId:%s', $business->id, $contact->id));
-
         $this->authorize('manageContacts', $business);
-
-        // BEGIN //
 
         $contact = $business->addressbook()->remove($contact);
 
