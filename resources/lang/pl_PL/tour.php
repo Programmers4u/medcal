@@ -85,7 +85,7 @@ return  [
     ],
     'vacancies' => [
       'content' => 'Manage your availability for providing each of the services',
-      'title'   => 'Dostępnośc',
+      'title'   => 'Dostępność',
     ],
   ],
   'nav' => [
