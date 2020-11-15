@@ -53,7 +53,7 @@ return [
         'standard' => [
             'title'       => 'STANDARD',
             'description' => 'Partners use only',
-            'price'       => '52',
+            'price'       => '65',
             'currency'    => 'zł brutto',
             'limits'      => [
                 'contacts'    => 10000,
