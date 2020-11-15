@@ -148,6 +148,8 @@ class BookingController extends Controller
     
     public function postBooking(BookingRequest $request) {
         
+        $this->validate($request, $request->rules());
+        
         //////////////////
         // FOR REFACTOR //
         //////////////////
