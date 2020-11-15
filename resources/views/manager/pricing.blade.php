@@ -114,6 +114,12 @@
         margin-top: 100px;
         padding-bottom: 30px;
     }
+    .info {
+        padding: 1em;
+        background-color: white;
+        margin-bottom: 1em;
+        border-radius: 10px;
+    }
 </style>
 @endsection
 
@@ -121,7 +127,23 @@
 <div class="container-fluid">
 
     <div class="row flat">
-        <div class="col-lg-offset-1 col-md-offset-1 col-xs-offset-0">
+
+        <h4 style='cursor:pointer;' onclick="$('.info').fadeToggle(800)">Komunikat</h4>
+        <div class="info">
+            <p>Tworzymy ten projekt ponieważ uważamy, że lekarze przede wszytskim powinni mieć dostęp do przeanalizowanych danych medycznych o pacjentach. W przeciwnym razie po co zapisywać dokumentację medyczną?</p>
+
+            <p>
+            Dane które zapisujesz mogą posłużyć tobie i innym do lepszego zrozumienia przyczyn chorób i trafniej dobierać metodę leczenia.</p>
+
+            <p>Dlatego udostępniamy wersję za darmo, aby każdy mogł zapisać kilka wizyt i zobaczyć przynajmniej podstawowe dane statystyczne o pacjencie.</p>
+            
+            <p>
+            Jeżeli masz taką możliwość i chciał(a)byś aby ten projekt szybciej się rozwijał, to wesprzyj nas finansowo abyśmy mogli wiecej nad nim pracować.</p>
+
+            <p>Dziękujemy.</p>
+        </div>
+
+        <div class="">
 
             <div class="col-lg-6 col-md-6">
                 <ul class="plan plan2 featured" id="plan2">
@@ -190,7 +212,7 @@
 						<strike>{{ trans('pricing.feature.customized_support') }}</strike>
                     </li>
                     <li class="plan-action">
-                        <a href="{{ route('manager.business.register', ['plan' => 'free']) }}" class="btn btn-danger btn-lg">{!! Icon::cloud_upload() !!}&nbsp;{{ trans('pricing.plan.free.submit') }}</a>
+                        <a href="{{ route('wizard.terms', ['plan' => 'free'])  }}" class="btn btn-danger btn-lg">{!! Icon::cloud_upload() !!}&nbsp;{{ trans('pricing.plan.free.submit') }}</a>
                     </li>
                 </ul>
             </div>
@@ -203,6 +225,9 @@
 
 @push('footer_scripts')
 <script>
+setTimeout( () => {
+    $('.info').fadeOut(800);
+}, 30000);
 // Instance the tour
 var tour = new Tour({
     duration: 6500,

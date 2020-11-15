@@ -96,8 +96,7 @@
         </header>
 
         <!-- Left side column. contains the logo and sidebar -->
-        <aside class="main-sidebar">
-
+        <aside class="main-sidebar">            
             <!-- sidebar: style can be found in sidebar.less -->
             <section class="sidebar">
 
@@ -139,11 +138,11 @@
 
                 @yield('content')
 
-                @if(!session()->has('selected.business'))
-                    {{-- <center>
+                @if(session()->has('selected.business'))
+                    <center style="margin-top: 1.5em;">
                     {!! Button::success(trans('app.btn.get_to_dashboard'))
-                                ->asLinkTo( route('manager.business.index') ) !!}
-                    </center> --}}
+                        ->asLinkTo( route('manager.business.show',['business'=>$business]) ) !!}
+                    </center>
                 @endif
 
             </section>
