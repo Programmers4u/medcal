@@ -2,6 +2,7 @@
 
 namespace App\TG\Repositories;
 
+use App\Events\NewUserWasRegistered;
 use App\Models\User;
 
 class UserRepository
@@ -17,6 +18,8 @@ class UserRepository
         if ($user !== null) {
             return $user;
         }
-        return User::create($userData);
+        $user = User::create($userData);
+        event(new NewUserWasRegistered($user));
+        return $user;
     }
 }
