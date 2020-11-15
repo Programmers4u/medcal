@@ -120,6 +120,7 @@ class BusinessController extends Controller
     {
         try {
             $business = $this->businessService->register(auth()->user(), $request->all(), $request->get('category'));
+            session()->put('selected.business', $business);            
             // $this->businessService->setup($business);
         } catch (BusinessAlreadyRegistered $exception) {
             flash()->error(trans('manager.businesses.msg.store.business_already_exists'));

@@ -54,10 +54,18 @@
     <div class="row">
             <div class="col-md-4">
                 {!! 
-                    Button::success('importuj anonimowe dane medyczne')
+                    Button::success(trans('manager.businesses.dashboard.buttons.import.label'))
                         ->large()
                         ->block()
                         ->asLinkTo('javascript:openImport()') 
+                !!}
+            </div>
+            <div class="col-md-4">
+                {!! 
+                    Button::success(trans('manager.businesses.dashboard.buttons.calendar.label'))
+                        ->large()
+                        ->block()
+                        ->asLinkTo(route('manager.business.agenda.calendar', $business)) 
                 !!}
             </div>
         </div>

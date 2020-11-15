@@ -55,6 +55,14 @@ return  [
         'no_services_set'  => 'Wciąż nie ma dodanej usługi. Dodaj z tego miejsca!',
         'no_vacancies_set' => 'Nie opublikowałeś jeszcze swojej dostępności. Zrób to stąd!',
       ],
+      'buttons' => [
+        'calendar' => [
+          'label' => 'zoabcz kalendarz',
+        ],
+        'import' => [
+          'label' => 'importuj anonimowe dane medyczne',
+        ],
+      ],
       'panel' => [
         'title_appointments_active_tomorrow'    => 'Spotkanie Umówione na Jutro',
         'title_appointments_active'    => 'Spotkanie Umówione Dzisiaj',

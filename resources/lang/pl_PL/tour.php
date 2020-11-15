@@ -85,33 +85,33 @@ return  [
     ],
     'vacancies' => [
       'content' => 'Manage your availability for providing each of the services',
-      'title'   => 'Availability',
+      'title'   => 'Dostępność',
     ],
   ],
   'nav' => [
-    'end'  => 'Close',
-    'next' => 'Next',
-    'prev' => 'Back',
+    'end'  => 'Zamknij',
+    'next' => 'Następny',
+    'prev' => 'Cofnij',
   ],
   'pricing' => [
     'step0' => [
-      'content' => 'Ideal plan for freelance professionals.',
+      'content' => 'Idealny plan dla osób prowadzących prywatną prakatykę.',
       'title'   => 'Free',
     ],
     'step1' => [
-      'content' => 'Unlimited monthly appointments.',
-      'title'   => 'Appointments',
+      'content' => 'Wizyty bez limitu',
+      'title'   => 'Wizyty',
     ],
     'step2' => [
-      'content' => 'Get your client\'s contacts in one place.',
-      'title'   => 'Contact Addressbook',
+      'content' => 'Szybki dostep do danych o pacjencie',
+      'title'   => 'Karta pacjenta',
     ],
     'step3' => [
-      'content' => 'Make your service catalog ready to be reserved.',
-      'title'   => 'Services',
+      'content' => 'Katalog usług',
+      'title'   => 'Usłigi',
     ],
     'step4' => [
-      'content' => 'Ideal for growing businesses.',
+      'content' => 'Idealny dla rozwojowych biznesów',
       'title'   => 'Premium',
     ],
   ],

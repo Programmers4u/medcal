@@ -46,18 +46,20 @@ return [
                 'contacts'    => 200,
                 'services'    => 3,
                 'specialists' => 1,
+                'notification' => 200,
             ],
         ],
 
         'standard' => [
             'title'       => 'STANDARD',
             'description' => 'Partners use only',
-            'price'       => '52',
-            'currency'    => 'PLN',
+            'price'       => '65',
+            'currency'    => 'zł brutto',
             'limits'      => [
-                'contacts'    => 25000,
+                'contacts'    => 10000,
                 'services'    => 10,
                 'specialists' => 10,
+                'notification' => 10000,
             ],
         ],
     ],
