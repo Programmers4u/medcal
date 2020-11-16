@@ -7,7 +7,7 @@ Version: 1.0
 
 ## Features
 
-  * Built with [**Laravel 5.5**](http://laravel.com/docs/5.5) framework for [**PHP**](http://php.net/)
+  * Built with [**Laravel 5.6**](http://laravel.com/docs/5.6) framework for [**PHP**](http://php.net/)
   * Classic and oAuth2 Sign-in/Sign-up with [Socialite](https://github.com/laravel/socialite)
   * Business management
     * Clients Addressbook
@@ -24,6 +24,7 @@ Version: 1.0
   * Multiple Timezones Support
   * Live chat with [TidioChat](https://www.tidiochat.com/)
   * Admin GUI with [AdminLTE](https://github.com/almasaeed2010/AdminLTE) [Twitter Bootstrap 3](https://github.com/twbs/bootstrap) based theme.
+  * Api GateSMS support sending sms [GateSMS.Eu](https://www.gatesms.eu)
 
 [Future features here](https://medcal.pl)
 
