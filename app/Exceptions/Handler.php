@@ -8,10 +8,10 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Foundation\Validation\ValidationException;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Log;
 
 class Handler extends ExceptionHandler
 {
@@ -40,7 +40,7 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
-        Log::error($exception);
+        // Log::error($exception);
 
         return parent::report($exception);
     }
