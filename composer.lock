@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "69d44ffb1b54229a25e1c7ee84342c1e",
+    "content-hash": "f16dbeb81d93d227a43a3e98ff7693d7",
     "packages": [
         {
             "name": "alariva/tidiochat",
@@ -4118,29 +4118,29 @@
         },
         {
             "name": "rollbar/rollbar",
-            "version": "v1.8.1",
+            "version": "v2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rollbar/rollbar-php.git",
-                "reference": "8a57ad9574d85bd818eaedfc8049fdcb16795f31"
+                "reference": "ff3db5739dd635740caed02ddad43e671b5a37e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rollbar/rollbar-php/zipball/8a57ad9574d85bd818eaedfc8049fdcb16795f31",
-                "reference": "8a57ad9574d85bd818eaedfc8049fdcb16795f31",
+                "url": "https://api.github.com/repos/rollbar/rollbar-php/zipball/ff3db5739dd635740caed02ddad43e671b5a37e5",
+                "reference": "ff3db5739dd635740caed02ddad43e671b5a37e5",
                 "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
-                "monolog/monolog": "^1",
+                "monolog/monolog": "^1 || ^2",
                 "psr/log": "^1"
             },
             "require-dev": {
                 "codeclimate/php-test-reporter": "dev-master",
-                "mockery/mockery": "0.9.*",
+                "mockery/mockery": "1.*",
                 "packfire/php5.3-compat": "*",
                 "phpmd/phpmd": "@stable",
-                "phpunit/phpunit": "4.8.*",
+                "phpunit/phpunit": "4.8.* || 5.7.* || ^8",
                 "squizlabs/php_codesniffer": "2.*"
             },
             "suggest": {
@@ -4173,75 +4173,7 @@
                 "logging",
                 "monitoring"
             ],
-            "time": "2019-05-06T11:31:11+00:00"
-        },
-        {
-            "name": "rollbar/rollbar-laravel",
-            "version": "v2.4.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/rollbar/rollbar-php-laravel.git",
-                "reference": "e581cd9a175d0b3fa0568893026e38c1d94329b2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/rollbar/rollbar-php-laravel/zipball/e581cd9a175d0b3fa0568893026e38c1d94329b2",
-                "reference": "e581cd9a175d0b3fa0568893026e38c1d94329b2",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/support": "^4.0|^5.0",
-                "php": ">=5.4",
-                "rollbar/rollbar": "^1"
-            },
-            "require-dev": {
-                "mockery/mockery": "^0.9",
-                "orchestra/testbench": "~3.0",
-                "phpunit/phpunit": "~4.0|~5.0",
-                "satooshi/php-coveralls": "^1.0",
-                "squizlabs/php_codesniffer": "2.*"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Rollbar\\Laravel\\RollbarServiceProvider"
-                    ],
-                    "aliases": {
-                        "Rollbar": "Rollbar\\Laravel\\Facades\\Rollbar"
-                    }
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Rollbar\\Laravel\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jens Segers",
-                    "homepage": "https://jenssegers.com"
-                },
-                {
-                    "name": "Artur Moczulski",
-                    "email": "artur.moczulski@gmail.com",
-                    "role": "Contractor @ Rollbar, Inc."
-                }
-            ],
-            "description": "Rollbar error monitoring integration for Laravel projects",
-            "homepage": "https://github.com/rollbar/rollbar-php-laravel",
-            "keywords": [
-                "error",
-                "laravel",
-                "logging",
-                "monitoring",
-                "rollbar"
-            ],
-            "time": "2019-01-01T22:20:05+00:00"
+            "time": "2020-07-01T23:21:01+00:00"
         },
         {
             "name": "seanstewart/plan-config",

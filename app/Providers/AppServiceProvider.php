@@ -28,9 +28,9 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
         }
 
-        if (config('services.rollbar.access_token', false)) {
-            $this->app->register(\Rollbar\Laravel\RollbarServiceProvider::class);
-        }
+        // if (config('services.rollbar.access_token', false)) {
+        //     $this->app->register(\Rollbar\Laravel\RollbarServiceProvider::class);
+        // }
         
         if (!Collection::hasMacro('paginate')) {
 

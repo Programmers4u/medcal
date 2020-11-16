@@ -10,7 +10,7 @@ return [
     | one of the channels defined in the "channels" configuration array.
     |
     */
-    'default' => env('LOG_CHANNEL', 'single'),
+    'default' => env('LOG_CHANNEL', 'stack'),
     /*
     |--------------------------------------------------------------------------
     | Log Channels
@@ -27,17 +27,17 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['single'],
+            'channels' => ['daily','rollbar'],
         ],
         'single' => [
             'driver' => 'single',
             'path' => storage_path('logs/laravel.log'),
-            'level' => 'debug',
+            'level' => env('APP_LOG_LEVEL', 'debug'),
         ],
         'daily' => [
             'driver' => 'daily',
             'path' => storage_path('logs/laravel.log'),
-            'level' => 'debug',
+            'level' => env('APP_LOG_LEVEL', 'debug'),
             'days' => 7,
         ],
         'slack' => [
@@ -45,15 +45,21 @@ return [
             'url' => env('LOG_SLACK_WEBHOOK_URL'),
             'username' => 'Laravel Log',
             'emoji' => ':boom:',
-            'level' => 'critical',
+            'level' => env('APP_LOG_LEVEL', 'critical'),
         ],
         'syslog' => [
             'driver' => 'syslog',
-            'level' => 'debug',
+            'level' => env('APP_LOG_LEVEL', 'debug'),
         ],
         'errorlog' => [
             'driver' => 'errorlog',
-            'level' => 'debug',
+            'level' => env('APP_LOG_LEVEL', 'debug'),
         ],
+        'rollbar' => [
+            'driver' => 'monolog',
+            'handler' => \Rollbar\Laravel\MonologHandler::class,
+            'access_token' => env('ROLLBAR_TOKEN'),
+            'level' => env('APP_LOG_LEVEL', 'debug'),
+        ],        
     ],
 ];

@@ -204,12 +204,7 @@ class ContactController extends Controller
      */
     public function destroy(Business $business, Contact $contact)
     {
-        // logger()->info(__METHOD__);
-        // logger()->info(sprintf('businessId:%s contactId:%s', $business->id, $contact->id));
-
         $this->authorize('manage', $contact);
-
-        // BEGIN
 
         $business->addressbook()->remove($contact);
 
