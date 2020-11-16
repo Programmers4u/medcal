@@ -14,8 +14,8 @@ var calendar = function() {
     // });
     
     $('#calendar').fullCalendar({
-        theme: true,    
-        themeSystem:'bootstrap3',  
+        theme: false,    
+        // themeSystem:'bootstrap3',  
         defaultDate: moment(),
         locale: timegrid.lang,
         editable: true,
