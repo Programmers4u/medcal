@@ -553,7 +553,6 @@ class BookingController extends Controller
             ->where('business_id','=',$business->id)
             ->where('start_at','>=', $where_at)
             ->where('start_at','<=',$where_to)
-            // ->get()
             ;        
         
         if($request->input('status')) {
@@ -571,12 +570,10 @@ class BookingController extends Controller
                     ->orWhere('status', Appointment::STATUS_RESERVED)
                     ;
                 });
-        }
-        
-        $appointments = Cache::remember(md5($appointments->toSql()), env('CACHE_DEFAULT_TIMEOUT_MIN',1), function () use ($appointments) {
-            return $appointments->get();
-        }); 
+        };
 
+        $appointments = $appointments->get();
+        
         $jsAppointments = [];
 
         foreach ($appointments as $appointment) {
