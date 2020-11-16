@@ -3,12 +3,12 @@
   "scripts": {
     "cron": "yarn pm2 start 'node cron'",
     "cron-delete": "yarn pm2 delete 'node cron'",
-    "start": "yarn pm2 start 'php artisan serve --port 1234', 'php artisan queue:work'",
-    "start-prod": "yarn pm2 start 'php artisan queue:work'",
-    "stop": "yarn pm2 stop 'php artisan serve --port 1234', 'php artisan queue:work'",
+    "start": "yarn pm2 start 'php artisan serve --port 1234', 'php artisan queue:listen'",
+    "start-prod": "yarn pm2 start 'php artisan queue:listen'",
+    "stop": "yarn pm2 stop 'php artisan serve --port 1234', 'php artisan queue:listen'",
     "stop-prod": "yarn pm2 stop 'php artisan queue:work'",
-    "delete": "yarn pm2 delete 'php artisan serve --port 1234', 'php artisan queue:work'",
-    "delete-prod": "yarn pm2 delete 'php artisan queue:work'"
+    "delete": "yarn pm2 delete 'php artisan serve --port 1234', 'php artisan queue:listen'",
+    "delete-prod": "yarn pm2 delete 'php artisan queue:listen'"
   },
   "devDependencies": {
     "gulp": "^4.0.2",
