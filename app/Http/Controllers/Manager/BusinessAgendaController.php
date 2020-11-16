@@ -138,8 +138,7 @@ class BusinessAgendaController extends Controller
         $start_at = Carbon::createFromTimestamp(time());
         $where_at = Carbon::parse($start_at,$business->timezone)->addDays(-7);
         $where_to = Carbon::parse($start_at,$business->timezone)->addDays(7);
-        $appointments = Cache::remember('appointments-get-calendar', env('CACHE_DEFAULT_TIMEOUT_MIN',1), function () use($business,$where_at,$where_to) {            
-            return Appointment::query()
+        $appointments =  Appointment::query()
                 ->where('business_id','=',$business->id)
                 ->where('start_at','>=', $where_at)
                 ->where('start_at','<=',$where_to)
@@ -151,7 +150,6 @@ class BusinessAgendaController extends Controller
                 })
                 ->limit(150)
                 ->get();        
-        });
 
         $jsAppointments = [];
 
