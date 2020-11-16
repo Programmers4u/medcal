@@ -128,19 +128,13 @@
 
     <div class="row flat">
 
-        <h4 style='cursor:pointer;' onclick="$('.info').fadeToggle(800)">Komunikat</h4>
+    <h4 style='cursor:pointer;' onclick="$('.info').fadeToggle(800)">{{ trans('pricing.information.label') }}</h4>
         <div class="info">
-            <p>Tworzymy ten projekt ponieważ uważamy, że lekarze przede wszytskim powinni mieć dostęp do przeanalizowanych danych medycznych o pacjentach. W przeciwnym razie po co zapisywać dokumentację medyczną?</p>
-
-            <p>
-            Dane które zapisujesz mogą posłużyć tobie i innym do lepszego zrozumienia przyczyn chorób i trafniej dobierać metodę leczenia.</p>
-
-            <p>Dlatego udostępniamy wersję za darmo, aby każdy mogł zapisać kilka wizyt i zobaczyć przynajmniej podstawowe dane statystyczne o pacjencie.</p>
-            
-            <p>
-            Jeżeli masz taką możliwość i chciał(a)byś aby ten projekt szybciej się rozwijał, to wesprzyj nas finansowo abyśmy mogli wiecej nad nim pracować.</p>
-
-            <p>Dziękujemy.</p>
+            <p>{{ trans('pricing.information.paragraf_1') }}</p>
+            <p>{{ trans('pricing.information.paragraf_2') }}</p>
+            <p>{{ trans('pricing.information.paragraf_3') }}</p>
+            <p>{{ trans('pricing.information.paragraf_4') }}</p>
+            <p>{{ trans('pricing.information.paragraf_5') }}</p>
         </div>
 
         <div class="">
@@ -228,12 +222,8 @@
 setTimeout( () => {
     $('.info').fadeOut(800);
 }, 30000);
-// Instance the tour
-var tour = new Tour({
-    duration: 6500,
-    delay: 1000,
-    template: "@include('tour._template')",
-    steps: [
+
+Tour.steps = [
         {
             element: "#plan1",
             title: "{{ trans('tour.pricing.step0.title') }}",
@@ -260,13 +250,11 @@ var tour = new Tour({
             title: "{{ trans('tour.pricing.step4.title') }}",
             content: "{{ trans('tour.pricing.step4.content') }}"
         }
-    ]
-});
-// Initialize the tour
-tour.init();
+    ];
 $(document).ready(function() {
     // Start the tour
-    tour.start();
+    Tour.start();    
 });
+
 </script>
 @endpush
