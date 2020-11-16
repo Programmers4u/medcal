@@ -2,9 +2,11 @@
 
 namespace App;
 
+use App\Models\User;
 use App\TG\Repositories\UserRepository;
 use Illuminate\Contracts\Auth\Guard;
 use Laravel\Socialite\Contracts\Factory as Socialite;
+use Illuminate\Support\Facades\Log;
 
 class AuthenticateUser
 {
@@ -48,13 +50,14 @@ class AuthenticateUser
         }
 
         $providerUser = $this->getUser($provider);
+        
+        $unifyData = $this->unifyProvider($providerUser, $provider);
 
-        // logger()->info('PROVIDER USER:'.serialize($providerUser));
-
-        $user = $this->users->findOrCreate($providerUser);
+        $user = $this->users->findOrCreate($unifyData);
         if ($user === null) {
             return $this->getAuthorizationFirst($provider);
         }
+        
         $this->auth->login($user, true);
 
         return $listener->userHasLoggedIn($user);
@@ -74,5 +77,56 @@ class AuthenticateUser
     private function getUser($provider)
     {
         return $this->socialite->driver($provider)->user();
+    }
+
+    private function unifyProvider($providerUser, $provider) : array 
+    {
+        // Log::info('PROVIDER USER:'.serialize($providerUser));
+
+        $token = $providerUser->token;
+
+        switch($provider){
+            case 'facebook':
+               $first_name = null; //$providerUser->offsetGet('first_name');
+               $last_name = null; //$providerUser->offsetGet('last_name');
+               $email = $providerUser->getEmail();
+               $name = $providerUser->getName();
+               $avatar = $providerUser->getAvatar();
+               $nickname = $providerUser->getNickname();
+            //    $username = $providerUser->getNickname();
+            break;
+            case 'google':
+               $first_name = $providerUser->offsetGet('given_name');
+               $last_name = $providerUser->offsetGet('family_name');
+               $email = $providerUser->getEmail();
+               $name = $providerUser->getName();
+               $avatar = $providerUser->getAvatar();
+               $nickname = $providerUser->getNickname();
+            break;
+            case 'linkedin':
+               $first_name = null; //$providerUser->offsetGet('given_name');
+               $last_name = null; //$providerUser->offsetGet('family_name');
+               $email = $providerUser->getEmail();
+               $name = $providerUser->getName();
+               $avatar = $providerUser->getAvatar();
+               $nickname = $providerUser->getNickname();
+            break;         
+            default:
+               $first_name = $providerUser->getName();
+               $last_name = $providerUser->getName();
+               $email = $providerUser->getEmail();
+               $name = $providerUser->getName();
+               $avatar = $providerUser->getAvatar();
+               $nickname = $providerUser->getNickname();
+        };
+        
+        return [
+            User::FIRST_NAME => $first_name,
+            User::LAST_NAME => $last_name,
+            User::EMAIL => $email,
+            User::NAME => $name,
+            User::AVATAR => $avatar,
+            User::USERNAME => $nickname,
+        ];
     }
 }

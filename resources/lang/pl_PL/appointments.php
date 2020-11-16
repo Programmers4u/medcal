@@ -20,4 +20,7 @@ return  [
     'tomorrow'  => 'jutro',
   ],
   'alert' => 'Wybierz kalendarz specjalisty',
+  'confirm' => [
+    'delete' => 'Jesteś zdecydowan(a)y anulować spotkanie?',
+  ],
 ];

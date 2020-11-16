@@ -1,5 +1,5 @@
 <!-- Sidebar Menu -->
-<ul class="sidebar-menu">
+<ul class="sidebar-menu nav flex-column ">
     {{-- Language Switcher Dropdown --}}
 
     <!-- Optionally, you can add icons to the links -->

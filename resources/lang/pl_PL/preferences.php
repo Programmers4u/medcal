@@ -23,17 +23,17 @@ return  [
       'label'  => 'Id urządzenia sms',
     ],
     'sms_message' => [
-      'format' => 'Przyk.: Informujemy o zapisie wizyty dla pacjenta %client% w gabinecie %name% o %hour% dnia %day%. Jesli to mozliwe, prosimy o potwierdzenie.',
+      'format' => 'Informujemy o zapisie wizyty dla pacjenta %client% w gabinecie %name% o %hour% dnia %day%. Jesli to mozliwe, prosimy o potwierdzenie.',
       'help'   => 'Dodaj wiadomość od %name% .... z parametrami %day%, %hour%',
       'label'  => 'Wiadomość sms',
     ],
     'sms_message1' => [
-      'format' => 'Przyk.: Informujemy o jutrzejszej wizycie pacjenta %client% w gabinecie %name% o %hour% dnia %day%. Jesli to mozliwe, prosimy o potwierdzenie.',
+      'format' => 'Informujemy o jutrzejszej wizycie pacjenta %client% w gabinecie %name% o %hour% dnia %day%. Jesli to mozliwe, prosimy o potwierdzenie.',
       'help'   => 'Dodaj wiadomość od %name% .... z parametrami %day%, %hour%',
       'label'  => 'Wiadomość sms, przypomnienie',
     ],
     'sms_message2' => [
-      'format' => 'Przyk.: Informujemy o wizycie kontrolnej pacjenta %client% w gabinecie %name% dnia %day% o godz. %hour%. Jesli to mozliwe, prosimy o potwierdzenie',
+      'format' => 'Informujemy o wizycie kontrolnej pacjenta %client% w gabinecie %name% dnia %day% o godz. %hour%. Jesli to mozliwe, prosimy o potwierdzenie',
       'help'   => 'Dodaj wiadomość od %name% .... z parametrami %day%, %hour%',
       'label'  => 'Wiadomość sms, wysyłane po 6 miesiącach',
     ],

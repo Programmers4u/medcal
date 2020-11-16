@@ -55,6 +55,14 @@ return  [
         'no_services_set'  => 'Wciąż nie ma dodanej usługi. Dodaj z tego miejsca!',
         'no_vacancies_set' => 'Nie opublikowałeś jeszcze swojej dostępności. Zrób to stąd!',
       ],
+      'buttons' => [
+        'calendar' => [
+          'label' => 'zoabcz kalendarz',
+        ],
+        'import' => [
+          'label' => 'importuj anonimowe dane medyczne',
+        ],
+      ],
       'panel' => [
         'title_appointments_active_tomorrow'    => 'Spotkanie Umówione na Jutro',
         'title_appointments_active'    => 'Spotkanie Umówione Dzisiaj',
@@ -154,6 +162,15 @@ return  [
     ],
   ],
   'contacts' => [
+    'validate' => [
+      'miniform' => [
+        'alert' => [
+          'name' => 'Wpisz imię i nazwisko, minimum 2 znaki.',
+          'birthdate' => 'Wpisz datę urodzin',
+          'mobile' => 'Wpisz numer telefonu',
+        ],
+      ],
+    ],
     'btn' => [
       'confirm_delete' => 'Jesteś pewnien, że chcesz usunąć kontakt?',
       'delete'         => 'Usuń',
@@ -162,12 +179,9 @@ return  [
       'update'         => 'Aktualizuj',
       'close'          => 'Wyjdź',
       'delete_appo'    => 'Usuń Spotkanie',
-      'progress' => 'trwa zapis...',          
-        
+      'progress' => 'trwa zapis...',                  
     ],
-      
     'search' => 'Wyszukaj kontakty',
-      
     'create' => [
       'title' => 'Kontakty',
     ],

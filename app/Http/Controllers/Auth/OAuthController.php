@@ -7,6 +7,7 @@ use App\AuthenticateUserListener;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RedirectsUsers;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -29,9 +30,6 @@ class OAuthController extends Controller implements AuthenticateUserListener
      */
     public function redirectToProvider($provider)
     {
-        // logger()->info(__METHOD__);
-        // logger()->info(sprintf('provider:%s', $provider));
-
         return Socialite::driver($provider)->redirect();
     }
 

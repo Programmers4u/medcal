@@ -93,6 +93,8 @@ class BusinessController extends Controller
 
         $locale = app()->getLocale();
 
+        $language = session()->get('language', substr($locale, 0, 2));
+
         $categories = $this->listCategories();
 
         $business = new Business();
@@ -116,12 +118,9 @@ class BusinessController extends Controller
      */
     public function store(BusinessFormRequest $request)
     {
-        // logger()->info(__METHOD__);
-
-        // BEGIN
-
         try {
             $business = $this->businessService->register(auth()->user(), $request->all(), $request->get('category'));
+            session()->put('selected.business', $business);            
             // $this->businessService->setup($business);
         } catch (BusinessAlreadyRegistered $exception) {
             flash()->error(trans('manager.businesses.msg.store.business_already_exists'));
@@ -298,7 +297,7 @@ class BusinessController extends Controller
     {
         if ($this->location === null) {
             $geoip = app('geoip');
-            $this->location = $geoip->getLocation();
+            $this->location = $geoip->getLocation($_SERVER['REMOTE_ADDR']);
         }
         return $this->location;
     }

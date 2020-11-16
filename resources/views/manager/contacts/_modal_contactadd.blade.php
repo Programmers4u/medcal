@@ -1,14 +1,22 @@
 @push('footer_scripts')
 <script type="text/javascript">
+var preventDoubleSave = false;
 var saveContact = function () {
+    if(preventDoubleSave) return -1;
     if($('#firstname').val().length < 2 || $('#lastname').val().length < 2){
-        alert('Wpisz imię i nazwisko, minimum 2 znaki.', 'error');
+        alert('{{trans('manager.contacts.validate.miniform.alert.name')}}', 'error');
         return -1;
     }
     if($('#birthdate').val().length < 2){
-        alert('Wpisz datę urodzin', 'error');
+        alert('{{trans('manager.contacts.validate.miniform.alert.birthdate')}}', 'error');
         return -1;
     }
+    if($('#mobile-input').val().length < 2){
+        alert('{{trans('manager.contacts.validate.miniform.alert.mobile')}}', 'error');
+        return -1;
+    }
+    preventDoubleSave = true;
+    $('#ac_savebtn').attr('disabled',true);
 
     var data = new FormData();
     data.append('firstname',$('#firstname').val());
@@ -32,18 +40,21 @@ var saveContact = function () {
         processData: false, 
         contentType: false, 
         success: function(data, textStatus, jqXHR) {
+          preventDoubleSave = false;
             if(data.status === 'error') {
                 alert(data.error, 'error');
                 console.log('ERRORS: ' + data.error, 'error');
             } else {
-                alert(data.data);
+                alert(data.info);
                 contactId = data.data;
+                $('#ac_savebtn').attr('disabled',false);
                 $('#savebtn').attr('disabled',false);
                 document.getElementById("searchfield").value = $('#firstname').val()+' '+$('#lastname').val()+', '+$('#mobile-input').val();
-                $('#addContactModal button').click();
+                $('#addContactModal .btn-secondary').click();
             }
         },
         error: function(jqXHR, textStatus, errorThrown) {
+            preventDoubleSave = false;
             console.log('ERRORS: ' + textStatus, 'error');
         }
     });        

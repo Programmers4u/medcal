@@ -114,6 +114,12 @@
         margin-top: 100px;
         padding-bottom: 30px;
     }
+    .info {
+        padding: 1em;
+        background-color: white;
+        margin-bottom: 1em;
+        border-radius: 10px;
+    }
 </style>
 @endsection
 
@@ -121,41 +127,26 @@
 <div class="container-fluid">
 
     <div class="row flat">
-        <div class="col-lg-offset-1 col-md-offset-1 col-xs-offset-1">
-            <div class="col-lg-6 col-md-5 col-xs-3">
-                <ul class="plan plan1 featured" id="plan1">
-                    <li class="plan-name noZoom">
-                        {{trans('pricing.plan.free.name')}}
-                    </li>
-                    <li class="plan-hint noZoom">
-                        {{trans('pricing.plan.free.hint')}}
-                    </li>
-                    <li class="plan-price">
-                        <span class="label label-success"><strong>{{trans('pricing.free')}}</strong></span>
-                    </li>
-                    <li id="p1_appointments">
-                        {!! trans('pricing.feature.unlimited_appointments') !!}
-                    </li>
-                    <li id="p1_contacts">
-                        {!! trans('pricing.feature.up_to_contacts', ['limit' => config('plans.plans.free.limits.contacts')]) !!}
-                    </li>
-                    <li id="p1_services">
-                        {!! trans('pricing.feature.up_to_services', ['limit' => config('plans.plans.free.limits.services')]) !!}
-                    </li>
-                    <li id="p1_specialists">
-                        {!! trans('pricing.feature.one_specialist') !!}
-                    </li>
-                    <li class="noZoom">
-						<strike>{{ trans('pricing.feature.customized_support') }}</strike>
-                    </li>
-                    <li class="plan-action">
-                        <a href="{{ route('manager.business.register', ['plan' => 'free']) }}" class="btn btn-danger btn-lg">{!! Icon::cloud_upload() !!}&nbsp;{{ trans('pricing.plan.free.submit') }}</a>
-                    </li>
-                </ul>
-            </div>
 
-            <div class="col-lg-6 col-md-6 col-xs-3">
-                <ul class="plan plan2" id="plan2">
+        <h4 style='cursor:pointer;' onclick="$('.info').fadeToggle(800)">Komunikat</h4>
+        <div class="info">
+            <p>Tworzymy ten projekt ponieważ uważamy, że lekarze przede wszytskim powinni mieć dostęp do przeanalizowanych danych medycznych o pacjentach. W przeciwnym razie po co zapisywać dokumentację medyczną?</p>
+
+            <p>
+            Dane które zapisujesz mogą posłużyć tobie i innym do lepszego zrozumienia przyczyn chorób i trafniej dobierać metodę leczenia.</p>
+
+            <p>Dlatego udostępniamy wersję za darmo, aby każdy mogł zapisać kilka wizyt i zobaczyć przynajmniej podstawowe dane statystyczne o pacjencie.</p>
+            
+            <p>
+            Jeżeli masz taką możliwość i chciał(a)byś aby ten projekt szybciej się rozwijał, to wesprzyj nas finansowo abyśmy mogli wiecej nad nim pracować.</p>
+
+            <p>Dziękujemy.</p>
+        </div>
+
+        <div class="">
+
+            <div class="col-lg-6 col-md-6">
+                <ul class="plan plan2 featured" id="plan2">
                     <li class="plan-name">
                         {{config('plans.plans.standard.title')}}
                     </li>
@@ -178,15 +169,53 @@
                     <li id="p2_specialists">
                         {!! trans('pricing.feature.up_to_specialists', ['limit' => config('plans.plans.standard.limits.specialists')]) !!}
                     </li>
+                    <li id="p2_sms">
+                        {!! trans('pricing.feature.up_to_sms', ['limit' => config('plans.plans.standard.limits.notification')]) !!}
+                    </li>
                     <li>
                         {{ trans('pricing.feature.customized_support') }}
                     </li>
                     <li class="plan-action">
-                        <a href="{{ route('manager.business.register', ['plan' => 'premium']) }}" class="btn btn-danger btn-lg">{!! Icon::cloud_upload() !!}&nbsp;{{ trans('pricing.plan.premium.submit') }}</a>
+                        {{-- <a href="{{ route('manager.business.register', ['plan' => 'premium']) }}" class="btn btn-danger btn-lg">{!! Icon::cloud_upload() !!}&nbsp;{{ trans('pricing.plan.premium.submit') }}</a> --}}
+                        <a href="{{ route('wizard.terms', ['plan' => 'premium']) }}" class="btn btn-danger btn-lg">{!! Icon::cloud_upload() !!}&nbsp;{{ trans('pricing.plan.premium.submit') }}</a>
                     </li>
                 </ul>
             </div>
 
+            <div class="col-lg-6 col-md-5">
+                <ul class="plan plan1 featured" id="plan1">
+                    <li class="plan-name noZoom">
+                        {{trans('pricing.plan.free.name')}}
+                    </li>
+                    <li class="plan-hint noZoom">
+                        {{trans('pricing.plan.free.hint')}}
+                    </li>
+                    <li class="plan-price">
+                        <span class="label label-success"><strong>{{trans('pricing.free')}}</strong></span>
+                    </li>
+                    <li id="p1_appointments">
+                        {!! trans('pricing.feature.unlimited_appointments') !!}
+                    </li>
+                    <li id="p1_contacts">
+                        {!! trans('pricing.feature.up_to_contacts', ['limit' => config('plans.plans.free.limits.contacts')]) !!}
+                    </li>
+                    <li id="p1_services">
+                        {!! trans('pricing.feature.up_to_services', ['limit' => config('plans.plans.free.limits.services')]) !!}
+                    </li>
+                    <li id="p1_specialists">
+                        {!! trans('pricing.feature.one_specialist') !!}
+                    </li>
+                    <li id="p1_sms">
+                        {!! trans('pricing.feature.up_to_sms', ['limit' => config('plans.plans.free.limits.notification')]) !!}
+                    </li>
+                    <li class="noZoom">
+						<strike>{{ trans('pricing.feature.customized_support') }}</strike>
+                    </li>
+                    <li class="plan-action">
+                        <a href="{{ route('wizard.terms', ['plan' => 'free'])  }}" class="btn btn-danger btn-lg">{!! Icon::cloud_upload() !!}&nbsp;{{ trans('pricing.plan.free.submit') }}</a>
+                    </li>
+                </ul>
+            </div>
 
         </div> <!-- /offset -->
     </div> <!-- /flat -->
@@ -196,6 +225,9 @@
 
 @push('footer_scripts')
 <script>
+setTimeout( () => {
+    $('.info').fadeOut(800);
+}, 30000);
 // Instance the tour
 var tour = new Tour({
     duration: 6500,

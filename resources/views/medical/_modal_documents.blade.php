@@ -124,14 +124,12 @@ var sendSaveHistory = function(post) {
             dataType: "json",
             type: "POST",
             success: function (data) {
-                alert(data);
                 setTimeout(function(){
                     document.location.reload();
                 },2100);
             },
             error: function(jqXHR, textStatus, errorThrown)
             {
-                console.log('ERRORS: ' + textStatus);
                 alert('Błąd: '+textStatus, 'error');
             }            
     });
@@ -172,7 +170,6 @@ var historyUpdateData = function(obj,id){
     return false;
 }
 
-
 var openFiles = function(){
     type = (historyId >= 0) ? '{{ $typeHistory }}' : '{{ $typePermission }}';
     if(historyId==='-2') type = '{{ $typePermissionTemplate }}';
@@ -204,7 +201,6 @@ var removeLast = function(obj){
 
 var findDoctor = function(obj){
     // Create a formdata object and add the files
-    console.log(obj);
     var data = new FormData();
     data.append('businessId','{{ $business->id }}');
     data.append('hr',obj.value);
@@ -255,7 +251,7 @@ $('#staffapp').on('change',function(){
     document.location = http;
 });
 
-var getAppoIdFromLink = function(){
+var getAppoIdFromLink = function() {
     
     if(!document.location.href.match('link')) return;
     
@@ -269,23 +265,10 @@ var getAppoIdFromLink = function(){
     })
     
     $('#appointment > option').each(function(){
-        console.log(this.value,id)
         if(this.value === id) {
             $(this).prop('selected','true');
             appointment_id = id;
-            getAppointmentNote('{{ route('medical.note.get', [$business]) }}', {
-                csrf: '{{csrf_token()}}',
-                appointmentId: appointment_id,
-                businessId: '{{ $business->id }}',
-                contactId: '{{ $contacts->id }}',
-                success: function(data) { 
-                    setTimeout( () => {
-                        console.log(data)
-                        if(data)
-                            $('#note_text')[0].innerText = data.medicalNote.note ? data.medicalNote.note : '';
-                    }, 1200, data)
-                },
-            });
+            getNote();
         }
         if($('#staffapp > option[value='+id+']').length > 0){
             var sfid = $('#staffapp > option[value='+id+']')[0].attributes.staff.value;
@@ -311,10 +294,6 @@ var ePuap = function(){
 <script type="text/javascript">
 var urlAppointmentNote = '{{ route('medical.note.put',[$business]) }}';
 var putAppointmentNoteCallBack = () => {
-    // if(appointment_id < 1) {
-    //     alert('Wybierz datę wizyty');
-    //     return;
-    // }
     return {
         appointmentId : appointment_id,
         note : $('#note')[0].value,
@@ -322,26 +301,25 @@ var putAppointmentNoteCallBack = () => {
         csrf : '{{csrf_token()}}',
         contactId: '{{ $contacts->id }}',
         success : function (data) {
-            setTimeout( () => {
-                console.log(data);
-                $('#note_text')[0].innerText += data.medicalNote.note ? data.medicalNote.note + '\n' : '';
-                $('#note')[0].value = '';
-            },700,data);
+            getNote();
+            $('#note')[0].value = '';
         }
     }
 };    
 </script>
 <script>
- getAppointmentNote('{{ route('medical.note.get', [$business]) }}', {
-    csrf: '{{csrf_token()}}',
-    appointmentId: appointment_id,
-    businessId: '{{ $business->id }}',
-    contactId: '{{ $contacts->id }}',
-    success: function(data) { 
-        if(data)
-            $('#note_text')[0].innerText = data.medicalNote.note ? data.medicalNote.note : '';
-    },
-});    
+var getNote = () => {
+    getAppointmentNote('{{ route('medical.note.get', [$business]) }}', {
+        csrf: '{{csrf_token()}}',
+        appointmentId: appointment_id,
+        businessId: '{{ $business->id }}',
+        contactId: '{{ $contacts->id }}',
+        success: function(data) { 
+            if(data)
+                $('#note_text')[0].innerText = data.medicalNote.note ? data.medicalNote.note.join(', ') : '';
+        },
+    });
+}
 </script>
 @endpush
 
@@ -491,117 +469,109 @@ var putAppointmentNoteCallBack = () => {
               <div class="panel-body">
 
                   <table class="table table-hover table-striped table-responsive">
-                              <tr id='appointment_data' width="25%"> 
-                                  <td style="font-weight:bold;">Data wizyty: 
-                                  </td>
-                                  <td  width="75%">
-                                      <select onchange="
-                                        appointment_id = $(this).val();
-                                        getAppointmentNote('{{ route('medical.note.get', [$business]) }}', {
-                                            csrf: '{{csrf_token()}}',
-                                            appointmentId: appointment_id,
-                                            businessId: '{{ $business->id }}',
-                                            contactId: '{{ $contacts->id }}',
-                                            success: function(data) { 
-                                                setTimeout( () => {
-                                                    console.log(data)
-                                                    if(data)
-                                                        $('#note_text')[0].innerText = data.medicalNote.note ? data.medicalNote.note : '';
-                                                },1000,data)
-                                            },
-                                      });" class="form-control mdb-select  colorful-select dropdown-primary" id='appointment'>
-                                          <option value="-1" disabled selected>Wybierz datę wizyty</option>
-                                          <option value="0">Bez wizyty</option>
-                                          @foreach($appointments as $appo)
-                                          <option value="{{$appo->id}}">{{\Carbon\Carbon::parse($appo->start_at)->timezone('Europe/Warsaw')}} - {{\Carbon\Carbon::parse($appo->finish_at)->timezone('Europe/Warsaw')}}</option>
-                                          @endforeach
-                                      </select>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td style="font-weight:bold;">Rozpoznanie:
-                                      <br>
-                                        {!! 
-                                        Button::withIcon(Icon::search())
-                                            ->info('szablon rozpoznanie')
-                                            ->small()
-                                            ->asLinkTo('javascript:popUp("diagnosisModal")') 
-                                        !!}
-                                  
-                                  </td><td>
-                                      <div style="display: none;background-color: white; text-decoration: line-through;font-style: italic;margin-bottom: 5px;padding: 5px;" class="editdoc" id="edit_diagnosis"></div>
-                                      <textarea type="text" id="diagnosis" class="form-control md-textarea" rows="3"></textarea></td>
-                              </tr>
-                              <tr>
-                                  <td style="font-weight:bold;">Wykonany zabieg:
-                                      <br>
-                                        {!! 
-                                        Button::withIcon(Icon::search())
-                                            ->info('szablon wykonanie')
-                                            ->small()
-                                            ->asLinkTo('javascript:popUp("proceduresModal")') 
-                                        !!}
+                        <tr id='appointment_data' width="25%"> 
+                            <td style="font-weight:bold;">Data wizyty:</td>
+                            <td  width="75%">
+                                <select onchange="
+                                    appointment_id = $(this).val();
+                                    getNote()
+                                    " class="form-control mdb-select  colorful-select dropdown-primary" id='appointment'>
+                                    <option value="-1" disabled selected>Wybierz datę wizyty</option>
+                                    <option value="0">Bez wizyty</option>
+                                    @foreach($appointments as $appo)
+                                    <option value="{{$appo->id}}">{{\Carbon\Carbon::parse($appo->start_at)->timezone('Europe/Warsaw')}} - {{\Carbon\Carbon::parse($appo->finish_at)->timezone('Europe/Warsaw')}}</option>
+                                    @endforeach
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight:bold;">Rozpoznanie:
+                                <br>
+                                {!! 
+                                    Button::withIcon(Icon::search())
+                                    ->info('szablon rozpoznanie')
+                                    ->small()
+                                    ->asLinkTo('javascript:popUp("diagnosisModal")') 
+                                !!}                                  
+                            </td>
+                            <td>
+                                <div style="display: none;background-color: white; text-decoration: line-through;font-style: italic;margin-bottom: 5px;padding: 5px;" class="editdoc" id="edit_diagnosis"></div>
+                                <textarea type="text" id="diagnosis" class="form-control md-textarea" rows="3"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight:bold;">Wykonany zabieg:
+                                <br>
+                                {!! 
+                                    Button::withIcon(Icon::search())
+                                    ->info('szablon wykonanie')
+                                    ->small()
+                                    ->asLinkTo('javascript:popUp("proceduresModal")') 
+                                !!}
                                       
-                                  </td><td><div style="display: none;background-color: white; text-decoration: line-through;font-style: italic;margin-bottom: 5px;padding: 5px;" class="editdoc" id="edit_procedures"></div><textarea type="text" id="procedures" class="form-control md-textarea" rows="3"></textarea></td>
-                              </tr>
-                              <tr id='rowphoto'>
-                                  <td style="font-weight:bold;">Załącz dokumenty:</td>
-                                  <td>
-                                    <a class="glyphicon glyphicon-paperclip fa-2x" href="javascript:historyId=0;openFiles();"></a>
-                                    <div id='atach_file'></div>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td style="font-weight:bold;">Wpisu dokonał:</td>
-                                  <td>
-                                      <select class="form-control" onclick="staff=this.value;" id="staff_id">
-                                        <option value="">wybierz lekarza</option>
-                                        @foreach($staffs as $staff)
-                                        <option value="{{$staff->id}}">{{$staff->name}}</option>
-                                        @endforeach
-                                      </select>                                      
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td style="font-weight:bold;">{{ trans('medical.appointments.label.note') }}</td>
-                                  <td>
-                                    <div id="note_text"></div>
-                                    <br>
-                                    <textarea id="note" class="form-control md-textarea"></textarea>
-                                    <div style="padding-top:1em;" >
-                                      {!! 
-                                        Button::withIcon(Icon::save())
-                                            ->info('zapisz notatkę')
-                                            ->small()
-                                            ->asLinkTo("javascript:putAppointmentNote(urlAppointmentNote, putAppointmentNoteCallBack())")
-                                        !!}     
-                                    </div>                           
-                                </td>
-                              </tr>
-                              <tr>
-                                  <td style="font-weight:bold;">przyjęta kwota</td>
-                                  <td>
-                                    <input style="max-width:6em" class="form-control price" type="text" id="price_id" onchange="price=this.value"/>
-                                  </td>
-                              </tr>
-                      </table>
-                  <hr>
-                      {!! Button::withIcon(Icon::edit())
-                      ->success('zapisz dokumentację')
-                      ->asLinkTo("javascript:saveHistory()") !!}
+                            </td><td><div style="display: none;background-color: white; text-decoration: line-through;font-style: italic;margin-bottom: 5px;padding: 5px;" class="editdoc" id="edit_procedures"></div><textarea type="text" id="procedures" class="form-control md-textarea" rows="3"></textarea></td>
+                        </tr>
+                        <tr id='rowphoto'>
+                            <td style="font-weight:bold;">Załącz dokumenty:</td>
+                            <td>
+                                <a class="glyphicon glyphicon-paperclip fa-2x" href="javascript:historyId=0;openFiles();"></a>
+                                <div id='atach_file'></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight:bold;">Wpisu dokonał:</td>
+                            <td>
+                                <select class="form-control" onclick="staff=this.value;" id="staff_id">
+                                    <option value="">wybierz lekarza</option>
+                                    @foreach($staffs as $staff)
+                                    <option value="{{$staff->id}}">{{$staff->name}}</option>
+                                    @endforeach
+                                </select>                                      
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <table class="table table-hover table-striped table-responsive">
+                                    <tr>
+                                        <td width="10%" style="font-weight:bold;">{{ trans('medical.appointments.label.note') }}</td>
+                                        <td width="55%">
+                                            <textarea id="note" class="form-control md-textarea"></textarea>
+                                            <div style="padding-top:1em;" >
+                                            {!! 
+                                                Button::withIcon(Icon::save())
+                                                    ->info('zapisz notatkę')
+                                                    ->small()
+                                                    ->asLinkTo("javascript:putAppointmentNote(urlAppointmentNote, putAppointmentNoteCallBack())")
+                                                !!}     
+                                            </div>      
+                                            <hr>
+                                            <div id="note_text" class="note_text"></div>
+                                        </td>
+                                        <td width="15%" style="font-weight:bold;">przyjęta kwota</td>
+                                        <td width="20%">
+                                            <input style="max-width:6em" class="form-control price" type="text" id="price_id" onchange="price=this.value"/>
+                                        </td>              
+                                    </tr>
+                                </table>
+                            </td>
+                        <tr>
+                    </table>
+                <hr>
+                {!! Button::withIcon(Icon::edit())
+                    ->success('zapisz dokumentację')
+                    ->asLinkTo("javascript:saveHistory()") !!}
                       
-                      {!! Button::withIcon(Icon::print())
-                      ->warning('drukuj historię')
-                      ->asLinkTo("javascript:printHistory()") !!}
+                {!! Button::withIcon(Icon::print())
+                    ->warning('drukuj historię')
+                    ->asLinkTo("javascript:printHistory()") !!}
 
-                    {!! Button::withIcon(Icon::folderOpen())
-                        ->primary('Połącz z ePuap')
-                        ->asLinkTo("javascript:ePuap()") !!}
+                {!! Button::withIcon(Icon::folderOpen())
+                    ->primary('Połącz z ePuap')
+                    ->asLinkTo("javascript:ePuap()") !!}
 
-                    {{-- {!! Button::withIcon(Icon::edit())
-                        ->success('importuj dokumentację')
-                        ->asLinkTo("javascript:openImport()") !!} --}}
-
+                {{-- {!! Button::withIcon(Icon::edit())
+                    ->success('importuj dokumentację')
+                    ->asLinkTo("javascript:openImport()") !!} --}}
                 <hr>
           <table id="history_table" class="table-bordered table table-condensed table-hover table-striped table-responsive table-scrollable">
               @if(count($historyPagin)>0)
@@ -806,6 +776,10 @@ var putAppointmentNoteCallBack = () => {
 @section('css')
 @parent
 <style>
+    .note_text {
+        background-color:gainsboro;
+        padding: .3em;
+    }
     .editdoc {
         text-decoration: line-through;
         font-style: italic;

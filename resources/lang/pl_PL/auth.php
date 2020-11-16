@@ -8,7 +8,7 @@ return  [
     'not_registered'     => 'Nie masz konta ? Zarejestruj',
   ],
   'label' => [
-    'oauth_direct_access' => 'lub uzyskaj bezpośredni dostęp do swojej ulubionej sieci społecznościowej',
+    'oauth_direct_access' => 'lub uzyskaj bezpośredni dostęp przez swoją ulubioną sieć społecznościową.',
   ],
   'login' => [
     'alert' => [
@@ -45,6 +45,7 @@ return  [
     'facebook' => 'Zaloguj przez Facebook',
     'github'   => 'Zaloguj przez Github',
     'google'   => 'Zaloguj przez Google',
+    'linkedin'   => 'Zaloguj przez Linkedin',
   ],
   'failed' => 'Nie znaleźliśmy w bazie Twoich danych',
 ];

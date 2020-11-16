@@ -435,15 +435,14 @@ class MedicalController extends Controller
     
     public function ajaxGetNote(GetNoteRequest $request) : JsonResponse {
 
+        $this->validate($request, $request->rules());
+
         $appointmentId = $request->input('appointmentId',null);
         $businessId = $request->input('businessId',null);
         $contactId = $request->input('contactId',null);
 
-        $note = Notes::getNote($appointmentId, $businessId, $contactId);
-        $notes = null;
-        $note->map(function($item) use (&$notes) {
-            $notes.= $item . "\n"; 
-        });
+        $notes = Notes::getNote($appointmentId, $businessId, $contactId);
+
         $response = [
             ResponseApi::MEDICAL_NOTE => [
                 'note' => $notes,
@@ -455,6 +454,8 @@ class MedicalController extends Controller
 
     public function ajaxPutNote(PutNoteRequest $request) : JsonResponse 
     {
+        $this->validate($request, $request->rules());
+
         $app_id = $request->input('appointmentId',null);
         $note = $request->input('note',null);
         $businessId = $request->input('businessId',null);

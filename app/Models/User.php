@@ -30,26 +30,41 @@ class User extends EloquentModel implements AuthenticatableContract, Authorizabl
 {
     use Authenticatable, Authorizable, CanResetPassword, HasRoles, Notifiable, Preferenceable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = ['name', 'email', 'username', 'password'];
+    const TABLE = 'users';
+    const NAME = 'name';
+    const EMAIL = 'email';
+    const USERNAME = 'username';
+    const PASSWORD = 'password';
+    const ID = 'id';
+    const REMEMBER_TOKEN = 'remember_token';
+    const LAST_IP = 'last_ip';
+    const LAST_LOGIN_AT = 'last_login_at';
+    const FIRST_NAME = 'first_name';
+    const LAST_NAME = 'last_name';
+    const GENDER = 'gender';
+    const AVATAR = 'avatar';
 
-    /**
-     * The attributes excluded from the model's JSON form.
-     *
-     * @var array
-     */
-    protected $hidden = ['password', 'remember_token', 'last_ip', 'last_login_at'];
+    protected $fillable = [
+        self::NAME,
+        self::EMAIL,
+        self::USERNAME,
+        self::PASSWORD,
+        self::FIRST_NAME,
+        self::LAST_NAME,
+        self::GENDER,
+        self::AVATAR,
+    ];
 
-    /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = ['last_login_at'];
+    protected $hidden = [
+        self::PASSWORD,
+        self::REMEMBER_TOKEN,
+        self::LAST_IP,
+        self::LAST_LOGIN_AT
+    ];
+
+    protected $dates = [
+        self::LAST_LOGIN_AT
+    ];
 
     ///////////////////
     // Relationships //

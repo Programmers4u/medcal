@@ -30,6 +30,13 @@
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
+<style>
+@media (min-width: 768px) {.sidebar-toggle {
+    display: none;
+  }
+}
+</style>
+
 @yield('css')
 
 @yield('headscripts')
@@ -56,7 +63,7 @@
             </a>
 
             <!-- Header Navbar -->
-            <nav class="navbar navbar-static-top" role="navigation">
+            <nav class="navbar navbar-expand-md" role="navigation">
                 <!-- Sidebar toggle button-->
                 {{-- <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
                     <span class="sr-only">Toggle navigation</span>
@@ -84,11 +91,9 @@
                         @include('_user-account-menu')
 
                         <!-- Control Sidebar Toggle Button -->
-                        <!--
-                        <li>
+                        {{-- <li>
                             <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-                        </li>
-                        -->
+                        </li> --}}
                     </ul>
                 </div>
                 <!-- /.container-fluid -->
@@ -96,8 +101,7 @@
         </header>
 
         <!-- Left side column. contains the logo and sidebar -->
-        <aside class="main-sidebar">
-
+        <aside class="main-sidebar">            
             <!-- sidebar: style can be found in sidebar.less -->
             <section class="sidebar">
 
@@ -139,10 +143,12 @@
 
                 @yield('content')
 
-                @if(!session()->has('selected.business'))
-                    <center>
-                    {!! Button::success(trans('app.btn.get_to_dashboard'))
-                                ->asLinkTo( route('manager.business.index') ) !!}
+                @if(session()->has('selected.business'))
+                    <center style="margin-top: 1.5em;">
+                    {!! Button::primary(trans('app.btn.get_to_dashboard'))
+                        ->asLinkTo( route('manager.business.show',['business'=>$business]) )
+                        ->large()
+                    !!}
                     </center>
                 @endif
 
@@ -209,7 +215,7 @@ $(document).ready(function() {
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
     });
-    //$(".sidebar-toggle").click();
+    $(".sidebar-toggle").click();
 });
 </script>
 

@@ -1,4 +1,4 @@
-var removeService = function (ask, route) {
+var removeService = function (ask, route, csrf_token) {
     confirm(ask, function(result) {
         if(!result)
             return false;
@@ -13,7 +13,7 @@ var removeService = function (ask, route) {
             $('<input>', {
                 'type': 'hidden',
                 'name': '_token',
-                    'value': '{{ csrf_token() }}'
+                    'value': csrf_token
                 });
  
             var hiddenInput =

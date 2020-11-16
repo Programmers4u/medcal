@@ -258,7 +258,7 @@ $(document).ready(function() {
 });
 
 var remove = () => {
-    removeService("{{ trans('manager.contacts.btn.confirm_delete').'?' }}", "{{ route('manager.addressbook.destroy', [$business, $contact]) }}");
+    removeService("{{ trans('manager.contacts.btn.confirm_delete').'?' }}", "{{ route('manager.addressbook.destroy', [$business, $contact]) }}", "{{ csrf_token() }}" );
 }
 </script>
 <script type="text/javascript" src="/js/service/services.min.js"></script>

@@ -1,9 +1,11 @@
 @push('footer_scripts')
+<script type="text/javascript" src="/js/medical/doc.min.js"></script>
+
 <script>
 var app_meeting_Id = 0;
+
 var deleteAppointment = function() {      
-  confirm('Jesteś zdecydowan(a)y anulować spotkanie?', (result) => {
-    // console.log(result);
+  confirm('{{trans('appointments.confirm.delete')}}', (result) => {
     if(false === result) return false;
       AppointmentDelete.post = {
       ...AppointmentDelete.post,
@@ -18,6 +20,55 @@ var deleteAppointment = function() {
         document.location.reload();
       });
     return true;
+  });
+}
+</script>
+
+<script>
+var urlNotePut = '{{ route('medical.note.put',[$business]) }}';
+var urlNoteGet = '{{ route('medical.note.get',[$business]) }}';
+var NoteCallBack = () => {
+  return {
+    appointmentId : appointment_id,
+    note : $('#note')[0].value,
+    businessId: '{{ $business->id }}',
+    csrf : '{{csrf_token()}}',
+    contactId: contactId,
+    success : function (data) {
+      getNote();
+      $('#note')[0].value = '';
+    },
+    error: function(errors) {
+      let result = flatten(errors);
+      alert(result[0], 'error');
+    }
+  }
+};
+
+const flatten = function(object) {
+    return Object.assign( {}, ...function _flatten( objectBit, path = '' ) {  //spread the result into our return object
+      return [].concat(                                                       //concat everything into one level
+        ...Object.keys( objectBit ).map(                                      //iterate over object
+          key => typeof objectBit[ key ] === 'object' ?                       //check if there is a nested object
+            _flatten( objectBit[ key ], `${ path }/${ key }` ) :              //call itself if there is
+            ( { [ `${ key }` ]: objectBit[ key ] } )                //append object with it’s path as key
+        )
+      )
+    }( object ) );
+};
+
+var getNote = () => {
+  getAppointmentNote(urlNoteGet, {
+    csrf: '{{csrf_token()}}',
+    appointmentId: appointment_id,
+    businessId: '{{ $business->id }}',
+    contactId: contactId,
+    success: function(data) { 
+        if(data)
+            $('#app-meeting-note')[0].innerText = data.medicalNote.note 
+              ? data.medicalNote.note.join(', ') 
+              : '';
+    },
   });
 }
 </script>
@@ -47,6 +98,15 @@ var deleteAppointment = function() {
                 Lekarz: <b><span id='app-meeting-staff'></span></b><br>
                 Usługa: <b><span id='app-meeting-service'></span></b><br>
                 {{trans('medical.appointments.label.note')}}: <b><span id='app-meeting-note'></span></b><br>
+                <textarea id="note" class="form-control md-textarea"></textarea>
+                <div style="padding-top:1em;" >
+                  {!! 
+                      Button::withIcon(Icon::save())
+                          ->info('zapisz notatkę')
+                          ->small()
+                          ->asLinkTo("javascript:putAppointmentNote(urlNotePut, NoteCallBack())")
+                    !!}     
+                </div>
             </div>    
         </div>
 
