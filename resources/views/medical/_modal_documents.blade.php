@@ -124,14 +124,12 @@ var sendSaveHistory = function(post) {
             dataType: "json",
             type: "POST",
             success: function (data) {
-                alert(data);
                 setTimeout(function(){
                     document.location.reload();
                 },2100);
             },
             error: function(jqXHR, textStatus, errorThrown)
             {
-                console.log('ERRORS: ' + textStatus);
                 alert('Błąd: '+textStatus, 'error');
             }            
     });
@@ -172,7 +170,6 @@ var historyUpdateData = function(obj,id){
     return false;
 }
 
-
 var openFiles = function(){
     type = (historyId >= 0) ? '{{ $typeHistory }}' : '{{ $typePermission }}';
     if(historyId==='-2') type = '{{ $typePermissionTemplate }}';
@@ -204,7 +201,6 @@ var removeLast = function(obj){
 
 var findDoctor = function(obj){
     // Create a formdata object and add the files
-    console.log(obj);
     var data = new FormData();
     data.append('businessId','{{ $business->id }}');
     data.append('hr',obj.value);
@@ -255,7 +251,7 @@ $('#staffapp').on('change',function(){
     document.location = http;
 });
 
-var getAppoIdFromLink = function(){
+var getAppoIdFromLink = function() {
     
     if(!document.location.href.match('link')) return;
     
@@ -269,23 +265,10 @@ var getAppoIdFromLink = function(){
     })
     
     $('#appointment > option').each(function(){
-        console.log(this.value,id)
         if(this.value === id) {
             $(this).prop('selected','true');
             appointment_id = id;
-            getAppointmentNote('{{ route('medical.note.get', [$business]) }}', {
-                csrf: '{{csrf_token()}}',
-                appointmentId: appointment_id,
-                businessId: '{{ $business->id }}',
-                contactId: '{{ $contacts->id }}',
-                success: function(data) { 
-                    setTimeout( () => {
-                        console.log(data)
-                        if(data)
-                            $('#note_text')[0].innerText = data.medicalNote.note ? data.medicalNote.note : '';
-                    }, 1200, data)
-                },
-            });
+            getNote();
         }
         if($('#staffapp > option[value='+id+']').length > 0){
             var sfid = $('#staffapp > option[value='+id+']')[0].attributes.staff.value;
@@ -311,10 +294,6 @@ var ePuap = function(){
 <script type="text/javascript">
 var urlAppointmentNote = '{{ route('medical.note.put',[$business]) }}';
 var putAppointmentNoteCallBack = () => {
-    // if(appointment_id < 1) {
-    //     alert('Wybierz datę wizyty');
-    //     return;
-    // }
     return {
         appointmentId : appointment_id,
         note : $('#note')[0].value,
@@ -322,26 +301,25 @@ var putAppointmentNoteCallBack = () => {
         csrf : '{{csrf_token()}}',
         contactId: '{{ $contacts->id }}',
         success : function (data) {
-            setTimeout( () => {
-                console.log(data);
-                $('#note_text')[0].innerText += data.medicalNote.note ? data.medicalNote.note + '\n' : '';
-                $('#note')[0].value = '';
-            },700,data);
+            getNote();
+            $('#note')[0].value = '';
         }
     }
 };    
 </script>
 <script>
- getAppointmentNote('{{ route('medical.note.get', [$business]) }}', {
-    csrf: '{{csrf_token()}}',
-    appointmentId: appointment_id,
-    businessId: '{{ $business->id }}',
-    contactId: '{{ $contacts->id }}',
-    success: function(data) { 
-        if(data)
-            $('#note_text')[0].innerText = data.medicalNote.note ? data.medicalNote.note : '';
-    },
-});    
+var getNote = () => {
+    getAppointmentNote('{{ route('medical.note.get', [$business]) }}', {
+        csrf: '{{csrf_token()}}',
+        appointmentId: appointment_id,
+        businessId: '{{ $business->id }}',
+        contactId: '{{ $contacts->id }}',
+        success: function(data) { 
+            if(data)
+                $('#note_text')[0].innerText = data.medicalNote.note ? data.medicalNote.note.join(', ') : '';
+        },
+    });
+}
 </script>
 @endpush
 
@@ -496,19 +474,8 @@ var putAppointmentNoteCallBack = () => {
                             <td  width="75%">
                                 <select onchange="
                                     appointment_id = $(this).val();
-                                    getAppointmentNote('{{ route('medical.note.get', [$business]) }}', {
-                                        csrf: '{{csrf_token()}}',
-                                        appointmentId: appointment_id,
-                                        businessId: '{{ $business->id }}',
-                                        contactId: '{{ $contacts->id }}',
-                                        success: function(data) { 
-                                            setTimeout( () => {
-                                                console.log(data)
-                                                if(data)
-                                                    $('#note_text')[0].innerText = data.medicalNote.note ? data.medicalNote.note : '';
-                                            },1000,data)
-                                        },
-                                    });" class="form-control mdb-select  colorful-select dropdown-primary" id='appointment'>
+                                    getNote()
+                                    " class="form-control mdb-select  colorful-select dropdown-primary" id='appointment'>
                                     <option value="-1" disabled selected>Wybierz datę wizyty</option>
                                     <option value="0">Bez wizyty</option>
                                     @foreach($appointments as $appo)

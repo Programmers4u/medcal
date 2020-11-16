@@ -48,6 +48,7 @@ var saveContact = function () {
                 alert(data.info);
                 contactId = data.data;
                 $('#ac_savebtn').attr('disabled',false);
+                $('#savebtn').attr('disabled',false);
                 document.getElementById("searchfield").value = $('#firstname').val()+' '+$('#lastname').val()+', '+$('#mobile-input').val();
                 $('#addContactModal .btn-secondary').click();
             }

@@ -15,8 +15,6 @@ class GetNoteRequest extends Request
     {
         $authorize = auth()->user();
 
-        // logger()->info("Authorize:$authorize");
-
         return $authorize;
     }
 

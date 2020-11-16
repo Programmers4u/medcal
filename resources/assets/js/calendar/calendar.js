@@ -3,16 +3,19 @@ var dc = 0;
 var hix = document.location.pathname.substring(document.location.pathname.lastIndexOf('/')+1);
 var humanresources = hix === 'calendar' ? 0 : hix;
 var alertText = '';
+var contactId = null;
 
 var calendar = function() {
     
-    /*$('#mini_cal').datepicker({
-        language: timegrid.lang,
-        clearButton: false,
-        todayButton: false,        
-    });
-    */
+    // $('#mini_cal').datepicker({
+    //     language: timegrid.lang,
+    //     clearButton: false,
+    //     todayButton: false,        
+    // });
+    
     $('#calendar').fullCalendar({
+        theme: false,    
+        // themeSystem:'bootstrap3',  
         defaultDate: moment(),
         locale: timegrid.lang,
         editable: true,
@@ -89,13 +92,14 @@ var calendar = function() {
 
             var data = calEvent.title.split('/');
             app_meeting_Id = calEvent.id
+            contactId = calEvent.contactId;
             $('#app-meeting-client').html("<a onclick='clickLink(this);' href='#'>"+data[0]+"</a>");
             dateEventAppo = calEvent.start;
             var st = dateEventAppo._i.split('T');
             $('#app-meeting-date').html(st[0]+' '+st[1].split('+')[0].slice(0,-3));
             $('#app-meeting-service').html(calEvent.service);
             $('#app-meeting-staff').html(calEvent.staff);
-            $('#app-meeting-note').html(calEvent.icon4.note?calEvent.icon4.note:'');
+            $('#app-meeting-note').html(calEvent.note?calEvent.note.join(', ') :'');
         },
         eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
             // if(event.allDay === true) {
