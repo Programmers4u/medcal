@@ -81,9 +81,8 @@ class AuthenticateUser
 
     private function unifyProvider($providerUser, $provider) : array 
     {
-        Log::info('PROVIDER USER:'.serialize($providerUser));
+        // Log::info('PROVIDER USER:'.serialize($providerUser));
 
-        // dd(serialize($providerUser));
         $token = $providerUser->token;
 
         switch($provider){
