@@ -15,6 +15,7 @@ var getAppointmentNote = function(endPoint, post) {
 var putAppointmentNote = function(endPoint, post) {
     webApi(endPoint, post);
 }
+
 var addNote = function(endPoint, post) {
     var info = prompt('Napisz notatkę');
     if(info===null) return;

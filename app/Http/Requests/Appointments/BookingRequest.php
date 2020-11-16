@@ -6,6 +6,7 @@ use App\Http\Requests\Request;
 
 class BookingRequest extends Request
 {
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -16,8 +17,6 @@ class BookingRequest extends Request
         $businessId = $this->get('businessId');
 
         $authorize = (auth()->user()->isOwnerOf($businessId));
-
-        // logger()->info("Authorize:$authorize");
 
         return $authorize;
     }
