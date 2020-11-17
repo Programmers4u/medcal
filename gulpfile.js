@@ -168,7 +168,6 @@ gulp.task('script', function () {
       './bower_components/adminlte/dist/js/adminlte.min.js',
       './bower_components/tooltipster/js/jquery.tooltipster.min.js',
       './node_modules/chart.js/dist/Chart.min.js',
-      './bower_components/bootstrap-tour/build/js/bootstrap-tour.min.js',
       'resources/assets/js/lib/jquery.dataTables.min.js',
     ])
       .pipe(uglify())
@@ -182,7 +181,7 @@ gulp.task('script', function () {
     ])
       .pipe(uglify())
       .pipe(concat('tour.min.js'))
-      .pipe(gulp.dest('public/js/'));
+      .pipe(gulp.dest('public/js/tour/'));
 
   // iCheck plugin
   res =
