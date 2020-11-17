@@ -27,7 +27,14 @@ trans('preferences.App\Models\Business.start_at.help')
 trans('preferences.App\Models\Business.start_at.label')
 --}}
 <div class="col-md-12">
+@php $steps = []; @endphp
 @foreach ($parameters as $key => $value)
+@php array_push($steps, [
+    'element' => "[name=$key]",
+    'title' => trans('preferences.App\Models\Business.'.$key.'.label'),
+    'content' => trans('preferences.App\Models\Business.'.$key.'.help'),
+    'placement' => "right"
+]); @endphp
 <div class="row">
     @if ($value['type'] == 'bool')
         {!! Form::label( trans('preferences.App\Models\Business.'.$key.'.label') ) !!}
@@ -45,6 +52,7 @@ trans('preferences.App\Models\Business.start_at.label')
         {!! Form::label( trans('preferences.App\Models\Business.'.$key.'.label') ) !!}
         {!! Form::input('password', $key, $business->pref($key),
             array('class'=>'form-control',
+                  'autocomplete'=>'one-time-code',
                   'placeholder'=> trans('preferences.App\Models\Business.'.$key.'.format'),
                   'title'=> trans('preferences.App\Models\Business.'.$key.'.help') )) !!}
     @endif
@@ -91,4 +99,20 @@ trans('preferences.App\Models\Business.start_at.label')
 
 @push('footer_scripts')
 <script src="{{ asset('js/forms.js') }}"></script>
+<script>
+$(document).ready(function() {
+    let steps = 
+        @php echo json_encode($steps) @endphp
+    ;
+
+    var tour = new Tour({
+        name: 'preferences',
+        duration: 6500,
+        delay: 1000,
+        template: "@include('tour._template')",
+        steps: steps
+    }).init().start();
+
+});
+</script>
 @endpush

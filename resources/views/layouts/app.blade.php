@@ -10,20 +10,22 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
     <!-- Ionicons -->
-    <link rel="stylesheet" href="/css/ionicons.min.css">
+    <link rel="stylesheet" href="{{ asset('css/ionicons.min.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('css/app.min.css') }}">
 
     <link rel="stylesheet" href="{{ asset('css/forms.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/tour.min.css') }}">
 
     <link rel="manifest" href="/manifest.json">
 
-    <script type="text/javascript" src="/js/rollbar.min.js"></script>
+    <script type="text/javascript" src="{{ asset('js/rollbar.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/app.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/lib/utils.js') }}"></script>
-    <script type="text/javascript" src="/js/alert/alert.min.js"></script>
-    <script type="text/javascript" src="/js/confirm/confirm.min.js"></script>
+    <script type="text/javascript" src="{{ asset('js/alert/alert.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/confirm/confirm.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/forms.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/tour/tour.min.js') }}"></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
