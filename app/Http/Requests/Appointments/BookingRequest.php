@@ -30,9 +30,9 @@ class BookingRequest extends Request
     {
         return [
             'businessId'  => 'required|integer',
-            'service_id'  => 'required|integer',
-            'contact_id'  => 'required|integer',
-            'contact'     => 'required|integer',
+            'serviceId'  => 'required|integer',
+            'contactId'  => 'required|integer',
+            // 'contact'     => 'required|integer',
             'hr'          => 'required|integer',
             '_date'       => 'required|date',
             '_finish_date'=> 'required|date',
