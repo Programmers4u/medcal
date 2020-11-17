@@ -219,10 +219,6 @@
 
 @push('footer_scripts')
 <script>
-setTimeout( () => {
-    $('.info').fadeOut(800);
-}, 30000);
-
 let steps = [
     {
         element: "#plan1",
@@ -254,13 +250,18 @@ let steps = [
 
 $(document).ready(function() {
 
-    var tour = new Tour({
-        name: 'pricing',
-        duration: 6500,
-        delay: 1000,
-        template: "@include('tour._template')",
-        steps: steps
-    }).init().start();
+    setTimeout( () => {
+        $('.info').fadeOut(800);
+
+        var tour = new Tour({
+            name: 'pricing',
+            duration: 6500,
+            delay: 1000,
+            template: "@include('tour._template')",
+            steps: steps
+        }).init().start();
+
+    }, 30000);
 
 });
 

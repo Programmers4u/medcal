@@ -52,6 +52,7 @@ trans('preferences.App\Models\Business.start_at.label')
         {!! Form::label( trans('preferences.App\Models\Business.'.$key.'.label') ) !!}
         {!! Form::input('password', $key, $business->pref($key),
             array('class'=>'form-control',
+                  'autocomplete'=>'one-time-code',
                   'placeholder'=> trans('preferences.App\Models\Business.'.$key.'.format'),
                   'title'=> trans('preferences.App\Models\Business.'.$key.'.help') )) !!}
     @endif
