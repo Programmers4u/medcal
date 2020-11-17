@@ -27,6 +27,7 @@ use App\Http\Requests\Appointments\BookingRequest;
 use App\Models\Notes;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Cache;
 use Timegridio\Concierge\Exceptions\DuplicatedAppointmentException;
 
@@ -146,8 +147,12 @@ class BookingController extends Controller
     }
     
     
-    public function postBooking(BookingRequest $request) {
-        
+    public function postBooking(BookingRequest $request) : JsonResponse 
+    {
+        $response = [
+            'status' => 'ok', // ok|error
+            'info' => 'Wizyta zapisana.',
+        ];
         $this->validate($request, $request->rules());
 
         //////////////////
@@ -156,8 +161,11 @@ class BookingController extends Controller
         
         $business = Business::findOrFail($request->input('businessId'));
         $this->business = $business;
-        $email = $request->input('email');
-        $contactId = $request->input('contact_id');
+
+        // $email = $request->input('email');
+        
+        $contactId = $request->input('contactId');
+        
         $isOwner = false;
 
         $issuer = auth()->user();
@@ -166,17 +174,22 @@ class BookingController extends Controller
             $isOwner = $issuer->isOwnerOf($business->id);
             $contact = $this->findSubscrbedContact($issuer, $isOwner, $business, $contactId);
         } else {
-            $contact = $this->getContact($business, $email);
+            // $contact = $this->getContact($business, $email);
 
-            if (!$contact) {
-                flash()->warning(trans('user.booking.msg.store.not-registered'));
-                return redirect()->back();
-            }
+            // if (!$contact) {
+                // flash()->warning(trans('user.booking.msg.store.not-registered'));
+                // return redirect()->back();
+            // }
 
-            auth()->once(compact('email'));
+            // auth()->once(compact('email'));
+            $response = [
+                'status' => 'error', // ok|error
+                'info' => 'Nie ma takiego kontaktu!',
+            ];
+    
         }
         
-        $serviceId = $request->input('service_id');
+        $serviceId = $request->input('serviceId');
         $service = $business->services()->find($serviceId);
         
         $_date_start = str_replace(['"','T'],' ',$request->input('_date'));
@@ -188,10 +201,11 @@ class BookingController extends Controller
         $date_finish = Carbon::parse(trim($_date_finish))->toDateString();        
         $time_finish = Carbon::parse(trim($_date_finish))->toTimeString();
 
-        $timezone = $request->input('_timezone') ?: $business->timezone;
+        $timezone = $business->timezone;
 
         $comments = $request->input('comments');
-        $issuer = auth()->id();
+        
+        // $issuer = auth()->id();
 
         $humanresource = $request->input('hr');
         $reservation = compact('issuer', 'contact', 'service', 'date_finish', 'time_finish','date_start', 'time_start', 'timezone', 'comments', 'humanresource','business');
@@ -199,44 +213,44 @@ class BookingController extends Controller
         $startAt = $this->makeDateTimeUTC($date_start, $time_start, $timezone);
         $finishAt = $this->makeDateTimeUTC($date_finish, $time_finish, $timezone);
 
-        if($this->isCollision($startAt,$finishAt,$humanresource,$service->duration)) return response()->json("Nakładające się terminy!");
+        if($this->isCollision($startAt,$finishAt,$humanresource,$service->duration)) 
+            return response()->json([
+                'status' => 'error', // ok|error
+                'info' => 'Nakładające się terminy!',
+            ]);
             
         try {
             $appointment = $this->takeReservation($reservation);
         } catch (DuplicatedAppointmentException $e) {
-            //$code = $this->concierge->appointment()->code;
-            // logger()->info("DUPLICATED Appointment with CODE:{$e->getMessage()}");
-            return response()->json("DUPLICATED Appointment with CODE:{$e->getMessage()}");
-            if ($isOwner) {
-                //return redirect()->route('manager.business.agenda.index', compact('business'));
-            }
-            //return redirect()->route('user.agenda');
+            return response()->json([
+                'status' => 'error', // ok|error
+                'info' => 'DUPLICATED Appointment with CODE:{' . $e->getMessage() . '}',
+            ]);
         }
 
         if (false === $appointment) {
-            //return redirect()->back();
-            return response()->json(trans('user.booking.msg.store.error'));
+            return response()->json([
+                'status' => 'error', // ok|error
+                'info' => trans('user.booking.msg.store.error'),
+            ]);
         }
-
-        //flash()->success(trans('user.booking.msg.store.success', ['code' => $appointment->code]));
-
-        if (!$issuer) {
-            event(new NewSoftAppointmentWasBooked($appointment));
-            //return view('guest.appointment.show', compact('appointment'));
-        }
-        
-        event(new NewAppointmentWasBooked(auth()->user(), $appointment));
-        if ($isOwner) {
-            //return redirect()->route('manager.business.agenda.index', compact('business'));
-        }
-
-        //return redirect()->route('user.agenda', '#'.$appointment->code);
 
         if($appointment && $request->input('note',null)) {
             Notes::setNote($request->input('note'), $appointment->id, $business->id, $contactId);
         };
 
-        return response()->json('Wizyta zapisana.');
+        // if (!$issuer) {
+        //     event(new NewSoftAppointmentWasBooked($appointment));
+        //     //return view('guest.appointment.show', compact('appointment'));
+        // }
+        
+        event(new NewAppointmentWasBooked(auth()->user(), $appointment));
+
+        $response['info'] = 'Wizyta zapisana, kod: ' . $appointment->code;
+
+        return response()->json(
+            $response
+        );
     }
     
     public function bookingChange(BookingChangeRequest $request) : JsonResponse {

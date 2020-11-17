@@ -3,47 +3,57 @@
 <script type="text/javascript">
 
 var saveAppointment = function () {
+    $('#savebtn')[0].innerText='{{ trans('manager.contacts.btn.progress') }}';
     var post = {
         businessId : '{{ $business->id }}',
         _date : start_date,
-        _time : start_date,
-        date : start_date,
+        // _time : start_date,
+        // date : start_date,
         _finish_date : finish_date,
-        _finish_time : finish_date,
-        finish_date : finish_date,
-        _timezone : 'Europe/Warsaw',
-        contact : contactId,
-        contact_id : contactId,
+        // _finish_time : finish_date,
+        // finish_date : finish_date,
+        // _timezone : 'Europe/Warsaw',
+        // contact : contactId,
+        contactId : contactId,
         hr : humanresources,
-        service_id : serviceId,
-        email : 'x@x.pl',
-        note : $('#note_id')[0].value,
+        serviceId : serviceId,
+        // email : 'x@x.pl',
+        comments : $('#note_id')[0].value,
         csrf : '{{csrf_token()}}',
     }
-    $('#savebtn')[0].innerText='{{ trans('manager.contacts.btn.progress') }}';
+
     AppointmentSave.post = {
         ...AppointmentSave.post,
         ...post,
         businessId : '{{ $business->id }}',
         hr : humanresources,
-        start_at : start_at,
+        // start_at : start_at,
         csrf : csrf,
     }
 
     AppointmentSave.get(function(data) {
-        alert(JSON.stringify(data),'success');
-        contactId = null;
-        document.getElementById('searchfield').value='';
-        document.getElementById('livesearch').innerHTML='';
-        $('#livesearch').css('height','auto');      
-        $('#savebtn').prop('disabled',true);    
-        $('#savebtn')[0].innerText='{{ trans('manager.contacts.btn.store') }}';                
-        $('.close').click();
-        AppointmentHr.get(function(data) {
-            timegrid.events = data;
-            $("#calendar").fullCalendar('removeEvents');
-            $("#calendar").fullCalendar('addEventSource',timegrid.events);
-        })
+        if(data.status === 'ok') {
+            alert(data.info,'success');
+            contactId = null;
+            document.getElementById('searchfield').value='';
+            document.getElementById('livesearch').innerHTML='';
+            $('#livesearch').css('height','auto');      
+            $('#savebtn').prop('disabled',true);    
+            $('#savebtn')[0].innerText='{{ trans('manager.contacts.btn.store') }}';                
+
+            setTimeout(()=>{
+                $('.close').click();
+            },2100);
+
+            AppointmentHr.get(function(data) {
+                timegrid.events = data;
+                $("#calendar").fullCalendar('removeEvents');
+                $("#calendar").fullCalendar('addEventSource',timegrid.events);
+            })
+        } else {
+            alert(data.info,'error');
+        };
+        
     }, function(data){
         alert(textStatus,'error');
     });
