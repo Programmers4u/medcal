@@ -128,19 +128,13 @@
 
     <div class="row flat">
 
-        <h4 style='cursor:pointer;' onclick="$('.info').fadeToggle(800)">Komunikat</h4>
+    <h4 style='cursor:pointer;' onclick="$('.info').fadeToggle(800)">{{ trans('pricing.information.label') }}</h4>
         <div class="info">
-            <p>Tworzymy ten projekt ponieważ uważamy, że lekarze przede wszytskim powinni mieć dostęp do przeanalizowanych danych medycznych o pacjentach. W przeciwnym razie po co zapisywać dokumentację medyczną?</p>
-
-            <p>
-            Dane które zapisujesz mogą posłużyć tobie i innym do lepszego zrozumienia przyczyn chorób i trafniej dobierać metodę leczenia.</p>
-
-            <p>Dlatego udostępniamy wersję za darmo, aby każdy mogł zapisać kilka wizyt i zobaczyć przynajmniej podstawowe dane statystyczne o pacjencie.</p>
-            
-            <p>
-            Jeżeli masz taką możliwość i chciał(a)byś aby ten projekt szybciej się rozwijał, to wesprzyj nas finansowo abyśmy mogli wiecej nad nim pracować.</p>
-
-            <p>Dziękujemy.</p>
+            <p>{{ trans('pricing.information.paragraf_1') }}</p>
+            <p>{{ trans('pricing.information.paragraf_2') }}</p>
+            <p>{{ trans('pricing.information.paragraf_3') }}</p>
+            <p>{{ trans('pricing.information.paragraf_4') }}</p>
+            <p>{{ trans('pricing.information.paragraf_5') }}</p>
         </div>
 
         <div class="">
@@ -225,48 +219,51 @@
 
 @push('footer_scripts')
 <script>
-setTimeout( () => {
-    $('.info').fadeOut(800);
-}, 30000);
-// Instance the tour
-var tour = new Tour({
-    duration: 6500,
-    delay: 1000,
-    template: "@include('tour._template')",
-    steps: [
-        {
-            element: "#plan1",
-            title: "{{ trans('tour.pricing.step0.title') }}",
-            content: "{{ trans('tour.pricing.step0.content') }}",
-            placement: "left"
-        },
-        {
-            element: "#p1_appointments",
-            title: "{{ trans('tour.pricing.step1.title') }}",
-            content: "{{ trans('tour.pricing.step1.content') }}"
-        },
-        {
-            element: "#p1_contacts",
-            title: "{{ trans('tour.pricing.step2.title') }}",
-            content: "{{ trans('tour.pricing.step2.content') }}"
-        },
-        {
-            element: "#p1_services",
-            title: "{{ trans('tour.pricing.step3.title') }}",
-            content: "{{ trans('tour.pricing.step3.content') }}"
-        },
-        {
-            element: "#plan2",
-            title: "{{ trans('tour.pricing.step4.title') }}",
-            content: "{{ trans('tour.pricing.step4.content') }}"
-        }
-    ]
-});
-// Initialize the tour
-tour.init();
+let steps = [
+    {
+        element: "#plan1",
+        title: "{{ trans('tour.pricing.step0.title') }}",
+        content: "{{ trans('tour.pricing.step0.content') }}",
+        placement: "left"
+    },
+    {
+        element: "#p1_appointments",
+        title: "{{ trans('tour.pricing.step1.title') }}",
+        content: "{{ trans('tour.pricing.step1.content') }}"
+    },
+    {
+        element: "#p1_contacts",
+        title: "{{ trans('tour.pricing.step2.title') }}",
+        content: "{{ trans('tour.pricing.step2.content') }}"
+    },
+    {
+        element: "#p1_services",
+        title: "{{ trans('tour.pricing.step3.title') }}",
+        content: "{{ trans('tour.pricing.step3.content') }}"
+    },
+    {
+        element: "#plan2",
+        title: "{{ trans('tour.pricing.step4.title') }}",
+        content: "{{ trans('tour.pricing.step4.content') }}"
+    }
+];
+
 $(document).ready(function() {
-    // Start the tour
-    tour.start();
+
+    setTimeout( () => {
+        $('.info').fadeOut(800);
+
+        var tour = new Tour({
+            name: 'pricing',
+            duration: 6500,
+            delay: 1000,
+            template: "@include('tour._template')",
+            steps: steps
+        }).init().start();
+
+    }, 30000);
+
 });
+
 </script>
 @endpush
