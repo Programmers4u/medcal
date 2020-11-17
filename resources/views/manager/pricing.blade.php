@@ -223,37 +223,45 @@ setTimeout( () => {
     $('.info').fadeOut(800);
 }, 30000);
 
-Tour.steps = [
-        {
-            element: "#plan1",
-            title: "{{ trans('tour.pricing.step0.title') }}",
-            content: "{{ trans('tour.pricing.step0.content') }}",
-            placement: "left"
-        },
-        {
-            element: "#p1_appointments",
-            title: "{{ trans('tour.pricing.step1.title') }}",
-            content: "{{ trans('tour.pricing.step1.content') }}"
-        },
-        {
-            element: "#p1_contacts",
-            title: "{{ trans('tour.pricing.step2.title') }}",
-            content: "{{ trans('tour.pricing.step2.content') }}"
-        },
-        {
-            element: "#p1_services",
-            title: "{{ trans('tour.pricing.step3.title') }}",
-            content: "{{ trans('tour.pricing.step3.content') }}"
-        },
-        {
-            element: "#plan2",
-            title: "{{ trans('tour.pricing.step4.title') }}",
-            content: "{{ trans('tour.pricing.step4.content') }}"
-        }
-    ];
+let steps = [
+    {
+        element: "#plan1",
+        title: "{{ trans('tour.pricing.step0.title') }}",
+        content: "{{ trans('tour.pricing.step0.content') }}",
+        placement: "left"
+    },
+    {
+        element: "#p1_appointments",
+        title: "{{ trans('tour.pricing.step1.title') }}",
+        content: "{{ trans('tour.pricing.step1.content') }}"
+    },
+    {
+        element: "#p1_contacts",
+        title: "{{ trans('tour.pricing.step2.title') }}",
+        content: "{{ trans('tour.pricing.step2.content') }}"
+    },
+    {
+        element: "#p1_services",
+        title: "{{ trans('tour.pricing.step3.title') }}",
+        content: "{{ trans('tour.pricing.step3.content') }}"
+    },
+    {
+        element: "#plan2",
+        title: "{{ trans('tour.pricing.step4.title') }}",
+        content: "{{ trans('tour.pricing.step4.content') }}"
+    }
+];
+
 $(document).ready(function() {
-    // Start the tour
-    Tour.start();    
+
+    var tour = new Tour({
+        name: 'pricing',
+        duration: 6500,
+        delay: 1000,
+        template: "@include('tour._template')",
+        steps: steps
+    }).init().start();
+
 });
 
 </script>
