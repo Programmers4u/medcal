@@ -43,7 +43,7 @@
 <script type="text/javascript" src="/js/service/services.min.js"></script>
 <script>
 var remove = () => {
-    removeService("{{ trans('manager.humanresource.btn.delete').'?' }}", "{{ route('manager.business.humanresource.destroy', [$humanresource->business, $humanresource]) }}");
+    removeService("{{ trans('manager.humanresource.btn.delete').'?' }}", "{{ route('manager.business.humanresource.destroy', [$humanresource->business, $humanresource]) }}", "{{csrf_token()}}");
 }
 </script>
 @endpush
