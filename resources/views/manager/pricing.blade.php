@@ -145,7 +145,7 @@
                         {{config('plans.plans.standard.title')}}
                     </li>
                     <li class="plan-hint noZoom">
-                        {{trans('pricing.plan.premium.hint')}}
+                        {{trans('pricing.plan.standard.hint')}}
                     </li>
                     <li class="plan-price">
                         {{-- Important to use unescaped for currency as might have html entities --}}
@@ -171,7 +171,7 @@
                     </li>
                     <li class="plan-action">
                         {{-- <a href="{{ route('manager.business.register', ['plan' => 'premium']) }}" class="btn btn-danger btn-lg">{!! Icon::cloud_upload() !!}&nbsp;{{ trans('pricing.plan.premium.submit') }}</a> --}}
-                        <a href="{{ route('wizard.terms', ['plan' => 'premium']) }}" class="btn btn-danger btn-lg">{!! Icon::cloud_upload() !!}&nbsp;{{ trans('pricing.plan.premium.submit') }}</a>
+                        <a href="{{ route('wizard.terms', ['plan' => 'standard']) }}" class="btn btn-danger btn-lg">{!! Icon::cloud_upload() !!}&nbsp;{{ trans('pricing.plan.standard.submit') }}</a>
                     </li>
                 </ul>
             </div>
