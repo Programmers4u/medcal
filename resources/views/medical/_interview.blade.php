@@ -185,7 +185,7 @@ $(document).ready(function(){
     $('#medicine').val(tab);
     $('#medicine').trigger('change');
 
-    $('[name=desc]').val('{{str_replace(["\r","\n"]," ",$interviewData['model']['desc'])}}');
+    $('[name=desc]').val('{{str_replace(["\r","\n"]," ",$interviewData['model']['desc']['value'])}}');
 });
 </script>
 @endpush
