@@ -26,15 +26,9 @@ Version: 1.0
   * Admin GUI with [AdminLTE](https://github.com/almasaeed2010/AdminLTE) [Twitter Bootstrap 3](https://github.com/twbs/bootstrap) based theme.
   * Api GateSMS support sending sms [GateSMS.Eu](https://www.gatesms.eu)
 
-[Future features here](https://medcal.pl)
-
 ## Documentation
 
   * [User Manual](http://medcal.pl/en/user-manual/) (*work-in-progress* and [help is welcome!]())
-
-## Live Demo
-
-[Test drive the *beta live demo*](https://medcal.pl)
 
 ## Installing
 
@@ -56,7 +50,7 @@ Feel free to contribute with your preferred translation!
 
 ## Author
 
-MedCal is developed and maintained by [Marcin Kania](http://programmers4u.com).
+MedCal is developed and maintained by [p4u](http://programmers4u.com).
 
 ## Contributing
 
